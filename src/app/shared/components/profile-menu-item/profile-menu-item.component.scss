@@ -1,0 +1,50 @@
+.menu-item {
+  display: flex;
+  align-items: center;
+  background: white;
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 16px;
+  border: 1px solid #EAECF0;
+  
+  .icon-container {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #EFF4FF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 16px;
+    flex-shrink: 0;
+    
+    ion-icon {
+      font-size: 24px;
+      color: var(--ion-color-primary);
+    }
+  }
+  
+  .content {
+    flex-grow: 1;
+    
+    .title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--ion-color-tertiary);
+      margin-bottom: 4px;
+    }
+    
+    .subtitle {
+      font-size: 13px;
+      color: #98A2B3;
+      line-height: 1.4;
+    }
+  }
+  
+  .chevron {
+    font-size: 20px;
+    color: #98A2B3;
+    flex-shrink: 0;
+    margin-left: 12px;
+  }
+}

@@ -1,0 +1,74 @@
+.verification-status {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 24px;
+  
+  .icon-container {
+    margin-bottom: 16px;
+    
+    .ring {
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+      &.outer {
+        width: 120px;
+        height: 120px;
+      }
+      
+      &.inner {
+        width: 90px;
+        height: 90px;
+      }
+    }
+    
+    .circle {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+      ion-icon {
+        font-size: 32px;
+        color: white;
+      }
+    }
+    
+    &.confirmed {
+      .outer { background: #F8FAFF; border: 1px solid #EFF4FF; }
+      .inner { background: #EFF4FF; }
+      .circle { background: var(--ion-color-primary); }
+    }
+    
+    &.required {
+      .outer { background: #F9FAFB; border: 1px solid #F2F4F7; }
+      .inner { background: #F2F4F7; }
+      .circle { background: #98A2B3; }
+      
+      ion-icon {
+        /* Mockup has a shield with a question mark. Shield-half is standard, but we'll use help icon if available or just shield */
+        /* Will fallback to 'help' to mimic the question mark shield if custom SVG is missing */
+      }
+    }
+  }
+  
+  .title {
+    margin: 0 0 8px;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--ion-color-tertiary);
+  }
+  
+  .description {
+    margin: 0;
+    font-size: 14px;
+    color: #667085;
+    line-height: 1.5;
+    padding: 0 24px;
+  }
+}

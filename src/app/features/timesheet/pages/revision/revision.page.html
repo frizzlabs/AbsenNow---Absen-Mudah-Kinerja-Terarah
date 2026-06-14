@@ -1,0 +1,114 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back-outline" color="dark"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Revision Requested</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="content-wrapper">
+    <!-- Reviewer Note Card -->
+    <div class="reviewer-card">
+      <div class="reviewer-header">
+        <img src="assets/images/alex.png" alt="Alex Washington" class="avatar" onerror="this.src='https://ui-avatars.com/api/?name=Alex+Washington&background=0D8ABC&color=fff'">
+        <div class="reviewer-info">
+          <div class="name">Alex Washington</div>
+          <div class="role">Reviewer</div>
+        </div>
+      </div>
+      
+      <div class="note-box">
+        <p>"Please double-check the project assignment for Friday. The hours seem correct but the project code might be mismatched."</p>
+      </div>
+      
+      <div class="timestamp">Sent today at 9:42 AM</div>
+    </div>
+
+    <!-- Weekly Entries -->
+    <div class="section-header">
+      <div class="section-title">WEEKLY ENTRIES</div>
+      <div class="section-date">Oct 23 - Oct 27</div>
+    </div>
+
+    <div class="entry-list">
+      <!-- Monday -->
+      <div class="entry-card">
+        <div class="flex-between">
+          <div class="flex-center">
+            <div class="icon-box">
+              <ion-icon name="calendar-outline"></ion-icon>
+            </div>
+            <div>
+              <div class="day-label">Monday, Oct 23</div>
+              <div class="hours-label">8.0 hrs</div>
+            </div>
+          </div>
+          <ion-icon name="checkmark-circle-outline" class="text-success text-xl"></ion-icon>
+        </div>
+      </div>
+
+      <!-- Tuesday -->
+      <div class="entry-card">
+        <div class="flex-between">
+          <div class="flex-center">
+            <div class="icon-box">
+              <ion-icon name="calendar-outline"></ion-icon>
+            </div>
+            <div>
+              <div class="day-label">Tuesday, Oct 24</div>
+              <div class="hours-label">7.5 hrs</div>
+            </div>
+          </div>
+          <ion-icon name="checkmark-circle-outline" class="text-success text-xl"></ion-icon>
+        </div>
+      </div>
+
+      <!-- Friday (Correction Needed) -->
+      <div class="entry-card correction-needed">
+        <div class="flex-between pb-3 border-b">
+          <div class="flex-center">
+            <div class="icon-box warning-light">
+              <ion-icon name="pencil" color="warning"></ion-icon>
+            </div>
+            <div>
+              <div class="day-label text-dark">Friday, Oct 27</div>
+              <div class="hours-label text-warning">Correction Needed</div>
+            </div>
+          </div>
+          <ion-icon name="ellipsis-horizontal" class="text-medium"></ion-icon>
+        </div>
+        
+        <div class="pt-3">
+          <div class="flex-between mb-3">
+            <div>
+              <div class="task-title">UX Research</div>
+              <div class="task-project">Project Alpha</div>
+            </div>
+            <div class="task-hours">4.0h</div>
+          </div>
+          
+          <div class="flex-between">
+            <div>
+              <div class="task-title">Design System</div>
+              <div class="task-project">Internal Ops</div>
+            </div>
+            <div class="task-hours">4.0h</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <div class="footer-wrapper">
+    <ion-button expand="block" shape="round" color="primary" class="resubmit-btn" (click)="resubmit()">
+      <ion-icon name="send-outline" slot="start"></ion-icon>
+      Resubmit
+    </ion-button>
+  </div>
+</ion-footer>

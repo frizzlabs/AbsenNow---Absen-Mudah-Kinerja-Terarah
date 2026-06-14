@@ -1,0 +1,10 @@
+.custom-card {
+  background: white;
+  border-radius: var(--radius-lg);
+  border: 1px solid #EAECF0;
+  width: 100%;
+  
+  &.has-padding {
+    padding: var(--spacing-4);
+  }
+}

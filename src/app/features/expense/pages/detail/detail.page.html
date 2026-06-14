@@ -1,0 +1,69 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back-outline" color="dark"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Create Request</ion-title>
+    <ion-buttons slot="end">
+      <div class="status-badge correction-needed">
+        Correction Needed
+      </div>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="light">
+  <div class="content-wrapper">
+    
+    <div class="section-title">Expense Data</div>
+    <div class="data-card">
+      <div class="data-row">
+        <div class="label">Merchant</div>
+        <div class="value">The Corner Bistro</div>
+      </div>
+      <div class="data-row">
+        <div class="label">Category</div>
+        <div class="value">Meals & Entertainment</div>
+      </div>
+      <div class="data-row">
+        <div class="label">Date</div>
+        <div class="value">Oct 24, 2026</div>
+      </div>
+      <div class="data-row">
+        <div class="label">Expense ID</div>
+        <div class="value">#EXP-2026-089</div>
+      </div>
+      <div class="data-row">
+        <div class="label">Notes</div>
+        <div class="value">Client lunch with ABC Corp.</div>
+      </div>
+    </div>
+
+    <div class="section-title">Attached Receipt</div>
+    <div class="receipt-wrapper">
+      <app-expense-receipt-preview
+        imageUrl="assets/images/receipt-placeholder.jpg"
+        fileName="Receipt_The Corner Bistro.jpg"
+        fileSize="1.2 MB"
+        [showClose]="false"
+        [showView]="true">
+      </app-expense-receipt-preview>
+    </div>
+
+    <div class="section-title">Approval Timeline</div>
+    <div class="timeline-wrapper">
+      <app-expense-timeline [steps]="timelineSteps"></app-expense-timeline>
+    </div>
+
+  </div>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <div class="footer-pad">
+    <ion-button expand="block" shape="round" color="light" class="edit-btn" (click)="editExpense()">
+      Edit Expense
+    </ion-button>
+  </div>
+</ion-footer>

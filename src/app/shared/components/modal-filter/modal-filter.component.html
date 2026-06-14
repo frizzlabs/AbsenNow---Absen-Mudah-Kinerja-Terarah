@@ -1,0 +1,83 @@
+<div class="modal-wrapper">
+  <div class="drag-handle"></div>
+  
+  <div class="modal-header">
+    <h2 class="text-h5">Filter Attendance</h2>
+    <ion-icon name="close-outline" class="close-btn" (click)="dismiss()"></ion-icon>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="modal-content">
+    <div class="filter-section">
+      <h3 class="text-body-medium-semibold">Select Period</h3>
+      <div class="date-row">
+        <div class="date-input-group">
+          <label class="text-body-small-regular">Start Date</label>
+          <div class="input-box">
+            <span>Jan 18, 2026</span>
+            <ion-icon name="calendar-outline"></ion-icon>
+          </div>
+        </div>
+        <div class="date-input-group">
+          <label class="text-body-small-regular">End Date</label>
+          <div class="input-box">
+            <span>Feb 18, 2026</span>
+            <ion-icon name="calendar-outline"></ion-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="filter-section">
+      <h3 class="text-body-medium-semibold">Attendance Status</h3>
+      <div class="pill-group">
+        <div class="pill active">
+          <ion-icon name="checkmark-outline"></ion-icon>
+          Present
+        </div>
+        <div class="pill">Late</div>
+        <div class="pill">Absent</div>
+        <div class="pill">On Leave</div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="filter-section">
+      <h3 class="text-body-medium-semibold">Shift Type</h3>
+      <div class="pill-group">
+        <div class="pill active">
+          <ion-icon name="checkmark-outline"></ion-icon>
+          Regular
+        </div>
+        <div class="pill">Overtime</div>
+        <div class="pill">Night Shift</div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="filter-section">
+      <h3 class="text-body-medium-semibold">Work Location</h3>
+      <div class="pill-group grid-2">
+        <div class="pill-large active">
+          <ion-icon name="business-outline"></ion-icon>
+          Office
+        </div>
+        <div class="pill-large">
+          <ion-icon name="home-outline"></ion-icon>
+          Remote
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+  </div>
+
+  <div class="modal-footer">
+    <app-button variant="primary" styleClass="w-full">Apply Filters (3)</app-button>
+  </div>
+</div>

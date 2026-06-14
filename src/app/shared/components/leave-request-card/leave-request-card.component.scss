@@ -1,0 +1,63 @@
+.request-card {
+  display: flex;
+  align-items: center;
+  background: white;
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+
+  .date-box {
+    width: 48px;
+    height: 48px;
+    background: #f4f5f8;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+    flex-shrink: 0;
+
+    .month {
+      font-size: 11px;
+      color: var(--ion-color-medium);
+      font-weight: 500;
+      text-transform: uppercase;
+    }
+
+    .day {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--ion-color-tertiary);
+    }
+  }
+
+  .content {
+    flex: 1;
+    min-width: 0;
+
+    .title {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--ion-color-tertiary);
+      margin-bottom: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .subtitle {
+      font-size: 12px;
+      color: var(--ion-color-medium);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  .status {
+    margin-left: 12px;
+    flex-shrink: 0;
+  }
+}

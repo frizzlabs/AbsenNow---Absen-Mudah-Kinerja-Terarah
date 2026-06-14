@@ -1,0 +1,13 @@
+<div class="expense-card">
+  <div class="icon-block" [ngClass]="iconColor">
+    <ion-icon [name]="icon"></ion-icon>
+  </div>
+  <div class="content-block">
+    <div class="title">{{ title }}</div>
+    <div class="subtitle">{{ category }} &bull; {{ date }}</div>
+  </div>
+  <div class="amount-block">
+    <div class="amount">{{ amount | currency:'USD':'symbol':'1.2-2' }}</div>
+    <div class="status-badge" [ngClass]="status.toLowerCase()">{{ status }}</div>
+  </div>
+</div>

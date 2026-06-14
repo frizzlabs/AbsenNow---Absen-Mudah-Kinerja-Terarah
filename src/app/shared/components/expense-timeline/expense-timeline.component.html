@@ -1,0 +1,15 @@
+<div class="timeline-container">
+  <div class="timeline-step" *ngFor="let step of steps; let last = last">
+    <div class="indicator-column">
+      <div class="dot" [ngClass]="step.status"></div>
+      <div class="line" *ngIf="!last"></div>
+    </div>
+    <div class="content-column">
+      <div class="content-main">
+        <div class="title">{{ step.title }}</div>
+        <div class="subtitle" [innerHTML]="step.subtitle"></div>
+      </div>
+      <div class="time">{{ step.time }}</div>
+    </div>
+  </div>
+</div>

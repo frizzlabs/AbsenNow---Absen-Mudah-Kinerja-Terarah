@@ -1,0 +1,47 @@
+{
+  "profile": {
+    "title": "Profil",
+    "personalInformation": "Informasi Pribadi",
+    "personalSubtitle": "Detail kontak, alamat, dan darurat",
+    "identityVerification": "Verifikasi Identitas",
+    "identitySubtitle": "Paspor, KTP, informasi pajak",
+    "employmentInformation": "Informasi Pekerjaan",
+    "employmentSubtitle": "Posisi, departemen, detail pekerjaan",
+    "languageSettings": "Pengaturan Bahasa",
+    "languageSubtitle": "Ubah bahasa aplikasi",
+    "language": {
+      "title": "Bahasa"
+    }
+  },
+  "home": {
+    "goodMorning": "Selamat Pagi,",
+    "goodEvening": "Selamat Malam,",
+    "currentLocation": "Lokasi Saat Ini:",
+    "currentTime": "WAKTU SAAT INI",
+    "workingHours": "JAM KERJA",
+    "checkIn": "Masuk",
+    "checkOut": "Keluar",
+    "leave": "Cuti",
+    "overtime": "Lembur",
+    "timesheet": "Lembar Waktu",
+    "activity": "Aktivitas",
+    "permission": "Izin"
+  },
+  "bottomNav": {
+    "home": "Beranda",
+    "activity": "Aktivitas",
+    "finance": "Keuangan",
+    "notification": "Notifikasi"
+  },
+  "activity": {
+    "title": "Aktivitas",
+    "daily": "Harian",
+    "weekly": "Mingguan",
+    "monthly": "Bulanan"
+  },
+  "timesheet": {
+    "submitTimesheet": "Kirim Lembar Waktu",
+    "approvalStatus": "Status Persetujuan",
+    "revisionRequested": "Revisi Diminta"
+  }
+}

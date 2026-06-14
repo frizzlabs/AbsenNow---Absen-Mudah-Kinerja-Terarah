@@ -1,0 +1,105 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back-outline" color="dark"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Payslips</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="openFilter()">
+        <ion-icon name="funnel-outline" color="primary"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="content-wrapper">
+    <!-- Latest Payslip Card -->
+    <div class="latest-card" (click)="goToDetail()">
+      <div class="latest-label">Latest Pay Period</div>
+      <div class="latest-period">Feb 1 - Feb 28, 2026</div>
+      <div class="latest-amount-row">
+        <div class="amount">$4,250.00</div>
+        <div class="paid-badge">
+          <ion-icon name="checkmark-circle"></ion-icon>
+          <span>Paid</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- History Section -->
+    <div class="section-title">HISTORY</div>
+
+    <div class="history-list">
+      <!-- Item 1 -->
+      <div class="history-card" (click)="goToDetail()">
+        <div class="icon-container primary-light">
+          <ion-icon name="document-text-outline" color="primary"></ion-icon>
+        </div>
+        <div class="card-content">
+          <div class="title-row">
+            <span class="month">February 2026</span>
+            <span class="amount">$4,250.00</span>
+          </div>
+          <div class="subtitle-row">
+            <span class="paid-date">Paid on Feb 01, 2024</span>
+            <span class="status-text success">Paid</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Item 2 -->
+      <div class="history-card" (click)="goToDetail()">
+        <div class="icon-container primary-light">
+          <ion-icon name="document-text-outline" color="primary"></ion-icon>
+        </div>
+        <div class="card-content">
+          <div class="title-row">
+            <span class="month">January 2026</span>
+            <span class="amount">$4,250.00</span>
+          </div>
+          <div class="subtitle-row">
+            <span class="paid-date">Paid on Jan 01, 2026</span>
+            <span class="status-text success">Paid</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Item 3 -->
+      <div class="history-card" (click)="goToDetail()">
+        <div class="icon-container warning-light">
+          <ion-icon name="gift-outline" color="warning"></ion-icon>
+        </div>
+        <div class="card-content">
+          <div class="title-row">
+            <span class="month">Annual Bonus</span>
+            <span class="amount">$1,500.00</span>
+          </div>
+          <div class="subtitle-row">
+            <span class="paid-date">Paid on Dec 20, 2026</span>
+            <span class="status-text success">Paid</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Item 4 -->
+      <div class="history-card" (click)="goToDetail()">
+        <div class="icon-container primary-light">
+          <ion-icon name="document-text-outline" color="primary"></ion-icon>
+        </div>
+        <div class="card-content">
+          <div class="title-row">
+            <span class="month">February 2026</span>
+            <span class="amount">$4,250.00</span>
+          </div>
+          <div class="subtitle-row">
+            <span class="paid-date">Paid on Feb 01, 2024</span>
+            <span class="status-text success">Paid</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

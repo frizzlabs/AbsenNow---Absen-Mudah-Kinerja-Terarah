@@ -1,0 +1,241 @@
+ion-content.bg-light {
+  --background: #ffffff;
+}
+
+.stepper-section {
+  padding: 16px 24px;
+  
+  .stepper-labels {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    
+    .text-blue { color: var(--ion-color-primary); }
+    .text-gray { color: #667085; }
+  }
+  
+  .progress-bar {
+    width: 100%;
+    height: 6px;
+    background: #EAECF0;
+    border-radius: 3px;
+    overflow: hidden;
+    
+    .progress-fill {
+      height: 100%;
+      background: var(--ion-color-primary);
+      border-radius: 3px;
+    }
+  }
+}
+
+.divider-full {
+  width: 100%;
+  height: 1px;
+  background: #EAECF0;
+}
+
+.page-container {
+  padding: 24px 24px 160px;
+}
+
+.summary-card {
+  background: white;
+  border-radius: 12px;
+  border: 1px solid #EAECF0;
+  padding: 16px;
+  margin-bottom: 16px;
+  
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    
+    .label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #667085;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .badge {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ion-color-primary);
+      background: #EFF4FF;
+      padding: 4px 8px;
+      border-radius: 100px;
+    }
+  }
+  
+  .info-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+    font-size: 14px;
+    color: var(--ion-color-tertiary);
+    font-weight: 500;
+    
+    &:last-child {
+      margin-bottom: 0;
+    }
+    
+    ion-icon {
+      font-size: 20px;
+      color: var(--ion-color-medium-light);
+    }
+    
+    .dash {
+      color: #D0D5DD;
+      margin: 0 4px;
+    }
+  }
+}
+
+.final-data-card {
+  background: white;
+  border-radius: 12px;
+  border: 1px solid #EAECF0;
+  padding: 16px;
+  margin-bottom: 24px;
+  
+  .card-header {
+    margin-bottom: 16px;
+    
+    .label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #667085;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+  }
+  
+  .card-divider {
+    height: 1px;
+    background: #EAECF0;
+    margin: 16px 0;
+  }
+  
+  .time-columns {
+    display: flex;
+    gap: 24px;
+    
+    .time-col {
+      flex: 1;
+      
+      .sub-label {
+        display: block;
+        font-size: 12px;
+        color: #667085;
+        margin-bottom: 8px;
+      }
+      
+      .time-val {
+        display: flex;
+        align-items: baseline;
+        margin-bottom: 12px;
+        
+        .time {
+          font-size: 28px;
+          font-weight: 700;
+          
+          &.blue { color: var(--ion-color-primary); }
+          &.dark { color: var(--ion-color-tertiary); }
+        }
+        
+        .meridian {
+          font-size: 14px;
+          font-weight: 600;
+          color: var(--ion-color-medium-light);
+          margin-left: 4px;
+        }
+      }
+      
+      .status-badge {
+        display: inline-block;
+        padding: 4px 10px;
+        border-radius: 100px;
+        font-size: 12px;
+        font-weight: 500;
+        
+        &.green {
+          background: #ECFDF3;
+          color: #027A48;
+        }
+        &.gray {
+          background: #F2F4F7;
+          color: #475467;
+        }
+      }
+    }
+  }
+  
+  .reason-section {
+    .label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: #667085;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+    
+    .reason-text {
+      font-size: 14px;
+      color: var(--ion-color-tertiary);
+      line-height: 1.5;
+      margin: 0;
+    }
+  }
+}
+
+.info-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: #EFF4FF;
+  padding: 16px;
+  border-radius: 12px;
+  
+  ion-icon {
+    font-size: 20px;
+    color: var(--ion-color-primary);
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  
+  p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--ion-color-primary);
+  }
+}
+
+.fixed-bottom {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 16px 24px 32px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #FFFFFF 100%);
+  
+  .action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  ::ng-deep .w-full {
+    width: 100%;
+    display: block;
+  }
+}

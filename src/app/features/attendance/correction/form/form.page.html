@@ -1,0 +1,77 @@
+<ion-content [fullscreen]="true" class="bg-light">
+  <app-page-header title="Attendance Correction"></app-page-header>
+  
+  <div class="stepper-section">
+    <div class="stepper-labels">
+      <span class="step-text text-blue">Step 2 of 3</span>
+      <span class="progress-text text-gray">Correction Progress</span>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" style="width: 66%"></div>
+    </div>
+  </div>
+  
+  <div class="divider-full"></div>
+
+  <div class="page-container">
+    
+    <div class="summary-card">
+      <div class="card-header">
+        <span class="label">RECORD SUMMARY</span>
+        <div class="badge">Current Log</div>
+      </div>
+      
+      <div class="info-row">
+        <ion-icon name="calendar-outline"></ion-icon>
+        <span>Wed, 15 May 2024</span>
+      </div>
+      
+      <div class="info-row">
+        <ion-icon name="time-outline"></ion-icon>
+        <span>09:15 AM <span class="dash">—</span> 06:05 PM</span>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <div class="form-group">
+        <label>Proposed Clock-in *</label>
+        <div class="input-box">
+          <div class="input-content">
+            <ion-icon name="log-in-outline" class="gray-icon"></ion-icon>
+            <span>09:00 AM</span>
+          </div>
+          <ion-icon name="chevron-down-outline" class="chevron"></ion-icon>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Proposed Clock-out *</label>
+        <div class="input-box">
+          <div class="input-content">
+            <ion-icon name="log-out-outline" class="gray-icon"></ion-icon>
+            <span>06:00 PM</span>
+          </div>
+          <ion-icon name="chevron-down-outline" class="chevron"></ion-icon>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Detailed Justification *</label>
+        <div class="textarea-box">
+          <textarea placeholder="Explain the reason for this correction (e.g., Client meeting, technical issue)..."></textarea>
+          <div class="textarea-footer">
+            <span class="char-count">0/200</span>
+            <ion-icon name="menu-outline" class="resize-icon"></ion-icon>
+          </div>
+        </div>
+      </div>
+      
+      <p class="help-text">This correction request will be sent to your direct supervisor for review and approval.</p>
+    </div>
+
+  </div>
+
+  <div class="fixed-bottom">
+    <app-button variant="primary" styleClass="w-full" routerLink="/attendance/correction/summary">Review Correction</app-button>
+  </div>
+</ion-content>

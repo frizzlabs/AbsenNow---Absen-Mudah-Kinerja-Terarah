@@ -1,0 +1,22 @@
+<ion-content [fullscreen]="true">
+  <div class="page-container">
+    <app-page-header></app-page-header>
+    
+    <app-auth-header-icon icon="refresh-outline"></app-auth-header-icon>
+    
+    <div class="text-center auth-text">
+      <h2 class="text-h4">Reset Password</h2>
+      <p class="text-body-medium-regular text-medium">
+        Enter your email address to receive a verification code.
+      </p>
+    </div>
+    
+    <app-input label="Work Email" type="email" placeholder="name@company.com" icon="mail-outline"></app-input>
+    
+    <app-button variant="primary" class="w-full" icon="arrow-forward-outline" iconPosition="right" (onClick)="sendCode()">Send Recovery Code</app-button>
+  </div>
+  
+  <div class="bottom-link">
+    <p class="text-body-medium-regular text-medium">Remember your password? <a routerLink="/auth/login" class="text-blue font-semibold" style="cursor: pointer;">Log In</a></p>
+  </div>
+</ion-content>

@@ -1,0 +1,88 @@
+<ion-content [fullscreen]="true">
+  <div class="page-container">
+    <div class="header">
+      <ion-icon name="arrow-back-outline" class="back-btn"></ion-icon>
+      <span class="header-title">Attendance Detail</span>
+    </div>
+
+    <div class="record-info">
+      <span class="text-body-small-semibold text-medium text-uppercase">RECORD FOR</span>
+      <h2 class="text-h4">Monday, Feb 23, 2023</h2>
+      <div class="badges">
+        <app-status-badge color="warning" icon="warning-outline" text="Late - 15 mins"></app-status-badge>
+        <app-status-badge color="primary" icon="business-outline" text="On-site"></app-status-badge>
+      </div>
+    </div>
+
+    <app-card class="timeline-card">
+      <div class="card-header">
+        <h3 class="text-h5">Timeline</h3>
+        <div class="total-time text-right">
+          <span class="text-body-small-semibold text-medium text-uppercase">TOTAL WORK TIME</span>
+          <h3 class="text-h5 text-blue">08h 50m</h3>
+        </div>
+      </div>
+
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-icon enter">
+            <ion-icon name="log-in-outline"></ion-icon>
+          </div>
+          <div class="timeline-content">
+            <div class="timeline-header">
+              <span class="text-body-small-semibold text-medium text-uppercase">CHECK IN</span>
+              <span class="text-body-small-regular text-medium">09:15 AM</span>
+            </div>
+            <h4 class="text-h4">09:15 AM</h4>
+            <div class="location">
+              <ion-icon name="location-outline"></ion-icon>
+              <span class="text-body-small-regular text-medium">Head Office, Jakarta</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="timeline-line"></div>
+
+        <div class="timeline-item">
+          <div class="timeline-icon exit">
+            <ion-icon name="log-out-outline"></ion-icon>
+          </div>
+          <div class="timeline-content">
+            <div class="timeline-header">
+              <span class="text-body-small-semibold text-medium text-uppercase">CHECK OUT</span>
+              <span class="text-body-small-regular text-medium">06:05 PM</span>
+            </div>
+            <h4 class="text-h4">06:05 PM</h4>
+            <div class="location">
+              <ion-icon name="location-outline"></ion-icon>
+              <span class="text-body-small-regular text-medium">Head Office, Jakarta</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </app-card>
+
+    <div class="work-location">
+      <div class="location-header">
+        <h3 class="text-h5">Work Location</h3>
+        <a href="#" class="text-body-small-semibold text-blue">See on Map <ion-icon name="open-outline"></ion-icon></a>
+      </div>
+      
+      <div class="map-placeholder">
+        <div class="map-bg">
+          <div class="map-radius">
+            <div class="map-pin"></div>
+            <span class="map-city">Jakarta</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div style="height: 120px;"></div>
+</ion-content>
+
+<div class="fixed-bottom">
+  <app-button variant="outline" icon="create-outline">Request Correction</app-button>
+  <p class="text-body-small-regular text-medium text-center">Corrections are subject to HR approval.</p>
+</div>

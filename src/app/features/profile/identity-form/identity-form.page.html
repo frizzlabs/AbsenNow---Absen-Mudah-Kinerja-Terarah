@@ -1,0 +1,58 @@
+<ion-content [fullscreen]="true" class="bg-light">
+  <app-page-header title="Identity Verification"></app-page-header>
+  
+  <div class="page-container">
+    
+    <!-- Using exact text from PNG despite possible typo in mockup -->
+    <app-section-card iconName="image-outline" title="Contact Information" [showDivider]="false">
+      <app-upload-box 
+        status="empty" 
+        helperText="National ID Card • Front Side">
+      </app-upload-box>
+    </app-section-card>
+    
+    <app-section-card iconName="card-outline" title="Identity Information">
+      <div class="info-box">
+        <ion-icon name="information-circle-outline"></ion-icon>
+        <p>Please review the extracted information carefully to ensure accuracy.</p>
+      </div>
+      
+      <div class="form-group">
+        <label>ID Type</label>
+        <div class="select-box">
+          <span class="placeholder">-</span>
+          <ion-icon name="chevron-down-outline" class="chevron"></ion-icon>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label>ID Number</label>
+        <app-input placeholder="-" [value]="''"></app-input>
+      </div>
+      
+      <div class="form-group">
+        <label>Full Name</label>
+        <app-input placeholder="-" [value]="''"></app-input>
+      </div>
+      
+      <div class="form-row-2col">
+        <div class="form-group">
+          <label>Expiry Date</label>
+          <app-input placeholder="-" [value]="''"></app-input>
+        </div>
+        <div class="form-group">
+          <label>Last Updated</label>
+          <app-input placeholder="-" [value]="''"></app-input>
+        </div>
+      </div>
+    </app-section-card>
+
+  </div>
+  
+  <div class="fixed-bottom">
+    <app-button variant="primary" styleClass="w-full" routerLink="/profile/identity/filled">
+      <ion-icon name="shield-checkmark-outline" slot="start" style="margin-right: 8px; font-size: 20px;"></ion-icon>
+      Verify Identity
+    </app-button>
+  </div>
+</ion-content>

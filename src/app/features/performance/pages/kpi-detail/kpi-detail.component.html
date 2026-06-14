@@ -1,0 +1,108 @@
+<ion-content>
+  <div class="px-5">
+    <app-page-header title="KPI Detail" [showBack]="true"></app-page-header>
+    
+    <div class="flex flex-col gap-6 pb-24">
+      
+      <!-- Top Card -->
+      <div class="white-card">
+        <div class="flex justify-between items-start mb-3">
+          <div class="flex gap-2">
+            <div class="status-badge completed">
+              <div class="dot"></div>
+              COMPLETED
+            </div>
+            <div class="status-badge bg-light-badge">
+              <div class="dot bg-medium"></div>
+              METRIC
+            </div>
+          </div>
+          <div class="progress-badge">20%</div>
+        </div>
+        
+        <h3 class="font-bold text-dark text-lg mb-2 mt-2">Increase Sales Conversion</h3>
+        <p class="text-sm text-medium leading-relaxed m-0">
+          Optimize the checkout flow to improve conversion rates by end of Q1. Focus on reducing cart abandonment and streamlining payment options.
+        </p>
+      </div>
+
+      <!-- Target & Achievement -->
+      <div>
+        <h2 class="section-title">Target & Achievement</h2>
+        <div class="white-card">
+          <div class="flex justify-between items-end mb-4">
+            <div>
+              <p class="text-xs text-medium mb-1 mt-0">Target</p>
+              <h3 class="text-3xl font-bold m-0">5.0%</h3>
+            </div>
+            <div class="text-right">
+              <p class="text-xs text-medium mb-1 mt-0">Current Achievement</p>
+              <h3 class="text-3xl font-bold text-success m-0">5.2%</h3>
+            </div>
+          </div>
+          
+          <div class="mb-4">
+            <app-progress-bar [percentage]="100" fillClass="fill-green" trackClass="h-3"></app-progress-bar>
+            <div class="flex justify-between text-xs text-medium mt-2">
+              <span>0%</span>
+              <span>100%+</span>
+            </div>
+          </div>
+          
+          <div class="border-t pt-3 flex justify-center items-center text-xs text-medium gap-1">
+            <ion-icon name="time-outline"></ion-icon>
+            Last Updated: Mar 15, 2026
+          </div>
+        </div>
+      </div>
+
+      <!-- Performance Insight -->
+      <div>
+        <h2 class="section-title">Performance Insight</h2>
+        <div class="insight-card">
+          <h4 class="font-bold text-dark text-sm mb-2 mt-0">Manager Note</h4>
+          <p class="text-sm text-medium leading-relaxed m-0 italic">
+            "Excellent work on the checkout redesign. The new one-click payment integration significantly boosted our mobile conversion numbers ahead of schedule."
+          </p>
+        </div>
+      </div>
+
+      <!-- Progress History -->
+      <div>
+        <h2 class="section-title">Progress History</h2>
+        <div class="white-card p-0 overflow-hidden">
+          
+          <div class="flex items-center justify-between p-4 border-b">
+            <div class="flex items-center gap-3">
+              <div class="icon-circle icon-green">
+                <ion-icon name="trending-up-outline"></ion-icon>
+              </div>
+              <div>
+                <h4 class="font-bold text-sm text-dark m-0">5.2% Achievement</h4>
+                <p class="text-xs text-medium m-0">Updated by System</p>
+              </div>
+            </div>
+            <span class="text-xs text-medium">Mar 15</span>
+          </div>
+
+          <div class="flex items-center justify-between p-4">
+            <div class="flex items-center gap-3">
+              <div class="icon-circle icon-blue">
+                <ion-icon name="trending-up-outline"></ion-icon>
+              </div>
+              <div>
+                <h4 class="font-bold text-sm text-dark m-0">4.8% Achievement</h4>
+                <p class="text-xs text-medium m-0">Updated by System</p>
+              </div>
+            </div>
+            <span class="text-xs text-medium">Feb 28</span>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+  
+  <app-bottom-nav></app-bottom-nav>
+</ion-content>

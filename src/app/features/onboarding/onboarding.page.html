@@ -1,0 +1,45 @@
+<ion-content [fullscreen]="true">
+  <!-- Slide 1 -->
+  <div class="onboarding-slide slide-animate" *ngIf="activeIndex === 0">
+    <div class="img-container">
+      <img src="assets/images/onboarding-1.png" class="onboarding-img" alt="Onboarding 1" />
+    </div>
+    <div class="text-content">
+      <h1 class="text-h2">Manage Your Workday <span class="text-blue">in One HR Platform</span></h1>
+      <p class="text-body-large-regular text-medium">Track your attendance and submit timesheets with just a few taps. Payroll made easy.</p>
+    </div>
+  </div>
+
+  <!-- Slide 2 -->
+  <div class="onboarding-slide slide-animate" *ngIf="activeIndex === 1">
+    <div class="img-container">
+      <img src="assets/images/onboarding-2.png" class="onboarding-img" alt="Onboarding 2" />
+    </div>
+    <div class="text-content">
+      <h1 class="text-h2">Smart Attendance & <span class="text-blue">Location Tracking</span></h1>
+      <p class="text-body-large-regular text-medium">Ensure precise check-ins with face recognition and geofencing.</p>
+    </div>
+  </div>
+
+  <!-- Slide 3 -->
+  <div class="onboarding-slide slide-animate" *ngIf="activeIndex === 2">
+    <div class="img-container">
+      <img src="assets/images/onboarding-3.png" class="onboarding-img" alt="Onboarding 3" />
+    </div>
+    <div class="text-content">
+      <h1 class="text-h2">Simplified Leaves & <span class="text-blue">Approvals</span></h1>
+      <p class="text-body-large-regular text-medium">Request time off and get fast approvals directly from your manager.</p>
+    </div>
+  </div>
+</ion-content>
+
+<div class="bottom-controls">
+  <div class="pagination">
+    <div class="dot" [class.active]="activeIndex === 0"></div>
+    <div class="dot" [class.active]="activeIndex === 1"></div>
+    <div class="dot" [class.active]="activeIndex === 2"></div>
+  </div>
+  
+  <app-button *ngIf="activeIndex < 2" variant="primary" icon="arrow-forward-outline" iconPosition="right" (onClick)="next()">Next</app-button>
+  <app-button *ngIf="activeIndex === 2" variant="primary" icon="arrow-forward-outline" iconPosition="right" (onClick)="finish()">Get Started</app-button>
+</div>

@@ -1,0 +1,54 @@
+<ion-content [fullscreen]="true" class="bg-light">
+  <div class="profile-header">
+    <ion-icon name="arrow-back-outline" class="back-btn" routerLink="/home"></ion-icon>
+    <h1 class="page-title">{{ 'profile.title' | translate }}</h1>
+  </div>
+  
+  <div class="page-container">
+    
+    <div class="avatar-section">
+      <div class="avatar">
+        <!-- Using female placeholder as per PNG Sarah Miller -->
+        <img src="assets/images/avatar-placeholder.png" alt="Profile">
+      </div>
+      
+      <h2 class="name">Sarah Miller</h2>
+      <p class="role">Senior Software Engineer &bull; Engineering</p>
+      
+      <div class="id-badge">ID: EMP-2024-889</div>
+    </div>
+    
+    <div class="menu-list">
+      <app-profile-menu-item
+        iconName="person-outline"
+        [title]="'profile.personalInformation' | translate"
+        [subtitle]="'profile.personalSubtitle' | translate"
+        routerLink="/profile/personal-info"
+      ></app-profile-menu-item>
+      
+      <app-profile-menu-item
+        iconName="shield-checkmark-outline"
+        [title]="'profile.identityVerification' | translate"
+        [subtitle]="'profile.identitySubtitle' | translate"
+        routerLink="/profile/identity"
+      ></app-profile-menu-item>
+      
+      <app-profile-menu-item
+        iconName="briefcase-outline"
+        [title]="'profile.employmentInformation' | translate"
+        [subtitle]="'profile.employmentSubtitle' | translate"
+        routerLink="/profile/job-history"
+      ></app-profile-menu-item>
+
+      <app-profile-menu-item
+        iconName="globe-outline"
+        [title]="'profile.languageSettings' | translate"
+        [subtitle]="'profile.languageSubtitle' | translate"
+        routerLink="/profile/language"
+      ></app-profile-menu-item>
+    </div>
+
+  </div>
+  
+  <app-bottom-nav></app-bottom-nav>
+</ion-content>

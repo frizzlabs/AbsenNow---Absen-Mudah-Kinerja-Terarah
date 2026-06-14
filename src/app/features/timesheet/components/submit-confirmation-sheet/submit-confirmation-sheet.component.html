@@ -1,0 +1,96 @@
+<div class="sheet-container">
+  <div class="drag-indicator-container">
+    <div class="drag-indicator"></div>
+  </div>
+
+  <div class="sheet-header">
+    <div class="progress-container">
+      <div class="progress-labels">
+        <span class="step-label">Step 1 of 2</span>
+        <span class="title-label">Submit Timesheet</span>
+      </div>
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" style="width: 50%"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sheet-content">
+    <h2 class="title">Ready to submit?</h2>
+    <p class="subtitle">Please review your summary for Feb 22 - 28. Once submitted, changes require approval.</p>
+
+    <!-- Total Hours Card -->
+    <div class="info-card">
+      <div class="flex-between">
+        <div>
+          <div class="card-label">Total Hours</div>
+          <div class="card-value large primary">38.5h</div>
+        </div>
+        <div class="icon-circle primary-light">
+          <ion-icon name="pie-chart" color="primary"></ion-icon>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats Row -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-header">
+          <ion-icon name="list-outline" color="primary"></ion-icon>
+          <span>Activities</span>
+        </div>
+        <div class="stat-val">14</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-header">
+          <ion-icon name="calendar-outline" color="primary"></ion-icon>
+          <span>Date Range</span>
+        </div>
+        <div class="stat-val text-sm">Feb 22 - 28</div>
+      </div>
+    </div>
+
+    <!-- Breakdown Accordion (Mock) -->
+    <div class="breakdown-card">
+      <div class="breakdown-header">
+        <div class="flex-center">
+          <div class="icon-box primary-light">
+            <ion-icon name="reader-outline" color="primary"></ion-icon>
+          </div>
+          <span class="breakdown-title">View Activity Breakdown</span>
+        </div>
+        <ion-icon name="chevron-down-outline" color="medium"></ion-icon>
+      </div>
+      
+      <div class="breakdown-content">
+        <div class="breakdown-row">
+          <span class="breakdown-label">Frontend Development</span>
+          <span class="breakdown-val">3h 15m</span>
+        </div>
+        <div class="breakdown-row">
+          <span class="breakdown-label">Sprint Planning</span>
+          <span class="breakdown-val">3h 15m</span>
+        </div>
+        <div class="breakdown-row">
+          <span class="breakdown-label">Design System Update</span>
+          <span class="breakdown-val">3h 15m</span>
+        </div>
+        <div class="breakdown-row">
+          <span class="breakdown-label">Code Review & Merge</span>
+          <span class="breakdown-val">3h 15m</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sheet-footer">
+    <div class="checkbox-container">
+      <ion-checkbox></ion-checkbox>
+      <div class="checkbox-label">I confirm these entries are accurate and comply with company policy.</div>
+    </div>
+    <ion-button expand="block" shape="round" color="primary" (click)="submit()">
+      <ion-icon name="send-outline" slot="start"></ion-icon>
+      Submit Timesheet
+    </ion-button>
+  </div>
+</div>

@@ -1,0 +1,19 @@
+<div class="section-card">
+  <div class="card-header">
+    <div class="header-left">
+      <ion-icon [name]="iconName" class="header-icon"></ion-icon>
+      <span class="header-title">{{ title }}</span>
+    </div>
+    
+    <div class="header-right" *ngIf="badgeText || actionText">
+      <div class="badge" *ngIf="badgeText">{{ badgeText }}</div>
+      <div class="action-text" *ngIf="actionText">{{ actionText }}</div>
+    </div>
+  </div>
+  
+  <div class="card-divider" *ngIf="showDivider"></div>
+  
+  <div class="card-body">
+    <ng-content></ng-content>
+  </div>
+</div>

@@ -1,0 +1,20 @@
+<div class="receipt-preview" [style.background-image]="'url(' + imageUrl + ')'">
+  <div class="gradient-overlay"></div>
+  
+  <div class="top-actions" *ngIf="showClose">
+    <div class="close-btn" (click)="onClose.emit()">
+      <ion-icon name="close-outline"></ion-icon>
+    </div>
+  </div>
+
+  <div class="bottom-info">
+    <div class="file-details">
+      <div class="file-name">{{ fileName }}</div>
+      <div class="file-size">{{ fileSize }}</div>
+    </div>
+    
+    <div class="view-btn" *ngIf="showView" (click)="onView.emit()">
+      View
+    </div>
+  </div>
+</div>

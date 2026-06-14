@@ -1,0 +1,25 @@
+.pin-dots {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin: 32px 0;
+  
+  .dot {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    
+    &.filled {
+      background: var(--ion-color-primary);
+    }
+    
+    &.active {
+      border: 2px solid var(--ion-color-primary);
+      background: transparent;
+    }
+    
+    &.empty {
+      background: #EAECF0;
+    }
+  }
+}

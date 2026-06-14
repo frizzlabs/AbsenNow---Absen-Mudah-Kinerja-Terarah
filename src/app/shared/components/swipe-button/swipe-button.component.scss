@@ -1,0 +1,106 @@
+.swipe-btn {
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+
+  /* Primary Variant (Check In) */
+  &.variant-primary {
+    background: var(--ion-color-primary);
+    border-radius: var(--radius-lg);
+    height: 56px;
+    padding: 0 8px 0 16px;
+    margin-bottom: var(--spacing-6);
+
+    .slide-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-md);
+      margin-right: 16px;
+      font-size: 20px;
+    }
+
+    .btn-text {
+      font-size: 16px;
+      text-align: center;
+      margin-left: -44px; /* Pull text left by half the width difference to achieve true center */
+    }
+
+    .chevron {
+      font-size: 20px;
+      margin-right: 0;
+    }
+  }
+
+  /* Danger Variant (Check Out) */
+  &.variant-danger {
+    background-color: #c81e1e; /* Red for checkout */
+    border-radius: 20px;
+    height: 64px;
+    padding: 0 8px 0 8px;
+    margin-bottom: 24px;
+    box-shadow: 0 12px 24px rgba(220, 38, 38, 0.3);
+
+    .slide-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      margin-right: 0;
+      font-size: 24px;
+    }
+
+    .btn-text {
+      font-size: 15px;
+      text-align: center;
+      margin-left: -24px; /* Shift text to the left to balance visual weight */
+    }
+
+    .chevron {
+      font-size: 20px;
+      margin-right: 8px;
+    }
+  }
+
+  /* Shared Inner Elements */
+  .slide-icon {
+    background: rgba(255, 255, 255, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+    cursor: grab;
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    touch-action: none;
+    
+    ion-icon {
+      color: white;
+    }
+
+    &.dragging {
+      cursor: grabbing;
+      transition: none;
+    }
+
+    &.completed {
+      cursor: default;
+    }
+  }
+  
+  .btn-text {
+    color: white;
+    font-weight: 600;
+    flex: 1;
+    z-index: 1;
+    transition: opacity 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+
+    &.dragging {
+      transition: none;
+    }
+  }
+  
+  .chevron {
+    color: rgba(255, 255, 255, 0.5);
+    z-index: 1;
+    transition: opacity 0.3s ease;
+  }
+}

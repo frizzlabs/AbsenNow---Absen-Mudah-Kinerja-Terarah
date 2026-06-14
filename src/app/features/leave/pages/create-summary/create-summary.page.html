@@ -1,0 +1,81 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back-outline" color="dark"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Request Leave Summary</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="light">
+  <app-leave-stepper [currentStep]="5" [totalSteps]="6" rightText="Request Leave"></app-leave-stepper>
+
+  <div class="content-wrapper">
+    <h1 class="page-title">Annual Leave</h1>
+    <p class="page-description">Review the details of your request.</p>
+
+    <div class="timeline-container">
+      <div class="timeline-item">
+        <div class="icon-circle start">
+          <ion-icon name="enter-outline"></ion-icon>
+        </div>
+        <div class="timeline-content">
+          <div class="label">Start Date</div>
+          <div class="value">Feb 24, 2026</div>
+        </div>
+      </div>
+      <div class="timeline-line"></div>
+      <div class="timeline-item">
+        <div class="icon-circle end">
+          <ion-icon name="exit-outline"></ion-icon>
+        </div>
+        <div class="timeline-content">
+          <div class="label">End Date</div>
+          <div class="value">Feb 26, 2026</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-label">TOTAL DAYS</div>
+    <div class="days-badge">3 Days</div>
+
+    <div class="section-label">DELEGATE / BACKUP</div>
+    <div class="delegate-box">
+      <div class="avatar-box">
+        <img src="assets/images/avatar-hanna.png" alt="Hanna" />
+        <div class="status-dot"></div>
+      </div>
+      <div class="delegate-info">
+        <div class="name">Hanna Jenkins</div>
+        <div class="role">Sr. Project Manager</div>
+      </div>
+    </div>
+
+    <div class="section-label">ATTACHMENTS</div>
+    <app-leave-file-card
+      fileName="medical_cert.pdf"
+      fileSize="1.2 MB"
+      fileType="PDF"
+      iconName="document-text-outline">
+    </app-leave-file-card>
+
+  </div>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <div class="footer-pad">
+    <div class="confirm-checkbox" (click)="isConfirmed = !isConfirmed">
+      <div class="checkbox-outer" [class.checked]="isConfirmed">
+        <ion-icon name="checkmark-outline" *ngIf="isConfirmed"></ion-icon>
+      </div>
+      <div class="checkbox-text">I confirm these entries are accurate and comply with company policy.</div>
+    </div>
+    
+    <ion-button expand="block" shape="round" color="primary" class="submit-btn" [disabled]="!isConfirmed" (click)="submit()">
+      <ion-icon name="send-outline" slot="start"></ion-icon>
+      Submit request
+    </ion-button>
+  </div>
+</ion-footer>

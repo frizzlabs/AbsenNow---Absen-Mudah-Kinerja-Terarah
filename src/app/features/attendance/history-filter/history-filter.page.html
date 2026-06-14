@@ -1,0 +1,10 @@
+<ion-content [fullscreen]="true" style="--background: rgba(0,0,0,0.5)">
+  <!-- This page simulates the History List with the Filter Modal open -->
+  
+  <ion-modal [isOpen]="true" [initialBreakpoint]="1" [breakpoints]="[0, 1]" handleBehavior="none">
+    <ng-template>
+      <app-modal-filter></app-modal-filter>
+    </ng-template>
+  </ion-modal>
+
+</ion-content>

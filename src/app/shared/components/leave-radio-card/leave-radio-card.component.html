@@ -1,0 +1,26 @@
+<div class="radio-card" [class.selected]="selected" (click)="onClick()">
+  
+  <div class="left-section">
+    <!-- Icon Version -->
+    <div *ngIf="iconName" class="icon-box" [ngClass]="iconColorClass">
+      <ion-icon [name]="iconName"></ion-icon>
+    </div>
+
+    <!-- Avatar Version -->
+    <div *ngIf="avatarUrl" class="avatar-box">
+      <img [src]="avatarUrl" alt="Avatar" />
+      <div *ngIf="avatarStatusColor" class="status-dot" [ngClass]="'bg-' + avatarStatusColor"></div>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="title">{{ title }}</div>
+    <div class="subtitle" [innerHTML]="subtitle"></div>
+  </div>
+
+  <div class="radio-indicator">
+    <div class="radio-outer" [class.checked]="selected">
+      <div class="radio-inner" *ngIf="selected"></div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,76 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/ai-chat" text="" icon="chevron-back-outline" class="back-btn-circle"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      <div class="header-logo">
+        <div class="logo-icon">
+          <span class="k-letter">K</span>
+        </div>
+        <span class="logo-text">KarajoAI</span>
+      </div>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ai-chat-content" [fullscreen]="true">
+  
+  <div class="doc-container">
+    
+    <!-- Doc Header -->
+    <div class="doc-header">
+      <div class="title-area">
+        <h1>Leave Request Policy</h1>
+        <p class="subtitle">Effective Date: January 1, 2026</p>
+      </div>
+      <div class="icon-btn">
+        <ion-icon name="laptop-outline"></ion-icon>
+      </div>
+    </div>
+
+    <!-- Doc Content -->
+    <div class="doc-body">
+      
+      <h2>1. Purpose</h2>
+      <p>The purpose of this policy is to establish clear guidelines for employee leave requests, ensuring fair treatment and adequate operational coverage. Karajo encourages employees to maintain a healthy work-life balance through appropriate use of leave.</p>
+      
+      <div class="ai-highlighted-block">
+        <div class="highlight-label">
+          <ion-icon name="bulb-outline"></ion-icon>
+          <span>AI Highlighted</span>
+        </div>
+        <h2>2. Submission Timeline</h2>
+        <p>To facilitate resource planning, all requests for planned leave (e.g., vacation) must be submitted at least 14 days in advance of the start date.</p>
+        <p>Last-minute requests will be reviewed on a case-by-case basis and are subject to manager approval based on team capacity.</p>
+      </div>
+      
+      <h2>3. Leave Types</h2>
+      <p>Employees are eligible for various types of leave, including Annual Leave, Sick Leave, Parental Leave, and Bereavement Leave. Eligibility for each type is contingent upon employment status and tenure as outlined in the Employee Handbook.</p>
+      
+      <h2>4. Documentation & Compliance</h2>
+      <p>Appropriate documentation may be required for certain leave types. Failure to provide documentation may result in the leave being classified as unpaid or unauthorized.</p>
+      
+      <div class="important-requirement-block">
+        <div class="requirement-label">
+          <ion-icon name="warning-outline"></ion-icon>
+          <span>Important Requirement</span>
+        </div>
+        <p class="italic">"For sick leave exceeding 3 consecutive days, a valid medical certificate from a registered physician is mandatory upon return to work."</p>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div style="height: 100px;"></div>
+
+  <!-- Bottom Input area fixed to viewport -->
+  <div class="input-area-fixed">
+    <div class="chat-input-wrapper">
+      <ion-icon name="sparkles" class="sparkle-icon"></ion-icon>
+      <input type="text" placeholder="Ask me about work..." />
+    </div>
+  </div>
+
+</ion-content>

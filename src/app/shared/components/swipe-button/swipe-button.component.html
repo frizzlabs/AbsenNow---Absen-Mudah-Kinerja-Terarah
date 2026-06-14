@@ -1,0 +1,12 @@
+<div class="swipe-btn" [ngClass]="'variant-' + variant" #container>
+  <div class="slide-icon" #handle 
+       (mousedown)="onStart($event)" 
+       (touchstart)="onStart($event)"
+       [style.transform]="'translateX(' + currentX + 'px)'"
+       [class.dragging]="isDragging"
+       [class.completed]="isCompleted">
+    <ion-icon [name]="icon"></ion-icon>
+  </div>
+  <span class="btn-text" [style.opacity]="textOpacity" [class.dragging]="isDragging">{{ text }}</span>
+  <ion-icon name="chevron-forward-outline" class="chevron" [style.opacity]="isCompleted ? 0 : 1"></ion-icon>
+</div>

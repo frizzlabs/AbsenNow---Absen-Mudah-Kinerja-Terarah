@@ -1,0 +1,81 @@
+<ion-content [fullscreen]="true" class="bg-light">
+  <app-page-header title="Personal Information"></app-page-header>
+  
+  <div class="page-container">
+    
+    <app-section-card iconName="person-outline" title="Basic Information">
+      <div class="photo-row">
+        <div class="avatar-small">
+          <img src="assets/images/avatar-placeholder.png" alt="Profile Photo">
+        </div>
+        <div class="upload-link">
+          <ion-icon name="push-outline"></ion-icon>
+          <span>Upload Photo</span>
+        </div>
+      </div>
+      
+      <div class="info-group">
+        <span class="label">Full Name</span>
+        <span class="value">Sarah Miller</span>
+      </div>
+      
+      <div class="info-row-2col">
+        <div class="info-group">
+          <span class="label">Date of Birth</span>
+          <span class="value">14 Oct 1992</span>
+        </div>
+        <div class="info-group">
+          <span class="label">Gender</span>
+          <span class="value">Male</span>
+        </div>
+      </div>
+    </app-section-card>
+    
+    <app-section-card iconName="call-outline" title="Contact Information">
+      <div class="info-group">
+        <span class="label">Phone Number</span>
+        <div class="value-with-icon">
+          <span class="value">+1 (555) 123-4567</span>
+          <ion-icon name="checkmark-circle-outline" class="verified-icon"></ion-icon>
+        </div>
+      </div>
+      
+      <div class="info-group">
+        <span class="label">Personal Email</span>
+        <span class="value">sarah@karajo.app</span>
+      </div>
+      
+      <div class="info-group">
+        <span class="label">Residential Address</span>
+        <span class="value">42 Innovation Drive, Apt 304<br>San Francisco, CA 94107</span>
+      </div>
+    </app-section-card>
+    
+    <!-- Using medkit-outline to approximate emergency contact icon -->
+    <app-section-card iconName="medkit-outline" title="Emergency Contact">
+      <div class="info-group">
+        <span class="label">Contact Name</span>
+        <span class="value">Hanna Jenkins</span>
+      </div>
+      
+      <div class="info-row-2col">
+        <div class="info-group">
+          <span class="label">Relationship</span>
+          <span class="value">Spouse</span>
+        </div>
+        <div class="info-group">
+          <span class="label">Phone Number</span>
+          <span class="value">+1 (555) 987-6543</span>
+        </div>
+      </div>
+    </app-section-card>
+
+  </div>
+  
+  <div class="fixed-bottom">
+    <app-button variant="primary" styleClass="w-full" routerLink="/profile/personal-info/edit">
+      <ion-icon name="create-outline" slot="start" style="margin-right: 8px; font-size: 20px;"></ion-icon>
+      Edit Personal Information
+    </app-button>
+  </div>
+</ion-content>

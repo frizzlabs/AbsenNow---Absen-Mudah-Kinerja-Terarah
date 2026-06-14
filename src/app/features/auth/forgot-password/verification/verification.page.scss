@@ -1,0 +1,25 @@
+ion-content {
+  --background: #ffffff;
+}
+.page-container {
+  padding: 0 var(--spacing-4);
+  padding-bottom: 300px;
+}
+.auth-text {
+  margin-bottom: 32px;
+  h2 { margin: 0 0 12px; color: var(--ion-color-dark); }
+  p { margin: 0; line-height: 1.5; padding: 0 8px; }
+  .font-medium { font-weight: 600; color: var(--ion-color-dark); }
+}
+.resend-text {
+  margin: 32px 0;
+  p { margin: 0 0 4px; }
+}
+.w-full { display: block; width: 100%; margin-bottom: 24px; }
+.fixed-bottom {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+}

@@ -1,0 +1,44 @@
+<ion-content>
+  <div class="px-5">
+    <app-page-header title="Feedback" [showBack]="true"></app-page-header>
+    
+    <div class="pb-24">
+      <h2 class="section-title">Performance Cycle Q1 2026</h2>
+      
+      <!-- Summary Card -->
+      <div class="summary-card mb-4">
+        <div class="summary-item">
+          <span class="summary-label">Total</span>
+          <span class="summary-value text-dark">12</span>
+        </div>
+        <div class="summary-divider"></div>
+        <div class="summary-item">
+          <span class="summary-label text-primary">Manager</span>
+          <span class="summary-value text-success">4</span>
+        </div>
+        <div class="summary-divider"></div>
+        <div class="summary-item">
+          <span class="summary-label text-primary">Peer</span>
+          <span class="summary-value text-primary">8</span>
+        </div>
+      </div>
+
+      <!-- Feedback List -->
+      <div class="feedback-list">
+        <app-feedback-card *ngFor="let fb of feedbacks"
+          [name]="fb.name"
+          [role]="fb.role"
+          [type]="fb.type"
+          [time]="fb.time"
+          [text]="fb.text"
+          [status]="fb.status"
+          [showAction]="fb.showAction"
+          [borderClass]="fb.borderClass"
+          [link]="fb.link">
+        </app-feedback-card>
+      </div>
+    </div>
+  </div>
+  
+  <app-bottom-nav></app-bottom-nav>
+</ion-content>

@@ -1,0 +1,30 @@
+<ion-content [fullscreen]="true">
+  <app-page-header title="Face Validation"></app-page-header>
+  
+  <div class="page-container">
+    <app-camera-frame type="face" [success]="isSuccess" (click)="simulateDetection()"></app-camera-frame>
+
+    <div class="text-center info-text">
+      <h2 class="text-h5">Position your face</h2>
+      <p class="text-body-medium-regular text-medium">
+        Ensure your face is well-lit and fits within the circular frame for secure identification.
+      </p>
+    </div>
+
+    <div class="segmented-control">
+      <div class="segment active">
+        <ion-icon name="person-outline"></ion-icon>
+        <span>Face</span>
+      </div>
+      <div class="segment" routerLink="/attendance/qr-validation">
+        <ion-icon name="qr-code-outline"></ion-icon>
+        <span>QR Code</span>
+      </div>
+    </div>
+
+    <div class="security-badge text-body-xsmall-semibold">
+      <ion-icon name="shield-checkmark-outline"></ion-icon>
+      <span>SECURED BY KARAJO ID</span>
+    </div>
+  </div>
+</ion-content>

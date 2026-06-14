@@ -1,0 +1,63 @@
+<ion-content [fullscreen]="true" class="bg-light">
+  <app-page-header title="Attendance Correction"></app-page-header>
+  
+  <div class="stepper-section">
+    <div class="stepper-labels">
+      <span class="step-text text-blue">Step 1 of 3</span>
+      <span class="progress-text text-gray">Correction Progress</span>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" style="width: 33%"></div>
+    </div>
+  </div>
+  
+  <div class="divider-full"></div>
+
+  <div class="page-container">
+    <h2 class="text-h4 title-spacing">Why are you correcting your attendance?</h2>
+    <p class="text-body-medium-regular subtitle-spacing">Select the most accurate reason for this request to help our HR team process it quickly.</p>
+    
+    <label class="section-label">SELECT REASON</label>
+    
+    <div class="radio-list">
+      <div class="radio-item" [class.active]="selectedReason === 'forgot-in'" (click)="selectedReason = 'forgot-in'">
+        <div class="radio-circle"><div class="inner" *ngIf="selectedReason === 'forgot-in'"></div></div>
+        <span>Forgot to Check In</span>
+      </div>
+      
+      <div class="radio-item" [class.active]="selectedReason === 'forgot-out'" (click)="selectedReason = 'forgot-out'">
+        <div class="radio-circle"><div class="inner" *ngIf="selectedReason === 'forgot-out'"></div></div>
+        <span>Forgot to Check Out</span>
+      </div>
+      
+      <div class="radio-item" [class.active]="selectedReason === 'incorrect-time'" (click)="selectedReason = 'incorrect-time'">
+        <div class="radio-circle"><div class="inner" *ngIf="selectedReason === 'incorrect-time'"></div></div>
+        <span>Incorrect Time Record</span>
+      </div>
+      
+      <div class="radio-item" [class.active]="selectedReason === 'location-issue'" (click)="selectedReason = 'location-issue'">
+        <div class="radio-circle"><div class="inner" *ngIf="selectedReason === 'location-issue'"></div></div>
+        <span>Location Issue</span>
+      </div>
+      
+      <div class="radio-item" [class.active]="selectedReason === 'business-trip'" (click)="selectedReason = 'business-trip'">
+        <div class="radio-circle"><div class="inner" *ngIf="selectedReason === 'business-trip'"></div></div>
+        <span>Business Trip / Offsite</span>
+      </div>
+      
+      <div class="radio-item" [class.active]="selectedReason === 'other'" (click)="selectedReason = 'other'">
+        <div class="radio-circle"><div class="inner" *ngIf="selectedReason === 'other'"></div></div>
+        <span>Other</span>
+      </div>
+    </div>
+
+    <div class="info-box">
+      <ion-icon name="information-circle-outline"></ion-icon>
+      <p>Your correction request will be sent to your direct supervisor for approval. Please ensure all details are accurate before proceeding.</p>
+    </div>
+  </div>
+
+  <div class="fixed-bottom">
+    <app-button variant="primary" styleClass="w-full" routerLink="/attendance/correction/form">Continue</app-button>
+  </div>
+</ion-content>

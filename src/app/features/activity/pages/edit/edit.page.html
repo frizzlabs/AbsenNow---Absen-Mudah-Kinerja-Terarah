@@ -1,0 +1,119 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back-outline" color="dark"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Edit Activity Log</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="content-wrapper">
+    
+    <!-- Warning Alert -->
+    <div class="alert-box info-alert">
+      <ion-icon name="information-circle-outline"></ion-icon>
+      <div class="alert-text">This record has been finalized and synced with the central timesheet system.</div>
+    </div>
+
+    <!-- Activity Title -->
+    <div class="form-group">
+      <div class="label">Activity Title</div>
+      <div class="input-wrapper">
+        <ion-icon name="document-text-outline" class="prefix-icon"></ion-icon>
+        <input type="text" value="Backend API Refactoring">
+      </div>
+    </div>
+
+    <!-- Project or Client -->
+    <div class="form-group">
+      <div class="label">Project or Client</div>
+      <div class="custom-select">
+        <span>Project Alpha</span>
+        <ion-icon name="chevron-down-outline" color="medium"></ion-icon>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Time Selection -->
+    <div class="time-row">
+      <div class="form-group flex-1">
+        <div class="label">Start Time</div>
+        <div class="time-select">
+          <span>9:00 AM</span>
+          <ion-icon name="time-outline" color="medium"></ion-icon>
+        </div>
+      </div>
+      <div class="form-group flex-1">
+        <div class="label">End Time</div>
+        <div class="time-select">
+          <span>10:30 AM</span>
+          <ion-icon name="time-outline" color="medium"></ion-icon>
+        </div>
+      </div>
+    </div>
+
+    <!-- Total Duration -->
+    <div class="duration-row">
+      <span class="duration-label">Total Duration</span>
+      <div class="duration-badge">
+        <ion-icon name="time-outline"></ion-icon>
+        1h 30m
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Category -->
+    <div class="form-group">
+      <div class="label">Category</div>
+      <div class="pill-group">
+        <div class="filter-pill active">
+          <ion-icon name="code-slash-outline"></ion-icon>
+          Development
+        </div>
+        <div class="filter-pill">
+          <ion-icon name="people-outline"></ion-icon>
+          Meeting
+        </div>
+        <div class="filter-pill">
+          <ion-icon name="document-text-outline"></ion-icon>
+          Admin
+        </div>
+        <div class="filter-pill">
+          <ion-icon name="color-palette-outline"></ion-icon>
+          Design
+        </div>
+        <div class="filter-pill">
+          <ion-icon name="search-outline"></ion-icon>
+          QA
+        </div>
+      </div>
+    </div>
+
+    <div class="divider pt-16"></div>
+
+    <!-- Description -->
+    <div class="form-group pt-16">
+      <div class="label">Description</div>
+      <div class="textarea-wrapper">
+        <textarea rows="7">Refactored the user authentication endpoints to improve latency. Updated the swagger documentation to reflect changes in the response schema for /auth/login and /auth/verify
+
+Conducted unit tests on the new middleware and verified 15% improvement in response times during load testing.</textarea>
+        <div class="char-count">50/200 <span class="resize-handle">//</span></div>
+      </div>
+    </div>
+
+  </div>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <div class="footer-wrapper">
+    <ion-button expand="block" color="primary" class="save-btn" (click)="update()">
+      Update Log
+    </ion-button>
+  </div>
+</ion-footer>

@@ -1,0 +1,130 @@
+.success-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 70vh;
+  padding-top: 40px;
+}
+
+.success-icon-wrapper {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: rgba(27, 89, 248, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    background: rgba(27, 89, 248, 0.05);
+    z-index: -1;
+  }
+}
+
+.success-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: var(--ion-color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 24px rgba(27, 89, 248, 0.3);
+
+  ion-icon {
+    font-size: 40px;
+    color: white;
+  }
+}
+
+.hours-card {
+  background: #f8fafc;
+  border-radius: 16px;
+  padding: 24px 40px;
+  width: 100%;
+  
+  .hours-val {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    
+    .big-hours {
+      font-size: 48px;
+      font-weight: 700;
+      color: #0f172a;
+      line-height: 1;
+    }
+    .hrs-text {
+      font-size: 16px;
+      color: #64748b;
+      margin-left: 4px;
+    }
+  }
+}
+
+.badge-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  
+  &.pending {
+    background: rgba(245, 158, 11, 0.1);
+    color: #d97706;
+    
+    .dot {
+      background: #d97706;
+    }
+  }
+
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    margin-right: 6px;
+  }
+}
+
+.mt-2 { margin-top: 8px; }
+.mt-4 { margin-top: 24px; }
+.mb-2 { margin-bottom: 8px; }
+.mb-3 { margin-bottom: 16px; }
+.mb-4 { margin-bottom: 24px; }
+.mb-5 { margin-bottom: 32px; }
+.pb-4 { padding-bottom: 24px; }
+.block { display: block; }
+.font-medium { font-weight: 500; }
+
+/* Karajo Colors and Typography */
+$primary: #1B59F8;
+$text-primary: #1E293B;
+$text-secondary: #64748B;
+
+ion-content {
+  --background: #FFFFFF;
+}
+
+ion-footer {
+  background: #FFFFFF;
+}
+
+.text-medium { color: $text-secondary !important; }
+.text-dark { color: $text-primary !important; }
+
+.text-h2 { font-size: 24px; font-weight: 700; margin: 0; color: $text-primary; letter-spacing: -0.5px; }
+.text-body-medium-regular { font-size: 14px; font-weight: 400; color: $text-secondary; }
+.text-body-small-regular { font-size: 13px; font-weight: 400; color: $text-secondary; }

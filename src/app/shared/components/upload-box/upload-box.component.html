@@ -1,0 +1,24 @@
+<div class="upload-box" [ngClass]="status">
+  <ng-container *ngIf="status === 'empty'">
+    <div class="empty-state">
+      <div class="icon-circle">
+        <ion-icon name="push-outline"></ion-icon>
+      </div>
+      <div class="title">Click to upload</div>
+      <div class="subtitle">PDF, JPG or PNG (MAX. 5MB)</div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="status === 'filled'">
+    <div class="filled-state">
+      <!-- Use a placeholder image to match PNG -->
+      <img src="assets/images/upload-placeholder.jpg" alt="Uploaded file">
+      <div class="overlay"></div>
+      <div class="file-info">
+        <div class="file-name">{{ fileName }}</div>
+        <div class="file-size">{{ fileSize }}</div>
+      </div>
+    </div>
+  </ng-container>
+</div>
+<div class="helper-text" *ngIf="helperText">{{ helperText }}</div>

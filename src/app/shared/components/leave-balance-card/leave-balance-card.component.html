@@ -1,0 +1,19 @@
+<div class="balance-card">
+  <div class="card-title">{{ title }}</div>
+  <div class="card-subtitle">{{ subtitle }}</div>
+  
+  <div class="days-left-container">
+    <span class="big-number">{{ daysLeft }}</span>
+    <span class="days-text">Days Left</span>
+  </div>
+
+  <div class="progress-section" [ngClass]="colorClass">
+    <div class="progress-labels">
+      <span class="used-text">{{ usedDays }} Used</span>
+      <span class="total-text">{{ totalDays }} Total</span>
+    </div>
+    <div class="progress-bar-bg">
+      <div class="progress-bar-fill" [style.width.%]="progressPercentage"></div>
+    </div>
+  </div>
+</div>

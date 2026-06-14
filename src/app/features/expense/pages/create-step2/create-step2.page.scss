@@ -1,0 +1,114 @@
+ion-toolbar {
+  --background: white;
+}
+
+ion-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--ion-color-tertiary);
+}
+
+ion-content {
+  --background: white;
+}
+
+.content-wrapper {
+  padding: 24px 16px;
+}
+
+.page-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--ion-color-tertiary);
+  margin: 0 0 8px 0;
+}
+
+.page-desc {
+  font-size: 14px;
+  color: var(--ion-color-medium);
+  margin: 0 0 24px 0;
+  line-height: 1.5;
+}
+
+.upload-box {
+  border: 1px dashed #ced4da;
+  border-radius: 12px;
+  padding: 24px;
+  text-align: center;
+  background: #f8f9fa;
+  margin-bottom: 24px;
+  cursor: pointer;
+
+  .upload-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(var(--ion-color-primary-rgb), 0.1);
+    color: var(--ion-color-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 12px;
+
+    ion-icon {
+      font-size: 20px;
+    }
+  }
+
+  .upload-text {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ion-color-tertiary);
+    margin-bottom: 4px;
+  }
+
+  .upload-subtext {
+    font-size: 12px;
+    color: var(--ion-color-medium);
+  }
+}
+
+.attached-section {
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+
+    .section-title {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--ion-color-tertiary);
+    }
+
+    .verified-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 8px;
+      background: rgba(var(--ion-color-success-rgb), 0.1);
+      color: var(--ion-color-success);
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+
+      ion-icon {
+        margin-right: 4px;
+        font-size: 12px;
+      }
+    }
+  }
+}
+
+.footer-pad {
+  padding: 16px 24px 32px;
+  background: white;
+
+  .continue-btn {
+    --padding-top: 16px;
+    --padding-bottom: 16px;
+    margin: 0;
+    font-weight: 600;
+    letter-spacing: 0;
+    --border-radius: 12px;
+  }
+}

@@ -1,0 +1,146 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back-outline" color="dark"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Permission</ion-title>
+  </ion-toolbar>
+
+  <div class="custom-segment-container">
+    <div class="segment-item" [class.active]="selectedSegment === 'all'" (click)="selectedSegment = 'all'">All</div>
+    <div class="segment-item" [class.active]="selectedSegment === 'pending'" (click)="selectedSegment = 'pending'">Pending</div>
+    <div class="segment-item" [class.active]="selectedSegment === 'approved'" (click)="selectedSegment = 'approved'">Approved</div>
+    <div class="segment-item" [class.active]="selectedSegment === 'rejected'" (click)="selectedSegment = 'rejected'">Rejected</div>
+  </div>
+</ion-header>
+
+<ion-content>
+  <div class="content-wrapper">
+    <!-- Stat Cards -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="icon-circle warning-light">
+          <ion-icon name="time-outline" color="warning"></ion-icon>
+        </div>
+        <div class="stat-label">TOTAL HOURS</div>
+        <div class="stat-value">24.5h</div>
+      </div>
+      <div class="stat-card">
+        <div class="icon-circle success-light">
+          <ion-icon name="medal-outline" color="success"></ion-icon>
+        </div>
+        <div class="stat-label">APPROVED</div>
+        <div class="stat-value">12</div>
+      </div>
+    </div>
+
+    <!-- Group: This Month -->
+    <div class="group-title">This Month</div>
+    
+    <div class="list-item">
+      <div class="item-header">
+        <div class="icon-box primary-light">
+          <ion-icon name="document-text-outline" color="primary"></ion-icon>
+        </div>
+        <div class="title-content">
+          <div class="title">Doctor's Appointment</div>
+          <div class="subtitle">Personal Permission</div>
+        </div>
+        <div class="status-badge pending">Pending</div>
+      </div>
+      <div class="item-footer">
+        <div class="footer-col">
+          <div class="footer-label">Date & Time</div>
+          <div class="footer-value">Oct 24 • 09:00 - 11:00</div>
+        </div>
+        <div class="footer-col">
+          <div class="footer-label">Duration</div>
+          <div class="footer-value duration">2 Hours</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="list-item">
+      <div class="item-header">
+        <div class="icon-box primary-light">
+          <ion-icon name="document-text-outline" color="primary"></ion-icon>
+        </div>
+        <div class="title-content">
+          <div class="title">School Pick-up</div>
+          <div class="subtitle">Family Emergency</div>
+        </div>
+        <div class="status-badge approved">Approved</div>
+      </div>
+      <div class="item-footer">
+        <div class="footer-col">
+          <div class="footer-label">Date & Time</div>
+          <div class="footer-value">Oct 18 • 15:00 - 16:30</div>
+        </div>
+        <div class="footer-col">
+          <div class="footer-label">Duration</div>
+          <div class="footer-value duration">1.5 Hours</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Group: September 2023 -->
+    <div class="group-title">September 2023</div>
+
+    <div class="list-item">
+      <div class="item-header">
+        <div class="icon-box primary-light">
+          <ion-icon name="document-text-outline" color="primary"></ion-icon>
+        </div>
+        <div class="title-content">
+          <div class="title">Internet Maintenance</div>
+          <div class="subtitle">House Emergency</div>
+        </div>
+        <div class="status-badge approved">Approved</div>
+      </div>
+      <div class="item-footer">
+        <div class="footer-col">
+          <div class="footer-label">Date & Time</div>
+          <div class="footer-value">Sep 12 • 08:00 - 12:00</div>
+        </div>
+        <div class="footer-col">
+          <div class="footer-label">Duration</div>
+          <div class="footer-value duration">4 Hours</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="list-item">
+      <div class="item-header">
+        <div class="icon-box primary-light">
+          <ion-icon name="document-text-outline" color="primary"></ion-icon>
+        </div>
+        <div class="title-content">
+          <div class="title">Brief Personal Matter</div>
+          <div class="subtitle">Other</div>
+        </div>
+        <div class="status-badge rejected">Rejected</div>
+      </div>
+      <div class="item-footer">
+        <div class="footer-col">
+          <div class="footer-label">Date & Time</div>
+          <div class="footer-value">Sep 05 • 10:00 - 11:00</div>
+        </div>
+        <div class="footer-col">
+          <div class="footer-label">Duration</div>
+          <div class="footer-value duration">1 Hour</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <div class="footer-wrapper">
+    <ion-button expand="block" shape="round" color="primary" (click)="requestPermission()">
+      <ion-icon name="add-outline" slot="start"></ion-icon>
+      Request permission
+    </ion-button>
+  </div>
+</ion-footer>

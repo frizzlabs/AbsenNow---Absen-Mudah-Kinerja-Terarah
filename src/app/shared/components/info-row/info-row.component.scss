@@ -1,0 +1,16 @@
+.info-item {
+  display: flex;
+  align-items: flex-start;
+  
+  .icon-box {
+    font-size: 24px;
+    color: #98A2B3;
+    margin-right: 16px;
+    margin-top: 2px;
+  }
+  
+  .info-content {
+    h4 { margin: 0 0 4px 0; color: var(--ion-color-dark); }
+    p { margin: 0; color: #667085; }
+  }
+}

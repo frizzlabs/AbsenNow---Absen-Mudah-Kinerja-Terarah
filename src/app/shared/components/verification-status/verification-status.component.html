@@ -1,0 +1,14 @@
+<div class="verification-status">
+  <div class="icon-container" [ngClass]="status">
+    <div class="ring outer">
+      <div class="ring inner">
+        <div class="circle">
+          <ion-icon [name]="status === 'confirmed' ? 'shield-checkmark' : 'shield-half'"></ion-icon>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <h2 class="title">{{ title }}</h2>
+  <p class="description">{{ description }}</p>
+</div>

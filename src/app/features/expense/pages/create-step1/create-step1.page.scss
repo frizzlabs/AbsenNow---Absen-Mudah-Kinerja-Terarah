@@ -1,0 +1,133 @@
+ion-toolbar {
+  --background: white;
+}
+
+ion-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--ion-color-tertiary);
+}
+
+ion-content {
+  --background: white;
+}
+
+.content-wrapper {
+  padding: 24px 16px;
+}
+
+.page-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--ion-color-tertiary);
+  margin: 0 0 16px 0;
+}
+
+.section-subtitle {
+  font-size: 12px;
+  color: var(--ion-color-medium);
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+}
+
+.category-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  .category-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    border: 1px solid #f0f0f0;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    .card-left {
+      display: flex;
+      align-items: center;
+
+      .icon-wrapper {
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+        background: #f4f5f8;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 12px;
+
+        ion-icon {
+          font-size: 18px;
+          color: var(--ion-color-primary);
+        }
+      }
+
+      .category-name {
+        font-size: 15px;
+        font-weight: 500;
+        color: var(--ion-color-tertiary);
+      }
+    }
+
+    input[type="radio"] {
+      display: none;
+    }
+
+    .custom-radio {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 2px solid #e0e0e0;
+      position: relative;
+    }
+
+    &.selected {
+      border-color: var(--ion-color-primary);
+      
+      .card-left {
+        .icon-wrapper {
+          background: rgba(var(--ion-color-primary-rgb), 0.1);
+        }
+        .category-name {
+          color: var(--ion-color-primary);
+        }
+      }
+
+      .custom-radio {
+        border-color: var(--ion-color-primary);
+        background-color: var(--ion-color-primary);
+        
+        &::after {
+          content: '';
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 8px;
+          height: 8px;
+          background: white;
+          border-radius: 50%;
+        }
+      }
+    }
+  }
+}
+
+.footer-pad {
+  padding: 16px 24px 32px;
+  background: white;
+
+  .continue-btn {
+    --padding-top: 16px;
+    --padding-bottom: 16px;
+    margin: 0;
+    font-weight: 600;
+    letter-spacing: 0;
+    --border-radius: 12px;
+  }
+}

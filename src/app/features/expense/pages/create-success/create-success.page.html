@@ -1,0 +1,37 @@
+<ion-content color="light">
+  <div class="success-container">
+    <div class="success-icon-wrapper">
+      <div class="circle-outer">
+        <div class="circle-inner">
+          <ion-icon name="checkmark-outline"></ion-icon>
+        </div>
+      </div>
+    </div>
+
+    <h1 class="page-title">Request Submitted!</h1>
+    <p class="page-desc">Your expense request has been sent to your manager for approval. You can track the status in the Expense History tab.</p>
+
+    <div class="recap-card">
+      <div class="recap-row">
+        <div class="label">Expense ID</div>
+        <div class="value">#EXP-2026-089</div>
+      </div>
+      <div class="recap-divider"></div>
+      <div class="recap-row">
+        <div class="label">Amount</div>
+        <div class="value amount">$45.00</div>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <div class="footer-pad">
+    <ion-button expand="block" shape="round" color="primary" class="primary-btn" (click)="trackRequest()">
+      Track Request
+    </ion-button>
+    <ion-button expand="block" fill="clear" color="primary" class="secondary-btn" (click)="backToOverview()">
+      Back to Overview
+    </ion-button>
+  </div>
+</ion-footer>

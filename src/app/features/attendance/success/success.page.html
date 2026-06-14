@@ -1,0 +1,68 @@
+<ion-content [fullscreen]="true" class="success-bg">
+  <div class="success-header">
+    <ion-icon name="close-outline" class="header-icon" (click)="goToHome()"></ion-icon>
+    <span class="header-title">ATTENDANCE VERIFIED</span>
+    <ion-icon name="help-circle-outline" class="header-icon"></ion-icon>
+  </div>
+
+  <div class="card-container">
+    <div class="success-card">
+      
+      <div class="icon-wrapper">
+        <div class="icon-bg">
+          <ion-icon name="time-outline"></ion-icon>
+        </div>
+        <div class="check-badge">
+          <ion-icon name="checkmark-circle"></ion-icon>
+        </div>
+      </div>
+
+      <div class="text-center success-text">
+        <h2 class="text-h4">{{ isCheckingOut ? 'Check-Out Successful' : 'Check-In Successful' }}</h2>
+        <p class="text-body-medium-regular">Your attendance has been verified.</p>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="time-section text-center">
+        <span class="label">TIME RECORDED</span>
+        <h1 class="time-value">08:58 AM</h1>
+        <div class="status-badge success">
+          On time
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="info-list">
+        <div class="info-row">
+          <div class="icon-box">
+            <ion-icon name="location-outline"></ion-icon>
+          </div>
+          <div class="content">
+            <span class="label">Location</span>
+            <span class="value">Headquarters, Jak...</span>
+          </div>
+          <div class="status-badge gray">
+            On site
+          </div>
+        </div>
+
+        <div class="info-row">
+          <div class="icon-box">
+            <ion-icon name="calendar-outline"></ion-icon>
+          </div>
+          <div class="content">
+            <span class="label">Date</span>
+            <span class="value">Feb 18, 2025</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="fixed-bottom">
+    <app-button variant="primary" styleClass="white-btn" (onClick)="goToHome()">Back to Home</app-button>
+  </div>
+</ion-content>

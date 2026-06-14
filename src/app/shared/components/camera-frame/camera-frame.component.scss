@@ -1,0 +1,133 @@
+.frame-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 64px; /* Perkiraan jarak ke header agar posisi sama (165px dari layar atas) */
+  margin-bottom: 56px;
+}
+
+@keyframes pulseGlow {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+  100% { transform: scale(1); }
+}
+
+@keyframes scanLine {
+  0% { transform: translateY(-10px); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(220px); opacity: 0; }
+}
+
+@keyframes glowPulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.8; }
+}
+
+@keyframes successScale {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.face-frame-wrapper {
+  position: relative;
+  width: 219px;
+  height: 219px;
+  border-radius: 50%;
+  animation: pulseGlow 2s infinite ease-in-out;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -4px; left: -4px; right: -4px; bottom: -4px;
+    border-radius: 50%;
+    border: 3px solid var(--ion-color-primary);
+    animation: glowPulse 2s infinite ease-in-out;
+    pointer-events: none;
+    z-index: 5;
+  }
+
+  &.success {
+    animation: successScale 0.5s ease-out forwards;
+
+    &::before {
+      display: none;
+    }
+
+    .face-frame {
+      border-color: var(--ion-color-success);
+    }
+  }
+}
+
+.face-frame {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  position: relative;
+  overflow: hidden;
+  border: 4px solid transparent;
+  transition: border-color 0.3s ease;
+
+  .scanning-line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(to right, transparent, var(--ion-color-primary), transparent);
+    box-shadow: 0 2px 6px rgba(27, 89, 248, 0.5);
+    animation: scanLine 2.5s linear infinite;
+    z-index: 10;
+  }
+
+  .success-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(34, 197, 94, 0.4);
+    z-index: 20;
+
+    ion-icon {
+      font-size: 64px;
+      color: white;
+    }
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.qr-frame {
+  width: 260px;
+  height: 260px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .scanner-corners {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+  }
+
+  .qr-placeholder {
+    font-size: 160px;
+    color: #2D3142;
+    z-index: 1;
+  }
+}

@@ -1,0 +1,87 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back-outline" color="dark"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Request Permission</ion-title>
+  </ion-toolbar>
+
+  <div class="progress-container">
+    <div class="progress-labels">
+      <span class="step-label">Step 1 of 3</span>
+      <span class="title-label">Request Permission</span>
+    </div>
+    <div class="progress-bar-bg">
+      <div class="progress-bar-fill" style="width: 33%"></div>
+    </div>
+  </div>
+</ion-header>
+
+<ion-content>
+  <div class="content-wrapper">
+    <!-- Mock Calendar -->
+    <div class="calendar-card">
+      <div class="calendar-header">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+        <div class="month">February 2026</div>
+        <ion-icon name="chevron-forward-outline"></ion-icon>
+      </div>
+      <div class="weekdays">
+        <span>SUN</span><span>MON</span><span>TUE</span><span>WED</span><span>THU</span><span>FRI</span><span>SAT</span>
+      </div>
+      <div class="days-grid">
+        <div class="day empty">27</div><div class="day empty">28</div><div class="day empty">29</div><div class="day empty">30</div><div class="day">1</div><div class="day">2</div><div class="day">3</div>
+        <div class="day">4</div><div class="day">5</div><div class="day">6</div><div class="day">7</div><div class="day">8</div><div class="day">9</div><div class="day">10</div>
+        <div class="day">11</div><div class="day selected">12</div><div class="day selected-light">13</div><div class="day selected">14</div><div class="day">15</div><div class="day">16</div><div class="day">17</div>
+        <div class="day">18</div><div class="day">19</div><div class="day">20</div><div class="day">21</div><div class="day">22</div><div class="day">23</div><div class="day">24</div>
+        <div class="day">25</div><div class="day">26</div><div class="day">27</div><div class="day">28</div><div class="day">29</div><div class="day">30</div><div class="day">31</div>
+      </div>
+    </div>
+
+    <div class="time-row">
+      <div class="input-group">
+        <label>Start Time</label>
+        <div class="input-box">
+          <span>9:00 AM</span>
+          <ion-icon name="time-outline"></ion-icon>
+        </div>
+      </div>
+      <div class="input-group">
+        <label>End Time</label>
+        <div class="input-box">
+          <span>10:30 AM</span>
+          <ion-icon name="time-outline"></ion-icon>
+        </div>
+      </div>
+    </div>
+
+    <div class="input-group mt-24">
+      <label>Reason</label>
+      <div class="textarea-box">
+        <textarea placeholder="Add any details or notes about this work session..."></textarea>
+        <div class="char-count">0/200</div>
+      </div>
+    </div>
+
+    <div class="input-group mt-24">
+      <label>Attachments (Optional)</label>
+      <div class="upload-box">
+        <div class="upload-icon-circle">
+          <ion-icon name="cloud-upload-outline" color="primary"></ion-icon>
+        </div>
+        <div class="upload-text">Click to upload</div>
+        <div class="upload-hint">PDF, JPG or PNG (MAX. 5MB)</div>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <div class="footer-wrapper">
+    <ion-button expand="block" shape="round" color="primary" (click)="continue()">
+      Continue
+    </ion-button>
+  </div>
+</ion-footer>

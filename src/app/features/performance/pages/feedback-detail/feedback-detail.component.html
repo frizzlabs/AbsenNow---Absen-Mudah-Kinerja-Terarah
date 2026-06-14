@@ -1,0 +1,76 @@
+<ion-content>
+  <div class="px-5">
+    <app-page-header title="Feedback" [showBack]="true"></app-page-header>
+    
+    <div class="pb-24">
+      <h2 class="section-title">Performance Cycle Q1 2026</h2>
+      
+      <!-- Top Card -->
+      <div class="white-card mb-4 flex items-center gap-3">
+        <img src="assets/images/avatar.png" class="avatar" alt="Avatar">
+        <div class="flex-1">
+          <div class="flex justify-between items-center mb-1">
+            <h3 class="name">Sarah Miller</h3>
+            <div class="type-badge manager">Manager</div>
+          </div>
+          <p class="role">Sales Director</p>
+          <div class="time-row">
+            <ion-icon name="time-outline"></ion-icon>
+            Submitted Mar 15, 2026 • 2:30 PM
+          </div>
+        </div>
+      </div>
+
+      <!-- Detail Card -->
+      <div class="white-card mb-4">
+        <div class="flex justify-between items-start mb-4 border-b pb-4">
+          <div>
+            <p class="text-xs text-medium mb-1 mt-0">Category</p>
+            <div class="flex items-center gap-2 text-dark font-bold">
+              <ion-icon name="person-outline" class="text-primary text-lg"></ion-icon>
+              Leadership & Execution
+            </div>
+          </div>
+          <div class="text-right">
+            <p class="text-xs text-medium mb-1 mt-0">Rating</p>
+            <div class="rating-badge">
+              <ion-icon name="star-outline"></ion-icon>
+              4.5 / 5
+            </div>
+          </div>
+        </div>
+        
+        <h4 class="font-bold text-dark text-sm mb-3 mt-0">Detailed Feedback</h4>
+        <p class="text-sm text-medium leading-relaxed mb-3 mt-0">
+          Sarah has shown exceptional leadership during the Q1 sales sprint. Her ability to rally the team around the new conversion targets was instrumental in our success. She effectively communicated the strategic importance of the checkout flow optimization, ensuring everyone understood their role.
+        </p>
+        <p class="text-sm text-medium leading-relaxed mb-3 mt-0">
+          One area for continued focus is cross-departmental collaboration earlier in the project lifecycle. While execution was flawless, involving the marketing team sooner could have amplified the launch impact even further.
+        </p>
+        <p class="text-sm text-medium leading-relaxed m-0">
+          Overall, a fantastic quarter with tangible results. Keep pushing the boundaries on what our team can achieve.
+        </p>
+      </div>
+
+      <!-- Action Card -->
+      <div class="white-card">
+        <div class="flex items-start gap-3 mb-4">
+          <div class="icon-circle text-warning">
+            <ion-icon name="ellipsis-horizontal-circle-outline"></ion-icon>
+          </div>
+          <div>
+            <h4 class="font-bold text-dark text-sm m-0">Pending Acknowledgement</h4>
+            <p class="text-xs text-medium m-0 mt-1">Please review and acknowledge this feedback.</p>
+          </div>
+        </div>
+        
+        <button class="primary-btn">
+          <ion-icon name="document-text-outline"></ion-icon>
+          Acknowledge Feedback
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <app-bottom-nav></app-bottom-nav>
+</ion-content>

@@ -1,0 +1,69 @@
+.timeline-container {
+  padding: 8px 0;
+}
+
+.timeline-step {
+  display: flex;
+  position: relative;
+  min-height: 56px;
+}
+
+.indicator-column {
+  width: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 12px;
+  padding-top: 4px;
+
+  .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    z-index: 2;
+
+    &.success { background-color: var(--ion-color-success); }
+    &.warning { background-color: var(--ion-color-warning); }
+    &.danger { background-color: var(--ion-color-danger); }
+    &.medium { background-color: var(--ion-color-medium); }
+  }
+
+  .line {
+    width: 1px;
+    background-color: #e0e0e0;
+    flex-grow: 1;
+    margin-top: 4px;
+    margin-bottom: -4px;
+  }
+}
+
+.content-column {
+  flex-grow: 1;
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 24px;
+
+  .content-main {
+    .title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ion-color-tertiary);
+      margin-bottom: 4px;
+    }
+    
+    .subtitle {
+      font-size: 12px;
+      color: var(--ion-color-medium);
+      ::ng-deep strong {
+        color: var(--ion-color-tertiary);
+        font-weight: 500;
+      }
+    }
+  }
+
+  .time {
+    font-size: 12px;
+    color: var(--ion-color-medium);
+    text-align: right;
+  }
+}

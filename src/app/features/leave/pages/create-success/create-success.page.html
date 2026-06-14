@@ -1,0 +1,58 @@
+<ion-content color="white">
+  <div class="content-wrapper">
+    <div class="success-header">
+      <div class="icon-circle">
+        <ion-icon name="checkmark-outline"></ion-icon>
+      </div>
+      <h1 class="page-title">Leave Request Submitted</h1>
+      <p class="page-description">Your application for Annual Leave has been sent to your supervisor.</p>
+    </div>
+
+    <div class="details-card">
+      <div class="detail-row">
+        <div class="icon-box">
+          <ion-icon name="umbrella-outline"></ion-icon>
+        </div>
+        <div class="detail-content">
+          <div class="label">Leave Type</div>
+          <div class="value">Annual Leave</div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="detail-row">
+        <div class="icon-box">
+          <ion-icon name="time-outline"></ion-icon>
+        </div>
+        <div class="detail-content">
+          <div class="label">Date Range</div>
+          <div class="value">Mon, Feb 12 &mdash; Wed, Feb 14</div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="detail-row">
+        <div class="icon-box">
+          <ion-icon name="pie-chart-outline"></ion-icon>
+        </div>
+        <div class="detail-content">
+          <div class="label">Total Duration</div>
+          <div class="value">3 Days</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <div class="footer-pad">
+    <ion-button expand="block" shape="round" color="primary" class="primary-btn" (click)="backToActivity()">
+      Back to activity
+    </ion-button>
+    <ion-button expand="block" shape="round" fill="outline" class="secondary-btn" (click)="goToApproval()">
+      Go to approval
+    </ion-button>
+  </div>
+</ion-footer>

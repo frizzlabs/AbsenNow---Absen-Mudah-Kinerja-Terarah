@@ -1,0 +1,102 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back-outline" color="dark"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Activity Record</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="content-wrapper">
+    <!-- Header Status & ID -->
+    <div class="flex-between mb-24">
+      <div class="status-badge">Submitted</div>
+      <div class="activity-id">#ACT-8942</div>
+    </div>
+
+    <!-- Title & Project -->
+    <h1 class="activity-title">Backend API Refactoring</h1>
+    <div class="activity-project mb-24">
+      <ion-icon name="business-outline"></ion-icon>
+      Project Alpha
+    </div>
+
+    <!-- Info Cards -->
+    <div class="info-grid mb-16">
+      <div class="info-card">
+        <div class="label">DATE</div>
+        <div class="value">
+          <ion-icon name="calendar-outline"></ion-icon>
+          Feb 24, 2023
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="label">DURATION</div>
+        <div class="value">
+          <ion-icon name="time-outline"></ion-icon>
+          4h 30m
+        </div>
+      </div>
+    </div>
+
+    <div class="time-window-card mb-24">
+      <div class="label">TIME WINDOW</div>
+      <div class="window-content">
+        <div class="time-box">
+          <div class="time-label">Start</div>
+          <div class="time-val">09:00 AM</div>
+        </div>
+        <div class="line"></div>
+        <div class="time-box end">
+          <div class="time-label">End</div>
+          <div class="time-val">01:30 PM</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Description -->
+    <div class="section-label mb-16">DESCRIPTION</div>
+    <div class="description-text mb-24">
+      <p>Refactored the user authentication endpoints to improve latency. Updated the swagger documentation to reflect changes in the response schema for /auth/login and /auth/verify</p>
+      <p>Conducted unit tests on the new middleware and verified 15% improvement in response times during load testing.</p>
+    </div>
+
+    <!-- Warning Alert -->
+    <div class="alert-box info-alert mb-32">
+      <ion-icon name="information-circle-outline"></ion-icon>
+      <div class="alert-text">This record has been finalized and synced with the central timesheet system.</div>
+    </div>
+
+    <!-- History Log -->
+    <div class="section-label mb-16">HISTORY LOG</div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="dot primary"></div>
+        <div class="line"></div>
+        <div class="content">
+          <div class="header">
+            <span class="status">Updated Description</span>
+            <span class="time">Feb 28, 09:00 PM</span>
+          </div>
+          <div class="details">Request created by <strong>Sarah Miller</strong></div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="dot primary"></div>
+        <div class="line transparent"></div>
+        <div class="content">
+          <div class="header">
+            <span class="status">Activity Created</span>
+            <span class="time">Feb 28, 09:20 PM</span>
+          </div>
+          <div class="details">Reviewed by <strong>Alex Johnson</strong></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</ion-content>

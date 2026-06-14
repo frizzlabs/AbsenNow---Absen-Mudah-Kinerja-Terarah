@@ -1,0 +1,27 @@
+<div class="history-card">
+  <div class="top-row">
+    <div class="icon-box" [ngClass]="iconColorClass">
+      <ion-icon [name]="iconName"></ion-icon>
+    </div>
+    
+    <div class="content">
+      <div class="title">{{ title }}</div>
+      <div class="subtitle">{{ subtitle }}</div>
+    </div>
+
+    <div class="status">
+      <app-status-badge [color]="statusColor" [text]="statusText"></app-status-badge>
+    </div>
+  </div>
+
+  <div class="bottom-row">
+    <div class="left-col">
+      <div class="label">Duration</div>
+      <div class="value">{{ duration }}</div>
+    </div>
+    <div class="right-col">
+      <div class="label">Total</div>
+      <div class="value total-days">{{ totalDays }}</div>
+    </div>
+  </div>
+</div>

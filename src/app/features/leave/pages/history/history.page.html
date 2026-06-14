@@ -1,0 +1,60 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back-outline" color="dark"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Leave History</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="light">
+  <div class="content-wrapper">
+    
+    <div class="group-header">OCTOBER 2026</div>
+    
+    <app-leave-history-card
+      iconName="umbrella-outline"
+      iconColorClass="primary"
+      title="Annual Leave"
+      subtitle="Vacation & Rest"
+      status="pending"
+      duration="12 Feb - 15 Feb"
+      totalDays="3 Days">
+    </app-leave-history-card>
+
+    <app-leave-history-card
+      iconName="medkit-outline"
+      iconColorClass="warning"
+      title="Sick Leave"
+      subtitle="Medical reasons"
+      status="approved"
+      duration="02 Feb - 03 Feb"
+      totalDays="1 Day">
+    </app-leave-history-card>
+
+    <div class="group-header">SEPTEMBER 2026</div>
+
+    <app-leave-history-card
+      iconName="umbrella-outline"
+      iconColorClass="primary"
+      title="Vacation Leave"
+      subtitle="Personal trip"
+      status="approved"
+      duration="20 Sep - 25 Sep"
+      totalDays="5 Days">
+    </app-leave-history-card>
+
+    <app-leave-history-card
+      iconName="wallet-outline"
+      iconColorClass="medium"
+      title="Casual Leave"
+      subtitle="Emergency matters"
+      status="rejected"
+      duration="10 Sep 2026"
+      totalDays="1 Day">
+    </app-leave-history-card>
+
+  </div>
+</ion-content>

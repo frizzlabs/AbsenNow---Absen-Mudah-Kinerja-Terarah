@@ -1,0 +1,15 @@
+<div class="request-card">
+  <div class="date-box">
+    <div class="month">{{ month }}</div>
+    <div class="day">{{ day }}</div>
+  </div>
+  
+  <div class="content">
+    <div class="title">{{ title }}</div>
+    <div class="subtitle">{{ subtitle }}</div>
+  </div>
+
+  <div class="status">
+    <app-status-badge [color]="statusColor" [text]="statusText"></app-status-badge>
+  </div>
+</div>

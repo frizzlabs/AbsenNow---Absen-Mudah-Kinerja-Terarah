@@ -1,0 +1,36 @@
+<ion-content class="login-content" [fullscreen]="true">
+  <div class="login-container">
+    
+    <div class="header-section">
+      <div class="logo-wrapper-small">
+        <div class="logo-bg-1"></div>
+        <div class="logo-bg-2"></div>
+        <div class="logo">
+          <span class="logo-text">K</span>
+        </div>
+      </div>
+      
+      <h1 class="text-h4 welcome-title">Welcome back</h1>
+      <p class="text-body-medium-regular welcome-subtitle">Please enter your details to sign in.</p>
+    </div>
+
+    <div class="form-section">
+      <app-input label="Work Email" type="email" placeholder="name@company.com" leftIcon="mail-outline"></app-input>
+
+      <app-input label="Password" type="password" value="••••••••••••••" rightIcon="eye-outline"></app-input>
+      
+      <div class="forgot-password">
+        <a routerLink="/auth/forgot-password/email" class="text-body-small-semibold" style="cursor: pointer;">Forgot password?</a>
+      </div>
+
+      <app-button variant="primary" (onClick)="signIn()" style="margin-bottom: 24px; display: block;">Sign In</app-button>
+      
+      <div class="divider">
+        <span class="text-body-small-regular">Or continue with</span>
+      </div>
+
+      <app-button variant="outline" icon="business-outline">Sign in with SSO</app-button>
+    </div>
+    
+  </div>
+</ion-content>

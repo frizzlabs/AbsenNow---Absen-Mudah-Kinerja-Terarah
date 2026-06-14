@@ -1,0 +1,159 @@
+.modal-wrapper {
+  background: white;
+  border-radius: 24px 24px 0 0;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.drag-handle {
+  width: 48px;
+  height: 4px;
+  background: #E4E7EC;
+  border-radius: 4px;
+  margin: 12px auto 8px;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 24px 16px;
+  
+  h2 {
+    margin: 0;
+    color: var(--ion-color-tertiary);
+  }
+  
+  .close-btn {
+    font-size: 24px;
+    color: #667085;
+    cursor: pointer;
+  }
+}
+
+.divider {
+  height: 1px;
+  background: #EAECF0;
+  width: 100%;
+}
+
+.modal-content {
+  padding: 0 24px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.filter-section {
+  padding: 24px 0;
+  
+  h3 {
+    margin: 0 0 16px;
+    color: var(--ion-color-tertiary);
+  }
+}
+
+.date-row {
+  display: flex;
+  gap: 16px;
+  
+  .date-input-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    
+    label {
+      color: var(--ion-color-tertiary);
+    }
+    
+    .input-box {
+      border: 1px solid #D0D5DD;
+      border-radius: 8px;
+      padding: 12px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--ion-color-tertiary);
+      font-size: 16px;
+      
+      ion-icon {
+        color: #667085;
+        font-size: 20px;
+      }
+    }
+  }
+}
+
+.pill-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  
+  &.grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.pill {
+  padding: 8px 16px;
+  border-radius: 100px;
+  background: #F2F4F7;
+  color: #475467;
+  font-size: 14px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  
+  &.active {
+    background: var(--ion-color-primary);
+    color: white;
+  }
+  
+  ion-icon {
+    font-size: 16px;
+  }
+}
+
+.pill-large {
+  padding: 12px;
+  border-radius: 12px;
+  background: #F9FAFB;
+  border: 1px solid transparent;
+  color: #475467;
+  font-size: 14px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  
+  &.active {
+    background: #EFF4FF;
+    border-color: #B2CCFF;
+    color: var(--ion-color-primary);
+    
+    ion-icon {
+      color: var(--ion-color-primary);
+    }
+  }
+  
+  ion-icon {
+    font-size: 20px;
+    color: #667085;
+  }
+}
+
+.modal-footer {
+  padding: 24px;
+  background: white;
+  
+  ::ng-deep .w-full {
+    width: 100%;
+    display: block;
+  }
+}

@@ -1,0 +1,66 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back-outline" color="dark"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>When do you want to take<br/>leave?</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="light">
+  <app-leave-stepper [currentStep]="2" [totalSteps]="6" rightText="Request Leave"></app-leave-stepper>
+
+  <div class="content-wrapper">
+    <h1 class="page-title">When do you want to take<br/>leave?</h1>
+
+    <div class="calendar-card">
+      <div class="calendar-header">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+        <div class="month-year">February 2026</div>
+        <ion-icon name="chevron-forward-outline"></ion-icon>
+      </div>
+
+      <div class="calendar-grid">
+        <div class="day-name" *ngFor="let day of daysOfWeek">{{ day }}</div>
+        
+        <div class="day-cell" *ngFor="let d of calendarDays"
+             [class.not-current]="!d.isCurrentMonth"
+             [class.selected]="d.isSelected"
+             [class.range]="d.isRange">
+          <div class="day-inner">{{ d.date }}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="range-card">
+      <div class="icon-box">
+        <ion-icon name="calendar-outline"></ion-icon>
+      </div>
+      <div class="range-content">
+        <div class="range-label">Selected Range</div>
+        <div class="range-value">Mon, Feb 12 &mdash; Wed, Feb 14</div>
+      </div>
+    </div>
+
+  </div>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <div class="footer-pad">
+    <div class="footer-info">
+      <div class="info-col">
+        <div class="info-label">Total Requested</div>
+        <div class="info-value">3 Days</div>
+      </div>
+      <div class="info-col right">
+        <div class="info-label">Balance After</div>
+        <div class="info-value">9 Days</div>
+      </div>
+    </div>
+    <ion-button expand="block" shape="round" color="primary" class="continue-btn" (click)="continue()">
+      Continue
+    </ion-button>
+  </div>
+</ion-footer>

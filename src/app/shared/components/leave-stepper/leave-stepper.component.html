@@ -1,0 +1,9 @@
+<div class="stepper-container">
+  <div class="stepper-header">
+    <span class="step-text">Step {{ currentStep }} of {{ totalSteps }}</span>
+    <span class="right-text">{{ rightText }}</span>
+  </div>
+  <div class="progress-bar-bg">
+    <div class="progress-bar-fill" [style.width.%]="progressPercentage"></div>
+  </div>
+</div>

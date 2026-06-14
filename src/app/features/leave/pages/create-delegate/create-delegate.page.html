@@ -1,0 +1,53 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back-outline" color="dark"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Who is your backup?</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="light">
+  <app-leave-stepper [currentStep]="3" [totalSteps]="6" rightText="Request Leave"></app-leave-stepper>
+
+  <div class="content-wrapper">
+    <h1 class="page-title">Who is your backup?</h1>
+    <p class="page-description">Choose a colleague to handle your tasks while you are away. This step is optional.</p>
+
+    <div class="toggle-card">
+      <div class="toggle-content">
+        <div class="toggle-title">I don't need a delegate</div>
+        <div class="toggle-subtitle">Skip this step</div>
+      </div>
+      <ion-toggle [(ngModel)]="skipDelegate" color="primary"></ion-toggle>
+    </div>
+
+    <div class="section-title">Suggested Colleagues</div>
+
+    <div class="search-bar">
+      <ion-icon name="search-outline"></ion-icon>
+      <input type="text" placeholder="Search activities or projects..." />
+    </div>
+
+    <div class="delegates-list" [class.disabled]="skipDelegate">
+      <app-leave-radio-card *ngFor="let d of delegates"
+        [avatarUrl]="d.avatar"
+        [avatarStatusColor]="d.status"
+        [title]="d.name"
+        [subtitle]="d.role"
+        [selected]="selectedDelegate === d.id && !skipDelegate"
+        (cardSelect)="selectDelegate(d.id)">
+      </app-leave-radio-card>
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <div class="footer-pad">
+    <ion-button expand="block" shape="round" color="primary" class="continue-btn" (click)="continue()">
+      Continue
+    </ion-button>
+  </div>
+</ion-footer>

@@ -1,0 +1,24 @@
+<div class="bottom-nav">
+  <div class="nav-item" [class.active]="activeTab === 'home'" routerLink="/home">
+    <ion-icon name="home-outline"></ion-icon>
+    <span>{{ 'bottomNav.home' | translate }}</span>
+  </div>
+  <div class="nav-item" [class.active]="activeTab === 'activity'" routerLink="/activity">
+    <ion-icon name="time-outline"></ion-icon>
+    <span>{{ 'bottomNav.activity' | translate }}</span>
+  </div>
+  <div class="fab-wrapper" routerLink="/ai-chat">
+    <div class="fab-bg"></div>
+    <div class="fab">
+      <span class="fab-k">K</span>
+    </div>
+  </div>
+  <div class="nav-item" [class.active]="activeTab === 'finance'" routerLink="/expense">
+    <ion-icon name="wallet-outline"></ion-icon>
+    <span>{{ 'bottomNav.finance' | translate }}</span>
+  </div>
+  <div class="nav-item" [class.active]="activeTab === 'notification'" routerLink="/notification">
+    <ion-icon name="notifications-outline"></ion-icon>
+    <span>{{ 'bottomNav.notification' | translate }}</span>
+  </div>
+</div>

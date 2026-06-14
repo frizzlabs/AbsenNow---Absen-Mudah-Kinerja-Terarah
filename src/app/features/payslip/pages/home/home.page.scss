@@ -1,0 +1,155 @@
+ion-toolbar {
+  --background: #f8f9fa;
+}
+
+ion-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ion-color-tertiary);
+}
+
+ion-content {
+  --background: #f8f9fa;
+}
+
+.content-wrapper {
+  padding: 16px;
+}
+
+.latest-card {
+  background: var(--ion-color-primary);
+  border-radius: 16px;
+  padding: 24px;
+  color: white;
+  margin-bottom: 32px;
+  box-shadow: 0 8px 24px rgba(28, 100, 242, 0.2);
+
+  .latest-label {
+    font-size: 12px;
+    opacity: 0.8;
+    margin-bottom: 8px;
+  }
+
+  .latest-period {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .latest-amount-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .amount {
+      font-size: 28px;
+      font-weight: 700;
+    }
+
+    .paid-badge {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: white;
+      color: var(--ion-color-primary);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+
+      ion-icon {
+        font-size: 14px;
+      }
+    }
+  }
+}
+
+.section-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ion-color-medium);
+  margin-bottom: 16px;
+  letter-spacing: 0.5px;
+}
+
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.history-card {
+  background: white;
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+
+  .icon-container {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    ion-icon {
+      font-size: 24px;
+    }
+
+    &.primary-light {
+      background: rgba(28, 100, 242, 0.1);
+    }
+
+    &.warning-light {
+      background: rgba(255, 171, 0, 0.1);
+    }
+  }
+
+  .card-content {
+    flex: 1;
+
+    .title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+
+      .month {
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--ion-color-tertiary);
+      }
+
+      .amount {
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--ion-color-tertiary);
+      }
+    }
+
+    .subtitle-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .paid-date {
+        font-size: 13px;
+        color: var(--ion-color-medium);
+      }
+
+      .status-text {
+        font-size: 12px;
+        font-weight: 500;
+
+        &.success {
+          color: var(--ion-color-success);
+        }
+      }
+    }
+  }
+}

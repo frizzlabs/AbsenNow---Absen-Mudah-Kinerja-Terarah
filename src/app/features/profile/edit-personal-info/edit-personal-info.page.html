@@ -1,0 +1,97 @@
+<ion-content [fullscreen]="true" class="bg-light">
+  <app-page-header title="Edit Personal Information"></app-page-header>
+  
+  <div class="page-container">
+    
+    <app-section-card iconName="person-outline" title="Basic Information" badgeText="Read-only">
+      <div class="photo-row">
+        <div class="avatar-small">
+          <img src="assets/images/avatar-placeholder.png" alt="Profile Photo">
+        </div>
+        <div class="upload-link">
+          <ion-icon name="push-outline"></ion-icon>
+          <span>Upload Photo</span>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label>Full Name</label>
+        <app-input placeholder="Full Name" [value]="'Sarah Miller'" class="disabled"></app-input>
+      </div>
+      
+      <div class="form-row-2col">
+        <div class="form-group">
+          <label>Date of Birth</label>
+          <app-input placeholder="Date of Birth" [value]="'14 Oct 1992'" class="disabled"></app-input>
+        </div>
+        <div class="form-group">
+          <label>Gender</label>
+          <app-input placeholder="Gender" [value]="'Male'" class="disabled"></app-input>
+        </div>
+      </div>
+    </app-section-card>
+    
+    <app-section-card iconName="call-outline" title="Contact Information">
+      <div class="form-group">
+        <label>Phone Number</label>
+        <div class="phone-input-group">
+          <div class="country-code">
+            <span class="flag">🇺🇸</span>
+            <span class="code">+1</span>
+            <ion-icon name="chevron-down-outline"></ion-icon>
+          </div>
+          <input type="tel" value="(555) 123-4567" class="phone-input">
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label>Personal Email</label>
+        <app-input placeholder="Personal Email" [value]="'sarah@karajo.app'"></app-input>
+      </div>
+      
+      <div class="form-group">
+        <label>Residential Address</label>
+        <div class="textarea-box">
+          <textarea rows="3">42 Innovation Drive, Apt 304&#10;San Francisco, CA 94107</textarea>
+          <div class="textarea-footer">
+            <span class="char-count">50/200</span>
+            <ion-icon name="resize-outline" class="resize-icon"></ion-icon>
+          </div>
+        </div>
+      </div>
+    </app-section-card>
+    
+    <app-section-card iconName="medkit-outline" title="Emergency Contact">
+      <div class="form-group">
+        <label>Contact Name</label>
+        <app-input placeholder="Contact Name" [value]="'Hanna Jenkins'"></app-input>
+      </div>
+      
+      <div class="form-group">
+        <label>Relationship</label>
+        <div class="select-box">
+          <span class="value">Spouse</span>
+          <ion-icon name="chevron-down-outline" class="chevron"></ion-icon>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label>Phone Number</label>
+        <div class="phone-input-group">
+          <div class="country-code">
+            <span class="flag">🇺🇸</span>
+            <span class="code">+1</span>
+            <ion-icon name="chevron-down-outline"></ion-icon>
+          </div>
+          <input type="tel" value="(555) 987-6543" class="phone-input">
+        </div>
+      </div>
+    </app-section-card>
+
+  </div>
+  
+  <div class="fixed-bottom">
+    <app-button variant="primary" styleClass="w-full mb-12" routerLink="/profile/personal-info">Save Changes</app-button>
+    <app-button variant="outline" styleClass="w-full" routerLink="/profile/personal-info">Cancel</app-button>
+  </div>
+</ion-content>

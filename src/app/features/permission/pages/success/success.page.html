@@ -1,0 +1,63 @@
+<ion-content class="ion-padding">
+  <div class="success-container">
+    <div class="success-icon-wrapper">
+      <div class="success-icon-bg"></div>
+      <div class="success-icon">
+        <ion-icon name="checkmark-outline"></ion-icon>
+      </div>
+    </div>
+
+    <h1 class="success-title">Permission Request Submitted</h1>
+    <p class="success-message">
+      Your manager has been notified.<br>
+      Request ID: #KRJ-2023-889
+    </p>
+
+    <div class="details-card">
+      <div class="detail-row">
+        <div class="icon-box primary-light">
+          <ion-icon name="calendar-outline" color="primary"></ion-icon>
+        </div>
+        <div class="detail-content">
+          <div class="label">Date</div>
+          <div class="value">Fri 20, Feb</div>
+        </div>
+      </div>
+      
+      <div class="divider"></div>
+
+      <div class="detail-row">
+        <div class="icon-box primary-light">
+          <ion-icon name="time-outline" color="primary"></ion-icon>
+        </div>
+        <div class="detail-content">
+          <div class="label">Time</div>
+          <div class="value">09:00 AM - 10:30 AM</div>
+        </div>
+      </div>
+      
+      <div class="divider"></div>
+
+      <div class="detail-row">
+        <div class="icon-box primary-light">
+          <ion-icon name="pie-chart-outline" color="primary"></ion-icon>
+        </div>
+        <div class="detail-content">
+          <div class="label">Total Duration</div>
+          <div class="value">3 Days</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <div class="footer-wrapper">
+    <ion-button expand="block" color="primary" class="primary-btn" (click)="backToPermission()">
+      Back to permission
+    </ion-button>
+    <ion-button expand="block" fill="outline" color="primary" class="outline-btn" (click)="goToApproval()">
+      Go to approval
+    </ion-button>
+  </div>
+</ion-footer>

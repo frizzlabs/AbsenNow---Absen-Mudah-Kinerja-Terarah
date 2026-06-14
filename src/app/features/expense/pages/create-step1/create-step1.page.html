@@ -1,0 +1,43 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back-outline" color="dark"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Create Request</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="light">
+  <app-expense-stepper [currentStep]="1" [totalSteps]="5" title="Expense Request"></app-expense-stepper>
+
+  <div class="content-wrapper">
+    <h1 class="page-title">What type of expense is this?</h1>
+    <div class="section-subtitle">SELECT CATEGORY</div>
+
+    <div class="category-list">
+      <label class="category-card" 
+             *ngFor="let cat of categories" 
+             [class.selected]="selectedCategory === cat.id">
+        <div class="card-left">
+          <div class="icon-wrapper">
+            <ion-icon [name]="cat.icon"></ion-icon>
+          </div>
+          <div class="category-name">{{ cat.name }}</div>
+        </div>
+        
+        <input type="radio" name="category" [value]="cat.id" [(ngModel)]="selectedCategory">
+        <div class="custom-radio"></div>
+      </label>
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <div class="footer-pad">
+    <ion-button expand="block" shape="round" color="primary" class="continue-btn" (click)="next()">
+      Continue
+    </ion-button>
+  </div>
+</ion-footer>

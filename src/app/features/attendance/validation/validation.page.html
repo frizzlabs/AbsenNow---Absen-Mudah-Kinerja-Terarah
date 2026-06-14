@@ -1,0 +1,51 @@
+<ion-content [fullscreen]="true">
+  <div class="map-view">
+    <div class="map-bg"></div>
+  </div>
+
+  <div class="bottom-sheet">
+    <div class="drag-handle"></div>
+    
+    <div class="status-header">
+      <div class="success-icon bg-green-light text-green">
+        <ion-icon name="checkmark-outline"></ion-icon>
+      </div>
+      <div class="status-text">
+        <h3 class="text-h4">Location Verified</h3>
+        <p class="text-body-medium-regular text-medium">You are within the office radius</p>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="info-list">
+      <div class="info-item">
+        <div class="icon-box">
+          <ion-icon name="location-outline"></ion-icon>
+        </div>
+        <div class="info-content">
+          <h4 class="text-body-medium-semibold">Karajo HQ - Tech Park</h4>
+          <p class="text-body-small-regular text-medium">123 Innovation Dr, Tech Park, Suite 400</p>
+        </div>
+      </div>
+      
+      <div class="info-item">
+        <div class="icon-box">
+          <ion-icon name="time-outline"></ion-icon>
+        </div>
+        <div class="info-content">
+          <h4 class="text-body-medium-semibold">08:58 AM</h4>
+          <p class="text-body-small-regular text-medium">On Time • Shift starts at 09:00 AM</p>
+        </div>
+      </div>
+    </div>
+
+    <app-button variant="primary" icon="arrow-forward-outline" iconPosition="right" class="check-in-btn" routerLink="/attendance/face-validation">
+      {{ isCheckingOut ? 'Check Out Now' : 'Check In Now' }}
+    </app-button>
+    
+    <p class="text-center text-body-small-regular text-medium gps-text">
+      GPS accuracy: <span class="text-green">High (5m)</span>
+    </p>
+  </div>
+</ion-content>

@@ -1,0 +1,43 @@
+<ion-content [fullscreen]="true" class="bg-light">
+  <app-page-header title="Identity Verification"></app-page-header>
+  
+  <div class="page-container">
+    
+    <app-verification-status 
+      status="required" 
+      title="Verification Required" 
+      description="Your identity needs to be verified to complete your profile and access all features.">
+    </app-verification-status>
+    
+    <app-section-card iconName="card-outline" title="Identity Information" badgeText="Read-only">
+      <div class="form-group">
+        <label>ID Type</label>
+        <div class="disabled-box">-</div>
+      </div>
+      
+      <div class="form-group">
+        <label>ID Number</label>
+        <div class="disabled-box">-</div>
+      </div>
+      
+      <div class="form-row-2col">
+        <div class="form-group">
+          <label>Expiry Date</label>
+          <div class="disabled-box">-</div>
+        </div>
+        <div class="form-group">
+          <label>Last Updated</label>
+          <div class="disabled-box">-</div>
+        </div>
+      </div>
+    </app-section-card>
+
+  </div>
+  
+  <div class="fixed-bottom">
+    <app-button variant="primary" styleClass="w-full" routerLink="/profile/identity/form">
+      <ion-icon name="shield-checkmark-outline" slot="start" style="margin-right: 8px; font-size: 20px;"></ion-icon>
+      Verify Identity
+    </app-button>
+  </div>
+</ion-content>

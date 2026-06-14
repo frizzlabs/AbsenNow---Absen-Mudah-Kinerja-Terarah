@@ -1,0 +1,64 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home" text="" icon="chevron-back-outline" class="back-btn-circle"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ai-chat-content" [fullscreen]="true">
+  
+  <div class="center-content">
+    <div class="logo-area">
+      <div class="logo-wrapper">
+        <div class="logo-icon">
+          <span class="k-letter">K</span>
+        </div>
+        <span class="logo-text">KarajoAI</span>
+      </div>
+      <h2 class="subtitle">How can I help you today?</h2>
+    </div>
+  </div>
+
+  <div class="suggestions-area">
+    
+    <!-- Top row: heavily faded background chips -->
+    <div class="faded-suggestions-top">
+      <div class="suggestion-chip">
+        <ion-icon name="document-text-outline" class="text-blue"></ion-icon>
+        <span>2023 Tax docs</span>
+      </div>
+      <div class="suggestion-chip">
+        <ion-icon name="laptop-outline" class="text-blue"></ion-icon>
+        <span>Remote policy</span>
+      </div>
+    </div>
+    <!-- Bottom row: fully visible chips -->
+    <div class="visible-suggestions-bottom">
+      <div class="suggestion-chip">
+        <ion-icon name="shield" class="text-blue"></ion-icon>
+        <span>Insurance details</span>
+      </div>
+      <div class="suggestion-chip">
+        <ion-icon name="calendar-outline" class="text-blue"></ion-icon>
+        <span>Holiday calendar</span>
+      </div>
+    </div>
+    
+    <div class="more-overlay">
+      <button class="expand-btn" routerLink="/ai-chat/expanded">
+        <ion-icon name="arrow-up-outline"></ion-icon>
+      </button>
+      <div class="more-pill">More Suggestions</div>
+    </div>
+
+  </div>
+
+  <div class="input-area">
+    <div class="chat-input-wrapper">
+      <ion-icon name="sparkles" class="sparkle-icon"></ion-icon>
+      <input type="text" placeholder="Ask me about work..." readonly routerLink="/ai-chat/expanded" />
+    </div>
+  </div>
+
+</ion-content>

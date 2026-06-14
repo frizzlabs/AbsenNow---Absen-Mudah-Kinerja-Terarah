@@ -1,0 +1,72 @@
+<div class="sheet-container">
+  <div class="drag-indicator-container">
+    <div class="drag-indicator"></div>
+  </div>
+
+  <div class="sheet-header">
+    <div class="title">Filter Activities</div>
+    <ion-button fill="clear" color="medium" class="close-btn" (click)="close()">
+      <ion-icon name="close-outline"></ion-icon>
+    </ion-button>
+  </div>
+
+  <div class="sheet-content">
+    <!-- Category -->
+    <div class="filter-section">
+      <div class="section-header">
+        <div class="label">Category</div>
+        <div class="action-btn">Select All</div>
+      </div>
+      <div class="pill-group">
+        <div class="filter-pill active">
+          <ion-icon name="code-slash-outline"></ion-icon>
+          Development
+        </div>
+        <div class="filter-pill">
+          <ion-icon name="people-outline"></ion-icon>
+          Meeting
+        </div>
+        <div class="filter-pill">
+          <ion-icon name="document-text-outline"></ion-icon>
+          Admin
+        </div>
+        <div class="filter-pill">
+          <ion-icon name="color-palette-outline"></ion-icon>
+          Design
+        </div>
+        <div class="filter-pill">
+          <ion-icon name="search-outline"></ion-icon>
+          QA
+        </div>
+      </div>
+    </div>
+
+    <!-- Project or Client -->
+    <div class="filter-section">
+      <div class="section-header">
+        <div class="label">Project or Client</div>
+      </div>
+      <div class="custom-select">
+        <span>Dirga Corp - Mobile App Redesign</span>
+        <ion-icon name="chevron-down-outline" color="medium"></ion-icon>
+      </div>
+    </div>
+
+    <!-- Status -->
+    <div class="filter-section">
+      <div class="section-header">
+        <div class="label">Status</div>
+      </div>
+      <div class="segment-pill">
+        <div class="segment-btn">All</div>
+        <div class="segment-btn active">Completed</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sheet-footer">
+    <ion-button expand="block" color="primary" class="apply-btn" (click)="applyFilters()">
+      Apply Filters (3)
+    </ion-button>
+  </div>
+</div>

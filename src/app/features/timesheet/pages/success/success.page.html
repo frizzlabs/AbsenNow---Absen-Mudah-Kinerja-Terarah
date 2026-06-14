@@ -1,0 +1,39 @@
+<ion-content class="ion-padding">
+  <div class="success-container">
+    <div class="success-icon-wrapper">
+      <div class="success-icon-bg"></div>
+      <div class="success-icon">
+        <ion-icon name="checkmark-outline"></ion-icon>
+      </div>
+    </div>
+
+    <h1 class="success-title">Timesheet Submitted Successfully</h1>
+    <p class="success-message">
+      Your timesheet for <strong>Feb 22 - Feb 28</strong> has been forwarded for approval.
+    </p>
+
+    <div class="hours-card">
+      <div class="card-label">Total Hours Recorded</div>
+      <div class="card-value">
+        <span class="big-num">40:00</span>
+        <span class="unit">hrs</span>
+      </div>
+    </div>
+
+    <div class="status-badge pending">
+      <div class="dot warning"></div>
+      Pending Approval
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <div class="footer-wrapper">
+    <ion-button expand="block" color="primary" class="primary-btn" (click)="backToActivity()">
+      Back to Activity
+    </ion-button>
+    <ion-button expand="block" fill="outline" color="primary" class="outline-btn" (click)="goToApproval()">
+      Go to approval
+    </ion-button>
+  </div>
+</ion-footer>

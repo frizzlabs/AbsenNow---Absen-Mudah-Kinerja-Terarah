@@ -1,0 +1,20 @@
+.header {
+  display: flex;
+  align-items: center;
+  padding: 16px 0 24px;
+  background: transparent;
+  
+  .back-btn {
+    font-size: 24px;
+    color: var(--ion-color-tertiary);
+    cursor: pointer;
+  }
+  
+  .header-title {
+    margin-left: 16px;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ion-color-tertiary);
+    flex: 1;
+  }
+}

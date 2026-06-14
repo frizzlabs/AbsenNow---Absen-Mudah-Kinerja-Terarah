@@ -1,0 +1,47 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back-outline" color="dark"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Expense Overview</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="light" class="ion-padding">
+  
+  <app-expense-stat-card
+    [totalAmount]="1250.00"
+    [growthPercentage]="12"
+    [pendingAmount]="450.00"
+    [approvedAmount]="800.00">
+  </app-expense-stat-card>
+
+  <div class="section-header">
+    <h2 class="section-title">Current Requests</h2>
+    <div class="view-all" (click)="goToHistory()">View History</div>
+  </div>
+
+  <div class="requests-list">
+    <app-expense-card
+      *ngFor="let req of currentRequests"
+      [title]="req.title"
+      [category]="req.category"
+      [date]="req.date"
+      [amount]="req.amount"
+      [status]="req.status"
+      [icon]="req.icon"
+      [iconColor]="req.iconColor">
+    </app-expense-card>
+  </div>
+
+  <div class="bottom-spacer"></div>
+</ion-content>
+
+<div class="floating-btn-container">
+  <ion-button expand="block" shape="round" color="primary" class="create-btn" (click)="goToCreate()">
+    <ion-icon name="add-outline" slot="start"></ion-icon>
+    Create Expense Request
+  </ion-button>
+</div>

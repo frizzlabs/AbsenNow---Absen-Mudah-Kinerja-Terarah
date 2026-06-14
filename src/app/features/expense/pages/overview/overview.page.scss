@@ -1,0 +1,50 @@
+ion-toolbar {
+  --background: #f4f5f8; /* matches light background */
+}
+
+ion-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--ion-color-tertiary);
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+
+  .section-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--ion-color-tertiary);
+    margin: 0;
+  }
+
+  .view-all {
+    font-size: 14px;
+    color: var(--ion-color-primary);
+    font-weight: 500;
+  }
+}
+
+.bottom-spacer {
+  height: 80px; /* space for the floating button */
+}
+
+.floating-btn-container {
+  position: absolute;
+  bottom: 24px;
+  left: 24px;
+  right: 24px;
+  z-index: 10;
+
+  .create-btn {
+    --padding-top: 16px;
+    --padding-bottom: 16px;
+    margin: 0;
+    font-weight: 600;
+    letter-spacing: 0;
+    --border-radius: 12px;
+  }
+}

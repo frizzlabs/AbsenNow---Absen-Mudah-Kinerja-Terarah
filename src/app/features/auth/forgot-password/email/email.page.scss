@@ -1,0 +1,22 @@
+ion-content {
+  --background: #ffffff;
+}
+.page-container {
+  padding: 0 var(--spacing-4);
+}
+.auth-text {
+  margin-bottom: 32px;
+  h2 { margin: 0 0 12px; }
+  p { margin: 0; line-height: 1.5; padding: 0 16px; }
+}
+.w-full { display: block; width: 100%; margin-top: 32px; }
+.bottom-link {
+  position: absolute;
+  bottom: 32px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  p { margin: 0; }
+  a { text-decoration: none; }
+  .font-semibold { font-weight: 600; }
+}

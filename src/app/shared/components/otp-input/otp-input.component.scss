@@ -1,0 +1,31 @@
+.otp-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  margin: 24px 0;
+  
+  .otp-box {
+    flex: 1;
+    aspect-ratio: 0.8;
+    max-height: 60px;
+    border: 1px solid #EAECF0;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--ion-color-dark);
+    background: white;
+    
+    &.active {
+      border: 2px solid var(--ion-color-primary);
+      box-shadow: 0 0 0 4px rgba(27, 89, 248, 0.1);
+    }
+    
+    &.filled {
+      border: 1px solid var(--ion-color-primary);
+    }
+  }
+}

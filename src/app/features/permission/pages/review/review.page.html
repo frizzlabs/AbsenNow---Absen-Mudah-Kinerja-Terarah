@@ -1,0 +1,75 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back-outline" color="dark"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Request Permission</ion-title>
+  </ion-toolbar>
+
+  <div class="progress-container">
+    <div class="progress-labels">
+      <span class="step-label">Step 1 of 3</span>
+      <span class="title-label">Request Permission</span>
+    </div>
+    <div class="progress-bar-bg">
+      <div class="progress-bar-fill" style="width: 66%"></div>
+    </div>
+  </div>
+</ion-header>
+
+<ion-content>
+  <div class="content-wrapper">
+    <h2 class="page-heading">Fri 20, Feb</h2>
+    <p class="summary-text">
+      Review the details of your request.
+    </p>
+
+    <!-- Time Window Card -->
+    <div class="info-card outline">
+      <div class="card-header">TIME WINDOW</div>
+      <div class="time-content">
+        <div class="time-block">
+          <div class="time-label">Start</div>
+          <div class="time-value">09:00 AM</div>
+        </div>
+        <div class="time-divider"></div>
+        <div class="time-block end">
+          <div class="time-label">End</div>
+          <div class="time-value">10:30 AM</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title">REASON</div>
+    <p class="reason-text">
+      Medical appointment at City Hospital for an annual check-up. Will be back before lunch break.
+    </p>
+
+    <div class="section-title">ATTACHMENTS</div>
+    <div class="attachment-card">
+      <div class="icon-circle danger-light">
+        <ion-icon name="document-text-outline" color="danger"></ion-icon>
+      </div>
+      <div class="attachment-content">
+        <div class="filename">medical_cert.pdf</div>
+        <div class="filesize">1.2 MB • PDF</div>
+      </div>
+      <ion-icon name="eye-outline" class="view-icon"></ion-icon>
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <div class="footer-wrapper">
+    <div class="checkbox-container">
+      <ion-checkbox></ion-checkbox>
+      <div class="checkbox-label">I confirm these entries are accurate and comply with company policy.</div>
+    </div>
+    <ion-button expand="block" shape="round" color="primary" (click)="submitRequest()">
+      <ion-icon name="send-outline" slot="start"></ion-icon>
+      Submit request
+    </ion-button>
+  </div>
+</ion-footer>

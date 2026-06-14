@@ -1,0 +1,6 @@
+.auth-text {
+  margin-bottom: var(--spacing-8);
+  h2 { margin: 0 0 var(--spacing-3); color: var(--ion-color-dark); }
+  p { margin: 0; line-height: 1.5; padding: 0 var(--spacing-4); }
+  ::ng-deep .font-medium { font-weight: 600; color: var(--ion-color-dark); }
+}

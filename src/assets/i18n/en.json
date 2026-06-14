@@ -1,0 +1,47 @@
+{
+  "profile": {
+    "title": "Profile",
+    "personalInformation": "Personal Information",
+    "personalSubtitle": "Contact details, address, and emergency",
+    "identityVerification": "Identity Verification",
+    "identitySubtitle": "Passport, ID card, tax information",
+    "employmentInformation": "Employment Information",
+    "employmentSubtitle": "Position, department, employment details",
+    "languageSettings": "Language Settings",
+    "languageSubtitle": "Change application language",
+    "language": {
+      "title": "Language"
+    }
+  },
+  "home": {
+    "goodMorning": "Good Morning,",
+    "goodEvening": "Good Evening,",
+    "currentLocation": "Current Location:",
+    "currentTime": "CURRENT TIME",
+    "workingHours": "WORKING HOURS",
+    "checkIn": "Check In",
+    "checkOut": "Check Out",
+    "leave": "Leave",
+    "overtime": "Overtime",
+    "timesheet": "Timesheet",
+    "activity": "Activity",
+    "permission": "Permission"
+  },
+  "bottomNav": {
+    "home": "Home",
+    "activity": "Activity",
+    "finance": "Finance",
+    "notification": "Notification"
+  },
+  "activity": {
+    "title": "Activity",
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "monthly": "Monthly"
+  },
+  "timesheet": {
+    "submitTimesheet": "Submit Timesheet",
+    "approvalStatus": "Approval Status",
+    "revisionRequested": "Revision Requested"
+  }
+}

@@ -1,0 +1,117 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back-outline" color="dark"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Overtime</ion-title>
+  </ion-toolbar>
+
+  <div class="custom-segment-container">
+    <div class="segment-item" [class.active]="selectedSegment === 'all'" (click)="selectedSegment = 'all'">All</div>
+    <div class="segment-item" [class.active]="selectedSegment === 'pending'" (click)="selectedSegment = 'pending'">Pending</div>
+    <div class="segment-item" [class.active]="selectedSegment === 'approved'" (click)="selectedSegment = 'approved'">Approved</div>
+    <div class="segment-item" [class.active]="selectedSegment === 'rejected'" (click)="selectedSegment = 'rejected'">Rejected</div>
+  </div>
+</ion-header>
+
+<ion-content>
+  <div class="content-wrapper">
+    <!-- Stat Card -->
+    <div class="stat-card">
+      <div class="stat-label">Total Approved OT (Feb 2026)</div>
+      <div class="stat-value-container">
+        <span class="value">12.5</span>
+        <span class="unit">Hours</span>
+      </div>
+      <div class="stat-trend">
+        <ion-icon name="trending-up-outline"></ion-icon>
+        <span>15% more than last month</span>
+      </div>
+    </div>
+
+    <!-- Group: October 2023 -->
+    <div class="group-title">October 2023</div>
+    
+    <div class="list-item">
+      <div class="item-header">
+        <div class="date-title">
+          <div class="date">Monday, Oct 24</div>
+          <div class="subtitle">Quarterly Report Prep</div>
+        </div>
+        <div class="status-badge pending">Pending</div>
+      </div>
+      <div class="item-footer">
+        <div class="time-range">
+          <ion-icon name="time-outline"></ion-icon>
+          <span>18:00 - 21:00</span>
+        </div>
+        <div class="duration">3h 0m</div>
+      </div>
+    </div>
+
+    <div class="list-item">
+      <div class="item-header">
+        <div class="date-title">
+          <div class="date">Thursday, Oct 22</div>
+          <div class="subtitle">Server Migration Support</div>
+        </div>
+        <div class="status-badge approved">Approved</div>
+      </div>
+      <div class="item-footer">
+        <div class="time-range">
+          <ion-icon name="time-outline"></ion-icon>
+          <span>17:30 - 20:30</span>
+        </div>
+        <div class="duration">3h 0m</div>
+      </div>
+    </div>
+
+    <div class="list-item">
+      <div class="item-header">
+        <div class="date-title">
+          <div class="date">Tuesday, Oct 18</div>
+          <div class="subtitle">Inventory Stock Audit</div>
+        </div>
+        <div class="status-badge approved">Approved</div>
+      </div>
+      <div class="item-footer">
+        <div class="time-range">
+          <ion-icon name="time-outline"></ion-icon>
+          <span>18:00 - 22:30</span>
+        </div>
+        <div class="duration">4h 30m</div>
+      </div>
+    </div>
+
+    <!-- Group: September 2023 -->
+    <div class="group-title">September 2023</div>
+
+    <div class="list-item">
+      <div class="item-header">
+        <div class="date-title">
+          <div class="date">Friday, Sep 29</div>
+          <div class="subtitle">Personal Projects (Unauthorized)</div>
+        </div>
+        <div class="status-badge rejected">Rejected</div>
+      </div>
+      <div class="item-footer">
+        <div class="time-range disabled">
+          <ion-icon name="time-outline"></ion-icon>
+          <span>19:00 - 21:00</span>
+        </div>
+        <div class="duration disabled">2h 0m</div>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <div class="footer-wrapper">
+    <ion-button expand="block" shape="round" color="primary" (click)="requestOvertime()">
+      <ion-icon name="add-outline" slot="start"></ion-icon>
+      Request overtime
+    </ion-button>
+  </div>
+</ion-footer>

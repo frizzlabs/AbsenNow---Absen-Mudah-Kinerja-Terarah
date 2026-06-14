@@ -1,0 +1,25 @@
+<div class="frame-container" [ngClass]="type">
+  <ng-container *ngIf="type === 'face'">
+    <div class="face-frame-wrapper" [class.success]="success">
+      <div class="face-frame">
+        <img src="assets/images/face-validation-crop.png" alt="Face" />
+        <div class="scanning-line" *ngIf="!success"></div>
+        <div class="success-overlay" *ngIf="success">
+          <ion-icon name="checkmark-circle"></ion-icon>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="type === 'qr'">
+    <div class="qr-frame">
+      <svg class="scanner-corners" width="260" height="260" viewBox="0 0 260 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M60 2H24C11.8497 2 2 11.8497 2 24V60" stroke="var(--ion-color-primary)" stroke-width="4" stroke-linecap="round"/>
+        <path d="M200 2H236C248.15 2 258 11.8497 258 24V60" stroke="var(--ion-color-primary)" stroke-width="4" stroke-linecap="round"/>
+        <path d="M60 258H24C11.8497 258 2 248.15 2 236V200" stroke="var(--ion-color-primary)" stroke-width="4" stroke-linecap="round"/>
+        <path d="M200 258H236C248.15 258 258 248.15 258 236V200" stroke="var(--ion-color-primary)" stroke-width="4" stroke-linecap="round"/>
+      </svg>
+      <ion-icon class="qr-placeholder" name="qr-code" *ngIf="!active"></ion-icon>
+    </div>
+  </ng-container>
+</div>

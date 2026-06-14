@@ -1,0 +1,208 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <div class="header-content">
+      <ion-icon name="chevron-back-outline" class="nav-icon"></ion-icon>
+      <div class="date-range">
+        <div class="dates">{{ dateHeader }}</div>
+        <div class="subtitle">{{ dateSubtitle }}</div>
+      </div>
+      <ion-icon name="chevron-forward-outline" class="nav-icon"></ion-icon>
+    </div>
+  </ion-toolbar>
+
+  <div class="segment-container">
+    <div class="segment-pill">
+      <div class="segment-btn" [class.active]="selectedView === 'daily'" (click)="setView('daily')">{{ 'activity.daily' | translate }}</div>
+      <div class="segment-btn" [class.active]="selectedView === 'weekly'" (click)="setView('weekly')">{{ 'activity.weekly' | translate }}</div>
+      <div class="segment-btn" [class.active]="selectedView === 'monthly'" (click)="setView('monthly')">{{ 'activity.monthly' | translate }}</div>
+    </div>
+  </div>
+</ion-header>
+
+<ion-content>
+  <!-- DAILY VIEW -->
+  <div class="content-wrapper" *ngIf="selectedView === 'daily'">
+    <div class="day-header">
+      <div class="day-label">{{ dateSubtitle }}</div>
+      <div class="day-total">{{ totalDuration }} Total</div>
+    </div>
+
+    <div class="activity-card" *ngFor="let activity of filteredActivities" (click)="viewDetail()">
+      <div class="flex-between mb-3">
+        <div class="activity-title">{{ activity.title }}</div>
+        <div class="activity-hours">{{ formatDuration(activity.durationHours, activity.durationMinutes) }}</div>
+      </div>
+      <div class="activity-project">
+        <div class="dot {{ activity.projectColor }}"></div>
+        {{ activity.project }}
+      </div>
+      <div class="divider"></div>
+      <div class="activity-time">
+        <ion-icon name="time-outline"></ion-icon>
+        {{ activity.timeRange }}
+      </div>
+    </div>
+
+    <div class="empty-state text-center" *ngIf="filteredActivities.length === 0" style="margin-top: 40px;">
+      <p style="color: var(--ion-color-medium);">No activities recorded for this period.</p>
+    </div>
+  </div>
+
+  <!-- WEEKLY VIEW -->
+  <div class="content-wrapper" *ngIf="selectedView === 'weekly'">
+    <div class="summary-card weekly-gradient">
+      <div class="flex-between align-start">
+        <div>
+          <h1 class="text-h1">38h 00m</h1>
+          <span class="text-body-small-regular opacity-80">Total Logged</span>
+        </div>
+        <div class="text-right">
+          <h3 class="text-h3">5 Days</h3>
+          <span class="text-body-small-regular opacity-80">Work week</span>
+        </div>
+      </div>
+      <div class="progress-section mt-4">
+        <div class="flex-between mb-2">
+          <span class="text-body-small-regular text-medium">Weekly Goal</span>
+          <span class="text-body-small-regular text-medium">38h / 40h</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill warning" style="width: 95%;"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-2 mt-3">
+      <div class="stat-card">
+        <div class="flex-align-center text-medium mb-1">
+          <ion-icon name="calendar-outline" class="mr-1"></ion-icon>
+          <span class="text-body-small-semibold">WORK DAYS</span>
+        </div>
+        <h2 class="text-h2">5 Days</h2>
+      </div>
+      <div class="stat-card">
+        <div class="flex-align-center text-medium mb-1">
+          <ion-icon name="time-outline" class="mr-1"></ion-icon>
+          <span class="text-body-small-semibold">AVG DAILY</span>
+        </div>
+        <h2 class="text-h2">8h 30m</h2>
+      </div>
+    </div>
+
+    <div class="stat-card mt-3 overtime-card">
+      <div class="flex-between align-center">
+        <div class="flex-align-center">
+          <div class="icon-circle warning-light text-warning mr-3">
+            <ion-icon name="stopwatch-outline"></ion-icon>
+          </div>
+          <div>
+            <span class="text-body-small-regular text-medium block">Total Overtime</span>
+            <h3 class="text-h3 mt-1">2h 30m</h3>
+          </div>
+        </div>
+        <div class="status-badge pending">
+          <div class="dot"></div>
+          Pending Approval
+        </div>
+      </div>
+    </div>
+
+    <!-- Grouped Activities by Date -->
+    <div class="date-group mt-4" *ngFor="let group of groupedActivities">
+      <div class="day-header">
+        <div class="day-label">{{ group.dateObj | date:'EEEE, MMM d' }}</div>
+        <div class="day-total text-primary">{{ formatDuration(Math.floor(group.totalMins/60), group.totalMins%60) }} Total</div>
+      </div>
+
+      <div class="activity-card" *ngFor="let activity of group.activities" (click)="viewDetail()">
+        <div class="flex-between mb-2">
+          <div class="activity-title">{{ activity.title }}</div>
+          <div class="activity-hours">{{ formatDuration(activity.durationHours, activity.durationMinutes) }}</div>
+        </div>
+        <div class="activity-project">
+          <div class="dot {{ activity.projectColor }}"></div>
+          {{ activity.project }}
+        </div>
+        <div class="divider mt-3 mb-3"></div>
+        <div class="activity-time">
+          <ion-icon name="time-outline"></ion-icon>
+          {{ activity.timeRange }}
+        </div>
+      </div>
+    </div>
+    
+    <!-- Spacing for floating buttons -->
+    <div style="height: 100px;"></div>
+  </div>
+
+  <!-- MONTHLY VIEW -->
+  <div class="content-wrapper" *ngIf="selectedView === 'monthly'">
+    <div class="summary-card monthly-solid">
+      <div class="flex-between align-start">
+        <div>
+          <h1 class="text-h1 text-white">168h 00m</h1>
+          <span class="text-body-small-regular text-white opacity-80">Total Logged</span>
+        </div>
+        <div class="text-right">
+          <h3 class="text-h3 text-white">20 Days</h3>
+          <span class="text-body-small-regular text-white opacity-80">Work month</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-2 mt-3 mb-4">
+      <div class="stat-card">
+        <div class="flex-align-center text-medium mb-1">
+          <ion-icon name="time-outline" class="mr-1 text-primary"></ion-icon>
+          <span class="text-body-small-semibold">Regular</span>
+        </div>
+        <h2 class="text-h2 mt-2">160 hours</h2>
+      </div>
+      <div class="stat-card">
+        <div class="flex-align-center text-medium mb-1">
+          <ion-icon name="stopwatch-outline" class="mr-1 text-warning"></ion-icon>
+          <span class="text-body-small-semibold">Overtime</span>
+        </div>
+        <h2 class="text-h2 mt-2">08 hours</h2>
+      </div>
+    </div>
+
+    <div class="week-card flex-between align-center" *ngFor="let week of weeklyWeeks">
+      <div class="flex-align-center">
+        <div class="date-icon-box">
+          <span class="month-txt">{{ week.label.substring(0,3).toUpperCase() }}</span>
+          <span class="day-txt">{{ week.label.split(' ')[1] }}</span>
+        </div>
+        <div class="ml-3">
+          <h3 class="text-h3">{{ week.label }}</h3>
+          <div class="week-status text-body-small-regular text-medium mt-1">
+            {{ week.weekLabel }} &bull; <span [class]="'text-' + week.statusClass">{{ week.status }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="flex-align-center">
+        <h3 class="text-h3 mr-2">{{ week.hours }}</h3>
+        <ion-icon name="chevron-forward-outline" color="medium"></ion-icon>
+      </div>
+    </div>
+  </div>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" class="custom-fab" *ngIf="selectedView === 'daily'">
+    <ion-fab-button color="primary" (click)="addActivity()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <!-- WEEKLY FLOATING BUTTONS -->
+  <div class="floating-actions" *ngIf="selectedView === 'weekly'">
+    <ion-button class="submit-btn" shape="round" color="primary" (click)="openSubmitModal()">
+      <ion-icon name="send-outline" slot="start"></ion-icon>
+      Submit Timesheet
+    </ion-button>
+    <ion-fab-button color="primary" class="add-btn-small" (click)="addActivity()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </div>
+</ion-content>
+
+<app-bottom-nav></app-bottom-nav>

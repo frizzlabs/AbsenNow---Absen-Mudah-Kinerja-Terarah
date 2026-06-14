@@ -1,0 +1,40 @@
+<ion-content>
+  <div class="px-5">
+    <app-page-header title="KPIs (Q1 2026)"></app-page-header>
+    
+    <div class="pb-24">
+      <!-- Summary Card -->
+      <div class="summary-card mb-4">
+        <div class="summary-item">
+          <span class="summary-label">Total</span>
+          <span class="summary-value text-dark">12</span>
+        </div>
+        <div class="summary-divider"></div>
+        <div class="summary-item">
+          <span class="summary-label text-primary">Completed</span>
+          <span class="summary-value text-success">9</span>
+        </div>
+        <div class="summary-divider"></div>
+        <div class="summary-item">
+          <span class="summary-label text-primary">Rate</span>
+          <span class="summary-value text-primary">75%</span>
+        </div>
+      </div>
+
+      <!-- KPI List -->
+      <div class="kpi-list">
+        <app-kpi-card *ngFor="let kpi of kpis"
+          [status]="kpi.status"
+          [progress]="kpi.progress"
+          [title]="kpi.title"
+          [description]="kpi.description"
+          [target]="kpi.targetText"
+          [current]="kpi.currentText"
+          [link]="kpi.link">
+        </app-kpi-card>
+      </div>
+    </div>
+  </div>
+  
+  <app-bottom-nav></app-bottom-nav>
+</ion-content>

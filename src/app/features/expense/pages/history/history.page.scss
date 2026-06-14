@@ -1,0 +1,120 @@
+ion-toolbar {
+  --background: #f4f5f8;
+}
+
+ion-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--ion-color-dark);
+}
+
+.summary-cards-scroll {
+  display: flex;
+  overflow-x: auto;
+  padding: 16px;
+  gap: 12px;
+  
+  /* hide scrollbar */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  .summary-card {
+    flex-shrink: 0;
+    width: 150px;
+    padding: 16px;
+    border-radius: 12px;
+    background: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+
+    .label {
+      font-size: 12px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      color: var(--ion-color-medium);
+
+      .dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        margin-right: 6px;
+      }
+    }
+
+    .amount-wrap {
+      font-weight: 700;
+      color: var(--ion-color-dark);
+      display: flex;
+      align-items: baseline;
+
+      .amount-main {
+        font-size: 24px;
+      }
+      .amount-cents {
+        font-size: 16px;
+        opacity: 0.7;
+      }
+    }
+
+    &.pending {
+      .dot { background: var(--ion-color-medium); }
+    }
+
+    &.approved {
+      background: var(--ion-color-primary);
+      .label {
+        color: white;
+        .dot { background: white; }
+      }
+      .amount-wrap {
+        color: white;
+        .amount-cents { color: rgba(255, 255, 255, 0.7); }
+      }
+    }
+
+    &.rejected {
+      .dot { background: var(--ion-color-danger); }
+    }
+  }
+}
+
+.lists-container {
+  padding: 0 16px;
+
+  .month-group {
+    margin-bottom: 24px;
+
+    .group-header {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ion-color-medium);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      letter-spacing: 0.5px;
+    }
+  }
+}
+
+.bottom-spacer {
+  height: 80px;
+}
+
+.floating-btn-container {
+  position: absolute;
+  bottom: 24px;
+  left: 24px;
+  right: 24px;
+  z-index: 10;
+
+  .create-btn {
+    --padding-top: 16px;
+    --padding-bottom: 16px;
+    margin: 0;
+    font-weight: 600;
+    letter-spacing: 0;
+    --border-radius: 12px;
+  }
+}

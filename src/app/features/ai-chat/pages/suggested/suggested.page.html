@@ -1,0 +1,79 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/ai-chat" text="" icon="chevron-back-outline" class="back-btn-circle"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      <div class="header-logo">
+        <div class="logo-icon">
+          <span class="k-letter">K</span>
+        </div>
+        <span class="logo-text">KarajoAI</span>
+      </div>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ai-chat-content" [fullscreen]="true">
+  
+  <div class="chat-container">
+    
+    <div class="time-divider">
+      <span class="pill">Today, 9:30 AM</span>
+    </div>
+
+    <!-- User Message -->
+    <div class="message user-message">
+      <div class="bubble">
+        Hi, could you please show me my current leave balance?
+      </div>
+    </div>
+    <div class="message-time right">9:32 AM</div>
+
+    <!-- AI Message -->
+    <div class="message ai-message">
+      <p class="text-content">Certainly. Here is a summary of your current leave balance as of today:</p>
+      
+      <div class="data-table">
+        <div class="table-header">
+          <span>Type</span>
+          <span>Available</span>
+        </div>
+        <div class="table-row">
+          <span>Annual Leave</span>
+          <span class="text-blue">12 Days</span>
+        </div>
+        <div class="table-row">
+          <span>Sick Leave</span>
+          <span class="text-green">5 Days</span>
+        </div>
+        <div class="table-row">
+          <span>Personal Leave</span>
+          <span class="text-dark">2 Days</span>
+        </div>
+      </div>
+      
+      <div class="table-divider"></div>
+      
+      <p class="text-content mt-16">Would you like to apply for leave now?</p>
+      
+      <div class="action-chips">
+        <button class="chip" routerLink="/ai-chat/document">Leave Request Policy</button>
+        <button class="chip">Apply for Leave</button>
+        <button class="chip">View History</button>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="height: 100px;"></div>
+
+  <!-- Bottom Input area fixed to viewport -->
+  <div class="input-area-fixed">
+    <div class="chat-input-wrapper">
+      <ion-icon name="sparkles" class="sparkle-icon"></ion-icon>
+      <input type="text" placeholder="Ask me about work..." />
+    </div>
+  </div>
+
+</ion-content>

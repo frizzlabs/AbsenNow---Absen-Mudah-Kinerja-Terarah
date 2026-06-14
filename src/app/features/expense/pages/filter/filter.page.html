@@ -1,0 +1,95 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <div class="modal-handle"></div>
+    <ion-title>Filter Expenses</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">
+        <ion-icon name="close-outline" color="dark"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="filter-section">
+    <div class="section-title">Date Range</div>
+    <div class="date-row">
+      <div class="date-input">
+        <div class="input-label">Start Date</div>
+        <div class="custom-input">
+          <span>9:00 AM</span>
+          <ion-icon name="calendar-outline"></ion-icon>
+        </div>
+      </div>
+      <div class="date-input">
+        <div class="input-label">End Date</div>
+        <div class="custom-input">
+          <span>10:30 AM</span>
+          <ion-icon name="calendar-outline"></ion-icon>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="filter-section">
+    <div class="section-title">Category</div>
+    <div class="custom-input select-input">
+      <span>Travel & Transportation</span>
+      <ion-icon name="chevron-down-outline"></ion-icon>
+    </div>
+  </div>
+
+  <div class="filter-section borderless">
+    <div class="section-title">Status</div>
+    
+    <div class="status-list">
+      <label class="status-item">
+        <div class="status-label">
+          <div class="dot draft"></div> Draft
+        </div>
+        <input type="radio" name="status" value="Draft" [(ngModel)]="selectedStatus">
+        <div class="custom-radio"></div>
+      </label>
+
+      <label class="status-item">
+        <div class="status-label">
+          <div class="dot submitted"></div> Submitted
+        </div>
+        <input type="radio" name="status" value="Submitted" [(ngModel)]="selectedStatus">
+        <div class="custom-radio"></div>
+      </label>
+
+      <label class="status-item">
+        <div class="status-label">
+          <div class="dot approved"></div> Approved
+        </div>
+        <input type="radio" name="status" value="Approved" [(ngModel)]="selectedStatus">
+        <div class="custom-radio"></div>
+      </label>
+
+      <label class="status-item">
+        <div class="status-label">
+          <div class="dot rejected"></div> Rejected
+        </div>
+        <input type="radio" name="status" value="Rejected" [(ngModel)]="selectedStatus">
+        <div class="custom-radio"></div>
+      </label>
+
+      <label class="status-item">
+        <div class="status-label">
+          <div class="dot processed"></div> Processed
+        </div>
+        <input type="radio" name="status" value="Processed" [(ngModel)]="selectedStatus">
+        <div class="custom-radio"></div>
+      </label>
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <div class="footer-pad">
+    <ion-button expand="block" shape="round" color="primary" class="apply-btn" (click)="close()">
+      Apply Filters (3)
+    </ion-button>
+  </div>
+</ion-footer>
