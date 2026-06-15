@@ -1,5 +1,5 @@
 <!-- Background overlay to match the mock -->
-<div class="modal-backdrop"></div>
+<div class="modal-backdrop" (click)="close()"></div>
 
 <div class="sheet-container">
   <div class="drag-indicator-container">
@@ -8,7 +8,7 @@
 
   <div class="sheet-header">
     <div class="title">Shortcuts</div>
-    <ion-button fill="clear" color="medium" class="close-btn">
+    <ion-button fill="clear" color="medium" class="close-btn" (click)="close()">
       <ion-icon name="close-outline"></ion-icon>
     </ion-button>
   </div>

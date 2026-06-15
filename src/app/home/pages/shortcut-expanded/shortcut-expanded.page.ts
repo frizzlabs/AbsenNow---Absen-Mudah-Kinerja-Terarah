@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 
 @Component({
@@ -10,5 +10,9 @@ import { IonicModule } from '@ionic/angular';
   imports: [CommonModule, IonicModule]
 })
 export class ShortcutExpandedPage {
-  constructor() {}
+  constructor(private location: Location) {}
+
+  close() {
+    this.location.back();
+  }
 }

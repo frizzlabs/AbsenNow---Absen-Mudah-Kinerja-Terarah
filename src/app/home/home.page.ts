@@ -28,6 +28,12 @@ export class HomePage {
     return 'default';
   }
 
+  showShortcuts: boolean = false;
+
+  toggleShortcuts() {
+    this.showShortcuts = !this.showShortcuts;
+  }
+
   onSwipeCheckIn() {
     this.router.navigate(['/attendance/validation']);
   }
