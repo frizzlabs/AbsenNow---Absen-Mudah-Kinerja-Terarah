@@ -2,7 +2,7 @@
   <app-page-header title="Face Validation"></app-page-header>
   
   <div class="page-container">
-    <app-camera-frame type="face" [success]="isSuccess" (click)="simulateDetection()"></app-camera-frame>
+    <app-camera-frame type="face" [success]="isSuccess" (onFaceDetected)="onFaceDetected($event)" (click)="simulateDetection()"></app-camera-frame>
 
     <div class="text-center info-text">
       <h2 class="text-h5">Position your face</h2>

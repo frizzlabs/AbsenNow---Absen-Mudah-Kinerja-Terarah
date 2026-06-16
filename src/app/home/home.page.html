@@ -8,7 +8,7 @@
       <div class="header-text">
         <p class="date-text">Thursday, 12 Feb</p>
         <h1 class="welcome-text">{{ 'home.goodMorning' | translate }}<br/><span class="text-white-opacity">Sarah 👋</span></h1>
-        <p class="location-text">{{ 'home.currentLocation' | translate }} Pemda Kota Bogor</p>
+        <p class="location-text">{{ 'home.currentLocation' | translate }} {{ currentLocationName }}</p>
       </div>
       <div class="avatar-wrapper" routerLink="/profile" style="cursor: pointer;">
         <img src="assets/images/avatar.png" class="avatar-img" />
@@ -239,6 +239,6 @@
     </ion-content>
   </ng-container>
 
-  <app-home-checked-in *ngSwitchCase="'checked_in'"></app-home-checked-in>
-  <app-home-checked-out *ngSwitchCase="'completed'"></app-home-checked-out>
+  <app-home-checked-in *ngSwitchCase="'checked_in'" [currentLocation]="currentLocationName"></app-home-checked-in>
+  <app-home-checked-out *ngSwitchCase="'completed'" [currentLocation]="currentLocationName"></app-home-checked-out>
 </ng-container>

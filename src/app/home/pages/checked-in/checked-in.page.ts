@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule, Router } from '@angular/router';
@@ -15,6 +15,8 @@ import { SwipeButtonComponent } from '../../../shared/components/swipe-button/sw
   imports: [CommonModule, IonicModule, RouterModule, BottomNavComponent, CardComponent, StatusBadgeComponent, SwipeButtonComponent]
 })
 export class CheckedInPage {
+  @Input() currentLocation = 'Pemda Kota Bogor';
+
   constructor(private router: Router) {}
 
   onSwipeCheckOut() {

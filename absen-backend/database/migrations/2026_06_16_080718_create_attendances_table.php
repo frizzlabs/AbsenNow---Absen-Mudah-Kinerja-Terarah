@@ -22,6 +22,8 @@ return new class extends Migration
             $table->decimal('longitude_in', 11, 8)->nullable();
             $table->decimal('latitude_out', 10, 8)->nullable();
             $table->decimal('longitude_out', 11, 8)->nullable();
+            $table->string('image_in')->nullable();
+            $table->string('image_out')->nullable();
             $table->string('status')->default('present');
             $table->timestamps();
             

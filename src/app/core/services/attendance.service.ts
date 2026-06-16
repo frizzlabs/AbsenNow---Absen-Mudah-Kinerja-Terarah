@@ -22,20 +22,22 @@ export class AttendanceService {
     });
   }
 
-  checkIn(latitude: number, longitude: number, officeId: number): Observable<any> {
+  checkIn(latitude: number, longitude: number, officeId: number, image?: string | null): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/attendance/check-in`, {
       latitude,
       longitude,
-      office_id: officeId
+      office_id: officeId,
+      image: image || null
     }, {
       headers: this.getHeaders()
     });
   }
 
-  checkOut(latitude: number, longitude: number): Observable<any> {
+  checkOut(latitude: number, longitude: number, image?: string | null): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/attendance/check-out`, {
       latitude,
-      longitude
+      longitude,
+      image: image || null
     }, {
       headers: this.getHeaders()
     });

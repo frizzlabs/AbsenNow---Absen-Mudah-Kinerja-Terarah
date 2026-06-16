@@ -78,15 +78,17 @@
         <div class="time-logs">
           <div class="log">
             <span class="text-body-small-regular text-medium">Check In</span>
-            <div class="time-val">
-              <ion-icon name="log-in-outline"></ion-icon>
+            <div class="time-val" style="display: flex; align-items: center; gap: 8px;">
+              <img [src]="getImageUrl(log.image_in)" *ngIf="log.image_in" style="width: 28px; height: 28px; border-radius: 4px; object-fit: cover; border: 1px solid var(--ion-color-light);" />
+              <ion-icon name="log-in-outline" *ngIf="!log.image_in"></ion-icon>
               <span class="text-h4">{{ formatTime12(log.check_in) }}</span>
             </div>
           </div>
           <div class="log">
             <span class="text-body-small-regular text-medium">Check Out</span>
-            <div class="time-val">
-              <ion-icon name="log-out-outline"></ion-icon>
+            <div class="time-val" style="display: flex; align-items: center; gap: 8px;">
+              <img [src]="getImageUrl(log.image_out)" *ngIf="log.image_out" style="width: 28px; height: 28px; border-radius: 4px; object-fit: cover; border: 1px solid var(--ion-color-light);" />
+              <ion-icon name="log-out-outline" *ngIf="!log.image_out"></ion-icon>
               <span class="text-h4">{{ formatTime12(log.check_out) }}</span>
             </div>
           </div>

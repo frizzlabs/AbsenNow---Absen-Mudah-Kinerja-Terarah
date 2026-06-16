@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
@@ -14,5 +14,7 @@ import { StatusBadgeComponent } from '../../../shared/components/status-badge/st
   imports: [CommonModule, IonicModule, RouterModule, BottomNavComponent, CardComponent, StatusBadgeComponent]
 })
 export class CheckedOutPage {
+  @Input() currentLocation = 'Pemda Kota Bogor';
+
   constructor() {}
 }

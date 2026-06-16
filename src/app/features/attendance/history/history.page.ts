@@ -5,6 +5,7 @@ import { IonicModule, NavController } from '@ionic/angular';
 import { CardComponent } from '../../../shared/components/card/card.component';
 import { StatusBadgeComponent } from '../../../shared/components/status-badge/status-badge.component';
 import { AttendanceService } from '../../../core/services/attendance.service';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-history',
@@ -24,6 +25,12 @@ export class HistoryPage implements OnInit {
 
   ngOnInit() {
     this.loadHistory();
+  }
+
+  getImageUrl(path: string | null): string | null {
+    if (!path) return null;
+    const base = environment.apiUrl.replace('/api', '');
+    return `${base}/${path}`;
   }
 
   loadHistory() {

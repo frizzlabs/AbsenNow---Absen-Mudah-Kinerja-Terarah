@@ -2,7 +2,8 @@
   <ng-container *ngIf="type === 'face'">
     <div class="face-frame-wrapper" [class.success]="success">
       <div class="face-frame">
-        <img src="assets/images/face-validation-crop.png" alt="Face" />
+        <video #videoElement autoplay playsinline muted *ngIf="hasCamera" style="width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1);"></video>
+        <img src="assets/images/face-validation-crop.png" alt="Face" *ngIf="!hasCamera" />
         <div class="scanning-line" *ngIf="!success"></div>
         <div class="success-overlay" *ngIf="success">
           <ion-icon name="checkmark-circle"></ion-icon>

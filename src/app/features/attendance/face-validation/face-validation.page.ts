@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule, ToastController } from '@ionic/angular';
@@ -16,6 +16,8 @@ import { AttendanceService } from '../../../core/services/attendance.service';
   imports: [IonicModule, CommonModule, FormsModule, RouterModule, PageHeaderComponent, CameraFrameComponent]
 })
 export class FaceValidationPage implements OnInit {
+  @ViewChild(CameraFrameComponent) cameraFrame!: CameraFrameComponent;
+
   isSuccess: boolean = false;
   isProcessing = false;
 
@@ -29,8 +31,20 @@ export class FaceValidationPage implements OnInit {
   ngOnInit() {
   }
 
+  onFaceDetected(photo: string) {
+    if (this.isSuccess || this.isProcessing) return;
+    this.submitAttendance(photo);
+  }
+
   async simulateDetection() {
     if (this.isSuccess || this.isProcessing) return;
+    
+    // Capture the photo manually from stream
+    const capturedImage = this.cameraFrame ? this.cameraFrame.capturePhoto() : null;
+    this.submitAttendance(capturedImage);
+  }
+
+  private async submitAttendance(image: string | null) {
     this.isProcessing = true;
 
     const lat = parseFloat(localStorage.getItem('temp_lat') || '-6.200000');
@@ -39,8 +53,8 @@ export class FaceValidationPage implements OnInit {
     const isCheckingOut = this.attendanceStateService.state === 'checked_in';
 
     const request = isCheckingOut 
-      ? this.attendanceService.checkOut(lat, lng)
-      : this.attendanceService.checkIn(lat, lng, officeId);
+      ? this.attendanceService.checkOut(lat, lng, image)
+      : this.attendanceService.checkIn(lat, lng, officeId, image);
 
     request.subscribe({
       next: async (res) => {

@@ -17,6 +17,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
     'longitude_in',
     'latitude_out',
     'longitude_out',
+    'image_in',
+    'image_out',
     'status'
 ])]
 class Attendance extends Model

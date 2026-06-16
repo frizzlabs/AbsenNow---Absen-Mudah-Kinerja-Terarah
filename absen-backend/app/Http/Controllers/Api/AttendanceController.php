@@ -45,6 +45,7 @@ class AttendanceController extends Controller
             'latitude' => 'required|numeric',
             'longitude' => 'required|numeric',
             'office_id' => 'required|exists:offices,id',
+            'image' => 'nullable|string',
         ]);
 
         $user = $request->user();
@@ -78,6 +79,8 @@ class AttendanceController extends Controller
         }
 
         // Record attendance
+        $imagePath = $this->saveBase64Image($request->image, 'in');
+
         $attendance = Attendance::create([
             'user_id' => $user->id,
             'office_id' => $office->id,
@@ -85,6 +88,7 @@ class AttendanceController extends Controller
             'check_in' => Carbon::now()->toTimeString(),
             'latitude_in' => $request->latitude,
             'longitude_in' => $request->longitude,
+            'image_in' => $imagePath,
             'status' => 'present',
         ]);
 
@@ -99,6 +103,7 @@ class AttendanceController extends Controller
         $request->validate([
             'latitude' => 'required|numeric',
             'longitude' => 'required|numeric',
+            'image' => 'nullable|string',
         ]);
 
         $user = $request->user();
@@ -137,9 +142,12 @@ class AttendanceController extends Controller
         }
 
         // Update record
+        $imagePath = $this->saveBase64Image($request->image, 'out');
+
         $attendance->check_out = Carbon::now()->toTimeString();
         $attendance->latitude_out = $request->latitude;
         $attendance->longitude_out = $request->longitude;
+        $attendance->image_out = $imagePath;
         $attendance->save();
 
         return response()->json([
@@ -203,5 +211,36 @@ class AttendanceController extends Controller
         $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
 
         return $earthRadius * $c; // returns distance in meters
+    }
+
+    private function saveBase64Image($base64String, $prefix)
+    {
+        if (!$base64String) {
+            return null;
+        }
+
+        if (preg_match('/^data:image\/(\w+);base64,/', $base64String, $type)) {
+            $data = substr($base64String, strpos($base64String, ',') + 1);
+            $type = strtolower($type[1]); // jpg, jpeg, png, etc.
+
+            if (!in_array($type, ['jpg', 'jpeg', 'png', 'gif'])) {
+                return null;
+            }
+
+            $data = base64_decode($data);
+            if ($data === false) {
+                return null;
+            }
+
+            $fileName = $prefix . '_' . uniqid() . '.' . $type;
+            $directory = 'public/attendances';
+
+            \Illuminate\Support\Facades\Storage::makeDirectory($directory);
+            \Illuminate\Support\Facades\Storage::put($directory . '/' . $fileName, $data);
+
+            return 'storage/attendances/' . $fileName;
+        }
+
+        return null;
     }
 }

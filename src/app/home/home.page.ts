@@ -11,6 +11,7 @@ import { CheckedInPage } from './pages/checked-in/checked-in.page';
 import { CheckedOutPage } from './pages/checked-out/checked-out.page';
 import { SwipeButtonComponent } from '../shared/components/swipe-button/swipe-button.component';
 import { TranslatePipe } from '@ngx-translate/core';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-home',
@@ -20,10 +21,53 @@ import { TranslatePipe } from '@ngx-translate/core';
   imports: [CommonModule, IonicModule, BottomNavComponent, StatusBadgeComponent, CardComponent, RouterModule, CheckedInPage, CheckedOutPage, SwipeButtonComponent, TranslatePipe],
 })
 export class HomePage {
-  constructor(public attendanceService: AttendanceStateService, private router: Router) {}
+  currentLocationName = 'Pemda Kota Bogor';
+  showShortcuts = false;
+
+  constructor(
+    public attendanceService: AttendanceStateService,
+    private router: Router,
+    private http: HttpClient
+  ) {}
 
   ionViewWillEnter() {
     this.attendanceService.syncStatus();
+    this.getCurrentLocation();
+  }
+
+  getCurrentLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const lat = position.coords.latitude;
+          const lng = position.coords.longitude;
+          this.reverseGeocode(lat, lng);
+        },
+        (error) => {
+          console.warn('Home Geolocation failed, using default name', error);
+        },
+        { enableHighAccuracy: false, timeout: 10000 }
+      );
+    }
+  }
+
+  reverseGeocode(lat: number, lng: number) {
+    const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`;
+    this.http.get<any>(url, {
+      headers: { 'Accept-Language': 'id' }
+    }).subscribe({
+      next: (res) => {
+        if (res && res.address) {
+          const city = res.address.city || res.address.town || res.address.municipality || res.address.county || res.address.state || '';
+          if (city) {
+            this.currentLocationName = city;
+          }
+        }
+      },
+      error: (err) => {
+        console.warn('Home reverse geocode failed', err);
+      }
+    });
   }
 
   get viewState() {
@@ -31,8 +75,6 @@ export class HomePage {
     if (this.attendanceService.hasCompletedToday) return 'completed';
     return 'default';
   }
-
-  showShortcuts: boolean = false;
 
   toggleShortcuts() {
     this.showShortcuts = !this.showShortcuts;
