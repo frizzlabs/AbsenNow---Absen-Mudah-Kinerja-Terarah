@@ -4,6 +4,11 @@ button {
   justify-content: center;
   align-items: center;
   gap: var(--spacing-2);
+  
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
 }
 .btn-primary {
   width: 100%;

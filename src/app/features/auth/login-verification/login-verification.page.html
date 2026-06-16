@@ -7,7 +7,7 @@
     <div class="text-center auth-text">
       <h2 class="text-h4">Verify Your Identity</h2>
       <p class="text-body-medium-regular text-medium">
-        We've sent a 6-digit verification code to <span class="text-dark font-medium">sarah@karajo.app</span>. Please enter it below.
+        We've sent a 6-digit verification code to <span class="text-dark font-medium">{{ tempEmail }}</span>. Please enter it below.
       </p>
     </div>
     
@@ -18,7 +18,7 @@
       <p class="text-body-small-semibold text-dark">Resend code in 00:59</p>
     </div>
     
-    <app-button variant="primary" class="w-full" icon="arrow-forward-outline" iconPosition="right" (onClick)="verifyOtp()">Verify Account</app-button>
+    <app-button variant="primary" class="w-full" icon="arrow-forward-outline" iconPosition="right" [disabled]="isLoading" (onClick)="verifyOtp()">{{ isLoading ? 'Verifying...' : 'Verify Account' }}</app-button>
   </div>
 </ion-content>
 

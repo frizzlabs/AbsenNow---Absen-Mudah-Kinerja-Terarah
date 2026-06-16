@@ -26,7 +26,7 @@
 
       <div class="time-section text-center">
         <span class="label">TIME RECORDED</span>
-        <h1 class="time-value">08:58 AM</h1>
+        <h1 class="time-value">{{ recordedTime }}</h1>
         <div class="status-badge success">
           On time
         </div>
@@ -41,7 +41,7 @@
           </div>
           <div class="content">
             <span class="label">Location</span>
-            <span class="value">Headquarters, Jak...</span>
+            <span class="value">{{ recordedLocation }}</span>
           </div>
           <div class="status-badge gray">
             On site
@@ -54,7 +54,7 @@
           </div>
           <div class="content">
             <span class="label">Date</span>
-            <span class="value">Feb 18, 2025</span>
+            <span class="value">{{ recordedDate }}</span>
           </div>
         </div>
       </div>

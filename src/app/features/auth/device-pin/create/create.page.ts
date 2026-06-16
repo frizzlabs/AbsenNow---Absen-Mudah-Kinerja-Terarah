@@ -28,6 +28,7 @@ export class CreatePage implements OnInit {
     } else if (this.pinValue.length < 4) {
       this.pinValue += key;
       if (this.pinValue.length === 4) {
+        localStorage.setItem('temp_pin', this.pinValue);
         setTimeout(() => this.router.navigateByUrl('/auth/device-pin/confirm'), 300);
       }
     }

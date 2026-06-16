@@ -1,7 +1,7 @@
 <ion-content [fullscreen]="true">
   <div class="page-container">
     <div class="header">
-      <ion-icon name="arrow-back-outline" class="back-btn"></ion-icon>
+      <ion-icon name="arrow-back-outline" class="back-btn" (click)="goBack()"></ion-icon>
       <span class="header-title">Attendance History</span>
     </div>
 
@@ -49,22 +49,30 @@
   </div>
 
   <div class="list-section">
-    <h4 class="section-title text-body-small-semibold">THIS WEEK</h4>
+    <h4 class="section-title text-body-small-semibold">ATTENDANCE LOGS</h4>
 
-    <div class="history-list">
-      <!-- Card 1 -->
-      <app-card class="history-card">
+    <div class="text-center" *ngIf="isLoading" style="padding: 30px;">
+      <ion-spinner name="crescent" color="primary"></ion-spinner>
+    </div>
+
+    <div class="text-center" *ngIf="!isLoading && historyLogs.length === 0" style="padding: 40px 20px;">
+      <ion-icon name="calendar-outline" style="font-size: 48px; color: var(--ion-color-medium-light);"></ion-icon>
+      <p class="text-body-medium-regular text-medium" style="margin-top: 12px;">No attendance logs found.</p>
+    </div>
+
+    <div class="history-list" *ngIf="!isLoading && historyLogs.length > 0">
+      <app-card class="history-card" *ngFor="let log of historyLogs">
         <div class="card-header">
           <div class="shift-info">
             <div class="icon-box bg-blue-light text-blue">
               <ion-icon name="calendar-outline"></ion-icon>
             </div>
             <div class="shift-text">
-              <h4 class="text-body-medium-semibold">Tue, 24 Feb</h4>
+              <h4 class="text-body-medium-semibold">{{ log.date | date:'EEE, dd MMM' }}</h4>
               <span class="text-body-small-regular text-medium">Regular Shift</span>
             </div>
           </div>
-          <app-status-badge color="success" text="On time"></app-status-badge>
+          <app-status-badge [color]="log.check_out ? 'success' : 'warning'" [text]="log.check_out ? 'Completed' : 'Checked In'"></app-status-badge>
         </div>
         
         <div class="time-logs">
@@ -72,119 +80,23 @@
             <span class="text-body-small-regular text-medium">Check In</span>
             <div class="time-val">
               <ion-icon name="log-in-outline"></ion-icon>
-              <span class="text-h4">09:00 AM</span>
+              <span class="text-h4">{{ formatTime12(log.check_in) }}</span>
             </div>
           </div>
           <div class="log">
             <span class="text-body-small-regular text-medium">Check Out</span>
             <div class="time-val">
               <ion-icon name="log-out-outline"></ion-icon>
-              <span class="text-h4">06:00 PM</span>
+              <span class="text-h4">{{ formatTime12(log.check_out) }}</span>
             </div>
           </div>
         </div>
 
-        <div class="divider"></div>
+        <div class="divider" *ngIf="log.check_out"></div>
 
-        <div class="duration-footer">
+        <div class="duration-footer" *ngIf="log.check_out">
           <span class="text-body-small-regular text-medium">Total Duration</span>
-          <span class="text-body-medium-semibold text-dark">9h 00m</span>
-        </div>
-      </app-card>
-
-      <!-- Card 2 -->
-      <app-card class="history-card">
-        <div class="card-header">
-          <div class="shift-info">
-            <div class="icon-box bg-blue-light text-blue">
-              <ion-icon name="calendar-outline"></ion-icon>
-            </div>
-            <div class="shift-text">
-              <h4 class="text-body-medium-semibold">Mon, 23 Feb</h4>
-              <span class="text-body-small-regular text-medium">Regular Shift</span>
-            </div>
-          </div>
-          <app-status-badge color="warning" text="Late"></app-status-badge>
-        </div>
-        
-        <div class="time-logs">
-          <div class="log">
-            <span class="text-body-small-regular text-medium">Check In</span>
-            <div class="time-val">
-              <ion-icon name="log-in-outline"></ion-icon>
-              <span class="text-h4">09:45 AM</span>
-            </div>
-          </div>
-          <div class="log">
-            <span class="text-body-small-regular text-medium">Check Out</span>
-            <div class="time-val">
-              <ion-icon name="log-out-outline"></ion-icon>
-              <span class="text-h4">06:45 PM</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="divider"></div>
-
-        <div class="duration-footer">
-          <span class="text-body-small-regular text-medium">Total Duration</span>
-          <span class="text-body-medium-semibold text-dark">9h 00m</span>
-        </div>
-      </app-card>
-
-      <!-- Card 3 -->
-      <app-card class="history-card">
-        <div class="card-header">
-          <div class="shift-info">
-            <div class="icon-box bg-blue-light text-blue">
-              <ion-icon name="calendar-outline"></ion-icon>
-            </div>
-            <div class="shift-text">
-              <h4 class="text-body-medium-semibold">Fri, 20 Feb</h4>
-              <span class="text-body-small-regular text-medium">Overtime</span>
-            </div>
-          </div>
-          <app-status-badge color="primary" text="Overtime"></app-status-badge>
-        </div>
-        
-        <div class="time-logs">
-          <div class="log">
-            <span class="text-body-small-regular text-medium">Check In</span>
-            <div class="time-val">
-              <ion-icon name="log-in-outline"></ion-icon>
-              <span class="text-h4">09:00 AM</span>
-            </div>
-          </div>
-          <div class="log">
-            <span class="text-body-small-regular text-medium">Check Out</span>
-            <div class="time-val">
-              <ion-icon name="log-out-outline"></ion-icon>
-              <span class="text-h4">08:30 PM</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="divider"></div>
-
-        <div class="duration-footer">
-          <span class="text-body-small-regular text-medium">Total Duration</span>
-          <span class="text-body-medium-semibold text-dark">11h 30m</span>
-        </div>
-      </app-card>
-
-      <!-- Card 4 -->
-      <app-card class="history-card">
-        <div class="card-header">
-          <div class="shift-info">
-            <div class="icon-box bg-blue-light text-blue">
-              <ion-icon name="calendar-outline"></ion-icon>
-            </div>
-            <div class="shift-text">
-              <h4 class="text-body-medium-semibold">Thu, 19 Feb</h4>
-              <span class="text-body-small-regular text-medium">Sick Leave</span>
-            </div>
-          </div>
-          <app-status-badge color="danger" icon="close" text="Absent"></app-status-badge>
+          <span class="text-body-medium-semibold text-dark">{{ calculateDuration(log.check_in, log.check_out) }}</span>
         </div>
       </app-card>
     </div>

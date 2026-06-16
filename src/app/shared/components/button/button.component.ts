@@ -5,7 +5,7 @@ import { IonicModule } from '@ionic/angular';
 @Component({
   selector: 'app-button',
   template: `
-    <button [class]="'btn-' + variant + ' text-body-medium-' + fontWeight" (click)="onClick.emit()">
+    <button [class]="'btn-' + variant + ' text-body-medium-' + fontWeight" [disabled]="disabled" (click)="onClick.emit()">
       <ion-icon *ngIf="icon && iconPosition === 'left'" [name]="icon" class="btn-icon"></ion-icon>
       <ng-content></ng-content>
       <ion-icon *ngIf="icon && iconPosition === 'right'" [name]="icon" class="btn-icon"></ion-icon>
@@ -20,5 +20,6 @@ export class ButtonComponent {
   @Input() icon?: string;
   @Input() iconPosition: 'left' | 'right' = 'left';
   @Input() fontWeight: 'semibold' | 'medium' | 'regular' = 'semibold';
+  @Input() disabled: boolean = false;
   @Output() onClick = new EventEmitter<void>();
 }

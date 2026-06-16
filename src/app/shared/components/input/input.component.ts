@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 
@@ -9,7 +9,7 @@ import { IonicModule } from '@ionic/angular';
       <label class="text-body-small-medium" *ngIf="label">{{ label }}</label>
       <div class="input-wrapper">
         <ion-icon *ngIf="leftIcon" [name]="leftIcon" class="input-icon-left"></ion-icon>
-        <input [type]="type" [placeholder]="placeholder" [value]="value" class="custom-input text-body-medium-regular" [ngClass]="{'has-left-icon': leftIcon, 'has-right-icon': rightIcon, 'pw-input': type === 'password'}" />
+        <input [type]="type" [placeholder]="placeholder" [value]="value" (input)="onInput($event)" class="custom-input text-body-medium-regular" [ngClass]="{'has-left-icon': leftIcon, 'has-right-icon': rightIcon, 'pw-input': type === 'password'}" />
         <ion-icon *ngIf="rightIcon" [name]="rightIcon" class="input-icon-right"></ion-icon>
       </div>
     </div>
@@ -25,4 +25,11 @@ export class InputComponent {
   @Input() value: string = '';
   @Input() leftIcon?: string;
   @Input() rightIcon?: string;
+
+  @Output() valueChange = new EventEmitter<string>();
+
+  onInput(event: any) {
+    this.value = event.target.value;
+    this.valueChange.emit(this.value);
+  }
 }

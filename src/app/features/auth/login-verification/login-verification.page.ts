@@ -9,6 +9,8 @@ import { ButtonComponent } from '../../../shared/components/button/button.compon
 import { NumpadComponent } from '../../../shared/components/numpad/numpad.component';
 
 import { Router } from '@angular/router';
+import { AuthService } from '../../../core/services/auth.service';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login-verification',
@@ -19,9 +21,18 @@ import { Router } from '@angular/router';
 })
 export class LoginVerificationPage implements OnInit {
   otpValue: string = '';
+  tempEmail: string = '';
+  isLoading: boolean = false;
   
-  constructor(private router: Router) { }
-  ngOnInit() { }
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private toastController: ToastController
+  ) { }
+
+  ngOnInit() {
+    this.tempEmail = localStorage.getItem('temp_email') || 'your email';
+  }
   
   onKeyPress(key: string) {
     if (key === 'backspace') {
@@ -31,7 +42,34 @@ export class LoginVerificationPage implements OnInit {
     }
   }
 
-  verifyOtp() {
-    this.router.navigateByUrl('/auth/device-pin/create');
+  async verifyOtp() {
+    if (this.otpValue.length < 6) {
+      const toast = await this.toastController.create({
+        message: 'Please enter a 6-digit OTP code.',
+        duration: 3000,
+        position: 'top',
+        color: 'warning'
+      });
+      await toast.present();
+      return;
+    }
+
+    this.isLoading = true;
+    this.authService.verifyOtp(this.otpValue).subscribe({
+      next: () => {
+        this.isLoading = false;
+        this.router.navigateByUrl('/auth/device-pin/create');
+      },
+      error: async (err) => {
+        this.isLoading = false;
+        const toast = await this.toastController.create({
+          message: err.error?.message || 'Verification failed. Please check the code.',
+          duration: 3000,
+          position: 'top',
+          color: 'danger'
+        });
+        await toast.present();
+      }
+    });
   }
 }

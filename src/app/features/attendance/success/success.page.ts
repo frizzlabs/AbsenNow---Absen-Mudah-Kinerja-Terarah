@@ -15,12 +15,19 @@ import { AttendanceStateService } from '../../../core/services/attendance-state.
 })
 export class SuccessPage implements OnInit {
   isCheckingOut = false;
+  recordedTime = '08:58 AM';
+  recordedDate = 'Feb 18, 2025';
+  recordedLocation = 'Headquarters, Jakarta';
 
   constructor(private navCtrl: NavController, private attendanceService: AttendanceStateService) {
     this.isCheckingOut = this.attendanceService.state === 'checked_in';
   }
 
   ngOnInit() {
+    this.recordedTime = localStorage.getItem('success_time') || '08:58 AM';
+    this.recordedDate = localStorage.getItem('success_date') || 'Feb 18, 2025';
+    const address = localStorage.getItem('success_office_address') || 'Headquarters, Jakarta';
+    this.recordedLocation = address.length > 28 ? address.substring(0, 25) + '...' : address;
   }
 
   goToHome() {

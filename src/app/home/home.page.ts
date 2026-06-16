@@ -22,6 +22,10 @@ import { TranslatePipe } from '@ngx-translate/core';
 export class HomePage {
   constructor(public attendanceService: AttendanceStateService, private router: Router) {}
 
+  ionViewWillEnter() {
+    this.attendanceService.syncStatus();
+  }
+
   get viewState() {
     if (this.attendanceService.state === 'checked_in') return 'checked_in';
     if (this.attendanceService.hasCompletedToday) return 'completed';

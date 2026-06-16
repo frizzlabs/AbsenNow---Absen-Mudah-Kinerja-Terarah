@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, ToastController } from '@ionic/angular';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
 import { CameraFrameComponent } from '../../../shared/components/camera-frame/camera-frame.component';
 import { RouterModule, Router } from '@angular/router';
+import { AttendanceStateService } from '../../../core/services/attendance-state.service';
+import { AttendanceService } from '../../../core/services/attendance.service';
 
 @Component({
   selector: 'app-face-validation',
@@ -15,18 +17,75 @@ import { RouterModule, Router } from '@angular/router';
 })
 export class FaceValidationPage implements OnInit {
   isSuccess: boolean = false;
+  isProcessing = false;
 
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    private toastController: ToastController,
+    private attendanceStateService: AttendanceStateService,
+    private attendanceService: AttendanceService
+  ) { }
 
   ngOnInit() {
   }
 
-  simulateDetection() {
-    if (this.isSuccess) return;
-    this.isSuccess = true;
-    
-    setTimeout(() => {
-      this.router.navigate(['/attendance/success']);
-    }, 1000);
+  async simulateDetection() {
+    if (this.isSuccess || this.isProcessing) return;
+    this.isProcessing = true;
+
+    const lat = parseFloat(localStorage.getItem('temp_lat') || '-6.200000');
+    const lng = parseFloat(localStorage.getItem('temp_lng') || '106.816666');
+    const officeId = parseInt(localStorage.getItem('temp_office_id') || '1', 10);
+    const isCheckingOut = this.attendanceStateService.state === 'checked_in';
+
+    const request = isCheckingOut 
+      ? this.attendanceService.checkOut(lat, lng)
+      : this.attendanceService.checkIn(lat, lng, officeId);
+
+    request.subscribe({
+      next: async (res) => {
+        this.isSuccess = true;
+        this.isProcessing = false;
+        
+        const now = new Date();
+        const formattedTime = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+        const formattedDate = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        
+        localStorage.setItem('success_time', formattedTime);
+        localStorage.setItem('success_date', formattedDate);
+        
+        const officeName = localStorage.getItem('temp_office_name') || 'Headquarters';
+        const officeAddress = localStorage.getItem('temp_office_address') || 'Jakarta';
+        localStorage.setItem('success_office_name', officeName);
+        localStorage.setItem('success_office_address', officeAddress);
+        
+        const toast = await this.toastController.create({
+          message: res.message || 'Verification successful.',
+          duration: 1500,
+          position: 'top',
+          color: 'success'
+        });
+        await toast.present();
+
+        setTimeout(() => {
+          this.router.navigate(['/attendance/success']);
+        }, 1000);
+      },
+      error: async (err) => {
+        this.isProcessing = false;
+        const errMsg = err.error?.message || 'Verification failed. Please try again.';
+        const toast = await this.toastController.create({
+          message: errMsg,
+          duration: 3000,
+          position: 'top',
+          color: 'danger'
+        });
+        await toast.present();
+
+        setTimeout(() => {
+          this.router.navigate(['/home']);
+        }, 3000);
+      }
+    });
   }
 }
