@@ -233,10 +233,10 @@ class AttendanceController extends Controller
             }
 
             $fileName = $prefix . '_' . uniqid() . '.' . $type;
-            $directory = 'public/attendances';
+            $directory = 'attendances';
 
-            \Illuminate\Support\Facades\Storage::makeDirectory($directory);
-            \Illuminate\Support\Facades\Storage::put($directory . '/' . $fileName, $data);
+            \Illuminate\Support\Facades\Storage::disk('public')->makeDirectory($directory);
+            \Illuminate\Support\Facades\Storage::disk('public')->put($directory . '/' . $fileName, $data);
 
             return 'storage/attendances/' . $fileName;
         }

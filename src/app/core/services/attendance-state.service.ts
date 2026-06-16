@@ -9,6 +9,7 @@ export type AttendanceState = 'checked_out' | 'checked_in';
 export class AttendanceStateService {
   private _state: AttendanceState = 'checked_out';
   private _hasCompletedToday: boolean = false;
+  private _todayAttendance: any = null;
 
   constructor(private apiService: AttendanceService) {}
 
@@ -20,10 +21,15 @@ export class AttendanceStateService {
     return this._hasCompletedToday;
   }
 
+  get todayAttendance(): any {
+    return this._todayAttendance;
+  }
+
   syncStatus(): Promise<void> {
     return new Promise((resolve) => {
       this.apiService.getStatusToday().subscribe({
         next: (res) => {
+          this._todayAttendance = res.attendance || null;
           if (res.state === 'checked_in') {
             this._state = 'checked_in';
             this._hasCompletedToday = false;

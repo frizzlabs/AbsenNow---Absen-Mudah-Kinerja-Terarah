@@ -41,7 +41,7 @@
             <ion-icon name="enter-outline"></ion-icon>
             <span>Check In</span>
           </div>
-          <div class="col-value">08:32 AM</div>
+          <div class="col-value">{{ formatTime12(attendanceStateService.todayAttendance?.check_in) }}</div>
         </div>
         <div class="divider-vertical"></div>
         <div class="time-col">

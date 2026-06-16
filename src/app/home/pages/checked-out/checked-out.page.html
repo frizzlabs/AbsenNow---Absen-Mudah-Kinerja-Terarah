@@ -34,8 +34,8 @@
           <span class="th-label">TOTAL HOURS</span>
         </div>
         <div class="th-value">
-          <span class="th-big">08</span><span class="th-small">h</span>
-          <span class="th-big">15</span><span class="th-small">m</span>
+          <span class="th-big">{{ getHours() }}</span><span class="th-small">h</span>
+          <span class="th-big">{{ getMinutes() }}</span><span class="th-small">m</span>
         </div>
         <p class="th-msg">Great job today! You've met your daily goal.</p>
       </div>
@@ -46,7 +46,7 @@
             <ion-icon name="enter-outline" class="text-green"></ion-icon>
             <span>Check In</span>
           </div>
-          <div class="col-value">08:32 AM</div>
+          <div class="col-value">{{ formatTime12(attendanceStateService.todayAttendance?.check_in) }}</div>
         </div>
         <div class="divider-vertical"></div>
         <div class="time-col">
@@ -54,7 +54,7 @@
             <ion-icon name="exit-outline" class="text-red"></ion-icon>
             <span>Check Out</span>
           </div>
-          <div class="col-value">05:00 PM</div>
+          <div class="col-value">{{ formatTime12(attendanceStateService.todayAttendance?.check_out) }}</div>
         </div>
       </div>
     </div>

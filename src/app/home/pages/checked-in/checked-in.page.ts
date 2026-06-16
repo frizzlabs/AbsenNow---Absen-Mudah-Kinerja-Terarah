@@ -6,6 +6,7 @@ import { BottomNavComponent } from '../../../shared/components/bottom-nav/bottom
 import { CardComponent } from '../../../shared/components/card/card.component';
 import { StatusBadgeComponent } from '../../../shared/components/status-badge/status-badge.component';
 import { SwipeButtonComponent } from '../../../shared/components/swipe-button/swipe-button.component';
+import { AttendanceStateService } from '../../../core/services/attendance-state.service';
 
 @Component({
   selector: 'app-home-checked-in',
@@ -17,9 +18,24 @@ import { SwipeButtonComponent } from '../../../shared/components/swipe-button/sw
 export class CheckedInPage {
   @Input() currentLocation = 'Pemda Kota Bogor';
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    public attendanceStateService: AttendanceStateService
+  ) {}
 
   onSwipeCheckOut() {
     this.router.navigate(['/attendance/validation']);
+  }
+
+  formatTime12(timeStr: string | null): string {
+    if (!timeStr) return '-:-';
+    try {
+      const [hours, minutes] = timeStr.split(':').map(Number);
+      const ampm = hours >= 12 ? 'PM' : 'AM';
+      const hours12 = hours % 12 || 12;
+      return `${hours12.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')} ${ampm}`;
+    } catch (e) {
+      return timeStr;
+    }
   }
 }
