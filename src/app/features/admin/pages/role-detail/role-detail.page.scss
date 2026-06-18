@@ -1,0 +1,83 @@
+ion-content { --background: #f8f9fa; }
+
+.wrap { padding: 16px; }
+
+.role-head {
+  margin-bottom: 16px;
+  .role-name { font-size: 20px; font-weight: 700; color: var(--ion-color-tertiary); }
+  .role-desc { font-size: 13px; color: var(--ion-color-medium); margin-top: 2px; }
+  .count-badge {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 4px 12px;
+    border-radius: 100px;
+    background: rgba(27, 89, 248, 0.1);
+    color: var(--ion-color-primary);
+    font-size: 12px;
+    font-weight: 600;
+  }
+}
+
+.superadmin-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  background: #FEF3C7;
+  color: #92400E;
+  font-size: 13px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  margin-bottom: 16px;
+  ion-icon { font-size: 18px; margin-top: 1px; }
+}
+
+.module-card {
+  background: #fff;
+  border-radius: 14px;
+  margin-bottom: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+
+  .module-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px;
+    border-bottom: 1px solid #f0f0f0;
+
+    .module-label { font-size: 15px; font-weight: 600; color: var(--ion-color-tertiary); }
+    .module-toggle {
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 100px;
+      background: #f2f4f7;
+      color: var(--ion-color-medium);
+      &.on { background: rgba(27, 89, 248, 0.1); color: var(--ion-color-primary); }
+      &.disabled { opacity: 0.5; }
+    }
+  }
+
+  .action-list {
+    padding: 4px 16px 8px;
+
+    .action-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid #f7f7f7;
+      &:last-child { border-bottom: none; }
+
+      .action-label { font-size: 14px; color: var(--ion-color-tertiary); }
+      ion-checkbox { --size: 22px; --border-radius: 6px; }
+    }
+  }
+}
+
+.footer-wrap {
+  padding: 12px 16px calc(16px + env(safe-area-inset-bottom));
+  background: #fff;
+  border-top: 1px solid #f0f0f0;
+  ion-button { margin: 0; height: 50px; --border-radius: 12px; font-weight: 600; }
+}

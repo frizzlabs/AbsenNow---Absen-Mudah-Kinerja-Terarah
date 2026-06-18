@@ -1,25 +1,5 @@
-<ion-header class="ion-no-border">
-  <ion-toolbar>
-    <div class="header-content">
-      <ion-icon name="chevron-back-outline" class="nav-icon"></ion-icon>
-      <div class="date-range">
-        <div class="dates">{{ dateHeader }}</div>
-        <div class="subtitle">{{ dateSubtitle }}</div>
-      </div>
-      <ion-icon name="chevron-forward-outline" class="nav-icon"></ion-icon>
-    </div>
-  </ion-toolbar>
-
-  <div class="segment-container">
-    <div class="segment-pill">
-      <div class="segment-btn" [class.active]="selectedView === 'daily'" (click)="setView('daily')">{{ 'activity.daily' | translate }}</div>
-      <div class="segment-btn" [class.active]="selectedView === 'weekly'" (click)="setView('weekly')">{{ 'activity.weekly' | translate }}</div>
-      <div class="segment-btn" [class.active]="selectedView === 'monthly'" (click)="setView('monthly')">{{ 'activity.monthly' | translate }}</div>
-    </div>
-  </div>
-</ion-header>
-
 <ion-content>
+  <app-page-header title="Activity"></app-page-header>
   <!-- DAILY VIEW -->
   <div class="content-wrapper" *ngIf="selectedView === 'daily'">
     <div class="day-header">
