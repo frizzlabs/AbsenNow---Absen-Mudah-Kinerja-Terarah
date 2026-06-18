@@ -2,13 +2,14 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
 
 @Component({
   selector: 'app-overtime-request-step1',
   templateUrl: './request-step1.page.html',
   styleUrls: ['./request-step1.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule]
+  imports: [CommonModule, IonicModule, PageHeaderComponent]
 })
 export class RequestStep1Page {
   constructor(private router: Router) {}

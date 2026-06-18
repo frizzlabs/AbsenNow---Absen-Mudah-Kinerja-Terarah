@@ -7,13 +7,14 @@ import { PayslipBasicSalarySheetComponent } from '../../components/basic-salary-
 import { PayslipAllowancesSheetComponent } from '../../components/allowances-sheet/allowances-sheet.component';
 import { PayslipTaxInsuranceSheetComponent } from '../../components/tax-insurance-sheet/tax-insurance-sheet.component';
 import { PayslipOtherDeductionsSheetComponent } from '../../components/other-deductions-sheet/other-deductions-sheet.component';
+import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
 
 @Component({
   selector: 'app-payslip-detail',
   templateUrl: './detail.page.html',
   styleUrls: ['./detail.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, PayslipBasicSalarySheetComponent, PayslipAllowancesSheetComponent, PayslipTaxInsuranceSheetComponent, PayslipOtherDeductionsSheetComponent]
+  imports: [CommonModule, IonicModule, PayslipBasicSalarySheetComponent, PayslipAllowancesSheetComponent, PayslipTaxInsuranceSheetComponent, PayslipOtherDeductionsSheetComponent, PageHeaderComponent]
 })
 export class DetailPage {
   constructor(private router: Router, private modalCtrl: ModalController) {}

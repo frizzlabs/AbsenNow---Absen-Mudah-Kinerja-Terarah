@@ -4,13 +4,14 @@ import { IonicModule, ModalController } from '@ionic/angular';
 import { Router } from '@angular/router';
 
 import { PayslipFilterSheetComponent } from '../../components/filter-sheet/filter-sheet.component';
+import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
 
 @Component({
   selector: 'app-payslip-home',
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, PayslipFilterSheetComponent]
+  imports: [CommonModule, IonicModule, PayslipFilterSheetComponent, PageHeaderComponent]
 })
 export class HomePage {
   constructor(private router: Router, private modalCtrl: ModalController) {}
