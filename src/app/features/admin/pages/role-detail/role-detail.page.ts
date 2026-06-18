@@ -4,13 +4,14 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule, ToastController, LoadingController } from '@ionic/angular';
 import { Router, ActivatedRoute } from '@angular/router';
 import { RoleService, PermissionModule } from '../../../../core/services/role.service';
+import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
 
 @Component({
   selector: 'app-admin-role-detail',
   templateUrl: './role-detail.page.html',
   styleUrls: ['./role-detail.page.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, IonicModule]
+  imports: [CommonModule, FormsModule, IonicModule, PageHeaderComponent]
 })
 export class RoleDetailPage {
   roleId!: number;
@@ -42,7 +43,6 @@ export class RoleDetailPage {
         this.modules = res.modules;
         this.isSuperadmin = res.role.name === 'superadmin';
         this.selected = {};
-        // superadmin selalu semua tercentang
         res.modules.forEach(m => m.permissions.forEach(p => {
           this.selected[p.id] = this.isSuperadmin || res.assigned.includes(p.id);
         }));

@@ -1,15 +1,6 @@
-<ion-header class="ion-no-border">
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-button (click)="goBack()">
-        <ion-icon name="arrow-back-outline" color="dark"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-    <ion-title>Kelola Pengguna</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
+  <app-page-header title="Kelola Pengguna"></app-page-header>
+
   <div class="text-center" *ngIf="isLoading" style="padding:40px;">
     <ion-spinner name="crescent" color="primary"></ion-spinner>
   </div>

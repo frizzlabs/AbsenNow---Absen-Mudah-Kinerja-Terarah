@@ -4,13 +4,14 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { RoleService } from '../../../../core/services/role.service';
+import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
 
 @Component({
   selector: 'app-admin-users',
   templateUrl: './users.page.html',
   styleUrls: ['./users.page.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, IonicModule]
+  imports: [CommonModule, FormsModule, IonicModule, PageHeaderComponent]
 })
 export class AdminUsersPage {
   users: any[] = [];
@@ -18,7 +19,6 @@ export class AdminUsersPage {
   isLoading = true;
   savingId: number | null = null;
 
-  // state edit per user
   edit: { [id: number]: { roleId: number | null; position: string } } = {};
 
   constructor(

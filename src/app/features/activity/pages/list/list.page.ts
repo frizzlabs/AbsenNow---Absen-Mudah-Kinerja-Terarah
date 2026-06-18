@@ -4,6 +4,7 @@ import { IonicModule, ModalController, ToastController, LoadingController } from
 import { Router } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { BottomNavComponent } from '../../../../shared/components/bottom-nav/bottom-nav.component';
+import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
 import { FilterSheetComponent } from '../../components/filter-sheet/filter-sheet.component';
 import { SubmitTimesheetModalComponent } from '../../components/submit-timesheet-modal/submit-timesheet-modal.component';
 import { SubmitSuccessModalComponent } from '../../components/submit-success-modal/submit-success-modal.component';
@@ -26,7 +27,7 @@ export interface Activity {
   templateUrl: './list.page.html',
   styleUrls: ['./list.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, BottomNavComponent, TranslatePipe]
+  imports: [CommonModule, IonicModule, BottomNavComponent, TranslatePipe, PageHeaderComponent]
 })
 export class ListPage {
   Math = Math;

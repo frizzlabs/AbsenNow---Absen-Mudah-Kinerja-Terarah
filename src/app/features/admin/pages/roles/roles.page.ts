@@ -3,13 +3,14 @@ import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { RoleService } from '../../../../core/services/role.service';
+import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
 
 @Component({
   selector: 'app-admin-roles',
   templateUrl: './roles.page.html',
   styleUrls: ['./roles.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule]
+  imports: [CommonModule, IonicModule, PageHeaderComponent]
 })
 export class RolesPage {
   roles: any[] = [];

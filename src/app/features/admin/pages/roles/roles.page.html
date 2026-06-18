@@ -1,20 +1,6 @@
-<ion-header class="ion-no-border">
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-button (click)="goBack()">
-        <ion-icon name="arrow-back-outline" color="dark"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-    <ion-title>Role & Privilege</ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="goUsers()">
-        <ion-icon name="people-outline" color="primary"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
+  <app-page-header title="Role & Privilege"></app-page-header>
+
   <div class="text-center" *ngIf="isLoading" style="padding:40px;">
     <ion-spinner name="crescent" color="primary"></ion-spinner>
   </div>

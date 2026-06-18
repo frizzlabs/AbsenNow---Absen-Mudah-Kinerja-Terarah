@@ -1,27 +1,17 @@
-<ion-header class="ion-no-border">
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-button (click)="goBack()">
-        <ion-icon name="arrow-back-outline" color="dark"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-    <ion-title>Activity Record</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
-  <div class="content-wrapper" *ngIf="activity">
+  <app-page-header title="Activity Record"></app-page-header>
+  <div class="content-wrapper">
     <!-- Header Status & ID -->
     <div class="flex-between mb-24">
-      <div class="status-badge">{{ activity.timesheet_id ? 'Submitted' : 'Draft' }}</div>
-      <div class="activity-id">{{ activityCode }}</div>
+      <div class="status-badge">Submitted</div>
+      <div class="activity-id">#ACT-8942</div>
     </div>
 
     <!-- Title & Project -->
-    <h1 class="activity-title">{{ activity.title }}</h1>
+    <h1 class="activity-title">Backend API Refactoring</h1>
     <div class="activity-project mb-24">
       <ion-icon name="business-outline"></ion-icon>
-      {{ activity.project || '—' }}
+      Project Alpha
     </div>
 
     <!-- Info Cards -->
@@ -30,14 +20,14 @@
         <div class="label">DATE</div>
         <div class="value">
           <ion-icon name="calendar-outline"></ion-icon>
-          {{ formatDate(activity.activity_date) }}
+          Feb 24, 2023
         </div>
       </div>
       <div class="info-card">
         <div class="label">DURATION</div>
         <div class="value">
           <ion-icon name="time-outline"></ion-icon>
-          {{ durationLabel }}
+          4h 30m
         </div>
       </div>
     </div>
@@ -47,12 +37,12 @@
       <div class="window-content">
         <div class="time-box">
           <div class="time-label">Start</div>
-          <div class="time-val">{{ toAmPm(activity.start_time) }}</div>
+          <div class="time-val">09:00 AM</div>
         </div>
         <div class="line"></div>
         <div class="time-box end">
           <div class="time-label">End</div>
-          <div class="time-val">{{ toAmPm(activity.end_time) }}</div>
+          <div class="time-val">01:30 PM</div>
         </div>
       </div>
     </div>
@@ -60,13 +50,9 @@
     <!-- Description -->
     <div class="section-label mb-16">DESCRIPTION</div>
     <div class="description-text mb-24">
-      <p>{{ activity.description || 'No description provided.' }}</p>
+      <p>Refactored the user authentication endpoints to improve latency. Updated the swagger documentation to reflect changes in the response schema for /auth/login and /auth/verify</p>
+      <p>Conducted unit tests on the new middleware and verified 15% improvement in response times during load testing.</p>
     </div>
-
-    <ion-button expand="block" fill="outline" color="primary" (click)="editActivity()" class="mb-24">
-      <ion-icon name="create-outline" slot="start"></ion-icon>
-      Edit Activity
-    </ion-button>
 
     <!-- Warning Alert -->
     <div class="alert-box info-alert mb-32">
