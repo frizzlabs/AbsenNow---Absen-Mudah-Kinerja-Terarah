@@ -1,64 +1,39 @@
-<ion-header class="ion-no-border">
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-button (click)="goBack()">
-        <ion-icon name="arrow-back-outline" color="dark"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-    <ion-title>Claim Detail</ion-title>
-    <ion-buttons slot="end" *ngIf="!isLoading && expense">
-      <div class="status-badge" [ngClass]="expense.status.toLowerCase()">
-        {{ formatStatus(expense.status) }}
-      </div>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content color="light">
-  <div class="text-center" *ngIf="isLoading" style="padding: 40px; text-align: center;">
-    <ion-spinner name="crescent" color="primary"></ion-spinner>
-    <p style="color: var(--ion-color-medium); margin-top: 12px;">Loading details...</p>
-  </div>
-
-  <div class="content-wrapper" *ngIf="!isLoading && expense">
+  <app-page-header title="Claim Detail"></app-page-header>
+  <div class="content-wrapper">
     
     <div class="section-title">Expense Data</div>
     <div class="data-card">
       <div class="data-row">
         <div class="label">Merchant</div>
-        <div class="value">{{ expense.merchant }}</div>
+        <div class="value">The Corner Bistro</div>
       </div>
       <div class="data-row">
         <div class="label">Category</div>
-        <div class="value">{{ getCategoryName(expense.category) }}</div>
+        <div class="value">Meals & Entertainment</div>
       </div>
       <div class="data-row">
         <div class="label">Date</div>
-        <div class="value">{{ getFormattedDate(expense.expense_date) }}</div>
+        <div class="value">Oct 24, 2026</div>
       </div>
       <div class="data-row">
         <div class="label">Expense ID</div>
-        <div class="value">#EXP-{{ expense.id.toString().padStart(3, '0') }}</div>
+        <div class="value">#EXP-2026-089</div>
       </div>
       <div class="data-row">
-        <div class="label">Amount</div>
-        <div class="value" style="font-weight: 700; color: var(--ion-color-primary);">{{ expense.amount | currency:'USD':'symbol':'1.2-2' }}</div>
-      </div>
-      <div class="data-row" *ngIf="expense.notes">
         <div class="label">Notes</div>
-        <div class="value">{{ expense.notes }}</div>
+        <div class="value">Client lunch with ABC Corp.</div>
       </div>
     </div>
 
-    <div class="section-title" *ngIf="expense.receipt_path">Attached Receipt</div>
-    <div class="receipt-wrapper" *ngIf="expense.receipt_path">
+    <div class="section-title">Attached Receipt</div>
+    <div class="receipt-wrapper">
       <app-expense-receipt-preview
-        [imageUrl]="getReceiptUrl(expense.receipt_path)"
-        [fileName]="getFileName(expense.receipt_path)"
-        fileSize="Attached File"
+        imageUrl="assets/images/receipt-placeholder.jpg"
+        fileName="Receipt_The Corner Bistro.jpg"
+        fileSize="1.2 MB"
         [showClose]="false"
-        [showView]="true"
-        (onView)="viewReceipt(getReceiptUrl(expense.receipt_path))">
+        [showView]="true">
       </app-expense-receipt-preview>
     </div>
 
@@ -70,7 +45,7 @@
   </div>
 </ion-content>
 
-<ion-footer class="ion-no-border" *ngIf="!isLoading && expense && expense.status === 'pending'">
+<ion-footer class="ion-no-border">
   <div class="footer-pad">
     <ion-button expand="block" shape="round" color="light" class="edit-btn" (click)="editExpense()">
       Edit Expense

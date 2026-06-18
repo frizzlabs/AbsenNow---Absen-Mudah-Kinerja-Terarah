@@ -5,123 +5,58 @@ import { IonicModule } from '@ionic/angular';
 import { RouterModule, Router } from '@angular/router';
 import { ExpenseStatCardComponent } from '../../../../shared/components/expense-stat-card/expense-stat-card.component';
 import { ExpenseCardComponent } from '../../../../shared/components/expense-card/expense-card.component';
-import { ExpenseService } from '../../../../core/services/expense.service';
+import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
 
 @Component({
   selector: 'app-overview',
   templateUrl: './overview.page.html',
   styleUrls: ['./overview.page.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, IonicModule, RouterModule, ExpenseStatCardComponent, ExpenseCardComponent]
+  imports: [CommonModule, FormsModule, IonicModule, RouterModule, ExpenseStatCardComponent, ExpenseCardComponent, PageHeaderComponent]
 })
 export class OverviewPage implements OnInit {
-  currentRequests: any[] = [];
-  isLoading = true;
+  currentRequests = [
+    {
+      title: 'Uber to Airport',
+      category: 'Business Trip',
+      date: 'Oct 24',
+      amount: 45.00,
+      status: 'Pending' as any,
+      icon: 'car-outline',
+      iconColor: 'primary' as any
+    },
+    {
+      title: 'Flight to NYC',
+      category: 'Business Trip',
+      date: 'Oct 24',
+      amount: 450.00,
+      status: 'Paid' as any,
+      icon: 'airplane-outline',
+      iconColor: 'primary' as any
+    },
+    {
+      title: 'Client Lunch',
+      category: 'Marketing',
+      date: 'Oct 22',
+      amount: 4250.00,
+      status: 'Paid' as any,
+      icon: 'restaurant-outline',
+      iconColor: 'warning' as any
+    },
+    {
+      title: 'Client Dinner',
+      category: 'Marketing',
+      date: 'Oct 22',
+      amount: 4250.00,
+      status: 'Paid' as any,
+      icon: 'restaurant-outline',
+      iconColor: 'warning' as any
+    }
+  ];
 
-  totalAmount = 0;
-  pendingAmount = 0;
-  approvedAmount = 0;
-
-  constructor(
-    private router: Router,
-    private expenseService: ExpenseService
-  ) { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
-  }
-
-  ionViewWillEnter() {
-    this.loadExpenses();
-  }
-
-  loadExpenses() {
-    this.isLoading = true;
-    this.expenseService.getRequests().subscribe({
-      next: (requests) => {
-        this.currentRequests = requests.map(req => {
-          return {
-            id: req.id,
-            title: req.merchant,
-            category: this.getCategoryName(req.category),
-            date: this.formatDate(req.expense_date),
-            amount: parseFloat(req.amount),
-            status: this.formatStatus(req.status),
-            icon: this.getIconName(req.category),
-            iconColor: this.getIconColor(req.category)
-          };
-        });
-
-        this.calculateStats();
-        this.isLoading = false;
-      },
-      error: (err) => {
-        console.error('Failed to load expense requests', err);
-        this.isLoading = false;
-      }
-    });
-  }
-
-  calculateStats() {
-    this.pendingAmount = this.currentRequests
-      .filter(r => r.status === 'Pending')
-      .reduce((acc, r) => acc + r.amount, 0);
-
-    this.approvedAmount = this.currentRequests
-      .filter(r => r.status === 'Approved' || r.status === 'Paid')
-      .reduce((acc, r) => acc + r.amount, 0);
-
-    this.totalAmount = this.pendingAmount + this.approvedAmount;
-  }
-
-  getCategoryName(cat: string): string {
-    const mapping: { [key: string]: string } = {
-      travel: 'Travel & Transportation',
-      meals: 'Meals & Entertainment',
-      office: 'Office Supplies',
-      hotel: 'Accommodation / Hotel',
-      other: 'Other'
-    };
-    return mapping[cat] || cat;
-  }
-
-  getIconName(cat: string): string {
-    const mapping: { [key: string]: string } = {
-      travel: 'car-outline',
-      meals: 'restaurant-outline',
-      office: 'business-outline',
-      hotel: 'bed-outline',
-      other: 'ellipsis-horizontal-outline'
-    };
-    return mapping[cat] || 'ellipsis-horizontal-outline';
-  }
-
-  getIconColor(cat: string): 'primary' | 'warning' | 'danger' | 'success' | 'medium' {
-    const mapping: { [key: string]: 'primary' | 'warning' | 'danger' | 'success' | 'medium' } = {
-      travel: 'primary',
-      meals: 'warning',
-      office: 'primary',
-      hotel: 'success',
-      other: 'medium'
-    };
-    return mapping[cat] || 'medium';
-  }
-
-  formatDate(dateStr: string): string {
-    try {
-      const d = new Date(dateStr);
-      return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-    } catch (e) {
-      return dateStr;
-    }
-  }
-
-  formatStatus(status: string): any {
-    if (!status) return 'Pending';
-    const lower = status.toLowerCase();
-    if (lower === 'paid') return 'Paid';
-    if (lower === 'approved') return 'Approved';
-    if (lower === 'rejected') return 'Rejected';
-    return 'Pending';
   }
 
   goBack() {
@@ -133,11 +68,6 @@ export class OverviewPage implements OnInit {
   }
 
   goToCreate() {
-    this.expenseService.resetDraft();
     this.router.navigate(['/expense/create/step-1']);
-  }
-
-  goToDetail(id: number) {
-    this.router.navigate(['/expense/detail'], { queryParams: { id } });
   }
 }

@@ -1,15 +1,5 @@
-<ion-header class="ion-no-border">
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-button (click)="goBack()">
-        <ion-icon name="arrow-back-outline" color="dark"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-    <ion-title>Create Request</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content color="light">
+  <app-page-header title="Create Request"></app-page-header>
   <app-expense-stepper [currentStep]="2" [totalSteps]="5" title="Expense Request"></app-expense-stepper>
 
   <div class="content-wrapper">
