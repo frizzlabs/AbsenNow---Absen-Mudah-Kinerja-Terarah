@@ -9,23 +9,6 @@ ion-content {
   border-bottom-right-radius: 24px;
 }
 
-.header {
-  display: flex;
-  align-items: center;
-  padding: 16px 0 24px;
-  
-  .back-btn {
-    font-size: 24px;
-    color: var(--ion-color-tertiary);
-  }
-  
-  .header-title {
-    margin-left: 16px;
-    font-size: 16px;
-    font-weight: 600;
-    color: var(--ion-color-tertiary);
-  }
-}
 
 .calendar-picker {
   .month-selector {

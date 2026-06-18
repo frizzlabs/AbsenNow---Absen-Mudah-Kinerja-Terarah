@@ -5,13 +5,14 @@ import { IonicModule } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { AttendanceService } from '../../../core/services/attendance.service';
+import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
 
 @Component({
   selector: 'app-team-list',
   templateUrl: './team-list.page.html',
   styleUrls: ['./team-list.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule]
+  imports: [IonicModule, CommonModule, FormsModule, PageHeaderComponent]
 })
 export class TeamListPage implements OnInit {
   selectedDate = new Date().toISOString().split('T')[0];

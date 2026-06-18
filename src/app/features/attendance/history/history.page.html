@@ -1,89 +1,187 @@
 <ion-content [fullscreen]="true">
+  <app-page-header title="Attendance History"></app-page-header>
   <div class="page-container">
-    <div class="header">
-      <ion-icon name="arrow-back-outline" class="back-btn" (click)="goBack()"></ion-icon>
-      <span class="header-title">Attendance History</span>
-    </div>
 
     <div class="calendar-picker">
       <div class="month-selector">
-        <app-card [padding]="false" class="nav-btn" (click)="prevWeek()" style="cursor: pointer;">
-          <ion-icon name="chevron-back-outline"></ion-icon>
-        </app-card>
+        <app-card [padding]="false" class="nav-btn"><ion-icon name="chevron-back-outline"></ion-icon></app-card>
         <div class="month-text">
-          <h3 class="text-h4">{{ monthYearLabel }}</h3>
-          <span class="text-body-small-regular text-medium">{{ weekLabel }}</span>
+          <h3 class="text-h4">February 2026</h3>
+          <span class="text-body-small-regular text-medium">Week 4</span>
         </div>
-        <app-card [padding]="false" class="nav-btn" (click)="nextWeek()" style="cursor: pointer;">
-          <ion-icon name="chevron-forward-outline"></ion-icon>
-        </app-card>
+        <app-card [padding]="false" class="nav-btn"><ion-icon name="chevron-forward-outline"></ion-icon></app-card>
       </div>
       
       <div class="days-row">
-        <div class="day" 
-             *ngFor="let day of weekDays" 
-             [class.active]="isSameDay(day.date, selectedDate)"
-             [class.disabled]="day.isDisabled"
-             (click)="selectDay(day)"
-             style="cursor: pointer;">
-          <span class="day-name">{{ day.dayName }}</span>
-          <span class="day-num">{{ day.dayNum }}</span>
+        <div class="day">
+          <span class="day-name">Mon</span>
+          <span class="day-num">23</span>
+        </div>
+        <div class="day active">
+          <span class="day-name">Tue</span>
+          <span class="day-num">24</span>
+        </div>
+        <div class="day">
+          <span class="day-name">Wed</span>
+          <span class="day-num">25</span>
+        </div>
+        <div class="day">
+          <span class="day-name">Thu</span>
+          <span class="day-num">26</span>
+        </div>
+        <div class="day">
+          <span class="day-name">Fri</span>
+          <span class="day-num">27</span>
+        </div>
+        <div class="day disabled">
+          <span class="day-name">Sat</span>
+          <span class="day-num">28</span>
+        </div>
+        <div class="day disabled">
+          <span class="day-name">Sun</span>
+          <span class="day-num">29</span>
         </div>
       </div>
     </div>
   </div>
 
   <div class="list-section">
-    <h4 class="section-title text-body-small-semibold">ATTENDANCE LOGS</h4>
+    <h4 class="section-title text-body-small-semibold">THIS WEEK</h4>
 
-    <div class="text-center" *ngIf="isLoading" style="padding: 30px;">
-      <ion-spinner name="crescent" color="primary"></ion-spinner>
-    </div>
-
-    <div class="text-center" *ngIf="!isLoading && getFilteredLogs().length === 0" style="padding: 40px 20px;">
-      <ion-icon name="calendar-outline" style="font-size: 48px; color: var(--ion-color-medium-light);"></ion-icon>
-      <p class="text-body-medium-regular text-medium" style="margin-top: 12px;">No attendance logs found for this day.</p>
-    </div>
-
-    <div class="history-list" *ngIf="!isLoading && getFilteredLogs().length > 0">
-      <app-card class="history-card" *ngFor="let log of getFilteredLogs()">
+    <div class="history-list">
+      <!-- Card 1 -->
+      <app-card class="history-card">
         <div class="card-header">
           <div class="shift-info">
             <div class="icon-box bg-blue-light text-blue">
               <ion-icon name="calendar-outline"></ion-icon>
             </div>
             <div class="shift-text">
-              <h4 class="text-body-medium-semibold">{{ log.date | date:'EEE, dd MMM' }}</h4>
+              <h4 class="text-body-medium-semibold">Tue, 24 Feb</h4>
               <span class="text-body-small-regular text-medium">Regular Shift</span>
             </div>
           </div>
-          <app-status-badge [color]="log.check_out ? 'success' : 'warning'" [text]="log.check_out ? 'Completed' : 'Checked In'"></app-status-badge>
+          <app-status-badge color="success" text="On time"></app-status-badge>
         </div>
         
         <div class="time-logs">
           <div class="log">
             <span class="text-body-small-regular text-medium">Check In</span>
-            <div class="time-val" style="display: flex; align-items: center; gap: 8px;">
-              <img [src]="getImageUrl(log.image_in)" *ngIf="log.image_in" style="width: 28px; height: 28px; border-radius: 4px; object-fit: cover; border: 1px solid var(--ion-color-light);" />
-              <ion-icon name="log-in-outline" *ngIf="!log.image_in"></ion-icon>
-              <span class="text-h4">{{ formatTime12(log.check_in) }}</span>
+            <div class="time-val">
+              <ion-icon name="log-in-outline"></ion-icon>
+              <span class="text-h4">09:00 AM</span>
             </div>
           </div>
           <div class="log">
             <span class="text-body-small-regular text-medium">Check Out</span>
-            <div class="time-val" style="display: flex; align-items: center; gap: 8px;">
-              <img [src]="getImageUrl(log.image_out)" *ngIf="log.image_out" style="width: 28px; height: 28px; border-radius: 4px; object-fit: cover; border: 1px solid var(--ion-color-light);" />
-              <ion-icon name="log-out-outline" *ngIf="!log.image_out"></ion-icon>
-              <span class="text-h4">{{ formatTime12(log.check_out) }}</span>
+            <div class="time-val">
+              <ion-icon name="log-out-outline"></ion-icon>
+              <span class="text-h4">06:00 PM</span>
             </div>
           </div>
         </div>
 
-        <div class="divider" *ngIf="log.check_out"></div>
+        <div class="divider"></div>
 
-        <div class="duration-footer" *ngIf="log.check_out">
+        <div class="duration-footer">
           <span class="text-body-small-regular text-medium">Total Duration</span>
-          <span class="text-body-medium-semibold text-dark">{{ calculateDuration(log.check_in, log.check_out) }}</span>
+          <span class="text-body-medium-semibold text-dark">9h 00m</span>
+        </div>
+      </app-card>
+
+      <!-- Card 2 -->
+      <app-card class="history-card">
+        <div class="card-header">
+          <div class="shift-info">
+            <div class="icon-box bg-blue-light text-blue">
+              <ion-icon name="calendar-outline"></ion-icon>
+            </div>
+            <div class="shift-text">
+              <h4 class="text-body-medium-semibold">Mon, 23 Feb</h4>
+              <span class="text-body-small-regular text-medium">Regular Shift</span>
+            </div>
+          </div>
+          <app-status-badge color="warning" text="Late"></app-status-badge>
+        </div>
+        
+        <div class="time-logs">
+          <div class="log">
+            <span class="text-body-small-regular text-medium">Check In</span>
+            <div class="time-val">
+              <ion-icon name="log-in-outline"></ion-icon>
+              <span class="text-h4">09:45 AM</span>
+            </div>
+          </div>
+          <div class="log">
+            <span class="text-body-small-regular text-medium">Check Out</span>
+            <div class="time-val">
+              <ion-icon name="log-out-outline"></ion-icon>
+              <span class="text-h4">06:45 PM</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="duration-footer">
+          <span class="text-body-small-regular text-medium">Total Duration</span>
+          <span class="text-body-medium-semibold text-dark">9h 00m</span>
+        </div>
+      </app-card>
+
+      <!-- Card 3 -->
+      <app-card class="history-card">
+        <div class="card-header">
+          <div class="shift-info">
+            <div class="icon-box bg-blue-light text-blue">
+              <ion-icon name="calendar-outline"></ion-icon>
+            </div>
+            <div class="shift-text">
+              <h4 class="text-body-medium-semibold">Fri, 20 Feb</h4>
+              <span class="text-body-small-regular text-medium">Overtime</span>
+            </div>
+          </div>
+          <app-status-badge color="primary" text="Overtime"></app-status-badge>
+        </div>
+        
+        <div class="time-logs">
+          <div class="log">
+            <span class="text-body-small-regular text-medium">Check In</span>
+            <div class="time-val">
+              <ion-icon name="log-in-outline"></ion-icon>
+              <span class="text-h4">09:00 AM</span>
+            </div>
+          </div>
+          <div class="log">
+            <span class="text-body-small-regular text-medium">Check Out</span>
+            <div class="time-val">
+              <ion-icon name="log-out-outline"></ion-icon>
+              <span class="text-h4">08:30 PM</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="duration-footer">
+          <span class="text-body-small-regular text-medium">Total Duration</span>
+          <span class="text-body-medium-semibold text-dark">11h 30m</span>
+        </div>
+      </app-card>
+
+      <!-- Card 4 -->
+      <app-card class="history-card">
+        <div class="card-header">
+          <div class="shift-info">
+            <div class="icon-box bg-blue-light text-blue">
+              <ion-icon name="calendar-outline"></ion-icon>
+            </div>
+            <div class="shift-text">
+              <h4 class="text-body-medium-semibold">Thu, 19 Feb</h4>
+              <span class="text-body-small-regular text-medium">Sick Leave</span>
+            </div>
+          </div>
+          <app-status-badge color="danger" icon="close" text="Absent"></app-status-badge>
         </div>
       </app-card>
     </div>
