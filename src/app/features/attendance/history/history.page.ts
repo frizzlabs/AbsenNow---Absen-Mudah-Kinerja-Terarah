@@ -4,13 +4,14 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { CardComponent } from '../../../shared/components/card/card.component';
 import { StatusBadgeComponent } from '../../../shared/components/status-badge/status-badge.component';
+import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
 
 @Component({
   selector: 'app-history',
   templateUrl: './history.page.html',
   styleUrls: ['./history.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, CardComponent, StatusBadgeComponent]
+  imports: [IonicModule, CommonModule, FormsModule, CardComponent, StatusBadgeComponent, PageHeaderComponent]
 })
 export class HistoryPage implements OnInit {
   constructor() { }

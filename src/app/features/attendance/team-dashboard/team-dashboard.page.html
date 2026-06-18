@@ -1,0 +1,114 @@
+<ion-content>
+  <app-page-header title="Dashboard Absensi"></app-page-header>
+
+  <div class="custom-segment-container">
+    <div class="segment-item" [class.active]="activeFilter === 'all'" (click)="setFilter('all')">Semua</div>
+    <div class="segment-item" [class.active]="activeFilter === 'present'" (click)="setFilter('present')">Hadir</div>
+    <div class="segment-item" [class.active]="activeFilter === 'late'" (click)="setFilter('late')">Terlambat</div>
+    <div class="segment-item" [class.active]="activeFilter === 'absent'" (click)="setFilter('absent')">Belum Absen</div>
+  </div>
+
+  <!-- Loading -->
+  <div class="text-center" *ngIf="isLoading" style="padding: 40px; text-align: center;">
+    <ion-spinner name="crescent" color="primary"></ion-spinner>
+    <p style="color: var(--ion-color-medium); margin-top: 12px;">Memuat data absensi...</p>
+  </div>
+
+  <div class="content-wrapper" *ngIf="!isLoading && summary">
+
+    <!-- DATE PICKER -->
+    <div class="date-picker-row">
+      <div class="date-label-text">
+        <ion-icon name="calendar-outline"></ion-icon>
+        <span class="text-body-medium-semibold">{{ dateFormatted() }}</span>
+      </div>
+      <input type="date" class="date-input" [(ngModel)]="selectedDate" (change)="onDateChange()" />
+    </div>
+
+    <!-- STAT CARD (primary) -->
+    <div class="stat-card-primary">
+      <div class="stat-label">Total Karyawan · {{ dateFormatted() }}</div>
+      <div class="stat-value-container">
+        <span class="value">{{ summary.total }}</span>
+        <span class="unit">Karyawan</span>
+      </div>
+      <div class="stat-footer">
+        <ion-icon name="exit-outline"></ion-icon>
+        <span>{{ summary.checked_out }} sudah check-out</span>
+      </div>
+    </div>
+
+    <!-- STAT ROW -->
+    <div class="stat-row">
+      <div class="stat-mini" [class.active]="activeFilter === 'present'" (click)="setFilter('present')">
+        <div class="stat-header">
+          <ion-icon name="checkmark-circle-outline" class="text-success"></ion-icon>
+          <span>HADIR</span>
+        </div>
+        <div class="stat-value">{{ summary.present }}</div>
+      </div>
+      <div class="stat-mini" [class.active]="activeFilter === 'late'" (click)="setFilter('late')">
+        <div class="stat-header">
+          <ion-icon name="time-outline" class="text-warning"></ion-icon>
+          <span>TERLAMBAT</span>
+        </div>
+        <div class="stat-value">{{ summary.late }}</div>
+      </div>
+      <div class="stat-mini" [class.active]="activeFilter === 'absent'" (click)="setFilter('absent')">
+        <div class="stat-header">
+          <ion-icon name="close-circle-outline" class="text-danger"></ion-icon>
+          <span>BELUM ABSEN</span>
+        </div>
+        <div class="stat-value">{{ summary.absent }}</div>
+      </div>
+    </div>
+
+    <!-- SECTION LABEL -->
+    <div class="section-title-row">
+      <span class="text-body-small-semibold text-medium">DAFTAR KARYAWAN</span>
+      <span class="count-badge">{{ filtered.length }}</span>
+    </div>
+
+    <!-- EMPTY STATE -->
+    <div *ngIf="filtered.length === 0" style="padding: 32px; text-align: center; color: var(--ion-color-medium); background: white; border-radius: 12px; border: 1px dashed var(--ion-color-medium-light);">
+      <ion-icon name="people-outline" style="font-size: 32px; margin-bottom: 8px; color: var(--ion-color-medium-light);"></ion-icon>
+      <p style="margin: 0; font-size: 14px;">Tidak ada karyawan untuk filter ini.</p>
+    </div>
+
+    <!-- EMPLOYEE LIST -->
+    <div class="list-item" *ngFor="let emp of filtered">
+      <div class="item-header">
+        <div class="emp-info">
+          <div class="emp-avatar">{{ emp.name?.charAt(0)?.toUpperCase() }}</div>
+          <div class="emp-text">
+            <div class="text-body-medium-semibold text-dark">{{ emp.name }}</div>
+            <span class="text-body-small-regular text-medium">{{ emp.job_title || emp.department || emp.role }}</span>
+          </div>
+        </div>
+        <div class="status-badge" [ngClass]="emp.status">{{ statusLabel(emp.status) }}</div>
+      </div>
+
+      <div class="time-logs" *ngIf="emp.attendance">
+        <div class="log-item">
+          <span class="text-body-small-regular text-medium">Check In</span>
+          <span class="text-body-medium-semibold text-dark">{{ emp.attendance.check_in ? (emp.attendance.check_in | slice:0:5) : '—' }}</span>
+        </div>
+        <div class="log-divider"></div>
+        <div class="log-item">
+          <span class="text-body-small-regular text-medium">Check Out</span>
+          <span class="text-body-medium-semibold text-dark">{{ emp.attendance.check_out ? (emp.attendance.check_out | slice:0:5) : '—' }}</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <div class="footer-wrapper">
+    <ion-button expand="block" shape="round" color="primary" (click)="goList()">
+      <ion-icon name="list-outline" slot="start"></ion-icon>
+      Lihat List Absensi Lengkap
+    </ion-button>
+  </div>
+</ion-footer>
