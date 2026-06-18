@@ -1,51 +1,38 @@
-<ion-header class="ion-no-border">
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-button (click)="goBack()">
-        <ion-icon name="chevron-back-outline" color="dark"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-    <ion-title>{{ payslip?.period_label || 'Slip Gaji' }}</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
-  <div class="text-center" *ngIf="isLoading" style="padding: 40px;">
-    <ion-spinner name="crescent" color="primary"></ion-spinner>
-  </div>
+  <app-page-header title="Payslip Detail"></app-page-header>
 
-  <div class="content-wrapper" *ngIf="!isLoading && payslip">
+  <div class="content-wrapper">
     <!-- Summary Card -->
     <div class="summary-card">
-      <div class="net-salary-label">Gaji Bersih</div>
-      <div class="net-salary-amount">{{ fmt(payslip.net_salary) }}</div>
-
+      <div class="net-salary-label">Net Salary</div>
+      <div class="net-salary-amount">$4,250.00</div>
+      
       <div class="breakdown-row">
         <div class="breakdown-col">
-          <div class="breakdown-label">Gaji Kotor</div>
-          <div class="breakdown-value">{{ fmt(payslip.gross_salary) }}</div>
+          <div class="breakdown-label">Gross Salary</div>
+          <div class="breakdown-value">$4,250.00</div>
         </div>
         <div class="breakdown-col right-align">
-          <div class="breakdown-label">Total Potongan</div>
-          <div class="breakdown-value deduction">-{{ fmt(payslip.total_deductions) }}</div>
+          <div class="breakdown-label">Total Deductions</div>
+          <div class="breakdown-value deduction">-$1,550.00</div>
         </div>
       </div>
     </div>
 
     <!-- Earnings Section -->
-    <div class="section-title">PENDAPATAN</div>
-
+    <div class="section-title">EARNINGS</div>
+    
     <div class="card-list">
       <div class="list-card" (click)="openBasicSalary()">
         <div class="icon-container primary-light">
           <ion-icon name="document-text-outline" color="primary"></ion-icon>
         </div>
         <div class="card-content">
-          <div class="title">Gaji Pokok</div>
-          <div class="subtitle">Gaji tetap, lembur, tunjangan jabatan</div>
+          <div class="title">Basic Salary</div>
+          <div class="subtitle">Monthly fixed pay</div>
         </div>
         <div class="amount-container">
-          <span class="amount">{{ fmt(sectionTotal('gaji_pokok')) }}</span>
+          <span class="amount">$3,500.00</span>
           <ion-icon name="chevron-forward-outline"></ion-icon>
         </div>
       </div>
@@ -55,30 +42,30 @@
           <ion-icon name="gift-outline" color="warning"></ion-icon>
         </div>
         <div class="card-content">
-          <div class="title">Tunjangan</div>
-          <div class="subtitle">Perumahan, transport, makan</div>
+          <div class="title">Allowances</div>
+          <div class="subtitle">Transport, Meal, etc.</div>
         </div>
         <div class="amount-container">
-          <span class="amount">{{ fmt(sectionTotal('tunjangan')) }}</span>
+          <span class="amount">$2,300.00</span>
           <ion-icon name="chevron-forward-outline"></ion-icon>
         </div>
       </div>
     </div>
 
     <!-- Deductions Section -->
-    <div class="section-title mt-24">POTONGAN</div>
+    <div class="section-title mt-24">DEDUCTIONS</div>
 
     <div class="card-list">
       <div class="list-card" (click)="openTaxInsurance()">
         <div class="icon-container purple-light">
-          <ion-icon name="shield-checkmark-outline" style="color: #6a1b9a"></ion-icon>
+          <ion-icon name="home-outline" style="color: #6a1b9a"></ion-icon>
         </div>
         <div class="card-content">
-          <div class="title">Pajak & Asuransi</div>
-          <div class="subtitle">Asuransi kesehatan, BPJS</div>
+          <div class="title">Tax & Insurance</div>
+          <div class="subtitle">Income tax, social security</div>
         </div>
         <div class="amount-container">
-          <span class="amount deduction">-{{ fmt(sectionTotal('pajak_asuransi')) }}</span>
+          <span class="amount deduction">-$1,250.00</span>
           <ion-icon name="chevron-forward-outline"></ion-icon>
         </div>
       </div>
@@ -88,20 +75,20 @@
           <ion-icon name="remove-circle-outline" color="danger"></ion-icon>
         </div>
         <div class="card-content">
-          <div class="title">Potongan Lainnya</div>
-          <div class="subtitle">PPh 21, dana pensiun, iuran</div>
+          <div class="title">Other Deductions</div>
+          <div class="subtitle">Unpaid leave, loan repayment</div>
         </div>
         <div class="amount-container">
-          <span class="amount deduction">-{{ fmt(sectionTotal('potongan_lain')) }}</span>
+          <span class="amount deduction">-$300.00</span>
           <ion-icon name="chevron-forward-outline"></ion-icon>
         </div>
       </div>
     </div>
 
     <!-- Info Banner -->
-    <div class="info-banner" *ngIf="payslip.bank_name">
+    <div class="info-banner">
       <ion-icon name="information-circle-outline"></ion-icon>
-      <p>{{ bankInfo }}</p>
+      <p>Your salary was transferred to your Bank of America account ending in ****4582 on Feb 28, 2026.</p>
     </div>
   </div>
 </ion-content>

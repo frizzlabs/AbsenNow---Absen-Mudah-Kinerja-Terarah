@@ -1,28 +1,19 @@
-<ion-header class="ion-no-border">
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-button (click)="goBack()">
-        <ion-icon name="arrow-back-outline" color="dark"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-    <ion-title>Request Overtime</ion-title>
-  </ion-toolbar>
+<ion-content>
+  <app-page-header title="Request Overtime"></app-page-header>
 
   <div class="progress-container">
     <div class="progress-labels">
-      <span class="step-label">Step 2 of 2</span>
-      <span class="title-label">Request Overtime</span>
+      <span class="step-label">Step 2 of 3</span>
+      <span class="title-label">Request Permission</span>
     </div>
     <div class="progress-bar-bg">
-      <div class="progress-bar-fill" style="width: 100%"></div>
+      <div class="progress-bar-fill" style="width: 66%"></div>
     </div>
   </div>
-</ion-header>
 
-<ion-content>
-  <div class="content-wrapper" *ngIf="draft">
+  <div class="content-wrapper">
     <p class="summary-text">
-      Please double-check the overtime schedule you've selected for <strong>{{ formatDate(draft.overtime_date) }}</strong>.
+      Please double-check the overtime schedule you've selected for <strong>Fri, Oct 20, 2026</strong>.
     </p>
 
     <!-- Time Card -->
@@ -32,7 +23,7 @@
       </div>
       <div class="card-content">
         <div class="label">TIME</div>
-        <div class="value">{{ formatTime(draft.start_time) }} - {{ formatTime(draft.end_time) }}</div>
+        <div class="value">09:00 AM - 10:30 AM</div>
       </div>
     </div>
 
@@ -45,37 +36,35 @@
         <div class="label">TOTAL DURATION</div>
         <div class="sub-label">Calculated automatically</div>
       </div>
-      <div class="duration-value">{{ durationLabel }}</div>
+      <div class="duration-value">3h 15m</div>
     </div>
 
     <div class="section-title">REASON</div>
     <p class="reason-text">
-      {{ draft.reason || 'No reason provided.' }}
+      Finishing Q3 financial reports as requested by management due to the upcoming board meeting deadline. The team needs final numbers by tomorrow morning.
     </p>
 
-    <ng-container *ngIf="draft.attachment_name">
-      <div class="section-title">ATTACHMENTS</div>
-      <div class="attachment-card">
-        <div class="icon-circle danger-light">
-          <ion-icon name="document-text-outline" color="danger"></ion-icon>
-        </div>
-        <div class="attachment-content">
-          <div class="filename">{{ draft.attachment_name }}</div>
-          <div class="filesize">{{ draft.attachment_size }} • {{ draft.attachment_type }}</div>
-        </div>
-        <ion-icon name="eye-outline" class="view-icon"></ion-icon>
+    <div class="section-title">ATTACHMENTS</div>
+    <div class="attachment-card">
+      <div class="icon-circle danger-light">
+        <ion-icon name="document-text-outline" color="danger"></ion-icon>
       </div>
-    </ng-container>
+      <div class="attachment-content">
+        <div class="filename">Manager_Approval.pdf</div>
+        <div class="filesize">1.2 MB • PDF</div>
+      </div>
+      <ion-icon name="eye-outline" class="view-icon"></ion-icon>
+    </div>
   </div>
 </ion-content>
 
 <ion-footer class="ion-no-border">
   <div class="footer-wrapper">
     <div class="checkbox-container">
-      <ion-checkbox [(ngModel)]="isChecked"></ion-checkbox>
+      <ion-checkbox></ion-checkbox>
       <div class="checkbox-label">I confirm these entries are accurate and comply with company policy.</div>
     </div>
-    <ion-button expand="block" shape="round" color="primary" [disabled]="isSubmitting" (click)="submitRequest()">
+    <ion-button expand="block" shape="round" color="primary" (click)="submitRequest()">
       <ion-icon name="send-outline" slot="start"></ion-icon>
       Submit request
     </ion-button>
