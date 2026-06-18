@@ -3,13 +3,14 @@ import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule, Router } from '@angular/router';
 import { LeaveStepperComponent } from '../../../../shared/components/leave-stepper/leave-stepper.component';
+import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
 
 @Component({
   selector: 'app-create-dates',
   templateUrl: './create-dates.page.html',
   styleUrls: ['./create-dates.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, RouterModule, LeaveStepperComponent]
+  imports: [CommonModule, IonicModule, RouterModule, LeaveStepperComponent, PageHeaderComponent]
 })
 export class CreateDatesPage implements OnInit {
   daysOfWeek = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
