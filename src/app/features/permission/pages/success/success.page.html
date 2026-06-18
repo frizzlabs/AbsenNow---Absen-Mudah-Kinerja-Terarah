@@ -10,17 +10,17 @@
     <h1 class="success-title">Permission Request Submitted</h1>
     <p class="success-message">
       Your manager has been notified.<br>
-      Request ID: #KRJ-2023-889
+      Request ID: #PRM-{{ permission?.id?.toString().padStart(3, '0') || '000' }}
     </p>
 
-    <div class="details-card">
+    <div class="details-card" *ngIf="permission">
       <div class="detail-row">
         <div class="icon-box primary-light">
           <ion-icon name="calendar-outline" color="primary"></ion-icon>
         </div>
         <div class="detail-content">
           <div class="label">Date</div>
-          <div class="value">Fri 20, Feb</div>
+          <div class="value">{{ formatDate(permission.permission_date) }}</div>
         </div>
       </div>
       
@@ -32,7 +32,7 @@
         </div>
         <div class="detail-content">
           <div class="label">Time</div>
-          <div class="value">09:00 AM - 10:30 AM</div>
+          <div class="value">{{ formatTime(permission.start_time) }} - {{ formatTime(permission.end_time) }}</div>
         </div>
       </div>
       
@@ -44,7 +44,7 @@
         </div>
         <div class="detail-content">
           <div class="label">Total Duration</div>
-          <div class="value">3 Days</div>
+          <div class="value">{{ formatDuration(permission.duration_hours) }}</div>
         </div>
       </div>
     </div>

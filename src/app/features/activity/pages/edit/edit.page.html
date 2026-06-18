@@ -23,16 +23,25 @@
       <div class="label">Activity Title</div>
       <div class="input-wrapper">
         <ion-icon name="document-text-outline" class="prefix-icon"></ion-icon>
-        <input type="text" value="Backend API Refactoring">
+        <input type="text" [(ngModel)]="title">
       </div>
     </div>
 
     <!-- Project or Client -->
     <div class="form-group">
       <div class="label">Project or Client</div>
-      <div class="custom-select">
-        <span>Project Alpha</span>
-        <ion-icon name="chevron-down-outline" color="medium"></ion-icon>
+      <div class="input-wrapper">
+        <ion-icon name="business-outline" class="prefix-icon"></ion-icon>
+        <input type="text" [(ngModel)]="project" placeholder="e.g. Project Alpha">
+      </div>
+    </div>
+
+    <!-- Date -->
+    <div class="form-group">
+      <div class="label">Date</div>
+      <div class="input-wrapper">
+        <ion-icon name="calendar-outline" class="prefix-icon"></ion-icon>
+        <input type="date" [(ngModel)]="activityDate">
       </div>
     </div>
 
@@ -43,15 +52,13 @@
       <div class="form-group flex-1">
         <div class="label">Start Time</div>
         <div class="time-select">
-          <span>9:00 AM</span>
-          <ion-icon name="time-outline" color="medium"></ion-icon>
+          <input type="time" [(ngModel)]="startTime" style="border: none; outline: none; background: transparent; width: 100%;">
         </div>
       </div>
       <div class="form-group flex-1">
         <div class="label">End Time</div>
         <div class="time-select">
-          <span>10:30 AM</span>
-          <ion-icon name="time-outline" color="medium"></ion-icon>
+          <input type="time" [(ngModel)]="endTime" style="border: none; outline: none; background: transparent; width: 100%;">
         </div>
       </div>
     </div>
@@ -61,7 +68,7 @@
       <span class="duration-label">Total Duration</span>
       <div class="duration-badge">
         <ion-icon name="time-outline"></ion-icon>
-        1h 30m
+        {{ durationLabel }}
       </div>
     </div>
 
@@ -71,25 +78,9 @@
     <div class="form-group">
       <div class="label">Category</div>
       <div class="pill-group">
-        <div class="filter-pill active">
-          <ion-icon name="code-slash-outline"></ion-icon>
-          Development
-        </div>
-        <div class="filter-pill">
-          <ion-icon name="people-outline"></ion-icon>
-          Meeting
-        </div>
-        <div class="filter-pill">
-          <ion-icon name="document-text-outline"></ion-icon>
-          Admin
-        </div>
-        <div class="filter-pill">
-          <ion-icon name="color-palette-outline"></ion-icon>
-          Design
-        </div>
-        <div class="filter-pill">
-          <ion-icon name="search-outline"></ion-icon>
-          QA
+        <div class="filter-pill" *ngFor="let cat of categories" [class.active]="category === cat.value" (click)="selectCategory(cat.value)">
+          <ion-icon [name]="cat.icon"></ion-icon>
+          {{ cat.label }}
         </div>
       </div>
     </div>
@@ -100,10 +91,8 @@
     <div class="form-group pt-16">
       <div class="label">Description</div>
       <div class="textarea-wrapper">
-        <textarea rows="7">Refactored the user authentication endpoints to improve latency. Updated the swagger documentation to reflect changes in the response schema for /auth/login and /auth/verify
-
-Conducted unit tests on the new middleware and verified 15% improvement in response times during load testing.</textarea>
-        <div class="char-count">50/200 <span class="resize-handle">//</span></div>
+        <textarea [(ngModel)]="description" maxlength="200" rows="7"></textarea>
+        <div class="char-count">{{ description.length }}/200 <span class="resize-handle">//</span></div>
       </div>
     </div>
 

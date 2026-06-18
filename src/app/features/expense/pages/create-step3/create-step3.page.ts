@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule, Router } from '@angular/router';
 import { ExpenseStepperComponent } from '../../../../shared/components/expense-stepper/expense-stepper.component';
+import { ExpenseService } from '../../../../core/services/expense.service';
 
 @Component({
   selector: 'app-create-step3',
@@ -13,13 +14,21 @@ import { ExpenseStepperComponent } from '../../../../shared/components/expense-s
   imports: [CommonModule, FormsModule, IonicModule, RouterModule, ExpenseStepperComponent]
 })
 export class CreateStep3Page implements OnInit {
-  merchantName: string = 'The Corner Bistro';
-  expenseDate: string = 'Oct 24, 2026';
-  amount: number = 45.00;
+  merchantName: string = '';
+  expenseDate: string = '';
+  amount: number | null = null;
+  notes: string = '';
 
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    public expenseService: ExpenseService
+  ) { }
 
   ngOnInit() {
+    this.merchantName = this.expenseService.draftRequest.merchant || '';
+    this.expenseDate = this.expenseService.draftRequest.expense_date || '';
+    this.amount = this.expenseService.draftRequest.amount;
+    this.notes = this.expenseService.draftRequest.notes || '';
   }
 
   goBack() {
@@ -27,6 +36,11 @@ export class CreateStep3Page implements OnInit {
   }
 
   next() {
-    this.router.navigate(['/expense/create/summary']); // wait, next is review summary, which is step 4
+    this.expenseService.draftRequest.merchant = this.merchantName;
+    this.expenseService.draftRequest.expense_date = this.expenseDate;
+    this.expenseService.draftRequest.amount = this.amount;
+    this.expenseService.draftRequest.notes = this.notes;
+    
+    this.router.navigate(['/expense/create/summary']);
   }
 }

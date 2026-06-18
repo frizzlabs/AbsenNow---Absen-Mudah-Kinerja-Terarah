@@ -28,16 +28,16 @@
 
     <div class="search-bar">
       <ion-icon name="search-outline"></ion-icon>
-      <input type="text" placeholder="Search activities or projects..." />
+      <input type="text" placeholder="Search activities or projects..." [ngModel]="searchQuery" (input)="onSearchChange($event)" />
     </div>
 
     <div class="delegates-list" [class.disabled]="skipDelegate">
-      <app-leave-radio-card *ngFor="let d of delegates"
+      <app-leave-radio-card *ngFor="let d of filteredDelegates"
         [avatarUrl]="d.avatar"
         [avatarStatusColor]="d.status"
         [title]="d.name"
         [subtitle]="d.role"
-        [selected]="selectedDelegate === d.id && !skipDelegate"
+        [selected]="selectedDelegateId === d.id && !skipDelegate"
         (cardSelect)="selectDelegate(d.id)">
       </app-leave-radio-card>
     </div>

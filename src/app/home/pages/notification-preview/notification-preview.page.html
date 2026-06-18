@@ -3,116 +3,41 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/home" text="" icon="arrow-back-outline"></ion-back-button>
     </ion-buttons>
-    <ion-title>Notifications</ion-title>
-    <ion-buttons slot="end">
-      <ion-button class="mark-read-btn">Mark all as read</ion-button>
-    </ion-buttons>
+    <ion-title>Notifikasi</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="notification-content">
   <div class="notification-container">
-    
-    <div class="section-title">TODAY</div>
-    
+
+    <div class="text-center" *ngIf="isLoading" style="padding: 40px;">
+      <ion-spinner name="crescent" color="primary"></ion-spinner>
+    </div>
+
+    <div class="section-title" *ngIf="!isLoading && updates.length">PEMBARUAN TERBARU</div>
+
     <div class="card-list">
-      <!-- Item 1 -->
-      <div class="notif-card">
-        <div class="icon-box bg-blue-light">
-          <ion-icon name="megaphone" class="text-blue"></ion-icon>
+      <div class="notif-card" *ngFor="let u of updates" (click)="openUpdate(u)" style="cursor: pointer;">
+        <div class="icon-box" [style.color]="updateColor(u.color)" [style.background]="updateBg(u.color)">
+          <ion-icon [name]="u.icon"></ion-icon>
         </div>
         <div class="content-box">
           <div class="header-row">
-            <h3 class="title text-dark">Time to Check In</h3>
-            <span class="time text-medium">1h ago</span>
-            <div class="unread-dot"></div>
+            <h3 class="title text-dark">{{ u.title }}</h3>
+            <span class="time text-medium">{{ relativeTime(u.time) }}</span>
           </div>
-          <p class="desc text-medium">Your workday has started. Don't forget to record your attendance.</p>
-        </div>
-      </div>
-      
-      <!-- Item 2 -->
-      <div class="notif-card">
-        <div class="icon-box bg-green-light">
-          <ion-icon name="clipboard-outline" class="text-green"></ion-icon>
-        </div>
-        <div class="content-box">
-          <div class="header-row">
-            <h3 class="title text-dark">Time Tracking Still Active</h3>
-            <span class="time text-medium">1h ago</span>
-            <div class="unread-dot"></div>
-          </div>
-          <p class="desc text-medium">Your work session is still running. Please check if you forgot to check out.</p>
-        </div>
-      </div>
-      
-      <!-- Item 3 -->
-      <div class="notif-card">
-        <div class="icon-box bg-yellow-light">
-          <ion-icon name="receipt-outline" class="text-yellow"></ion-icon>
-        </div>
-        <div class="content-box">
-          <div class="header-row">
-            <h3 class="title text-dark">December Payslip</h3>
-            <span class="time text-medium">1h ago</span>
-            <div class="unread-dot"></div>
-          </div>
-          <p class="desc text-medium">Your payslip for December 2023 is now available for download.</p>
+          <p class="desc text-medium">{{ u.message }}</p>
         </div>
       </div>
     </div>
 
-    <div class="section-title mt-24">YESTERDAY</div>
-    
-    <div class="card-list">
-      <!-- Item 4 -->
-      <div class="notif-card">
-        <div class="icon-box bg-purple-light">
-          <ion-icon name="people-outline" class="text-purple"></ion-icon>
-        </div>
-        <div class="content-box">
-          <div class="header-row">
-            <h3 class="title text-dark">New Team Member</h3>
-            <span class="time text-medium">1h ago</span>
-            <div class="unread-dot"></div>
-          </div>
-          <p class="desc text-medium">Dimas J. has joined the Design Team. Say hello! 👋</p>
-        </div>
-      </div>
-      
-      <!-- Item 5 -->
-      <div class="notif-card">
-        <div class="icon-box bg-orange-light">
-          <ion-icon name="warning-outline" class="text-orange"></ion-icon>
-        </div>
-        <div class="content-box">
-          <div class="header-row">
-            <h3 class="title text-dark">System Maintenance</h3>
-            <span class="time text-medium">1h ago</span>
-            <div class="unread-dot"></div>
-          </div>
-          <p class="desc text-medium">Karajo will under scheduled maintenance tonight from 2:00 AM...</p>
-        </div>
-      </div>
-      
-      <!-- Item 6 -->
-      <div class="notif-card">
-        <div class="icon-box bg-green-light">
-          <ion-icon name="checkmark-circle-outline" class="text-green"></ion-icon>
-        </div>
-        <div class="content-box">
-          <div class="header-row">
-            <h3 class="title text-dark">Leave Request Approved</h3>
-            <span class="time text-medium">1h ago</span>
-            <div class="unread-dot"></div>
-          </div>
-          <p class="desc text-medium">Your annual leave for Feb 28 has been approved.</p>
-        </div>
-      </div>
+    <div class="text-center" *ngIf="!isLoading && updates.length === 0" style="padding: 48px 24px; color: var(--ion-color-medium);">
+      <ion-icon name="notifications-off-outline" style="font-size: 36px;"></ion-icon>
+      <p style="margin-top: 8px;">Belum ada notifikasi.</p>
     </div>
-    
+
     <div style="height: 100px;"></div>
   </div>
-  
+
   <app-bottom-nav activeTab="notification"></app-bottom-nav>
 </ion-content>

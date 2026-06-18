@@ -1,0 +1,31 @@
+{
+  "name": "AbsenNow — Absen Mudah Kinerja Terarah",
+  "short_name": "AbsenNow",
+  "description": "Aplikasi absensi dan manajemen kinerja ASN/PNS",
+  "theme_color": "#1B59F8",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "scope": "/",
+  "start_url": "/",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "assets/icon/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icon/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icon/icon-maskable-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

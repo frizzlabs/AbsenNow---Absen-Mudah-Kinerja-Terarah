@@ -16,9 +16,17 @@ ion-title {
   font-weight: 600;
   margin-right: 16px;
 
-  &.correction-needed {
+  &.correction-needed, &.pending {
     background: rgba(var(--ion-color-warning-rgb), 0.1);
     color: #d97706;
+  }
+  &.approved, &.paid {
+    background: rgba(var(--ion-color-success-rgb), 0.1);
+    color: var(--ion-color-success);
+  }
+  &.rejected {
+    background: rgba(var(--ion-color-danger-rgb), 0.1);
+    color: var(--ion-color-danger);
   }
 }
 

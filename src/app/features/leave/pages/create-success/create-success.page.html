@@ -5,7 +5,7 @@
         <ion-icon name="checkmark-outline"></ion-icon>
       </div>
       <h1 class="page-title">Leave Request Submitted</h1>
-      <p class="page-description">Your application for Annual Leave has been sent to your supervisor.</p>
+      <p class="page-description">Your application for {{ getLeaveTypeName(draft?.leave_type) }} has been sent to your supervisor.</p>
     </div>
 
     <div class="details-card">
@@ -15,7 +15,7 @@
         </div>
         <div class="detail-content">
           <div class="label">Leave Type</div>
-          <div class="value">Annual Leave</div>
+          <div class="value">{{ getLeaveTypeName(draft?.leave_type) }}</div>
         </div>
       </div>
 
@@ -27,7 +27,7 @@
         </div>
         <div class="detail-content">
           <div class="label">Date Range</div>
-          <div class="value">Mon, Feb 12 &mdash; Wed, Feb 14</div>
+          <div class="value">{{ formatDateRange() }}</div>
         </div>
       </div>
 
@@ -39,7 +39,7 @@
         </div>
         <div class="detail-content">
           <div class="label">Total Duration</div>
-          <div class="value">3 Days</div>
+          <div class="value">{{ totalDays }} Day{{ totalDays !== 1 ? 's' : '' }}</div>
         </div>
       </div>
     </div>

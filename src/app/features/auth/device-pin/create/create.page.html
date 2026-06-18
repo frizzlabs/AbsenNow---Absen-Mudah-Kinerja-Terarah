@@ -1,20 +1,22 @@
 <ion-content [fullscreen]="true">
   <div class="page-container">
-    <app-page-header></app-page-header>
-    
-    <app-auth-header-icon icon="lock-closed-outline"></app-auth-header-icon>
-    
-    <div class="text-center auth-text">
-      <h2 class="text-h4">Create a Security PIN</h2>
-      <p class="text-body-medium-regular text-medium">
-        Enhance your account security with a quick access PIN code.
-      </p>
+    <div class="top-content">
+      <app-page-header></app-page-header>
+
+      <app-auth-header-icon icon="lock-closed-outline"></app-auth-header-icon>
+
+      <div class="text-center auth-text">
+        <h2 class="text-h4">Create a Security PIN</h2>
+        <p class="text-body-medium-regular text-medium">
+          Set a security PIN to protect your account.
+        </p>
+      </div>
+
+      <app-pin-dots [length]="4" [currentLength]="pinValue.length"></app-pin-dots>
     </div>
-    
-    <app-pin-dots [length]="4" [currentLength]="pinValue.length"></app-pin-dots>
+
+    <div class="numpad-wrap">
+      <app-numpad variant="transparent" (keyPress)="onKeyPress($event)"></app-numpad>
+    </div>
   </div>
 </ion-content>
-
-<div class="fixed-bottom">
-  <app-numpad variant="transparent" (keyPress)="onKeyPress($event)"></app-numpad>
-</div>

@@ -7,42 +7,27 @@
 
     <div class="calendar-picker">
       <div class="month-selector">
-        <app-card [padding]="false" class="nav-btn"><ion-icon name="chevron-back-outline"></ion-icon></app-card>
+        <app-card [padding]="false" class="nav-btn" (click)="prevWeek()" style="cursor: pointer;">
+          <ion-icon name="chevron-back-outline"></ion-icon>
+        </app-card>
         <div class="month-text">
-          <h3 class="text-h4">February 2026</h3>
-          <span class="text-body-small-regular text-medium">Week 4</span>
+          <h3 class="text-h4">{{ monthYearLabel }}</h3>
+          <span class="text-body-small-regular text-medium">{{ weekLabel }}</span>
         </div>
-        <app-card [padding]="false" class="nav-btn"><ion-icon name="chevron-forward-outline"></ion-icon></app-card>
+        <app-card [padding]="false" class="nav-btn" (click)="nextWeek()" style="cursor: pointer;">
+          <ion-icon name="chevron-forward-outline"></ion-icon>
+        </app-card>
       </div>
       
       <div class="days-row">
-        <div class="day">
-          <span class="day-name">Mon</span>
-          <span class="day-num">23</span>
-        </div>
-        <div class="day active">
-          <span class="day-name">Tue</span>
-          <span class="day-num">24</span>
-        </div>
-        <div class="day">
-          <span class="day-name">Wed</span>
-          <span class="day-num">25</span>
-        </div>
-        <div class="day">
-          <span class="day-name">Thu</span>
-          <span class="day-num">26</span>
-        </div>
-        <div class="day">
-          <span class="day-name">Fri</span>
-          <span class="day-num">27</span>
-        </div>
-        <div class="day disabled">
-          <span class="day-name">Sat</span>
-          <span class="day-num">28</span>
-        </div>
-        <div class="day disabled">
-          <span class="day-name">Sun</span>
-          <span class="day-num">29</span>
+        <div class="day" 
+             *ngFor="let day of weekDays" 
+             [class.active]="isSameDay(day.date, selectedDate)"
+             [class.disabled]="day.isDisabled"
+             (click)="selectDay(day)"
+             style="cursor: pointer;">
+          <span class="day-name">{{ day.dayName }}</span>
+          <span class="day-num">{{ day.dayNum }}</span>
         </div>
       </div>
     </div>
@@ -55,13 +40,13 @@
       <ion-spinner name="crescent" color="primary"></ion-spinner>
     </div>
 
-    <div class="text-center" *ngIf="!isLoading && historyLogs.length === 0" style="padding: 40px 20px;">
+    <div class="text-center" *ngIf="!isLoading && getFilteredLogs().length === 0" style="padding: 40px 20px;">
       <ion-icon name="calendar-outline" style="font-size: 48px; color: var(--ion-color-medium-light);"></ion-icon>
-      <p class="text-body-medium-regular text-medium" style="margin-top: 12px;">No attendance logs found.</p>
+      <p class="text-body-medium-regular text-medium" style="margin-top: 12px;">No attendance logs found for this day.</p>
     </div>
 
-    <div class="history-list" *ngIf="!isLoading && historyLogs.length > 0">
-      <app-card class="history-card" *ngFor="let log of historyLogs">
+    <div class="history-list" *ngIf="!isLoading && getFilteredLogs().length > 0">
+      <app-card class="history-card" *ngFor="let log of getFilteredLogs()">
         <div class="card-header">
           <div class="shift-info">
             <div class="icon-box bg-blue-light text-blue">

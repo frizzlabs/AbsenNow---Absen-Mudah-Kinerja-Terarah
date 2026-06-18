@@ -1,0 +1,98 @@
+<ion-content [fullscreen]="true" class="bg-light">
+  <app-page-header title="Ajukan Dinas Luar"></app-page-header>
+
+  <div class="page-container">
+
+    <!-- MAP SECTION -->
+    <div class="section-card">
+      <div class="section-title">
+        <ion-icon name="location-outline"></ion-icon>
+        <span>Lokasi Dinas</span>
+      </div>
+      <!-- SEARCH BOX -->
+      <div class="search-wrap">
+        <div class="search-box">
+          <ion-icon name="search-outline" class="search-icon"></ion-icon>
+          <input
+            class="search-input"
+            type="text"
+            placeholder="Cari lokasi... (contoh: Balai Kota Jakarta)"
+            [(ngModel)]="searchQuery"
+            (input)="onSearchInput()"
+            (blur)="closeSearch()"
+          />
+          <ion-spinner *ngIf="isSearching" name="crescent" class="search-spinner"></ion-spinner>
+        </div>
+        <div class="search-results" *ngIf="showResults">
+          <button
+            class="result-item"
+            *ngFor="let r of searchResults"
+            (mousedown)="selectResult(r)"
+          >
+            <ion-icon name="location-outline" class="result-icon"></ion-icon>
+            <span class="result-text">{{ r.display_name }}</span>
+          </button>
+        </div>
+      </div>
+
+      <div id="dinas-map" class="map-box"></div>
+      <p class="address-text" *ngIf="address">{{ address }}</p>
+      <button class="location-btn" (click)="useMyLocation()" [disabled]="gettingLocation">
+        <ion-icon name="navigate-outline"></ion-icon>
+        {{ gettingLocation ? 'Mengambil lokasi...' : 'Gunakan Lokasi Saya' }}
+      </button>
+
+      <div class="field-group">
+        <label class="field-label">Nama Lokasi</label>
+        <input class="field-input" type="text" placeholder="Contoh: Balai Kota Jakarta"
+               [(ngModel)]="draft.locationName" />
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">Radius Geofence</label>
+        <div class="radius-chips">
+          <button *ngFor="let r of radiusOptions"
+                  class="chip"
+                  [class.active]="draft.radius === r"
+                  (click)="selectRadius(r)">{{ r }}m</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- WAKTU SECTION -->
+    <div class="section-card">
+      <div class="section-title">
+        <ion-icon name="time-outline"></ion-icon>
+        <span>Waktu Dinas</span>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Tanggal & Jam Mulai</label>
+        <input class="field-input" type="datetime-local" [(ngModel)]="draft.startDatetime" />
+      </div>
+      <div class="field-group">
+        <label class="field-label">Tanggal & Jam Selesai</label>
+        <input class="field-input" type="datetime-local" [(ngModel)]="draft.endDatetime" />
+      </div>
+    </div>
+
+    <!-- DETAIL SECTION -->
+    <div class="section-card">
+      <div class="section-title">
+        <ion-icon name="document-text-outline"></ion-icon>
+        <span>Detail Pekerjaan</span>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Uraian Pekerjaan <span class="hint">(min. 10 karakter)</span></label>
+        <textarea class="field-textarea" rows="5" placeholder="Jelaskan detail pekerjaan yang akan dilakukan..."
+                  [(ngModel)]="draft.workDetails"></textarea>
+        <span class="char-count">{{ draft.workDetails?.length ?? 0 }} karakter</span>
+      </div>
+    </div>
+
+    <div class="bottom-actions">
+      <app-button variant="primary" styleClass="w-full" (onClick)="goNext()" [disabled]="!isValid">
+        Lanjut ke Konfirmasi
+      </app-button>
+    </div>
+  </div>
+</ion-content>

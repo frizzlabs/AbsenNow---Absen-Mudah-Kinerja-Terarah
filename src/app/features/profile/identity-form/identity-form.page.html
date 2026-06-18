@@ -1,58 +1,89 @@
 <ion-content [fullscreen]="true" class="bg-light">
-  <app-page-header title="Identity Verification"></app-page-header>
-  
+  <app-page-header title="Verifikasi Identitas"></app-page-header>
+
   <div class="page-container">
-    
-    <!-- Using exact text from PNG despite possible typo in mockup -->
-    <app-section-card iconName="image-outline" title="Contact Information" [showDivider]="false">
-      <app-upload-box 
-        status="empty" 
-        helperText="National ID Card • Front Side">
-      </app-upload-box>
+
+    <!-- JENIS ID -->
+    <app-section-card iconName="card-outline" title="Jenis Identitas">
+      <div class="type-tabs">
+        <button class="type-btn" [class.active]="idType === 'ktp'" (click)="idType = 'ktp'">
+          <ion-icon name="card-outline"></ion-icon>
+          KTP
+        </button>
+        <button class="type-btn" [class.active]="idType === 'passport'" (click)="idType = 'passport'">
+          <ion-icon name="book-outline"></ion-icon>
+          Paspor
+        </button>
+      </div>
     </app-section-card>
-    
-    <app-section-card iconName="card-outline" title="Identity Information">
-      <div class="info-box">
-        <ion-icon name="information-circle-outline"></ion-icon>
-        <p>Please review the extracted information carefully to ensure accuracy.</p>
+
+    <!-- FOTO ID -->
+    <app-section-card iconName="image-outline" title="Foto Identitas">
+
+      <!-- Foto Depan -->
+      <div class="photo-label">
+        Foto Depan <span class="required">*</span>
+        <span class="hint">{{ isKtp ? 'Sisi depan KTP' : 'Halaman foto paspor' }}</span>
       </div>
-      
-      <div class="form-group">
-        <label>ID Type</label>
-        <div class="select-box">
-          <span class="placeholder">-</span>
-          <ion-icon name="chevron-down-outline" class="chevron"></ion-icon>
+      <div class="photo-upload-box" (click)="frontInput.click()">
+        <img *ngIf="photoFrontPreview" [src]="photoFrontPreview" class="photo-preview" />
+        <div *ngIf="!photoFrontPreview" class="photo-placeholder">
+          <ion-icon name="camera-outline"></ion-icon>
+          <span>Tap untuk upload</span>
+        </div>
+        <div class="photo-overlay" *ngIf="photoFrontPreview">
+          <ion-icon name="refresh-outline"></ion-icon>
+          <span>Ganti foto</span>
         </div>
       </div>
-      
-      <div class="form-group">
-        <label>ID Number</label>
-        <app-input placeholder="-" [value]="''"></app-input>
-      </div>
-      
-      <div class="form-group">
-        <label>Full Name</label>
-        <app-input placeholder="-" [value]="''"></app-input>
-      </div>
-      
-      <div class="form-row-2col">
-        <div class="form-group">
-          <label>Expiry Date</label>
-          <app-input placeholder="-" [value]="''"></app-input>
+      <input #frontInput type="file" accept="image/jpeg,image/png,image/webp" style="display:none" (change)="onFrontSelected($event)" />
+
+      <!-- Foto Belakang (KTP saja) -->
+      <ng-container *ngIf="isKtp">
+        <div class="photo-label" style="margin-top: 16px;">
+          Foto Belakang <span class="hint">Opsional · Sisi belakang KTP</span>
         </div>
-        <div class="form-group">
-          <label>Last Updated</label>
-          <app-input placeholder="-" [value]="''"></app-input>
+        <div class="photo-upload-box" (click)="backInput.click()">
+          <img *ngIf="photoBackPreview" [src]="photoBackPreview" class="photo-preview" />
+          <div *ngIf="!photoBackPreview" class="photo-placeholder">
+            <ion-icon name="camera-outline"></ion-icon>
+            <span>Tap untuk upload</span>
+          </div>
+          <div class="photo-overlay" *ngIf="photoBackPreview">
+            <ion-icon name="refresh-outline"></ion-icon>
+            <span>Ganti foto</span>
+          </div>
         </div>
+        <input #backInput type="file" accept="image/jpeg,image/png,image/webp" style="display:none" (change)="onBackSelected($event)" />
+      </ng-container>
+    </app-section-card>
+
+    <!-- DATA IDENTITAS -->
+    <app-section-card iconName="document-text-outline" title="Data Identitas">
+      <div class="form-group">
+        <label>Nomor {{ isKtp ? 'NIK' : 'Paspor' }} <span class="required">*</span></label>
+        <input class="text-input" type="text" [(ngModel)]="idNumber"
+          [placeholder]="isKtp ? '16 digit NIK' : 'Nomor paspor'"
+          [maxlength]="isKtp ? 16 : 20" />
+      </div>
+
+      <div class="form-group">
+        <label>Nama Sesuai ID <span class="required">*</span></label>
+        <input class="text-input" type="text" [(ngModel)]="idName" placeholder="Nama lengkap di KTP/Paspor" />
+      </div>
+
+      <div class="form-group">
+        <label>Tanggal Kadaluarsa <span class="hint">{{ isKtp ? 'Opsional' : 'Wajib' }}</span></label>
+        <input class="text-input" type="date" [(ngModel)]="idExpiry" />
       </div>
     </app-section-card>
 
   </div>
-  
+
   <div class="fixed-bottom">
-    <app-button variant="primary" styleClass="w-full" routerLink="/profile/identity/filled">
-      <ion-icon name="shield-checkmark-outline" slot="start" style="margin-right: 8px; font-size: 20px;"></ion-icon>
-      Verify Identity
+    <app-button variant="primary" styleClass="w-full" (click)="submit()" [disabled]="!isValid || isSubmitting">
+      <ion-icon name="paper-plane-outline" slot="start" style="margin-right:8px;font-size:20px;"></ion-icon>
+      {{ isSubmitting ? 'Mengirim...' : 'Kirim untuk Verifikasi' }}
     </app-button>
   </div>
 </ion-content>

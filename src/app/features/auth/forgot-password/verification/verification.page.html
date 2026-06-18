@@ -5,20 +5,31 @@
     <app-auth-header-icon icon="mail-open-outline"></app-auth-header-icon>
     
     <div class="text-center auth-text">
-      <h2 class="text-h4">Check Your Email</h2>
+      <h2 class="text-h4">Cek Email Kamu</h2>
       <p class="text-body-medium-regular text-medium">
-        We've sent a 6-digit verification code to <span class="text-dark font-medium">name@company.com</span>. Please enter it below.
+        Kode 6 digit telah dikirim ke <span class="text-dark font-medium">{{ resetEmail }}</span>. Masukkan di bawah ini.
       </p>
     </div>
-    
+
     <app-otp-input [length]="6" [value]="otpValue"></app-otp-input>
-    
+
     <div class="text-center resend-text">
-      <p class="text-body-small-regular text-medium">Didn't receive the code?</p>
-      <p class="text-body-small-semibold text-dark">Resend code in 00:59</p>
+      <ng-container *ngIf="isBlocked; else normalHint">
+        <p class="text-body-small-regular text-medium">Terlalu banyak percobaan.</p>
+        <p class="text-body-small-semibold" style="color: #ef4444;">
+          Coba lagi dalam <span style="font-variant-numeric: tabular-nums;">{{ countdownLabel }}</span>
+        </p>
+      </ng-container>
+      <ng-template #normalHint>
+        <p class="text-body-small-regular text-medium">Tidak menerima kode? Periksa folder spam.</p>
+      </ng-template>
     </div>
-    
-    <app-button variant="primary" class="w-full" icon="arrow-forward-outline" iconPosition="right" (onClick)="verify()">Verify Code</app-button>
+
+    <app-button variant="primary" class="w-full" icon="arrow-forward-outline" iconPosition="right"
+      [disabled]="isLoading || isBlocked || otpValue.length < 6"
+      (onClick)="verify()">
+      {{ isBlocked ? ('Tunggu ' + countdownLabel) : (isLoading ? 'Memverifikasi...' : 'Verifikasi Kode') }}
+    </app-button>
   </div>
 </ion-content>
 

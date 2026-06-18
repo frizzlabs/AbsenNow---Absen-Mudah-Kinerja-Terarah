@@ -1,99 +1,86 @@
-<ion-header class="ion-no-border">
-  <ion-toolbar>
-    <ion-title class="modal-title">Submit Timesheet</ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="dismiss()" class="text-medium">
-        <ion-icon name="close-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-  <div class="step-indicator">
+<div class="sheet-container">
+  <div class="drag-indicator-container">
+    <div class="drag-indicator"></div>
+  </div>
+
+  <div class="sheet-header">
+    <div class="header-row">
+      <span class="modal-title">Submit Timesheet</span>
+      <ion-icon name="close-outline" class="close-icon" (click)="dismiss()"></ion-icon>
+    </div>
     <div class="step-label">Step 1 of 2</div>
     <div class="progress-bar-container">
       <div class="progress-bar"></div>
     </div>
   </div>
-</ion-header>
 
-<ion-content class="ion-padding">
-  <div class="header-section">
-    <h1 class="text-h2 mb-2">Ready to submit?</h1>
-    <p class="text-body-medium-regular text-medium">
-      Please review your summary for Feb 22 - 28. Once submitted, changes require approval.
-    </p>
-  </div>
+  <div class="sheet-content">
+    <div class="header-section">
+      <h1 class="text-h2 mb-2">Ready to submit?</h1>
+      <p class="text-body-medium-regular text-medium">
+        Please review your summary for {{ dateRange }}. Once submitted, changes require approval.
+      </p>
+    </div>
 
-  <div class="summary-cards mt-4">
-    <div class="total-card">
-      <div class="flex-between">
-        <div>
-          <span class="text-body-small-semibold text-medium block">Total Hours</span>
-          <h2 class="text-h1 text-primary mt-1">38.5h</h2>
+    <div class="summary-cards mt-4">
+      <div class="total-card">
+        <div class="flex-between">
+          <div>
+            <span class="text-body-small-semibold text-medium block">Total Hours</span>
+            <h2 class="text-h1 text-primary mt-1">{{ totalHoursLabel }}</h2>
+          </div>
+          <div class="icon-circle">
+            <ion-icon name="pie-chart" color="primary"></ion-icon>
+          </div>
         </div>
-        <div class="icon-circle">
-          <ion-icon name="pie-chart" color="primary"></ion-icon>
+      </div>
+
+      <div class="grid-2 mt-3">
+        <div class="info-card">
+          <div class="flex-align-center mb-1">
+            <ion-icon name="document-text-outline" class="text-primary mr-2"></ion-icon>
+            <span class="text-body-small-semibold text-medium">Activities</span>
+          </div>
+          <h3 class="text-h3">{{ activitiesCount }}</h3>
+        </div>
+        <div class="info-card">
+          <div class="flex-align-center mb-1">
+            <ion-icon name="calendar-outline" class="text-primary mr-2"></ion-icon>
+            <span class="text-body-small-semibold text-medium">Date Range</span>
+          </div>
+          <h3 class="text-h3">{{ dateRange }}</h3>
         </div>
       </div>
     </div>
 
-    <div class="grid-2 mt-3">
-      <div class="info-card">
-        <div class="flex-align-center mb-1">
-          <ion-icon name="document-text-outline" class="text-primary mr-2"></ion-icon>
-          <span class="text-body-small-semibold text-medium">Activities</span>
+    <div class="breakdown-card mt-4" *ngIf="breakdown.length">
+      <div class="breakdown-header flex-between">
+        <div class="flex-align-center">
+          <div class="icon-box">
+            <ion-icon name="list-outline" color="primary"></ion-icon>
+          </div>
+          <span class="text-body-medium-semibold ml-2">Activity Breakdown</span>
         </div>
-        <h3 class="text-h3">14</h3>
       </div>
-      <div class="info-card">
-        <div class="flex-align-center mb-1">
-          <ion-icon name="calendar-outline" class="text-primary mr-2"></ion-icon>
-          <span class="text-body-small-semibold text-medium">Date Range</span>
+      <div class="breakdown-list mt-3">
+        <div class="flex-between py-2" *ngFor="let item of breakdown">
+          <span class="text-body-medium-regular text-medium">{{ item.title }}</span>
+          <span class="text-body-medium-semibold">{{ item.label }}</span>
         </div>
-        <h3 class="text-h3">Feb 22 - 28</h3>
       </div>
     </div>
   </div>
 
-  <div class="breakdown-card mt-4">
-    <div class="breakdown-header flex-between">
-      <div class="flex-align-center">
-        <div class="icon-box">
-          <ion-icon name="list-outline" color="primary"></ion-icon>
-        </div>
-        <span class="text-body-medium-semibold ml-2">View Activity Breakdown</span>
-      </div>
-      <ion-icon name="chevron-down-outline" color="medium"></ion-icon>
+  <div class="sheet-footer">
+    <div class="confirmation-checkbox mb-4">
+      <ion-checkbox [(ngModel)]="isConfirmed" mode="md"></ion-checkbox>
+      <span class="text-body-small-regular text-medium ml-3">
+        I confirm these entries are accurate and comply with company policy.
+      </span>
     </div>
-    <div class="breakdown-list mt-3">
-      <div class="flex-between py-2">
-        <span class="text-body-medium-regular text-medium">Frontend Development</span>
-        <span class="text-body-medium-semibold">3h 15m</span>
-      </div>
-      <div class="flex-between py-2">
-        <span class="text-body-medium-regular text-medium">Sprint Planning</span>
-        <span class="text-body-medium-semibold">3h 15m</span>
-      </div>
-      <div class="flex-between py-2">
-        <span class="text-body-medium-regular text-medium">Design System Update</span>
-        <span class="text-body-medium-semibold">3h 15m</span>
-      </div>
-      <div class="flex-between py-2">
-        <span class="text-body-medium-regular text-medium">Code Review & Merge</span>
-        <span class="text-body-medium-semibold">3h 15m</span>
-      </div>
-    </div>
+    <ion-button expand="block" shape="round" color="primary" [disabled]="!isConfirmed" (click)="submit()">
+      <ion-icon name="send" slot="start"></ion-icon>
+      Submit Timesheet
+    </ion-button>
   </div>
-</ion-content>
-
-<ion-footer class="ion-no-border ion-padding">
-  <div class="confirmation-checkbox mb-4">
-    <ion-checkbox [(ngModel)]="isConfirmed" mode="md"></ion-checkbox>
-    <span class="text-body-small-regular text-medium ml-3">
-      I confirm these entries are accurate and comply with company policy.
-    </span>
-  </div>
-  <ion-button expand="block" shape="round" color="primary" [disabled]="!isConfirmed" (click)="submit()">
-    <ion-icon name="send" slot="start"></ion-icon>
-    Submit Timesheet
-  </ion-button>
-</ion-footer>
+</div>

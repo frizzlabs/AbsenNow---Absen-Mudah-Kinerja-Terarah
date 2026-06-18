@@ -11,9 +11,11 @@
       </p>
     </div>
     
-    <app-input label="Work Email" type="email" placeholder="name@company.com" icon="mail-outline"></app-input>
-    
-    <app-button variant="primary" class="w-full" icon="arrow-forward-outline" iconPosition="right" (onClick)="sendCode()">Send Recovery Code</app-button>
+    <app-input label="Email Kantor" type="email" placeholder="nama@kantor.com" leftIcon="mail-outline" [(value)]="email"></app-input>
+
+    <app-button variant="primary" class="w-full" icon="arrow-forward-outline" iconPosition="right" [disabled]="isLoading" (onClick)="sendCode()">
+      {{ isLoading ? 'Mengirim...' : 'Kirim Kode Reset' }}
+    </app-button>
   </div>
   
   <div class="bottom-link">

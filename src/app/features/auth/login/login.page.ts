@@ -42,9 +42,13 @@ export class LoginPage implements OnInit {
 
     this.isLoading = true;
     this.authService.login({ email: this.email, password: this.password }).subscribe({
-      next: () => {
+      next: (res) => {
         this.isLoading = false;
-        this.router.navigateByUrl('/auth/login-verification');
+        if (res?.has_pin) {
+          this.router.navigateByUrl('/auth/device-pin/verify');
+        } else {
+          this.router.navigateByUrl('/auth/login-verification');
+        }
       },
       error: async (err) => {
         this.isLoading = false;

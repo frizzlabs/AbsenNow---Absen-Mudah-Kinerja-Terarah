@@ -12,17 +12,17 @@
       Your application for overtime has been sent to your supervisor.
     </p>
 
-    <div class="details-card">
+    <div class="details-card" *ngIf="submitted">
       <div class="detail-row">
         <div class="icon-box primary-light">
           <ion-icon name="calendar-outline" color="primary"></ion-icon>
         </div>
         <div class="detail-content">
           <div class="label">Date</div>
-          <div class="value">Fri, Oct 20, 2026.</div>
+          <div class="value">{{ formatDate(submitted.overtime_date) }}</div>
         </div>
       </div>
-      
+
       <div class="divider"></div>
 
       <div class="detail-row">
@@ -31,10 +31,10 @@
         </div>
         <div class="detail-content">
           <div class="label">Time Window</div>
-          <div class="value">09:00 AM - 10:30 AM</div>
+          <div class="value">{{ formatTime(submitted.start_time) }} - {{ formatTime(submitted.end_time) }}</div>
         </div>
       </div>
-      
+
       <div class="divider"></div>
 
       <div class="detail-row">
@@ -43,7 +43,7 @@
         </div>
         <div class="detail-content">
           <div class="label">Total Duration</div>
-          <div class="value">3h 15m</div>
+          <div class="value">{{ formatDuration(submitted.duration_hours) }}</div>
         </div>
       </div>
     </div>
@@ -52,8 +52,8 @@
 
 <ion-footer class="ion-no-border">
   <div class="footer-wrapper">
-    <ion-button expand="block" color="primary" class="primary-btn" (click)="backToPermission()">
-      Back to permission
+    <ion-button expand="block" color="primary" class="primary-btn" (click)="backToOvertime()">
+      Back to overtime
     </ion-button>
     <ion-button expand="block" fill="outline" color="primary" class="outline-btn" (click)="goToApproval()">
       Go to approval

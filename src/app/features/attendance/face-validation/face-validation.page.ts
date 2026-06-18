@@ -38,9 +38,39 @@ export class FaceValidationPage implements OnInit {
 
   async simulateDetection() {
     if (this.isSuccess || this.isProcessing) return;
-    
-    // Capture the photo manually from stream
-    const capturedImage = this.cameraFrame ? this.cameraFrame.capturePhoto() : null;
+
+    if (!this.cameraFrame?.hasCamera) {
+      const toast = await this.toastController.create({
+        message: 'Kamera tidak tersedia. Tidak dapat melakukan face verification.',
+        duration: 2500, position: 'top', color: 'danger'
+      });
+      await toast.present();
+      return;
+    }
+
+    const status = this.cameraFrame?.detectionStatus;
+
+    if (status === 'partial') {
+      const hint = this.cameraFrame?.statusHint || 'Hadapkan wajah langsung ke depan.';
+      const toast = await this.toastController.create({
+        message: hint,
+        duration: 2500, position: 'top', color: 'warning'
+      });
+      await toast.present();
+      return;
+    }
+
+    if (status !== 'ready') {
+      const toast = await this.toastController.create({
+        message: 'Wajah tidak terdeteksi. Posisikan wajah di dalam lingkaran.',
+        duration: 2500, position: 'top', color: 'warning'
+      });
+      await toast.present();
+      return;
+    }
+
+    // status === 'ready' → wajah frontal + kedua mata terdeteksi
+    const capturedImage = this.cameraFrame.capturePhoto();
     this.submitAttendance(capturedImage);
   }
 

@@ -11,50 +11,63 @@
 
 <ion-content color="light">
   
-  <div class="summary-cards-scroll">
-    <div class="summary-card pending">
-      <div class="label">
-        <div class="dot"></div> Pending
-      </div>
-      <div class="amount-wrap">
-        <span class="amount-main">{{ 1240 | currency:'USD':'symbol':'1.0-0' }}</span><span class="amount-cents">.00</span>
-      </div>
-    </div>
-    
-    <div class="summary-card approved">
-      <div class="label">
-        <div class="dot"></div> Approved
-      </div>
-      <div class="amount-wrap">
-        <span class="amount-main">{{ 3500 | currency:'USD':'symbol':'1.0-0' }}</span><span class="amount-cents">.50</span>
-      </div>
-    </div>
-    
-    <div class="summary-card rejected">
-      <div class="label">
-        <div class="dot"></div> Rejected
-      </div>
-      <div class="amount-wrap">
-        <span class="amount-main">{{ 120 | currency:'USD':'symbol':'1.0-0' }}</span><span class="amount-cents">.00</span>
-      </div>
-    </div>
+  <div class="text-center" *ngIf="isLoading" style="padding: 40px; text-align: center;">
+    <ion-spinner name="crescent" color="primary"></ion-spinner>
+    <p style="color: var(--ion-color-medium); margin-top: 12px;">Loading expense history...</p>
   </div>
 
-  <div class="lists-container">
-    <div class="month-group" *ngFor="let group of groups">
-      <div class="group-header">{{ group.month }}</div>
+  <div *ngIf="!isLoading">
+    <div class="summary-cards-scroll">
+      <div class="summary-card pending">
+        <div class="label">
+          <div class="dot"></div> Pending
+        </div>
+        <div class="amount-wrap">
+          <span class="amount-main">{{ getAmountMain(pendingTotal) | currency:'USD':'symbol':'1.0-0' }}</span><span class="amount-cents">{{ getAmountCents(pendingTotal) }}</span>
+        </div>
+      </div>
       
-      <div class="requests-list">
-        <app-expense-card
-          *ngFor="let req of group.items"
-          [title]="req.title"
-          [category]="req.category"
-          [date]="req.date"
-          [amount]="req.amount"
-          [status]="req.status"
-          [icon]="req.icon"
-          [iconColor]="req.iconColor">
-        </app-expense-card>
+      <div class="summary-card approved">
+        <div class="label">
+          <div class="dot"></div> Approved
+        </div>
+        <div class="amount-wrap">
+          <span class="amount-main">{{ getAmountMain(approvedTotal) | currency:'USD':'symbol':'1.0-0' }}</span><span class="amount-cents">{{ getAmountCents(approvedTotal) }}</span>
+        </div>
+      </div>
+      
+      <div class="summary-card rejected">
+        <div class="label">
+          <div class="dot"></div> Rejected
+        </div>
+        <div class="amount-wrap">
+          <span class="amount-main">{{ getAmountMain(rejectedTotal) | currency:'USD':'symbol':'1.0-0' }}</span><span class="amount-cents">{{ getAmountCents(rejectedTotal) }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="lists-container">
+      <div *ngIf="groups.length === 0" style="padding: 32px; text-align: center; color: var(--ion-color-medium); background: white; border-radius: 12px; margin: 16px;">
+        <ion-icon name="document-text-outline" style="font-size: 32px; margin-bottom: 8px; color: var(--ion-color-medium-light);"></ion-icon>
+        <p style="margin: 0; font-size: 14px;">No historical expense claims.</p>
+      </div>
+
+      <div class="month-group" *ngFor="let group of groups">
+        <div class="group-header">{{ group.month }}</div>
+        
+        <div class="requests-list">
+          <app-expense-card
+            *ngFor="let req of group.items"
+            [title]="req.title"
+            [category]="req.category"
+            [date]="req.date"
+            [amount]="req.amount"
+            [status]="req.status"
+            [icon]="req.icon"
+            [iconColor]="req.iconColor"
+            (click)="goToDetail(req.id)">
+          </app-expense-card>
+        </div>
       </div>
     </div>
   </div>

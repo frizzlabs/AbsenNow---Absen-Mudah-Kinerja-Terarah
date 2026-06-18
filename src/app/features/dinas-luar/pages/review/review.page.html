@@ -1,0 +1,165 @@
+<ion-content [fullscreen]="true" class="bg-light">
+  <app-page-header title="Review Dinas Luar"></app-page-header>
+
+  <div class="tab-bar">
+    <button class="tab-btn" [class.active]="activeTab === 'pending'" (click)="setTab('pending')">
+      Menunggu
+      <span class="badge" *ngIf="pending.length > 0">{{ pending.length }}</span>
+    </button>
+    <button class="tab-btn" [class.active]="activeTab === 'reviewed'" (click)="setTab('reviewed')">Direview</button>
+    <button class="tab-btn" [class.active]="activeTab === 'absen'" (click)="setTab('absen')">
+      Rekap Absen
+      <span class="badge" *ngIf="absenRecords.length > 0">{{ absenRecords.length }}</span>
+    </button>
+  </div>
+
+  <div class="page-container">
+
+    <div *ngIf="isLoading && activeTab !== 'absen'" class="loading-state">
+      <ion-spinner name="crescent"></ion-spinner>
+      <span>Memuat data...</span>
+    </div>
+
+    <!-- TAB: PENDING -->
+    <ng-container *ngIf="activeTab === 'pending' && !isLoading">
+      <div *ngIf="pending.length === 0" class="empty-state">
+        <ion-icon name="checkmark-done-circle-outline"></ion-icon>
+        <p>Tidak ada pengajuan yang menunggu review.</p>
+      </div>
+
+      <div *ngFor="let item of pending" class="dinas-card" (click)="openDetail(item)" style="cursor:pointer">
+        <div class="card-header">
+          <div>
+            <div class="emp-name">{{ item.user?.name }}</div>
+            <div class="location-name">{{ item.location_name }}</div>
+          </div>
+          <ion-badge color="warning">Menunggu</ion-badge>
+        </div>
+        <div class="info-rows">
+          <div class="info-row">
+            <ion-icon name="time-outline"></ion-icon>
+            <span>Mulai: {{ fmtDt(item.start_datetime) }}</span>
+          </div>
+          <div class="info-row">
+            <ion-icon name="flag-outline"></ion-icon>
+            <span>Selesai: {{ fmtDt(item.end_datetime) }}</span>
+          </div>
+        </div>
+        <div class="work-details">
+          <div class="work-label">Detail Pekerjaan</div>
+          <p class="work-text">{{ item.work_details }}</p>
+        </div>
+        <div class="action-row" (click)="$event.stopPropagation()">
+          <button class="action-btn approve" (click)="approve(item)">
+            <ion-icon name="checkmark-outline"></ion-icon> Setujui
+          </button>
+          <button class="action-btn reject" (click)="reject(item)">
+            <ion-icon name="close-outline"></ion-icon> Tolak
+          </button>
+        </div>
+      </div>
+    </ng-container>
+
+    <!-- TAB: REVIEWED -->
+    <ng-container *ngIf="activeTab === 'reviewed' && !isLoading">
+      <div *ngIf="reviewed.length === 0" class="empty-state">
+        <ion-icon name="document-outline"></ion-icon>
+        <p>Belum ada dinas yang direview.</p>
+      </div>
+
+      <div *ngFor="let item of reviewed" class="dinas-card clickable" (click)="openDetail(item)">
+        <div class="reviewed-content">
+          <div class="card-header">
+            <div>
+              <div class="emp-name">{{ item.user?.name }}</div>
+              <div class="location-name">{{ item.location_name }}</div>
+            </div>
+            <div class="header-right">
+              <ion-badge [color]="statusColor(item.status)">{{ statusLabel(item.status) }}</ion-badge>
+              <ion-icon name="chevron-forward-outline" class="arrow-icon"></ion-icon>
+            </div>
+          </div>
+          <div class="info-row">
+            <ion-icon name="time-outline"></ion-icon>
+            <span>{{ fmtDt(item.start_datetime) }} — {{ fmtDt(item.end_datetime) }}</span>
+          </div>
+          <div class="review-note" *ngIf="item.review_note">
+            <ion-icon name="chatbubble-outline"></ion-icon>
+            <span>{{ item.review_note }}</span>
+          </div>
+          <div class="reviewed-at" *ngIf="item.reviewed_at">Direview: {{ fmtDt(item.reviewed_at) }}</div>
+        </div>
+      </div>
+    </ng-container>
+
+    <!-- TAB: REKAP ABSEN -->
+    <ng-container *ngIf="activeTab === 'absen'">
+      <div *ngIf="isLoadingAbsen" class="loading-state">
+        <ion-spinner name="crescent"></ion-spinner>
+        <span>Memuat rekap absen...</span>
+      </div>
+
+      <div *ngIf="!isLoadingAbsen && absenRecords.length === 0" class="empty-state">
+        <ion-icon name="camera-outline"></ion-icon>
+        <p>Belum ada absen dinas yang tercatat.</p>
+      </div>
+
+      <div *ngFor="let rec of absenRecords" class="absen-card">
+
+        <!-- Header: nama & geofence status -->
+        <div class="absen-header">
+          <div class="absen-user-info">
+            <div class="emp-name">{{ rec.user?.name }}</div>
+            <div class="emp-dept" *ngIf="rec.user?.department">{{ rec.user.department }}</div>
+          </div>
+          <div class="geofence-chip" [class.valid]="rec.geofence_valid" [class.invalid]="!rec.geofence_valid">
+            <ion-icon [name]="rec.geofence_valid ? 'checkmark-circle-outline' : 'warning-outline'"></ion-icon>
+            <span>{{ rec.geofence_valid ? 'Dalam Area' : 'Luar Area' }}</span>
+          </div>
+        </div>
+
+        <!-- Info dinas -->
+        <div class="absen-meta">
+          <div class="meta-row">
+            <ion-icon name="location-outline"></ion-icon>
+            <span>{{ rec.dinas?.location_name ?? '-' }}</span>
+          </div>
+          <div class="meta-row">
+            <ion-icon name="time-outline"></ion-icon>
+            <span>Absen: {{ fmtDt(rec.checked_in_at) }}</span>
+          </div>
+          <div class="meta-row">
+            <ion-icon name="navigate-outline"></ion-icon>
+            <span>{{ rec.latitude?.toFixed(5) }}, {{ rec.longitude?.toFixed(5) }}</span>
+          </div>
+        </div>
+
+        <!-- Laporan kerja -->
+        <div class="absen-report">
+          <div class="work-label">Laporan Pekerjaan</div>
+          <p class="work-text">{{ rec.work_report }}</p>
+        </div>
+
+        <!-- Selfie -->
+        <div class="selfie-section" *ngIf="rec.evidence_url">
+          <div class="selfie-toggle" (click)="viewSelfie(rec.evidence_url)">
+            <ion-icon name="camera-outline"></ion-icon>
+            <span>{{ expandedSelfie === rec.evidence_url ? 'Tutup Foto Selfie' : 'Lihat Foto Selfie' }}</span>
+            <ion-icon [name]="expandedSelfie === rec.evidence_url ? 'chevron-up-outline' : 'chevron-down-outline'" class="chevron"></ion-icon>
+          </div>
+          <img *ngIf="expandedSelfie === rec.evidence_url"
+               [src]="rec.evidence_url"
+               class="selfie-img"
+               alt="Selfie bukti kehadiran" />
+        </div>
+
+        <div class="no-selfie" *ngIf="!rec.evidence_url">
+          <ion-icon name="camera-off-outline"></ion-icon>
+          <span>Tidak ada foto selfie</span>
+        </div>
+
+      </div>
+    </ng-container>
+
+  </div>
+</ion-content>

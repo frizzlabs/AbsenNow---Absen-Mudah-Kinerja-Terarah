@@ -19,7 +19,7 @@
       iconName="umbrella-outline"
       iconColorClass="primary"
       title="Annual Leave"
-      subtitle="Balance: <strong>12 Days</strong> Remaining"
+      [subtitle]="'Balance: <strong>' + getRemainingDays('annual') + '</strong> Remaining'"
       [selected]="selectedType === 'annual'"
       (cardSelect)="selectType('annual')">
     </app-leave-radio-card>
@@ -28,7 +28,7 @@
       iconName="medkit-outline"
       iconColorClass="warning"
       title="Sick Leave"
-      subtitle="Balance: <strong>5 Days</strong> Remaining"
+      [subtitle]="'Balance: <strong>' + getRemainingDays('sick') + '</strong> Remaining'"
       [selected]="selectedType === 'sick'"
       (cardSelect)="selectType('sick')">
     </app-leave-radio-card>
@@ -37,7 +37,7 @@
       iconName="wallet-outline"
       iconColorClass="medium"
       title="Unpaid Leave"
-      subtitle="Balance: <strong>Unlimited</strong>"
+      [subtitle]="'Balance: <strong>' + getRemainingDays('unpaid') + '</strong>'"
       [selected]="selectedType === 'unpaid'"
       (cardSelect)="selectType('unpaid')">
     </app-leave-radio-card>

@@ -4,6 +4,8 @@ import { IonicModule } from '@ionic/angular';
 
 declare var tracking: any;
 
+type DetectionStatus = 'none' | 'partial' | 'ready';
+
 @Component({
   selector: 'app-camera-frame',
   templateUrl: './camera-frame.component.html',
@@ -17,15 +19,23 @@ export class CameraFrameComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() success: boolean = false;
 
   @Output() onFaceDetected = new EventEmitter<string>();
+  @Output() detectionStatusChange = new EventEmitter<DetectionStatus>();
 
   @ViewChild('videoElement') videoElement!: ElementRef<HTMLVideoElement>;
 
   hasCamera = false;
+  isFaceVisible = false;
+  detectionStatus: DetectionStatus = 'none';
+  statusHint = 'Posisikan wajah di dalam lingkaran';
+
   private stream: MediaStream | null = null;
   private trackerTask: any = null;
+  private detectionStreak = 0;
+  private readonly STREAK_REQUIRED = 5;
 
-  ngOnInit() {
-  }
+  private lastFaces: any[] = [];
+
+  ngOnInit() {}
 
   ngAfterViewInit() {
     if (this.type === 'face') {
@@ -38,92 +48,118 @@ export class CameraFrameComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   startCamera() {
-    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } })
-        .then((stream) => {
-          this.stream = stream;
-          this.hasCamera = true;
-          setTimeout(() => {
-            if (this.videoElement && this.videoElement.nativeElement) {
-              const video = this.videoElement.nativeElement;
-              video.srcObject = stream;
-
-              // Initialize face tracking if tracking.js is available
-              try {
-                if (typeof tracking !== 'undefined') {
-                  const tracker = new tracking.ObjectTracker('face');
-                  tracker.setInitialScale(4);
-                  tracker.setStepSize(2);
-                  tracker.setEdgesDensity(0.1);
-
-                  this.trackerTask = tracking.track(video, tracker);
-
-                  let detectionStreak = 0;
-                  const STREAK_REQUIRED = 5;
-
-                  tracker.on('track', (event: any) => {
-                    if (this.success) return;
-
-                    if (event.data && event.data.length > 0) {
-                      const rect = event.data[0];
-                      // Face must occupy a reasonable portion of the canvas to count as front-facing close-up
-                      if (rect.width > 60 && rect.height > 60) {
-                        detectionStreak++;
-                        if (detectionStreak >= STREAK_REQUIRED) {
-                          // Stop tracking
-                          if (this.trackerTask) {
-                            this.trackerTask.stop();
-                          }
-                          // Capture snapshot and emit event
-                          const photo = this.capturePhoto();
-                          if (photo) {
-                            this.onFaceDetected.emit(photo);
-                          }
-                        }
-                      } else {
-                        detectionStreak = 0;
-                      }
-                    } else {
-                      detectionStreak = 0;
-                    }
-                  });
-                }
-              } catch (err) {
-                console.warn('Face tracker initialization failed:', err);
-              }
-            }
-          }, 150);
-        })
-        .catch((error) => {
-          console.warn('Camera access error, falling back to static mockup:', error);
-          this.hasCamera = false;
-        });
-    } else {
+    if (!navigator.mediaDevices?.getUserMedia) {
       this.hasCamera = false;
+      return;
+    }
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } })
+      .then((stream) => {
+        this.stream = stream;
+        this.hasCamera = true;
+        setTimeout(() => this.initTrackers(), 200);
+      })
+      .catch(() => { this.hasCamera = false; });
+  }
+
+  private initTrackers() {
+    const video = this.videoElement?.nativeElement;
+    if (!video) return;
+    video.srcObject = this.stream;
+
+    try {
+      if (typeof tracking === 'undefined') return;
+
+      const tracker = new tracking.ObjectTracker('face');
+      tracker.setInitialScale(4);
+      tracker.setStepSize(2);
+      tracker.setEdgesDensity(0.1);
+
+      this.trackerTask = tracking.track(video, tracker);
+
+      tracker.on('track', (event: any) => {
+        if (this.success) return;
+        this.lastFaces = event.data || [];
+        this.evaluate();
+      });
+    } catch (err) {
+      console.warn('Face tracker init failed:', err);
+    }
+  }
+
+  private evaluate() {
+    const faces = this.lastFaces;
+
+    if (faces.length === 0) {
+      this.setStatus('none');
+      this.statusHint = 'Posisikan wajah di dalam lingkaran';
+      this.isFaceVisible = false;
+      this.detectionStreak = 0;
+      return;
+    }
+
+    // Best face = largest detected
+    const best = faces.reduce((a: any, b: any) => (a.width > b.width ? a : b));
+
+    // Too small = terlalu jauh / buram
+    if (best.width < 60 || best.height < 60) {
+      this.setStatus('partial');
+      this.statusHint = 'Dekatkan wajah ke kamera';
+      this.isFaceVisible = false;
+      this.detectionStreak = 0;
+      return;
+    }
+
+    // Terlalu miring: tracking.js memberi bbox sempit saat wajah miring
+    const ratio = best.width / best.height;
+    if (ratio < 0.50) {
+      this.setStatus('partial');
+      this.statusHint = 'Hadapkan wajah langsung ke depan';
+      this.isFaceVisible = false;
+      this.detectionStreak = 0;
+      return;
+    }
+
+    // Semua OK → ready
+    this.setStatus('ready');
+    this.statusHint = 'Tahan beberapa detik…';
+    this.isFaceVisible = true;
+    this.detectionStreak++;
+
+    if (this.detectionStreak >= this.STREAK_REQUIRED) {
+      if (this.trackerTask) {
+        try { this.trackerTask.stop(); } catch (e) {}
+      }
+      const photo = this.capturePhoto();
+      if (photo) this.onFaceDetected.emit(photo);
+    }
+  }
+
+  private setStatus(s: DetectionStatus) {
+    if (this.detectionStatus !== s) {
+      this.detectionStatus = s;
+      this.detectionStatusChange.emit(s);
+    } else {
+      this.detectionStatus = s;
     }
   }
 
   stopCamera() {
     if (this.trackerTask) {
-      try {
-        this.trackerTask.stop();
-      } catch (e) {}
+      try { this.trackerTask.stop(); } catch (e) {}
       this.trackerTask = null;
     }
     if (this.stream) {
-      this.stream.getTracks().forEach(track => track.stop());
+      this.stream.getTracks().forEach(t => t.stop());
       this.stream = null;
     }
   }
 
   capturePhoto(): string | null {
-    if (!this.hasCamera || !this.videoElement || !this.videoElement.nativeElement) {
-      return null;
-    }
+    if (!this.hasCamera || !this.videoElement?.nativeElement) return null;
     try {
       const video = this.videoElement.nativeElement;
       const canvas = document.createElement('canvas');
-      canvas.width = video.videoWidth || 640;
+      canvas.width  = video.videoWidth  || 640;
       canvas.height = video.videoHeight || 480;
       const ctx = canvas.getContext('2d');
       if (ctx) {
@@ -132,9 +168,7 @@ export class CameraFrameComponent implements OnInit, AfterViewInit, OnDestroy {
         ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
         return canvas.toDataURL('image/jpeg', 0.85);
       }
-    } catch (e) {
-      console.error('Error capturing video frame:', e);
-    }
+    } catch (e) {}
     return null;
   }
 }

@@ -1,7 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { BottomNavComponent } from '../../../shared/components/bottom-nav/bottom-nav.component';
 import { CardComponent } from '../../../shared/components/card/card.component';
 import { StatusBadgeComponent } from '../../../shared/components/status-badge/status-badge.component';
@@ -15,9 +15,35 @@ import { AttendanceStateService } from '../../../core/services/attendance-state.
   imports: [CommonModule, IonicModule, RouterModule, BottomNavComponent, CardComponent, StatusBadgeComponent]
 })
 export class CheckedOutPage {
-  @Input() currentLocation = 'Pemda Kota Bogor';
+  @Input() currentLocation = 'Mendeteksi lokasi…';
+  @Input() currentTime = '12:45';
+  @Input() currentTimeAmPm = 'PM';
+  @Input() currentDate = 'Thursday, 12 Feb';
+  @Input() greeting = 'Good Evening,';
+  @Input() userName = 'Sarah';
+  @Input() userAvatar = '';
+  @Input() updates: any[] = [];
+  @Output() onMoreClick = new EventEmitter<void>();
 
-  constructor(public attendanceStateService: AttendanceStateService) {}
+  constructor(
+    private router: Router,
+    public attendanceStateService: AttendanceStateService
+  ) {}
+
+  openUpdate(link: string) {
+    if (!link) return;
+    const [path, query] = link.split('?');
+    if (query) {
+      const params: any = {};
+      query.split('&').forEach(pair => {
+        const [k, v] = pair.split('=');
+        params[k] = v;
+      });
+      this.router.navigate([path], { queryParams: params });
+    } else {
+      this.router.navigate([path]);
+    }
+  }
 
   formatTime12(timeStr: string | null): string {
     if (!timeStr) return '-:-';

@@ -14,12 +14,12 @@
     <div class="recap-card">
       <div class="recap-row">
         <div class="label">Expense ID</div>
-        <div class="value">#EXP-2026-089</div>
+        <div class="value">#EXP-{{ expenseId.toString().padStart(3, '0') }}</div>
       </div>
       <div class="recap-divider"></div>
       <div class="recap-row">
         <div class="label">Amount</div>
-        <div class="value amount">$45.00</div>
+        <div class="value amount">{{ amount | currency:'USD':'symbol':'1.2-2' }}</div>
       </div>
     </div>
   </div>

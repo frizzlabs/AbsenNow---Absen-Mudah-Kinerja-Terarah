@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule, Router } from '@angular/router';
 import { ExpenseStepperComponent } from '../../../../shared/components/expense-stepper/expense-stepper.component';
+import { ExpenseService } from '../../../../core/services/expense.service';
 
 @Component({
   selector: 'app-create-step1',
@@ -23,9 +24,17 @@ export class CreateStep1Page implements OnInit {
   
   selectedCategory: string = 'meals';
 
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    private expenseService: ExpenseService
+  ) { }
 
   ngOnInit() {
+    this.selectedCategory = this.expenseService.draftRequest.category || 'meals';
+  }
+
+  selectCategory(id: string) {
+    this.selectedCategory = id;
   }
 
   goBack() {
@@ -33,6 +42,7 @@ export class CreateStep1Page implements OnInit {
   }
 
   next() {
+    this.expenseService.draftRequest.category = this.selectedCategory;
     this.router.navigate(['/expense/create/step-2']);
   }
 }

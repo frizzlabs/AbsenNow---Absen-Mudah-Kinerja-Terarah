@@ -49,10 +49,22 @@ export class AttendanceService {
     });
   }
 
-  updateOfficeCoordinates(latitude: number, longitude: number): Observable<any> {
+  updateOfficeCoordinates(latitude: number, longitude: number, radiusMeters?: number): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/offices/update-coordinates`, {
       latitude,
-      longitude
+      longitude,
+      radius_meters: radiusMeters ?? null
+    }, {
+      headers: this.getHeaders()
+    });
+  }
+
+  setOfficeLocation(latitude: number, longitude: number, radiusMeters: number, name?: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/offices/update-coordinates`, {
+      latitude,
+      longitude,
+      radius_meters: radiusMeters,
+      name: name ?? null
     }, {
       headers: this.getHeaders()
     });
@@ -60,6 +72,23 @@ export class AttendanceService {
 
   getHistory(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/attendance/history`, {
+      headers: this.getHeaders()
+    });
+  }
+
+  getTeamToday(date?: string): Observable<any> {
+    const params = date ? `?date=${date}` : '';
+    return this.http.get<any>(`${this.apiUrl}/attendance/team/today${params}`, {
+      headers: this.getHeaders()
+    });
+  }
+
+  getTeamList(date?: string, search?: string): Observable<any> {
+    const params = new URLSearchParams();
+    if (date)   params.set('date', date);
+    if (search) params.set('search', search);
+    const qs = params.toString() ? `?${params.toString()}` : '';
+    return this.http.get<any>(`${this.apiUrl}/attendance/team/list${qs}`, {
       headers: this.getHeaders()
     });
   }

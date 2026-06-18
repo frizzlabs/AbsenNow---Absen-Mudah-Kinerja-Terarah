@@ -15,6 +15,7 @@
   },
   "home": {
     "goodMorning": "Selamat Pagi,",
+    "goodAfternoon": "Selamat Siang,",
     "goodEvening": "Selamat Malam,",
     "currentLocation": "Lokasi Saat Ini:",
     "currentTime": "WAKTU SAAT INI",

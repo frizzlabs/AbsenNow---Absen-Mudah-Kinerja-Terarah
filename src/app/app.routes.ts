@@ -47,6 +47,10 @@ export const routes: Routes = [
     loadChildren: () => import('./features/profile/profile.routes').then( m => m.routes)
   },
   {
+    path: 'admin',
+    loadChildren: () => import('./features/admin/admin.routes').then( m => m.ADMIN_ROUTES)
+  },
+  {
     path: 'expense',
     loadChildren: () => import('./features/expense/expense.routes').then(m => m.EXPENSE_ROUTES)
   },
@@ -73,6 +77,10 @@ export const routes: Routes = [
   {
     path: 'activity',
     loadChildren: () => import('./features/activity/activity.routes').then(m => m.ACTIVITY_ROUTES)
+  },
+  {
+    path: 'dinas-luar',
+    loadChildren: () => import('./features/dinas-luar/dinas-luar.routes').then(m => m.DINAS_LUAR_ROUTES)
   },
   {
     path: 'ai-chat',

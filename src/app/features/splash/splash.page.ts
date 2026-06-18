@@ -17,25 +17,21 @@ export class SplashPage implements OnInit {
 
   ngOnInit() {
     setTimeout(() => {
-      // Demo startup flow
-      this.router.navigateByUrl('/onboarding', { replaceUrl: true });
-
-      /*
-      // Production startup flow
       const isNewUser = localStorage.getItem('isNewUser') !== 'false';
-      const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
       const hasPin = localStorage.getItem('hasPin') === 'true';
+      const token = localStorage.getItem('auth_token');
 
       if (isNewUser) {
         this.router.navigateByUrl('/onboarding', { replaceUrl: true });
-      } else if (!isLoggedIn) {
-        this.router.navigateByUrl('/auth/login', { replaceUrl: true });
       } else if (hasPin) {
+        // Punya PIN → langsung ke verify PIN (tidak perlu OTP lagi)
         this.router.navigateByUrl('/auth/device-pin/verify', { replaceUrl: true });
-      } else {
+      } else if (token) {
+        // Token masih ada tapi belum set PIN
         this.router.navigateByUrl('/home', { replaceUrl: true });
+      } else {
+        this.router.navigateByUrl('/auth/login', { replaceUrl: true });
       }
-      */
     }, 2000);
   }
 

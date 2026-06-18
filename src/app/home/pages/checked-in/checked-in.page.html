@@ -4,12 +4,12 @@
   <div class="home-container">
     <div class="header-content">
       <div class="header-text">
-        <p class="date-text">Thursday, 12 Feb</p>
-        <h1 class="welcome-text">Good Morning,<br/><span class="text-white-opacity">Sarah 👋</span></h1>
+        <p class="date-text">{{ currentDate }}</p>
+        <h1 class="welcome-text">{{ greeting }}<br/><span class="text-white-opacity">{{ userName }} 👋</span></h1>
         <p class="location-text">Current Location: {{ currentLocation }}</p>
       </div>
       <div class="avatar-wrapper" routerLink="/profile" style="cursor: pointer;">
-        <img src="assets/images/avatar.png" class="avatar-img" />
+        <img [src]="userAvatar || 'assets/images/avatar.png'" class="avatar-img" />
         <div class="online-indicator"></div>
       </div>
     </div>
@@ -19,12 +19,12 @@
         <div>
           <p class="current-time-label">CURRENT TIME</p>
           <div class="time-display">
-            <span class="time-big">12:45</span>
-            <span class="time-am">PM</span>
+            <span class="time-big">{{ currentTime }}</span>
+            <span class="time-am">{{ currentTimeAmPm }}</span>
           </div>
           <div class="schedule-display">
             <ion-icon name="time" class="schedule-icon text-green"></ion-icon>
-            <span class="schedule-time text-green">04:15:22</span>
+            <span class="schedule-time text-green">{{ getWorkingTime() }}</span>
             <span class="schedule-label">Working Time</span>
           </div>
         </div>
@@ -77,7 +77,7 @@
         </div>
         <span>Payslip</span>
       </div>
-      <div class="action-item">
+      <div class="action-item" (click)="onMoreClick.emit()" style="cursor: pointer;">
         <div class="action-icon bg-grey">
           <ion-icon name="grid-outline" color="medium"></ion-icon>
         </div>
@@ -87,43 +87,29 @@
 
     <div class="section-title flex-between">
       <h2 class="text-h6">Recent Updates</h2>
-      <a class="view-all">View All</a>
+      <a class="view-all" routerLink="/notification">View All</a>
     </div>
     
     <div class="updates-list">
-      <app-card>
+      <app-card *ngFor="let u of updates" (click)="openUpdate(u.link)" style="cursor: pointer;">
         <div class="update-card-content">
-          <div class="update-icon text-green bg-green-light">
-            <ion-icon name="calendar-outline"></ion-icon>
+          <div class="update-icon" [style.color]="u.colorHex" [style.background]="u.bg">
+            <ion-icon [name]="u.icon"></ion-icon>
           </div>
           <div class="update-content">
             <div class="update-header">
-              <h4>Leave Request Approved</h4>
-              <span class="time">1h ago</span>
+              <h4>{{ u.title }}</h4>
+              <span class="time">{{ u.timeLabel }}</span>
             </div>
-            <p>Your annual leave for Feb 28 has been...</p>
+            <p>{{ u.message }}</p>
           </div>
         </div>
       </app-card>
-      
-      <app-card>
-        <div class="update-card-content">
-          <div class="update-icon text-blue bg-blue-light">
-            <ion-icon name="megaphone-outline"></ion-icon>
-          </div>
-          <div class="update-content">
-            <div class="update-header">
-              <h4>Office Announcement</h4>
-              <span class="time">2h ago</span>
-            </div>
-            <p>Office will be closed this Friday for mai...</p>
-          </div>
-        </div>
-      </app-card>
+
+      <div class="text-center" *ngIf="updates.length === 0" style="padding: 20px; color: var(--ion-color-medium);">
+        <p style="margin: 0; font-size: 14px;">Belum ada pembaruan terbaru.</p>
+      </div>
     </div>
-    
-    <div style="height: 100px;"></div>
   </div>
-  
-  <app-bottom-nav></app-bottom-nav>
 </ion-content>
+<app-bottom-nav></app-bottom-nav>

@@ -8,7 +8,7 @@ import { RouterModule } from '@angular/router';
   standalone: true,
   imports: [CommonModule, ProgressBarComponent, RouterModule],
   template: `
-    <div class="kpi-card" [routerLink]="link ? link : null">
+    <div class="kpi-card" [routerLink]="link ? link : null" [queryParams]="queryParams">
       <div class="flex justify-between items-start mb-3">
         <div class="status-badge" [ngClass]="status.toLowerCase().replace(' ', '-')">
           <div class="dot"></div>
@@ -124,7 +124,8 @@ export class KpiCardComponent {
   @Input() target: string = '';
   @Input() current: string = '';
   @Input() link: string = '';
-  
+  @Input() queryParams: any = null;
+
   getFillClass() {
     const s = this.status.toLowerCase();
     if (s.includes('completed')) return 'fill-green';

@@ -1,0 +1,101 @@
+<ion-content [fullscreen]="true" class="bg-light">
+  <app-page-header title="Riwayat Dinas Luar"></app-page-header>
+
+  <!-- Tab (only for approvers) -->
+  <div class="tab-bar" *ngIf="canReview">
+    <button class="tab-btn" [class.active]="activeTab === 'mine'" (click)="setTab('mine')">Pengajuan Saya</button>
+    <button class="tab-btn" [class.active]="activeTab === 'reviewed'" (click)="setTab('reviewed')">Sudah Direview</button>
+  </div>
+
+  <div class="page-container">
+
+    <div class="quick-actions">
+      <button class="quick-btn primary" (click)="ajukan()">
+        <ion-icon name="add-circle-outline"></ion-icon>
+        Ajukan Dinas Baru
+      </button>
+      <button class="quick-btn secondary" (click)="absen()">
+        <ion-icon name="location-outline"></ion-icon>
+        Absen Dinas
+      </button>
+    </div>
+
+    <!-- MY SUBMISSIONS (tampil untuk SEMUA role, termasuk staff) -->
+    <ng-container *ngIf="activeTab === 'mine'">
+      <div *ngIf="isLoading" class="loading-state">
+        <ion-spinner name="crescent"></ion-spinner>
+        <span>Memuat riwayat...</span>
+      </div>
+
+      <div *ngIf="!isLoading && mine.length === 0" class="empty-state">
+        <ion-icon name="briefcase-outline"></ion-icon>
+        <p>Belum ada pengajuan dinas.</p>
+        <span>Tap "Ajukan Dinas Baru" untuk membuat pengajuan.</span>
+      </div>
+
+      <div *ngFor="let item of mine" class="dinas-card" (click)="openDetail(item)" style="cursor: pointer;">
+        <div class="card-content">
+          <div class="card-top">
+            <span class="location-name">{{ item.location_name }}</span>
+            <ion-badge [color]="statusColor(item.status)">{{ statusLabel(item.status) }}</ion-badge>
+          </div>
+          <div class="time-range">
+            <ion-icon name="time-outline"></ion-icon>
+            <span>{{ fmtDt(item.start_datetime) }}</span>
+          </div>
+          <div class="time-range">
+            <ion-icon name="flag-outline"></ion-icon>
+            <span>{{ fmtDt(item.end_datetime) }}</span>
+          </div>
+          <div class="work-preview">{{ item.work_details | slice:0:80 }}{{ item.work_details?.length > 80 ? '...' : '' }}</div>
+          <div class="review-note" *ngIf="item.review_note">
+            <ion-icon name="chatbubble-outline"></ion-icon>
+            <span>{{ item.review_note }}</span>
+          </div>
+          <div class="pending-hint" *ngIf="item.status === 'pending'">
+            <ion-icon name="time-outline"></ion-icon>
+            <span>Menunggu persetujuan atasan</span>
+          </div>
+          <div class="tap-hint">
+            <ion-icon name="chevron-forward-outline"></ion-icon>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <!-- REVIEWED (supervisor only) -->
+    <ng-container *ngIf="activeTab === 'reviewed'">
+      <div *ngIf="reviewed.length === 0" class="empty-state">
+        <ion-icon name="checkmark-done-outline"></ion-icon>
+        <p>Belum ada dinas yang direview.</p>
+      </div>
+
+      <div *ngFor="let item of reviewed" class="dinas-card" (click)="openDetail(item)" style="cursor: pointer;">
+        <div class="card-content">
+          <div class="card-top">
+            <span class="location-name">{{ item.location_name }}</span>
+            <ion-badge [color]="statusColor(item.status)">{{ statusLabel(item.status) }}</ion-badge>
+          </div>
+          <div class="emp-name" *ngIf="item.user">
+            <ion-icon name="person-outline"></ion-icon>
+            <span>{{ item.user.name }}</span>
+          </div>
+          <div class="time-range">
+            <ion-icon name="time-outline"></ion-icon>
+            <span>{{ fmtDt(item.start_datetime) }} — {{ fmtDt(item.end_datetime) }}</span>
+          </div>
+          <div class="review-note" *ngIf="item.review_note">
+            <ion-icon name="chatbubble-outline"></ion-icon>
+            <span>{{ item.review_note }}</span>
+          </div>
+          <div class="reviewed-at" *ngIf="item.reviewed_at">
+            Direview: {{ fmtDt(item.reviewed_at) }}
+          </div>
+          <div class="tap-hint">
+            <ion-icon name="chevron-forward-outline"></ion-icon>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</ion-content>

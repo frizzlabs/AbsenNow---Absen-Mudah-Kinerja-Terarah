@@ -54,6 +54,10 @@ export class ConfirmPage implements OnInit {
         this.authService.savePin(this.pinValue).subscribe({
           next: () => {
             this.isLoading = false;
+            const user = this.authService.getUser();
+            if (user?.email) {
+              localStorage.setItem('pin_email', user.email);
+            }
             localStorage.setItem('isLoggedIn', 'true');
             localStorage.setItem('hasPin', 'true');
             localStorage.removeItem('temp_pin');

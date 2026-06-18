@@ -10,9 +10,9 @@ import { IonicModule, ModalController } from '@ionic/angular';
   imports: [CommonModule, IonicModule]
 })
 export class PayslipFilterSheetComponent {
-  selectedYear = '2023';
-  selectedMonth = 'February';
-  selectedStatus = 'Pending';
+  selectedYear = '2026';
+  selectedMonth = 'Semua';
+  selectedStatus = 'dibayar';
 
   constructor(private modalCtrl: ModalController) {}
 
@@ -28,10 +28,13 @@ export class PayslipFilterSheetComponent {
     this.selectedStatus = status;
   }
 
+  reset() {
+    this.modalCtrl.dismiss({ reset: true });
+  }
+
   apply() {
     this.modalCtrl.dismiss({
       year: this.selectedYear,
-      month: this.selectedMonth,
       status: this.selectedStatus
     });
   }

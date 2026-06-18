@@ -1,7 +1,7 @@
 <ion-content [fullscreen]="true" class="bg-light">
-  
+
   <div class="page-container">
-    
+
     <div class="success-icon-container">
       <div class="icon-ring outer">
         <div class="icon-ring inner">
@@ -13,39 +13,58 @@
     </div>
 
     <div class="text-center success-text">
-      <h1 class="text-h4">Correction Request<br>Submitted</h1>
-      <p class="text-body-medium-regular">Your request has been successfully sent. It is currently awaiting manager approval.</p>
+      <h1 class="text-h4">Pengajuan Koreksi<br>Berhasil Dikirim</h1>
+      <p class="text-body-medium-regular">Pengajuan Anda sedang menunggu persetujuan dari atasan atau Admin OPD.</p>
     </div>
 
-    <div class="details-card">
+    <div class="details-card" *ngIf="data">
       <div class="detail-row">
-        <span class="label">Request Type</span>
-        <span class="value dark">Clock-in Correction</span>
+        <span class="label">Jenis Koreksi</span>
+        <span class="value dark">{{ typeLabel }}</span>
       </div>
-      
       <div class="card-divider"></div>
-      
-      <div class="time-compare">
-        <div class="col">
-          <span class="label">Original</span>
-          <span class="value dark">09:12 AM</span>
-        </div>
-        <div class="col text-right">
-          <span class="label blue">Corrected</span>
-          <span class="value blue">08:30 AM</span>
-        </div>
+      <div class="detail-row">
+        <span class="label">Tanggal</span>
+        <span class="value dark">{{ dateFormatted }}</span>
       </div>
+      <ng-container *ngIf="data.proposed_checkin || data.proposed_checkout">
+        <div class="card-divider"></div>
+        <div class="time-compare">
+          <div class="col" *ngIf="data.original_checkin">
+            <span class="label">Asli</span>
+            <span class="value dark">{{ data.original_checkin || '-' }}</span>
+          </div>
+          <div class="col text-right" *ngIf="data.proposed_checkin">
+            <span class="label blue">Diusulkan</span>
+            <span class="value blue">{{ data.proposed_checkin }}</span>
+          </div>
+        </div>
+      </ng-container>
     </div>
 
     <div class="badge-container">
       <div class="status-badge pending">
-        <div class="dot"></div> Pending Approval
+        <div class="dot"></div>
+        Menunggu Persetujuan
       </div>
     </div>
+
+    <p class="audit-note">
+      <ion-icon name="shield-checkmark-outline"></ion-icon>
+      Riwayat koreksi ini tersimpan dalam audit log dan dapat dilihat oleh BKPSDM.
+    </p>
 
   </div>
 
   <div class="fixed-bottom">
-    <app-button variant="primary" styleClass="w-full" routerLink="/attendance">Back to History</app-button>
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+      <app-button variant="primary" styleClass="w-full" (onClick)="goToHistory()">
+        Lihat Riwayat Absensi
+      </app-button>
+      <app-button variant="outline" styleClass="w-full" (onClick)="goHome()">
+        Kembali ke Beranda
+      </app-button>
+    </div>
   </div>
+
 </ion-content>

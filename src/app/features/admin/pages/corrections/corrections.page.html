@@ -1,0 +1,116 @@
+<ion-content [fullscreen]="true" class="bg-light">
+  <app-page-header title="Review Koreksi Absensi"></app-page-header>
+
+  <div class="tab-bar">
+    <button class="tab-btn" [class.active]="activeTab === 'pending'" (click)="setTab('pending')">
+      Menunggu
+      <span class="badge" *ngIf="activeTab === 'pending' && items.length > 0">{{ items.length }}</span>
+    </button>
+    <button class="tab-btn" [class.active]="activeTab === 'reviewed'" (click)="setTab('reviewed')">Direview</button>
+    <button class="tab-btn" *ngIf="canSeeAll" [class.active]="activeTab === 'all'" (click)="setTab('all')">Semua</button>
+  </div>
+
+  <!-- Loading -->
+  <div class="center-spinner" *ngIf="isLoading">
+    <ion-spinner name="crescent" color="primary"></ion-spinner>
+  </div>
+
+  <!-- Empty state -->
+  <div class="empty-state" *ngIf="!isLoading && items.length === 0">
+    <ion-icon [name]="activeTab === 'reviewed' ? 'checkmark-circle-outline' : 'document-outline'" [color]="activeTab === 'reviewed' ? 'success' : 'medium'"></ion-icon>
+    <p>{{ activeTab === 'pending' ? 'Tidak ada pengajuan yang perlu direview.' : activeTab === 'reviewed' ? 'Belum ada koreksi yang Anda review.' : 'Belum ada data koreksi.' }}</p>
+  </div>
+
+  <!-- List -->
+  <div class="list-wrap" *ngIf="!isLoading && items.length > 0">
+    <div class="correction-card" *ngFor="let item of items" [class.expanded]="expandedId === item.id">
+
+      <!-- Card header -->
+      <div class="card-head" (click)="toggleExpand(item.id)">
+        <div class="avatar">{{ (item.user?.name || '?').charAt(0).toUpperCase() }}</div>
+        <div class="card-info">
+          <div class="employee-name">{{ item.user?.name }}</div>
+          <div class="meta-row">
+            <span class="meta-date">{{ formatDate(item.correction_date) }}</span>
+          </div>
+          <div class="type-pill">{{ typeLabel(item.correction_type) }}</div>
+        </div>
+        <div class="right-col">
+          <ion-badge [color]="statusColor(item.status)" mode="ios">{{ statusLabel(item.status) }}</ion-badge>
+          <ion-icon [name]="expandedId === item.id ? 'chevron-up-outline' : 'chevron-down-outline'" class="chevron"></ion-icon>
+        </div>
+      </div>
+
+      <!-- Expanded detail -->
+      <div class="card-body" *ngIf="expandedId === item.id">
+        <div class="divider"></div>
+
+        <!-- Proposed times -->
+        <div class="detail-section" *ngIf="item.proposed_checkin || item.proposed_checkout">
+          <span class="section-label">Waktu Diusulkan</span>
+          <div class="time-row">
+            <div class="time-col" *ngIf="item.proposed_checkin">
+              <span class="tl">Masuk</span>
+              <span class="tv proposed">{{ item.proposed_checkin }}</span>
+              <span class="tv-orig" *ngIf="item.original_checkin">Asli: {{ item.original_checkin }}</span>
+            </div>
+            <div class="time-col" *ngIf="item.proposed_checkout">
+              <span class="tl">Pulang</span>
+              <span class="tv proposed">{{ item.proposed_checkout }}</span>
+              <span class="tv-orig" *ngIf="item.original_checkout">Asli: {{ item.original_checkout }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Justification -->
+        <div class="detail-section">
+          <span class="section-label">Keterangan Pegawai</span>
+          <p class="justification-text">"{{ item.justification }}"</p>
+        </div>
+
+        <!-- Evidence -->
+        <div class="detail-section" *ngIf="item.evidence_url">
+          <span class="section-label">Bukti Pendukung</span>
+          <a [href]="item.evidence_url" target="_blank" class="evidence-link">
+            <ion-icon name="document-attach-outline"></ion-icon>
+            Lihat Bukti
+          </a>
+        </div>
+
+        <!-- Reviewer note (if already reviewed) -->
+        <div class="detail-section reviewed-note" *ngIf="item.status !== 'pending' && item.review_note">
+          <span class="section-label">Catatan Reviewer</span>
+          <p class="review-note-text">{{ item.review_note }}</p>
+          <div class="reviewer-info" *ngIf="item.reviewer">
+            <ion-icon name="person-circle-outline"></ion-icon>
+            {{ item.reviewer.name }}
+          </div>
+        </div>
+
+        <!-- Action buttons (pending only) -->
+        <div class="action-row" *ngIf="item.status === 'pending'">
+          <ion-button
+            fill="outline"
+            color="danger"
+            size="small"
+            [disabled]="reviewingId === item.id"
+            (click)="reject(item)">
+            <ion-icon name="close-circle-outline" slot="start"></ion-icon>
+            Tolak
+          </ion-button>
+          <ion-button
+            fill="solid"
+            color="success"
+            size="small"
+            [disabled]="reviewingId === item.id"
+            (click)="approve(item)">
+            <ion-icon name="checkmark-circle-outline" slot="start"></ion-icon>
+            Setujui
+          </ion-button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</ion-content>

@@ -1,0 +1,116 @@
+<ion-content [fullscreen]="true" class="bg-light">
+  <app-page-header title="Detail Dinas Luar"></app-page-header>
+
+  <div class="page-container" *ngIf="item">
+
+    <!-- SINGLE CARD -->
+    <div class="detail-card">
+
+      <!-- Status banner -->
+      <div class="status-banner" [class]="item.status">
+        <ion-icon [name]="item.status === 'approved' ? 'checkmark-circle' : item.status === 'rejected' ? 'close-circle' : 'time'"></ion-icon>
+        <div class="banner-text">
+          <span class="banner-sub">{{ statusLabel(item.status) }}</span>
+          <span class="banner-loc">{{ item.location_name }}</span>
+        </div>
+        <ion-badge [color]="statusColor(item.status)" class="banner-badge">{{ statusLabel(item.status) }}</ion-badge>
+      </div>
+
+      <div class="card-body">
+
+        <!-- Diajukan oleh -->
+        <div class="section" *ngIf="item.user">
+          <div class="section-label">Diajukan Oleh</div>
+          <div class="row-item">
+            <ion-icon name="person-circle-outline"></ion-icon>
+            <span class="val">{{ item.user.name }}</span>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Lokasi -->
+        <div class="section">
+          <div class="section-label">Lokasi Dinas</div>
+          <div class="row-item">
+            <ion-icon name="location-outline"></ion-icon>
+            <div>
+              <div class="val">{{ item.location_name }}</div>
+              <div class="sub">{{ item.latitude }}, {{ item.longitude }}</div>
+            </div>
+          </div>
+          <div class="row-item">
+            <ion-icon name="radio-button-on-outline"></ion-icon>
+            <span class="val">Radius Geofence: {{ item.radius }}m</span>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Waktu -->
+        <div class="section">
+          <div class="section-label">Waktu Dinas</div>
+          <div class="time-row">
+            <div class="time-block">
+              <span class="time-lbl">Mulai</span>
+              <span class="time-val">{{ fmtDt(item.start_datetime) }}</span>
+            </div>
+            <ion-icon name="arrow-forward-outline" class="arrow-icon"></ion-icon>
+            <div class="time-block">
+              <span class="time-lbl">Selesai</span>
+              <span class="time-val">{{ fmtDt(item.end_datetime) }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Detail pekerjaan -->
+        <div class="section">
+          <div class="section-label">Detail Pekerjaan</div>
+          <p class="work-text">{{ item.work_details }}</p>
+        </div>
+
+        <!-- Hasil review -->
+        <ng-container *ngIf="item.status !== 'pending'">
+          <div class="divider"></div>
+          <div class="section">
+            <div class="section-label">Hasil Review</div>
+            <div class="row-item" *ngIf="item.reviewer">
+              <ion-icon name="person-outline"></ion-icon>
+              <span class="val">Direview oleh: {{ item.reviewer.name }}</span>
+            </div>
+            <div class="row-item" *ngIf="item.reviewed_at">
+              <ion-icon name="calendar-outline"></ion-icon>
+              <span class="val">{{ fmtDt(item.reviewed_at) }}</span>
+            </div>
+            <div class="note-box" *ngIf="item.review_note">
+              <ion-icon name="chatbubble-outline"></ion-icon>
+              <span>{{ item.review_note }}</span>
+            </div>
+          </div>
+        </ng-container>
+
+      </div>
+    </div>
+
+    <!-- Pending info (staff view) -->
+    <div class="pending-box" *ngIf="item.status === 'pending' && !canApproveThis">
+      <ion-icon name="time-outline"></ion-icon>
+      <p>Pengajuan ini sedang menunggu persetujuan atasan Anda.</p>
+    </div>
+
+    <!-- Actions (supervisor) -->
+    <div class="action-area" *ngIf="canApproveThis">
+      <app-button variant="primary" styleClass="w-full" (onClick)="approve()">
+        <ion-icon name="checkmark-outline" slot="start"></ion-icon>
+        Setujui Dinas
+      </app-button>
+      <app-button variant="outline" styleClass="w-full danger-outline" (onClick)="reject()">
+        <ion-icon name="close-outline" slot="start"></ion-icon>
+        Tolak Dinas
+      </app-button>
+    </div>
+
+  </div>
+</ion-content>

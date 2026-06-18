@@ -1,77 +1,99 @@
 <ion-content [fullscreen]="true" class="bg-light">
-  <app-page-header title="Attendance Correction"></app-page-header>
-  
+  <app-page-header title="Koreksi Absensi"></app-page-header>
+
   <div class="stepper-section">
     <div class="stepper-labels">
-      <span class="step-text text-blue">Step 2 of 3</span>
-      <span class="progress-text text-gray">Correction Progress</span>
+      <span class="step-text text-blue">Langkah 2 dari 3</span>
+      <span class="progress-text text-gray">Progress Pengajuan</span>
     </div>
-    <div class="progress-bar">
-      <div class="progress-fill" style="width: 66%"></div>
-    </div>
+    <div class="progress-bar"><div class="progress-fill" style="width: 66%"></div></div>
   </div>
-  
   <div class="divider-full"></div>
 
   <div class="page-container">
-    
+
+    <!-- Info tanggal & jenis -->
     <div class="summary-card">
       <div class="card-header">
-        <span class="label">RECORD SUMMARY</span>
-        <div class="badge">Current Log</div>
+        <span class="label">DETAIL KOREKSI</span>
       </div>
-      
       <div class="info-row">
         <ion-icon name="calendar-outline"></ion-icon>
-        <span>Wed, 15 May 2024</span>
+        <span>{{ dateFormatted }}</span>
       </div>
-      
       <div class="info-row">
-        <ion-icon name="time-outline"></ion-icon>
-        <span>09:15 AM <span class="dash">—</span> 06:05 PM</span>
+        <ion-icon name="alert-circle-outline"></ion-icon>
+        <span>{{ typeLabelFormatted }}</span>
       </div>
     </div>
 
     <div class="form-section">
-      <div class="form-group">
-        <label>Proposed Clock-in *</label>
+
+      <!-- Jam absen masuk (jika dibutuhkan) -->
+      <div class="form-group" *ngIf="needsCheckin">
+        <label>Jam Absen Masuk yang Diusulkan *</label>
         <div class="input-box">
-          <div class="input-content">
-            <ion-icon name="log-in-outline" class="gray-icon"></ion-icon>
-            <span>09:00 AM</span>
-          </div>
-          <ion-icon name="chevron-down-outline" class="chevron"></ion-icon>
+          <ion-icon name="log-in-outline" class="gray-icon"></ion-icon>
+          <input type="time" [(ngModel)]="draft.proposedCheckin" />
         </div>
       </div>
 
-      <div class="form-group">
-        <label>Proposed Clock-out *</label>
+      <!-- Jam absen pulang (jika dibutuhkan) -->
+      <div class="form-group" *ngIf="needsCheckout">
+        <label>Jam Absen Pulang yang Diusulkan *</label>
         <div class="input-box">
-          <div class="input-content">
-            <ion-icon name="log-out-outline" class="gray-icon"></ion-icon>
-            <span>06:00 PM</span>
-          </div>
-          <ion-icon name="chevron-down-outline" class="chevron"></ion-icon>
+          <ion-icon name="log-out-outline" class="gray-icon"></ion-icon>
+          <input type="time" [(ngModel)]="draft.proposedCheckout" />
         </div>
       </div>
 
+      <!-- Alasan -->
       <div class="form-group">
-        <label>Detailed Justification *</label>
+        <label>Alasan / Keterangan *</label>
         <div class="textarea-box">
-          <textarea placeholder="Explain the reason for this correction (e.g., Client meeting, technical issue)..."></textarea>
+          <textarea
+            placeholder="Jelaskan alasan pengajuan koreksi secara detail (min. 10 karakter)..."
+            [(ngModel)]="draft.justification"
+            maxlength="500"
+            rows="4">
+          </textarea>
           <div class="textarea-footer">
-            <span class="char-count">0/200</span>
-            <ion-icon name="menu-outline" class="resize-icon"></ion-icon>
+            <span class="char-count" [class.limit]="charCount >= 450">{{ charCount }}/500</span>
           </div>
         </div>
       </div>
-      
-      <p class="help-text">This correction request will be sent to your direct supervisor for review and approval.</p>
-    </div>
 
+      <!-- Upload bukti -->
+      <div class="form-group">
+        <label>Bukti Pendukung <span class="optional">(opsional)</span></label>
+
+        <div class="evidence-preview" *ngIf="draft.evidencePreview">
+          <img [src]="draft.evidencePreview" alt="Bukti" />
+          <button class="remove-btn" (click)="removeEvidence()">
+            <ion-icon name="close-circle"></ion-icon>
+          </button>
+        </div>
+
+        <div class="file-name-box" *ngIf="draft.evidenceFile && !draft.evidencePreview">
+          <ion-icon name="document-outline"></ion-icon>
+          <span>{{ draft.evidenceFile.name }}</span>
+          <button (click)="removeEvidence()"><ion-icon name="close-circle-outline"></ion-icon></button>
+        </div>
+
+        <label class="upload-btn" *ngIf="!draft.evidenceFile">
+          <ion-icon name="cloud-upload-outline"></ion-icon>
+          <span>Pilih file (JPG/PNG/PDF, maks 5MB)</span>
+          <input type="file" accept="image/jpeg,image/png,application/pdf" (change)="onFileChange($event)" style="display:none" />
+        </label>
+      </div>
+
+      <p class="help-text">Pengajuan ini akan dikirim ke atasan untuk ditinjau dan disetujui.</p>
+    </div>
   </div>
 
   <div class="fixed-bottom">
-    <app-button variant="primary" styleClass="w-full" routerLink="/attendance/correction/summary">Review Correction</app-button>
+    <app-button variant="primary" styleClass="w-full" (onClick)="goNext()" [disabled]="!isValid">
+      Tinjau Pengajuan
+    </app-button>
   </div>
 </ion-content>

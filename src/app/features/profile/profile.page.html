@@ -9,13 +9,13 @@
     <div class="avatar-section">
       <div class="avatar">
         <!-- Using female placeholder as per PNG Sarah Miller -->
-        <img src="assets/images/avatar-placeholder.png" alt="Profile">
+        <img [src]="user?.avatar_url || 'assets/images/avatar-placeholder.png'" alt="Profile">
       </div>
       
-      <h2 class="name">Sarah Miller</h2>
-      <p class="role">Senior Software Engineer &bull; Engineering</p>
-      
-      <div class="id-badge">ID: EMP-2024-889</div>
+      <h2 class="name">{{ user?.name || '—' }}</h2>
+      <p class="role">{{ roleLine }}</p>
+
+      <div class="id-badge" *ngIf="user?.employee_id">ID: {{ user.employee_id }}</div>
     </div>
     
     <div class="menu-list">
@@ -46,6 +46,24 @@
         [subtitle]="'profile.languageSubtitle' | translate"
         routerLink="/profile/language"
       ></app-profile-menu-item>
+
+      <app-profile-menu-item
+        *ngIf="canManageUsers"
+        iconName="shield-checkmark-outline"
+        title="Role & Privilege"
+        subtitle="Atur role, hak akses, & pengguna"
+        routerLink="/admin/roles"
+      ></app-profile-menu-item>
+    </div>
+
+    <div class="logout-section">
+      <button class="logout-btn" (click)="confirmLogout()">
+        <div class="logout-icon-wrap">
+          <ion-icon name="log-out-outline"></ion-icon>
+        </div>
+        <span class="logout-label">Keluar</span>
+        <ion-icon name="chevron-forward-outline" class="logout-chevron"></ion-icon>
+      </button>
     </div>
 
   </div>

@@ -4,50 +4,23 @@
   </div>
 
   <div class="sheet-header">
-    <div class="title">Basic Salary</div>
+    <div class="title">{{ title }}</div>
     <ion-icon name="close-outline" class="close-btn" (click)="dismiss()"></ion-icon>
   </div>
 
   <div class="sheet-content">
-    <div class="list-item">
-      <ion-icon name="document-text-outline" color="primary"></ion-icon>
+    <div class="list-item" *ngFor="let item of items">
+      <ion-icon [name]="item.icon || 'document-text-outline'" color="primary"></ion-icon>
       <div class="item-content">
-        <div class="item-title">Basic Salary</div>
-        <div class="item-subtitle">Monthly fixed rate</div>
+        <div class="item-title">{{ item.title }}</div>
+        <div class="item-subtitle">{{ item.subtitle }}</div>
       </div>
-      <div class="item-amount">$3,500.00</div>
-    </div>
-
-    <div class="list-item">
-      <ion-icon name="time-outline" color="primary"></ion-icon>
-      <div class="item-content">
-        <div class="item-title">Overtime</div>
-        <div class="item-subtitle">Monthly fixed rate</div>
-      </div>
-      <div class="item-amount">$450.00</div>
-    </div>
-
-    <div class="list-item">
-      <ion-icon name="people-outline" color="primary"></ion-icon>
-      <div class="item-content">
-        <div class="item-title">Position Allowance</div>
-        <div class="item-subtitle">Monthly fixed rate</div>
-      </div>
-      <div class="item-amount">$500.00</div>
-    </div>
-
-    <div class="list-item">
-      <ion-icon name="car-outline" color="primary"></ion-icon>
-      <div class="item-content">
-        <div class="item-title">Transport</div>
-        <div class="item-subtitle">Fixed allowance</div>
-      </div>
-      <div class="item-amount">$150.00</div>
+      <div class="item-amount">{{ isDeduction ? '-' : '' }}{{ fmt(item.amount) }}</div>
     </div>
   </div>
 
   <div class="total-row">
-    <div class="total-label">Total Gross Salary</div>
-    <div class="total-amount">$4,600.00</div>
+    <div class="total-label">{{ totalLabel }}</div>
+    <div class="total-amount" [class.danger]="isDeduction">{{ isDeduction ? '-' : '' }}{{ fmt(total) }}</div>
   </div>
 </div>

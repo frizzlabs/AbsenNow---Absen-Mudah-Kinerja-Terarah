@@ -1,0 +1,114 @@
+<ion-content [fullscreen]="true" class="bg-light">
+  <app-page-header title="Absen Dinas Luar"></app-page-header>
+
+  <div class="page-container" *ngIf="dinas">
+
+    <!-- INFO DINAS -->
+    <div class="info-card">
+      <div class="info-label">DINAS YANG DIPILIH</div>
+      <div class="location-name">{{ dinas.location_name }}</div>
+      <div class="time-range">
+        <ion-icon name="time-outline"></ion-icon>
+        <span>{{ fmtDt(dinas.start_datetime) }} — {{ fmtDt(dinas.end_datetime) }}</span>
+      </div>
+      <div class="radius-row">
+        <ion-icon name="radio-button-on-outline"></ion-icon>
+        <span>Radius geofence: {{ dinas.radius }}m</span>
+      </div>
+    </div>
+
+    <!-- GEOFENCE -->
+    <div class="section-card">
+      <div class="section-title">
+        <ion-icon name="location-outline"></ion-icon>
+        <span>Verifikasi Lokasi</span>
+      </div>
+      <button class="location-btn" (click)="getLocation()" [disabled]="geofenceStatus === 'getting'">
+        <ion-icon name="navigate-outline"></ion-icon>
+        {{ geofenceStatus === 'getting' ? 'Mengambil lokasi...' : 'Ambil Lokasi Saya Sekarang' }}
+      </button>
+      <div *ngIf="geofenceStatus === 'valid'" class="geofence-result valid">
+        <ion-icon name="checkmark-circle-outline"></ion-icon>
+        <span>Lokasi valid — Anda berada dalam area dinas ({{ lat?.toFixed(5) }}, {{ lng?.toFixed(5) }})</span>
+      </div>
+      <div *ngIf="geofenceStatus === 'invalid'" class="geofence-result invalid">
+        <ion-icon name="warning-outline"></ion-icon>
+        <span>Di luar area geofence — absen tetap akan dicatat namun ditandai tidak valid</span>
+      </div>
+      <div *ngIf="geofenceStatus === 'idle'" class="geofence-result hint">
+        <ion-icon name="information-circle-outline"></ion-icon>
+        <span>Tekan tombol di atas untuk mengambil lokasi GPS Anda</span>
+      </div>
+    </div>
+
+    <!-- LAPORAN PEKERJAAN -->
+    <div class="section-card">
+      <div class="section-title">
+        <ion-icon name="document-text-outline"></ion-icon>
+        <span>Laporan Pekerjaan</span>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Uraian pekerjaan yang dilakukan <span class="hint">(min. 10 karakter)</span></label>
+        <textarea class="field-textarea" rows="5" placeholder="Jelaskan pekerjaan yang telah dilakukan..."
+                  [(ngModel)]="workReport"></textarea>
+        <span class="char-count">{{ workReport.length }} karakter</span>
+      </div>
+    </div>
+
+    <!-- SELFIE WAJIB -->
+    <div class="section-card">
+      <div class="section-title">
+        <ion-icon name="camera-outline"></ion-icon>
+        <span>Selfie Bukti Kehadiran</span>
+        <span class="required-badge">Wajib</span>
+      </div>
+
+      <!-- Idle: belum ada foto & kamera belum aktif -->
+      <div *ngIf="!selfieDataUrl && !cameraActive"
+           class="selfie-placeholder"
+           [class.loading]="isTakingPhoto"
+           (click)="openCamera()">
+        <div class="selfie-icon-wrap">
+          <ion-spinner *ngIf="isTakingPhoto" name="crescent"></ion-spinner>
+          <ion-icon *ngIf="!isTakingPhoto" name="camera-outline"></ion-icon>
+        </div>
+        <p class="selfie-label">{{ isTakingPhoto ? 'Membuka kamera...' : 'Tap untuk ambil selfie' }}</p>
+        <p class="selfie-sub">Foto real-time dari kamera, tidak bisa upload dari galeri</p>
+      </div>
+
+      <!-- Web: live camera preview (hanya muncul di browser) -->
+      <div *ngIf="cameraActive" class="camera-wrap">
+        <video #videoEl autoplay playsinline muted class="camera-video"></video>
+        <div class="camera-overlay">
+          <div class="face-guide"></div>
+        </div>
+        <button class="capture-btn" (click)="captureWebSelfie()">
+          <div class="capture-inner"></div>
+        </button>
+        <p class="camera-hint">Posisikan wajah dalam lingkaran, lalu tap tombol</p>
+      </div>
+      <canvas #canvasEl style="display:none"></canvas>
+
+      <!-- Sudah ada foto -->
+      <div *ngIf="selfieDataUrl" class="captured-wrap">
+        <img [src]="selfieDataUrl" class="captured-img" />
+        <div class="captured-actions">
+          <div class="captured-ok">
+            <ion-icon name="checkmark-circle-outline"></ion-icon>
+            <span>Selfie berhasil diambil</span>
+          </div>
+          <button class="retake-btn" (click)="retakeSelfie()">
+            <ion-icon name="refresh-outline"></ion-icon>
+            Ambil Ulang
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="bottom-actions">
+      <app-button variant="primary" styleClass="w-full" (onClick)="submit()" [disabled]="!isValid || isSubmitting">
+        {{ isSubmitting ? 'Menyimpan...' : 'Kirim Absen Dinas' }}
+      </app-button>
+    </div>
+  </div>
+</ion-content>

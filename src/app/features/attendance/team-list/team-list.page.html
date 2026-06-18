@@ -1,0 +1,86 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back-outline" color="dark"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>List Absensi Karyawan</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Loading -->
+  <div class="text-center" *ngIf="isLoading" style="padding: 40px; text-align: center;">
+    <ion-spinner name="crescent" color="primary"></ion-spinner>
+    <p style="color: var(--ion-color-medium); margin-top: 12px;">Memuat data...</p>
+  </div>
+
+  <div class="content-wrapper" *ngIf="!isLoading">
+
+    <!-- FILTER BAR -->
+    <div class="filter-bar">
+      <div class="search-box">
+        <ion-icon name="search-outline"></ion-icon>
+        <input type="text" placeholder="Cari nama karyawan..." [(ngModel)]="search" (ngModelChange)="onSearchChange()" />
+      </div>
+      <input type="date" class="date-input" [(ngModel)]="selectedDate" (change)="onDateChange()" />
+    </div>
+
+    <!-- DATE LABEL + COUNT -->
+    <div class="meta-row">
+      <span class="text-body-small-semibold text-medium">{{ dateFormatted() }}</span>
+      <span class="count-badge">{{ records.length }} data</span>
+    </div>
+
+    <!-- EMPTY STATE -->
+    <div *ngIf="records.length === 0" style="padding: 32px; text-align: center; color: var(--ion-color-medium); background: white; border-radius: 12px; border: 1px dashed var(--ion-color-medium-light);">
+      <ion-icon name="document-outline" style="font-size: 32px; margin-bottom: 8px; color: var(--ion-color-medium-light);"></ion-icon>
+      <p style="margin: 0; font-size: 14px;">Tidak ada data absensi pada tanggal ini.</p>
+    </div>
+
+    <!-- LIST -->
+    <div class="list-item" *ngFor="let rec of records">
+      <div class="item-header">
+        <div class="emp-info">
+          <div class="emp-avatar">{{ rec.user?.name?.charAt(0)?.toUpperCase() }}</div>
+          <div class="emp-text">
+            <div class="text-body-medium-semibold text-dark">{{ rec.user?.name }}</div>
+            <span class="text-body-small-regular text-medium">
+              {{ rec.user?.employee_id }}{{ rec.user?.department ? ' · ' + rec.user?.department : '' }}
+            </span>
+          </div>
+        </div>
+        <div class="status-badge" [ngClass]="rec.status">{{ statusLabel(rec.status) }}</div>
+      </div>
+
+      <div class="time-row">
+        <div class="time-block">
+          <span class="text-body-small-regular text-medium">Check In</span>
+          <div class="time-val">
+            <ion-icon name="log-in-outline" class="text-success"></ion-icon>
+            <span class="text-body-medium-semibold text-dark">{{ rec.check_in ? (rec.check_in | slice:0:5) : '—' }}</span>
+          </div>
+        </div>
+
+        <div class="time-divider"></div>
+
+        <div class="time-block">
+          <span class="text-body-small-regular text-medium">Check Out</span>
+          <div class="time-val">
+            <ion-icon name="log-out-outline" class="text-primary"></ion-icon>
+            <span class="text-body-medium-semibold text-dark">{{ rec.check_out ? (rec.check_out | slice:0:5) : '—' }}</span>
+          </div>
+        </div>
+
+        <div class="time-divider" *ngIf="rec.check_in && rec.check_out"></div>
+
+        <div class="time-block" *ngIf="rec.check_in && rec.check_out">
+          <span class="text-body-small-regular text-medium">Durasi</span>
+          <span class="duration-val">{{ duration(rec.check_in, rec.check_out) }}</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</ion-content>

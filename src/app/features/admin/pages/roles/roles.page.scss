@@ -1,0 +1,66 @@
+ion-toolbar { --background: #ffffff; }
+ion-title { font-size: 16px; font-weight: 600; color: var(--ion-color-tertiary); }
+ion-content { --background: #f8f9fa; }
+
+.wrap { padding: 16px; }
+
+.hint {
+  font-size: 13px;
+  color: var(--ion-color-medium);
+  margin: 0 4px 16px;
+}
+
+.role-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #fff;
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+
+  .role-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: rgba(27, 89, 248, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    ion-icon { font-size: 22px; color: var(--ion-color-primary); }
+  }
+
+  .role-info { flex: 1; min-width: 0; }
+  .role-name { font-size: 15px; font-weight: 600; color: var(--ion-color-tertiary); }
+  .role-desc { font-size: 12px; color: var(--ion-color-medium); margin: 2px 0 6px; }
+  .role-meta {
+    display: flex;
+    gap: 14px;
+    font-size: 12px;
+    color: var(--ion-color-medium);
+    span { display: inline-flex; align-items: center; gap: 4px; }
+    ion-icon { font-size: 13px; }
+  }
+
+  .chev { color: var(--ion-color-medium); font-size: 18px; }
+}
+
+.users-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #fff;
+  border-radius: 14px;
+  padding: 16px;
+  margin-top: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ion-color-tertiary);
+
+  > ion-icon:first-child { font-size: 20px; color: var(--ion-color-primary); }
+  span { flex: 1; }
+  .chev { color: var(--ion-color-medium); font-size: 18px; }
+}

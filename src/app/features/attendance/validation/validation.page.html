@@ -1,12 +1,24 @@
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" [scrollY]="false">
   <div class="map-view">
     <div id="validation-map" style="width: 100%; height: 100%; z-index: 1;"></div>
   </div>
 
-  <div class="bottom-sheet" *ngIf="!isLoading">
-    <div class="drag-handle"></div>
+  <div #bottomSheet 
+       class="bottom-sheet" 
+       *ngIf="!isLoading" 
+       [class.minimized]="isMinimized"
+       [style.transform]="sheetTransform">
+    <div class="drag-handle"
+         (pointerdown)="onPointerDown($event)"
+         (pointermove)="onPointerMove($event)"
+         (pointerup)="onPointerUp($event)"
+         (click)="toggleMinimize()"></div>
     
-    <div class="status-header">
+    <div class="status-header"
+         (pointerdown)="onPointerDown($event)"
+         (pointermove)="onPointerMove($event)"
+         (pointerup)="onPointerUp($event)"
+         (click)="toggleHeaderClick($event)">
       <div class="success-icon" [ngClass]="isWithinRadius ? 'bg-green-light text-green' : 'bg-red-light text-red'">
         <ion-icon [name]="isWithinRadius ? 'checkmark-outline' : 'close-outline'"></ion-icon>
       </div>
@@ -45,19 +57,16 @@
     <app-button variant="primary" icon="arrow-forward-outline" iconPosition="right" class="check-in-btn" (onClick)="proceedToFaceValidation()" [disabled]="!isWithinRadius">
       {{ isCheckingOut ? 'Check Out Now' : 'Check In Now' }}
     </app-button>
-    
+
+    <p class="text-center" style="margin-top: 12px;" *ngIf="canManageOffice">
+      <a (click)="goToSetOffice()" style="color: var(--ion-color-primary); text-decoration: underline; cursor: pointer; font-size: 13px;">
+        <ion-icon name="map-outline" style="vertical-align: -2px; margin-right: 4px;"></ion-icon>
+        Atur lokasi kantor di peta
+      </a>
+    </p>
     <p class="text-center text-body-small-regular text-medium gps-text">
       GPS accuracy: <span [class.text-green]="isWithinRadius" [class.text-red]="!isWithinRadius">
         {{ isWithinRadius ? (isMockGpsUsed ? 'Mocked (0m)' : 'High (5m)') : 'Low (>50m)' }}
-      </span>
-      <span *ngIf="!isWithinRadius">
-        <br />
-        <a (click)="useMockLocation()" style="color: var(--ion-color-primary); text-decoration: underline; cursor: pointer; display: inline-block; margin-top: 8px; margin-right: 16px;">
-          Simulate being at HQ office
-        </a>
-        <a (click)="updateOfficeLocationToCurrent()" style="color: var(--ion-color-success); text-decoration: underline; cursor: pointer; display: inline-block; margin-top: 8px;">
-          Set current location as HQ office
-        </a>
       </span>
     </p>
   </div>

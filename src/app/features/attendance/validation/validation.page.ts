@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule, ToastController } from '@ionic/angular';
@@ -6,6 +6,7 @@ import { ButtonComponent } from '../../../shared/components/button/button.compon
 import { RouterModule, Router } from '@angular/router';
 import { AttendanceStateService } from '../../../core/services/attendance-state.service';
 import { AttendanceService } from '../../../core/services/attendance.service';
+import { RoleService } from '../../../core/services/role.service';
 import * as L from 'leaflet';
 import { HttpClient } from '@angular/common/http';
 
@@ -17,12 +18,21 @@ import { HttpClient } from '@angular/common/http';
   imports: [IonicModule, CommonModule, FormsModule, ButtonComponent, RouterModule]
 })
 export class ValidationPage implements OnInit {
+  @ViewChild('bottomSheet', { static: false }) bottomSheet!: ElementRef;
+
   isCheckingOut = false;
   isLoading = true;
   isWithinRadius = false;
   distance = 0;
   isMockGpsUsed = false;
   currentTime = '';
+  isMinimized = false;
+  sheetTransform: string | null = null;
+  private startY = 0;
+  private startTranslate = 0;
+  private maxTranslate = 0;
+  private isDragging = false;
+  private dragged = false;
 
   officeName = 'Karajo HQ - Tech Park';
   officeAddress = '123 Innovation Dr, Tech Park, Suite 400';
@@ -39,9 +49,14 @@ export class ValidationPage implements OnInit {
   private officeMarker: L.Marker | null = null;
   private officeCircle: L.Circle | null = null;
 
+  get canManageOffice(): boolean {
+    return this.roleService.can('office.manage');
+  }
+
   constructor(
     private attendanceStateService: AttendanceStateService,
     private attendanceService: AttendanceService,
+    private roleService: RoleService,
     private router: Router,
     private toastController: ToastController,
     private http: HttpClient
@@ -231,6 +246,10 @@ export class ValidationPage implements OnInit {
     }
   }
 
+  goToSetOffice() {
+    this.router.navigate(['/attendance/set-office']);
+  }
+
   async updateOfficeLocationToCurrent() {
     if (this.userLat === null || this.userLng === null) {
       const toast = await this.toastController.create({
@@ -244,12 +263,14 @@ export class ValidationPage implements OnInit {
     }
 
     this.isLoading = true;
-    this.attendanceService.updateOfficeCoordinates(this.userLat, this.userLng).subscribe({
+    // Set lokasi kantor ke posisi GPS saat ini dengan radius geofence 100 meter
+    this.attendanceService.updateOfficeCoordinates(this.userLat, this.userLng, 100).subscribe({
       next: async (res) => {
         this.officeLat = this.userLat!;
         this.officeLng = this.userLng!;
-        if (res && res.office && res.office.name) {
-          this.officeName = res.office.name;
+        if (res && res.office) {
+          if (res.office.name) this.officeName = res.office.name;
+          if (res.office.radius_meters) this.officeRadius = res.office.radius_meters;
         }
         this.checkRadius();
 
@@ -273,5 +294,105 @@ export class ValidationPage implements OnInit {
         await toast.present();
       }
     });
+  }
+
+  toggleMinimize() {
+    if (this.dragged) {
+      this.dragged = false;
+      return;
+    }
+    this.isMinimized = !this.isMinimized;
+    this.sheetTransform = null;
+  }
+
+  toggleHeaderClick(event: Event) {
+    if (this.dragged) {
+      this.dragged = false;
+      return;
+    }
+    const target = event.target as HTMLElement;
+    if (target.tagName.toLowerCase() !== 'a' && !target.closest('a')) {
+      this.toggleMinimize();
+    }
+  }
+
+  onPointerDown(event: PointerEvent) {
+    const sheet = this.bottomSheet?.nativeElement;
+    if (!sheet) return;
+
+    this.isDragging = true;
+    this.dragged = false;
+    this.startY = event.clientY;
+    
+    const sheetHeight = sheet.offsetHeight;
+    this.maxTranslate = Math.max(100, sheetHeight - 40);
+    this.startTranslate = this.isMinimized ? this.maxTranslate : 0;
+    
+    sheet.style.transition = 'none';
+
+    const target = event.currentTarget as HTMLElement;
+    try {
+      target.setPointerCapture(event.pointerId);
+    } catch (e) {
+      console.warn('Pointer capture failed', e);
+    }
+  }
+
+  onPointerMove(event: PointerEvent) {
+    if (!this.isDragging) return;
+    
+    const currentY = event.clientY;
+    const deltaY = currentY - this.startY;
+    
+    if (Math.abs(deltaY) > 5) {
+      this.dragged = true;
+    }
+    
+    let currentTranslate = this.startTranslate + deltaY;
+    if (currentTranslate < 0) {
+      currentTranslate = 0;
+    } else if (currentTranslate > this.maxTranslate) {
+      currentTranslate = this.maxTranslate;
+    }
+    
+    this.sheetTransform = `translateY(${currentTranslate}px)`;
+  }
+
+  onPointerUp(event: PointerEvent) {
+    if (!this.isDragging) return;
+    this.isDragging = false;
+    
+    const sheet = this.bottomSheet?.nativeElement;
+    if (!sheet) return;
+    
+    sheet.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+
+    const target = event.currentTarget as HTMLElement;
+    try {
+      target.releasePointerCapture(event.pointerId);
+    } catch (e) {
+      // ignore
+    }
+    
+    let finalTranslate = 0;
+    if (this.sheetTransform) {
+      const match = this.sheetTransform.match(/translateY\(([^p]+)px\)/);
+      if (match) {
+        finalTranslate = parseFloat(match[1]);
+      }
+    }
+    
+    const threshold = this.maxTranslate * 0.3;
+    if (this.isMinimized) {
+      if (this.maxTranslate - finalTranslate > threshold) {
+        this.isMinimized = false;
+      }
+    } else {
+      if (finalTranslate > threshold) {
+        this.isMinimized = true;
+      }
+    }
+    
+    this.sheetTransform = null;
   }
 }

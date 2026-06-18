@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule, Router } from '@angular/router';
@@ -16,7 +16,15 @@ import { AttendanceStateService } from '../../../core/services/attendance-state.
   imports: [CommonModule, IonicModule, RouterModule, BottomNavComponent, CardComponent, StatusBadgeComponent, SwipeButtonComponent]
 })
 export class CheckedInPage {
-  @Input() currentLocation = 'Pemda Kota Bogor';
+  @Input() currentLocation = 'Mendeteksi lokasi…';
+  @Input() currentTime = '12:45';
+  @Input() currentTimeAmPm = 'PM';
+  @Input() currentDate = 'Thursday, 12 Feb';
+  @Input() greeting = 'Good Morning,';
+  @Input() userName = 'Sarah';
+  @Input() userAvatar = '';
+  @Input() updates: any[] = [];
+  @Output() onMoreClick = new EventEmitter<void>();
 
   constructor(
     private router: Router,
@@ -25,6 +33,21 @@ export class CheckedInPage {
 
   onSwipeCheckOut() {
     this.router.navigate(['/attendance/validation']);
+  }
+
+  openUpdate(link: string) {
+    if (!link) return;
+    const [path, query] = link.split('?');
+    if (query) {
+      const params: any = {};
+      query.split('&').forEach(pair => {
+        const [k, v] = pair.split('=');
+        params[k] = v;
+      });
+      this.router.navigate([path], { queryParams: params });
+    } else {
+      this.router.navigate([path]);
+    }
   }
 
   formatTime12(timeStr: string | null): string {
@@ -36,6 +59,29 @@ export class CheckedInPage {
       return `${hours12.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')} ${ampm}`;
     } catch (e) {
       return timeStr;
+    }
+  }
+
+  getWorkingTime(): string {
+    const checkInStr = this.attendanceStateService.todayAttendance?.check_in;
+    if (!checkInStr) return '00:00:00';
+    try {
+      const [hIn, mIn, sIn = 0] = checkInStr.split(':').map(Number);
+      const now = new Date();
+      const checkInDate = new Date();
+      checkInDate.setHours(hIn, mIn, sIn, 0);
+
+      let diffMs = now.getTime() - checkInDate.getTime();
+      if (diffMs < 0) diffMs = 0;
+
+      const diffSecs = Math.floor(diffMs / 1000);
+      const hours = Math.floor(diffSecs / 3600);
+      const minutes = Math.floor((diffSecs % 3600) / 60);
+      const seconds = diffSecs % 60;
+
+      return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    } catch (e) {
+      return '00:00:00';
     }
   }
 }

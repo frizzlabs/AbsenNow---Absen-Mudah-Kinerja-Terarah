@@ -17,14 +17,14 @@
 
   <div class="sheet-content">
     <h2 class="title">Ready to submit?</h2>
-    <p class="subtitle">Please review your summary for Feb 22 - 28. Once submitted, changes require approval.</p>
+    <p class="subtitle">Please review your summary for {{ rangeLabel }}. Once submitted, changes require approval.</p>
 
     <!-- Total Hours Card -->
     <div class="info-card">
       <div class="flex-between">
         <div>
           <div class="card-label">Total Hours</div>
-          <div class="card-value large primary">38.5h</div>
+          <div class="card-value large primary">{{ totalLabel }}</div>
         </div>
         <div class="icon-circle primary-light">
           <ion-icon name="pie-chart" color="primary"></ion-icon>
@@ -39,14 +39,14 @@
           <ion-icon name="list-outline" color="primary"></ion-icon>
           <span>Activities</span>
         </div>
-        <div class="stat-val">14</div>
+        <div class="stat-val">{{ activitiesCount }}</div>
       </div>
       <div class="stat-card">
         <div class="stat-header">
           <ion-icon name="calendar-outline" color="primary"></ion-icon>
           <span>Date Range</span>
         </div>
-        <div class="stat-val text-sm">Feb 22 - 28</div>
+        <div class="stat-val text-sm">{{ rangeLabel }}</div>
       </div>
     </div>
 
@@ -85,10 +85,10 @@
 
   <div class="sheet-footer">
     <div class="checkbox-container">
-      <ion-checkbox></ion-checkbox>
+      <ion-checkbox [(ngModel)]="isConfirmed"></ion-checkbox>
       <div class="checkbox-label">I confirm these entries are accurate and comply with company policy.</div>
     </div>
-    <ion-button expand="block" shape="round" color="primary" (click)="submit()">
+    <ion-button expand="block" shape="round" color="primary" [disabled]="!isConfirmed" (click)="submit()">
       <ion-icon name="send-outline" slot="start"></ion-icon>
       Submit Timesheet
     </ion-button>

@@ -59,3 +59,12 @@ $karajo-text-secondary: #64748B;
 
 // Alignment Utility Classes
 .text-center { text-align: center; }
+
+// Alert dialog — tombol Keluar berwarna merah
+.alert-btn-danger {
+  color: #ef4444 !important;
+  font-weight: 600 !important;
+}
+.alert-btn-cancel {
+  color: #64748b !important;
+}

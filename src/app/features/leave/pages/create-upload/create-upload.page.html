@@ -16,12 +16,27 @@
     <h1 class="page-title">Upload Supporting Documents</h1>
     <p class="page-description">Please upload your medical certificate or other relevant documents. This step is optional.</p>
 
-    <div class="upload-box">
-      <div class="icon-circle">
-        <ion-icon name="cloud-upload-outline"></ion-icon>
+    <div class="upload-box" (click)="triggerFileInput(fileInput)">
+      <input type="file" #fileInput style="display: none;" accept="image/*,application/pdf" (change)="onFileSelected($event)" />
+      
+      <div *ngIf="!fileName" class="upload-placeholder" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+        <div class="icon-circle">
+          <ion-icon name="cloud-upload-outline"></ion-icon>
+        </div>
+        <div class="upload-title">Click to upload</div>
+        <div class="upload-subtitle">PDF, JPG or PNG (MAX. 5MB)</div>
       </div>
-      <div class="upload-title">Click to upload</div>
-      <div class="upload-subtitle">PDF, JPG or PNG (MAX. 5MB)</div>
+
+      <div *ngIf="fileName" class="uploaded-file-info" (click)="$event.stopPropagation()">
+        <div class="icon-circle success">
+          <ion-icon name="document-text-outline"></ion-icon>
+        </div>
+        <div class="upload-title" style="text-align: center; word-break: break-all; padding: 0 16px;">{{ fileName }}</div>
+        <div class="upload-subtitle" *ngIf="fileSizeText">{{ fileSizeText }}</div>
+        <ion-button fill="clear" color="danger" size="small" (click)="removeFile()" style="margin-top: 12px;">
+          <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+        </ion-button>
+      </div>
     </div>
 
     <div class="info-alert">

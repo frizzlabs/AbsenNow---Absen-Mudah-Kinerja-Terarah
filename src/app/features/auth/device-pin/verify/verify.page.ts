@@ -9,6 +9,7 @@ import { NumpadComponent } from '../../../../shared/components/numpad/numpad.com
 
 import { Router } from '@angular/router';
 import { AuthService } from '../../../../core/services/auth.service';
+import { RoleService } from '../../../../core/services/role.service';
 
 @Component({
   selector: 'app-verify',
@@ -25,13 +26,21 @@ export class VerifyPage implements OnInit {
   constructor(
     private router: Router,
     private authService: AuthService,
+    private roleService: RoleService,
     private toastController: ToastController
   ) { }
 
   ngOnInit() {
     const user = this.authService.getUser();
-    if (user && user.email) {
+    const tempEmail = localStorage.getItem('temp_email');  // dari login email+password
+    const pinEmail = localStorage.getItem('pin_email');    // dari setup PIN sebelumnya
+    if (user?.email) {
       this.email = user.email;
+    } else if (tempEmail) {
+      // Prioritaskan email login aktif sekarang (bukan PIN lama device lain)
+      this.email = tempEmail;
+    } else if (pinEmail) {
+      this.email = pinEmail;
     } else {
       this.router.navigateByUrl('/auth/login', { replaceUrl: true });
     }
@@ -50,7 +59,14 @@ export class VerifyPage implements OnInit {
           next: () => {
             this.isLoading = false;
             localStorage.setItem('isLoggedIn', 'true');
-            setTimeout(() => this.router.navigateByUrl('/home', { replaceUrl: true }), 300);
+            localStorage.setItem('hasPin', 'true');
+            localStorage.setItem('pin_email', this.email);
+            localStorage.removeItem('temp_email');
+            // Preload role sebelum navigasi agar home page tidak flash
+            this.roleService.loadMyPermissions().subscribe({
+              next: () => this.router.navigateByUrl('/home', { replaceUrl: true }),
+              error: () => this.router.navigateByUrl('/home', { replaceUrl: true }),
+            });
           },
           error: async (err) => {
             this.isLoading = false;

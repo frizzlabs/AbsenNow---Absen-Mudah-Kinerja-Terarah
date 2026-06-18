@@ -1,64 +1,75 @@
 <ion-content [fullscreen]="true" class="bg-light">
-  <app-page-header title="Identity Verification"></app-page-header>
-  
-  <div class="page-container">
-    
-    <app-section-card iconName="image-outline" title="Contact Information" [showDivider]="false">
-      <app-upload-box 
-        status="filled" 
-        fileName="Receipt_The Corner Bistro.jpg"
-        fileSize="1.2 MB"
-        helperText="National ID Card • Front Side">
-      </app-upload-box>
-    </app-section-card>
-    
-    <app-section-card iconName="card-outline" title="Identity Information">
-      <div class="info-box">
-        <ion-icon name="information-circle-outline"></ion-icon>
-        <p>Please review the extracted information carefully to ensure accuracy.</p>
+  <app-page-header title="Verifikasi Identitas"></app-page-header>
+
+  <div class="center-spinner" *ngIf="isLoading">
+    <ion-spinner name="crescent" color="primary"></ion-spinner>
+  </div>
+
+  <div class="page-container" *ngIf="!isLoading && identity">
+
+    <!-- STATUS BANNER -->
+    <div class="status-banner" [style.background]="statusBg">
+      <ion-icon [name]="statusIcon" [style.color]="statusColor"></ion-icon>
+      <div class="status-text">
+        <span class="status-label" [style.color]="statusColor">{{ statusLabel }}</span>
+        <span class="status-sub" *ngIf="identity.status === 'pending'">Data identitasmu sedang ditinjau oleh tim admin</span>
+        <span class="status-sub" *ngIf="identity.status === 'verified'">Identitas kamu telah terverifikasi</span>
+        <span class="status-sub" *ngIf="identity.status === 'rejected'">{{ identity.admin_note || 'Identitas ditolak, silakan kirim ulang' }}</span>
       </div>
-      
-      <div class="form-group">
-        <label>ID Type</label>
-        <div class="select-box filled">
-          <span class="value">National ID Card</span>
-          <ion-icon name="chevron-down-outline" class="chevron"></ion-icon>
+    </div>
+
+    <!-- FOTO DEPAN -->
+    <app-section-card iconName="image-outline" title="Foto Identitas">
+      <div class="photo-row">
+        <div class="photo-col" *ngIf="identity.photo_front_url">
+          <span class="photo-label">Depan</span>
+          <img [src]="identity.photo_front_url" class="id-photo" />
         </div>
-      </div>
-      
-      <div class="form-group">
-        <label>ID Number</label>
-        <app-input placeholder="-" [value]="'3892-1029-9012'"></app-input>
-      </div>
-      
-      <div class="form-group">
-        <label>Full Name</label>
-        <app-input placeholder="-" [value]="'Sarah Miller'"></app-input>
-      </div>
-      
-      <div class="form-row-2col">
-        <div class="form-group">
-          <label>Expiry Date</label>
-          <app-input placeholder="-" [value]="'12 Jan 2030'"></app-input>
+        <div class="photo-col" *ngIf="identity.photo_back_url">
+          <span class="photo-label">Belakang</span>
+          <img [src]="identity.photo_back_url" class="id-photo" />
         </div>
-        <div class="form-group">
-          <label>Last Updated</label>
-          <app-input placeholder="-" [value]="'24 Feb 2023'"></app-input>
+        <div class="no-photo" *ngIf="!identity.photo_front_url">
+          <ion-icon name="image-outline"></ion-icon>
+          <span>Tidak ada foto</span>
         </div>
       </div>
     </app-section-card>
 
+    <!-- DATA IDENTITAS -->
+    <app-section-card iconName="card-outline" title="Data Identitas">
+      <div class="info-row">
+        <span class="label">Jenis ID</span>
+        <span class="value">{{ typeLabel }}</span>
+      </div>
+      <div class="divider"></div>
+      <div class="info-row">
+        <span class="label">Nomor ID</span>
+        <span class="value mono">{{ identity.id_number }}</span>
+      </div>
+      <div class="divider"></div>
+      <div class="info-row">
+        <span class="label">Nama di ID</span>
+        <span class="value">{{ identity.id_name }}</span>
+      </div>
+      <div class="divider"></div>
+      <div class="info-row">
+        <span class="label">Kadaluarsa</span>
+        <span class="value">{{ expiryLabel }}</span>
+      </div>
+      <div class="divider"></div>
+      <div class="info-row">
+        <span class="label">Terakhir diperbarui</span>
+        <span class="value">{{ updatedLabel }}</span>
+      </div>
+    </app-section-card>
+
   </div>
-  
-  <div class="fixed-bottom">
-    <app-button variant="primary" styleClass="w-full mb-12" routerLink="/profile/identity/confirmed">
-      <ion-icon name="paper-plane-outline" slot="start" style="margin-right: 8px; font-size: 20px;"></ion-icon>
-      Confirm & Submit
-    </app-button>
-    
+
+  <div class="fixed-bottom" *ngIf="!isLoading && identity">
     <app-button variant="outline" styleClass="w-full" routerLink="/profile/identity/form">
-      <ion-icon name="camera-outline" slot="start" style="margin-right: 8px; font-size: 20px;"></ion-icon>
-      Retake Photo
+      <ion-icon name="refresh-outline" slot="start" style="margin-right:8px;font-size:18px;"></ion-icon>
+      Perbarui Identitas
     </app-button>
   </div>
 </ion-content>

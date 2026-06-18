@@ -1,0 +1,71 @@
+<ion-content [fullscreen]="true">
+  <app-page-header title="Atur Lokasi Kantor"></app-page-header>
+  <!-- SEARCH BOX -->
+  <div class="search-wrap">
+    <div class="search-box">
+      <ion-icon name="search-outline"></ion-icon>
+      <input
+        type="text"
+        placeholder="Cari lokasi kantor..."
+        [(ngModel)]="searchQuery"
+        (input)="onSearchInput()"
+        (blur)="closeSearch()"
+      />
+      <ion-spinner *ngIf="isSearching" name="crescent" class="search-spinner"></ion-spinner>
+    </div>
+    <div class="search-results" *ngIf="showResults && searchResults.length > 0">
+      <div class="result-item" *ngFor="let r of searchResults" (mousedown)="selectResult(r)">
+        <ion-icon name="location-outline"></ion-icon>
+        <span>{{ r.display_name }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="map-wrap">
+    <div id="set-office-map"></div>
+    <div class="map-hint">
+      <ion-icon name="information-circle-outline"></ion-icon>
+      Ketuk peta atau geser pin untuk menentukan titik kantor
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="form-group">
+      <label>Nama Kantor</label>
+      <div class="input-box">
+        <ion-icon name="business-outline"></ion-icon>
+        <input type="text" [(ngModel)]="officeName" placeholder="cth. Alfamart Cabang X">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Alamat (otomatis)</label>
+      <div class="address-box">
+        <ion-icon name="location-outline"></ion-icon>
+        <span>{{ address || 'Memuat alamat...' }}</span>
+      </div>
+      <div class="coords">{{ lat | number:'1.6-6' }}, {{ lng | number:'1.6-6' }}</div>
+    </div>
+
+    <div class="form-group">
+      <label>Radius Geofence</label>
+      <div class="radius-pills">
+        <div class="pill" *ngFor="let r of radiusOptions" [class.active]="radius === r" (click)="selectRadius(r)">
+          {{ r }} m
+        </div>
+      </div>
+    </div>
+
+    <button class="use-location-btn" (click)="useMyLocation()">
+      <ion-icon name="navigate-outline"></ion-icon>
+      Pakai lokasi saya sekarang
+    </button>
+  </div>
+
+  <div class="fixed-bottom">
+    <ion-button expand="block" shape="round" color="primary" [disabled]="isSaving" (click)="save()">
+      <ion-icon name="save-outline" slot="start"></ion-icon>
+      Simpan Lokasi Kantor
+    </ion-button>
+  </div>
+</ion-content>

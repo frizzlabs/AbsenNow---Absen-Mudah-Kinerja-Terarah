@@ -16,34 +16,34 @@
     <h1 class="page-title">Review Expense Summary</h1>
     
     <div class="amount-display">
-      {{ 45.00 | currency:'USD':'symbol':'1.2-2' }}
+      {{ draft?.amount | currency:'USD':'symbol':'1.2-2' }}
     </div>
 
     <div class="data-card">
       <div class="data-row">
         <div class="label">Merchant</div>
-        <div class="value">The Corner Bistro</div>
+        <div class="value">{{ draft?.merchant }}</div>
       </div>
       <div class="data-row">
         <div class="label">Category</div>
-        <div class="value">Meals & Entertainment</div>
+        <div class="value">{{ getCategoryName(draft?.category) }}</div>
       </div>
       <div class="data-row">
         <div class="label">Date</div>
-        <div class="value">Oct 24, 2026</div>
+        <div class="value">{{ draft?.expense_date }}</div>
       </div>
       <div class="data-row">
         <div class="label">Notes</div>
-        <div class="value">Client lunch with ABC Corp.</div>
+        <div class="value">{{ draft?.notes || 'No description provided' }}</div>
       </div>
     </div>
 
-    <div class="attached-section">
+    <div class="attached-section" *ngIf="draft?.receipt_name">
       <div class="section-title">Attached Receipt</div>
       <app-expense-receipt-preview
-        imageUrl="assets/images/receipt-placeholder.jpg"
-        fileName="Receipt_The Corner Bistro.jpg"
-        fileSize="1.2 MB"
+        [imageUrl]="draft?.receipt || 'assets/images/receipt-placeholder.jpg'"
+        [fileName]="draft?.receipt_name || ''"
+        [fileSize]="draft?.receipt_size || ''"
         [showClose]="false">
       </app-expense-receipt-preview>
     </div>

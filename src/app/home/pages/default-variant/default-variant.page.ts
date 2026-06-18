@@ -19,6 +19,10 @@ export class DefaultVariantPage implements OnInit {
 
   ngOnInit() {}
 
+  get userAvatar(): string {
+    try { return JSON.parse(localStorage.getItem('user') || '{}')?.avatar_url || ''; } catch { return ''; }
+  }
+
   onSwipeCheckIn() {
     this.router.navigate(['/attendance/validation']);
   }

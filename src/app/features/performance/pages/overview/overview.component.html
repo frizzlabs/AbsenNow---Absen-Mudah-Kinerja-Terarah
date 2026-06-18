@@ -8,23 +8,23 @@
       <div class="score-card">
         <div class="score-header">
           <span class="score-label">OVERALL SCORE</span>
-          <div class="score-badge">Q1 2026</div>
+          <div class="score-badge">{{ period }}</div>
         </div>
-        
+
         <div class="score-main">
-          <span class="score-value">88</span>
-          <div class="status-badge">
+          <span class="score-value">{{ overallScore }}</span>
+          <div class="status-badge" *ngIf="statusLabel">
             <div class="dot"></div>
-            Excellent
+            {{ statusLabel }}
           </div>
         </div>
-        
+
         <div class="score-footer">
           <div class="progress-labels">
             <span>Review Completion</span>
-            <span>90%</span>
+            <span>{{ reviewCompletion }}%</span>
           </div>
-          <app-progress-bar [percentage]="90" trackClass="track-white" fillClass="fill-white"></app-progress-bar>
+          <app-progress-bar [percentage]="reviewCompletion" trackClass="track-white" fillClass="fill-white"></app-progress-bar>
         </div>
       </div>
 
@@ -32,15 +32,15 @@
       <div>
         <h2 class="section-title">KPI Progress</h2>
         <div class="white-card flex-row-card">
-          <app-circular-progress [percentage]="75" [size]="80"></app-circular-progress>
+          <app-circular-progress [percentage]="kpiStats.rate" [size]="80"></app-circular-progress>
           <div class="kpi-stats">
             <div class="stat-row">
               <span class="stat-label">Total KPIs</span>
-              <span class="stat-value">12</span>
+              <span class="stat-value">{{ kpiStats.total }}</span>
             </div>
             <div class="stat-row border-none">
               <span class="stat-label">Completed</span>
-              <span class="stat-value text-primary">9</span>
+              <span class="stat-value text-primary">{{ kpiStats.completed }}</span>
             </div>
           </div>
         </div>
@@ -58,36 +58,24 @@
         </div>
         
         <div class="flex flex-col gap-3">
-          <div class="white-card feedback-highlight" routerLink="/performance/feedback-detail">
+          <div class="white-card feedback-highlight" *ngFor="let fb of highlights" (click)="openFeedback(fb.id)">
             <div class="feedback-header">
               <div class="user-info">
-                <img src="assets/images/avatar.png" alt="Sarah Jenkins">
+                <img src="assets/images/avatar.png" [alt]="fb.reviewer_name">
                 <div class="user-details">
-                  <h3>Sarah Jenkins</h3>
-                  <p>Product Lead</p>
+                  <h3>{{ fb.reviewer_name }}</h3>
+                  <p>{{ fb.reviewer_role }}</p>
                 </div>
               </div>
-              <span class="time">2d ago</span>
+              <span class="time">{{ relativeTime(fb.submitted_at) }}</span>
             </div>
             <p class="feedback-text">
-              "Great initiative on the Q1 project delivery. Your ability to rally the team during the crunch time was impressive..."
+              "{{ fb.summary }}"
             </p>
           </div>
 
-          <div class="white-card feedback-highlight" routerLink="/performance/feedback-detail">
-            <div class="feedback-header">
-              <div class="user-info">
-                <img src="assets/images/avatar.png" alt="Mike Ross">
-                <div class="user-details">
-                  <h3>Mike Ross</h3>
-                  <p>Senior Developer</p>
-                </div>
-              </div>
-              <span class="time">1w ago</span>
-            </div>
-            <p class="feedback-text">
-              "Helped streamline the coding process significantly. The refactoring you did on the legacy module saved us hours..."
-            </p>
+          <div class="text-center" *ngIf="!isLoading && highlights.length === 0" style="padding: 16px; color: var(--ion-color-medium);">
+            <p style="margin:0;">Belum ada feedback.</p>
           </div>
         </div>
       </div>

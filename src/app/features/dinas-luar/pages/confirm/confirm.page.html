@@ -1,0 +1,55 @@
+<ion-content [fullscreen]="true" class="bg-light">
+  <app-page-header title="Konfirmasi Dinas Luar"></app-page-header>
+
+  <div class="page-container">
+
+    <div class="summary-card">
+      <div class="card-label">LOKASI DINAS</div>
+      <div class="info-row">
+        <ion-icon name="location-outline"></ion-icon>
+        <div>
+          <div class="val">{{ draft.locationName }}</div>
+          <div class="sub">{{ draft.latitude?.toFixed(6) }}, {{ draft.longitude?.toFixed(6) }}</div>
+        </div>
+      </div>
+      <div class="info-row">
+        <ion-icon name="radio-button-on-outline"></ion-icon>
+        <div class="val">Radius Geofence: {{ draft.radius }}m</div>
+      </div>
+    </div>
+
+    <div class="summary-card">
+      <div class="card-label">WAKTU DINAS</div>
+      <div class="time-row">
+        <div class="time-block">
+          <span class="time-lbl">Mulai</span>
+          <span class="time-val blue">{{ fmtDt(draft.startDatetime) }}</span>
+        </div>
+        <div class="time-sep">→</div>
+        <div class="time-block">
+          <span class="time-lbl">Selesai</span>
+          <span class="time-val blue">{{ fmtDt(draft.endDatetime) }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="summary-card">
+      <div class="card-label">DETAIL PEKERJAAN</div>
+      <p class="details-text">"{{ draft.workDetails }}"</p>
+    </div>
+
+    <div class="info-box">
+      <ion-icon name="information-circle-outline"></ion-icon>
+      <p>Pengajuan ini akan diproses oleh atasan Anda. Pastikan semua data sudah benar sebelum mengirim.</p>
+    </div>
+
+    <div class="bottom-actions">
+      <app-button variant="primary" styleClass="w-full" (onClick)="submit()" [disabled]="isSubmitting">
+        {{ isSubmitting ? 'Mengirim...' : 'Kirim Pengajuan' }}
+      </app-button>
+      <app-button variant="outline" styleClass="w-full" (onClick)="goBack()">
+        Edit Pengajuan
+      </app-button>
+    </div>
+  </div>
+</ion-content>

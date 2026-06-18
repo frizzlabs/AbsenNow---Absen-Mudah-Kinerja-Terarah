@@ -6,12 +6,20 @@
   <div class="home-container">
     <div class="header-content">
       <div class="header-text">
-        <p class="date-text">Thursday, 12 Feb</p>
-        <h1 class="welcome-text">{{ 'home.goodMorning' | translate }}<br/><span class="text-white-opacity">Sarah 👋</span></h1>
-        <p class="location-text">{{ 'home.currentLocation' | translate }} {{ currentLocationName }}</p>
+        <p class="date-text">{{ currentDate }}</p>
+        <h1 class="welcome-text">{{ greeting }}<br/><span class="text-white-opacity">{{ userName }} 👋</span></h1>
+        <div style="display: flex; align-items: center; gap: 8px; margin-top: 4px; flex-wrap: wrap;">
+          <p class="location-text" style="margin: 0;">{{ 'home.currentLocation' | translate }} {{ currentLocationName }}</p>
+          <span *ngIf="userRoleLabel"
+            [style.background]="userRoleBg"
+            [style.color]="userRoleColor"
+            style="font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 100px; white-space: nowrap;">
+            {{ userRoleLabel }}
+          </span>
+        </div>
       </div>
       <div class="avatar-wrapper" routerLink="/profile" style="cursor: pointer;">
-        <img src="assets/images/avatar.png" class="avatar-img" />
+        <img [src]="userAvatar || 'assets/images/avatar.png'" class="avatar-img" />
         <div class="online-indicator"></div>
       </div>
     </div>
@@ -21,8 +29,8 @@
         <div>
           <p class="current-time-label">{{ 'home.currentTime' | translate }}</p>
           <div class="time-display">
-            <span class="time-big">08:32</span>
-            <span class="time-am">AM</span>
+            <span class="time-big">{{ currentTime }}</span>
+            <span class="time-am">{{ currentTimeAmPm }}</span>
           </div>
           <div class="schedule-display">
             <ion-icon name="time" class="schedule-icon"></ion-icon>
@@ -89,156 +97,331 @@
 
     <div class="section-title flex-between">
       <h2 class="text-h6">Recent Updates</h2>
-      <a class="view-all">View All</a>
+      <a class="view-all" routerLink="/notification">View All</a>
     </div>
     
     <div class="updates-list">
-      <app-card>
+      <app-card *ngFor="let u of displayUpdates" (click)="openUpdate(u.link)" style="cursor: pointer;">
         <div class="update-card-content">
-          <div class="update-icon text-green bg-green-light">
-            <ion-icon name="calendar-outline"></ion-icon>
+          <div class="update-icon" [style.color]="u.colorHex" [style.background]="u.bg">
+            <ion-icon [name]="u.icon"></ion-icon>
           </div>
           <div class="update-content">
             <div class="update-header">
-              <h4>Leave Request Approved</h4>
-              <span class="time">1h ago</span>
+              <h4>{{ u.title }}</h4>
+              <span class="time">{{ u.timeLabel }}</span>
             </div>
-            <p>Your annual leave for Feb 28 has been...</p>
+            <p>{{ u.message }}</p>
           </div>
         </div>
       </app-card>
-      
-      <app-card>
-        <div class="update-card-content">
-          <div class="update-icon text-blue bg-blue-light">
-            <ion-icon name="megaphone-outline"></ion-icon>
-          </div>
-          <div class="update-content">
-            <div class="update-header">
-              <h4>Office Announcement</h4>
-              <span class="time">2h ago</span>
-            </div>
-            <p>Office will be closed this Friday for mai...</p>
-          </div>
-        </div>
-      </app-card>
-    </div>
-    
-    <div style="height: 100px;"></div>
-  </div>
-  
-  <app-bottom-nav></app-bottom-nav>
-  
-  <!-- Shortcuts Overlay -->
-  <div class="shortcut-overlay" *ngIf="showShortcuts">
-    <div class="modal-backdrop" (click)="toggleShortcuts()"></div>
 
-    <div class="sheet-container">
-      <div class="drag-indicator-container">
-        <div class="drag-indicator"></div>
-      </div>
-
-      <div class="sheet-header">
-        <div class="title">Shortcuts</div>
-        <ion-button fill="clear" color="medium" class="close-btn" (click)="toggleShortcuts()">
-          <ion-icon name="close-outline"></ion-icon>
-        </ion-button>
-      </div>
-
-      <div class="sheet-content">
-        <!-- TIME MANAGEMENT -->
-        <div class="section-label">TIME MANAGEMENT</div>
-        <div class="grid-row">
-          <div class="grid-item">
-            <div class="icon-box" style="background: rgba(59, 130, 246, 0.1);">
-              <ion-icon name="calendar-outline" style="color: #3b82f6;"></ion-icon>
-            </div>
-            <span>Attendance</span>
-          </div>
-          <div class="grid-item">
-            <div class="icon-box" style="background: rgba(249, 115, 22, 0.1);">
-              <ion-icon name="umbrella-outline" style="color: #f97316;"></ion-icon>
-            </div>
-            <span>Leave</span>
-          </div>
-          <div class="grid-item">
-            <div class="icon-box" style="background: rgba(168, 85, 247, 0.1);">
-              <ion-icon name="time-outline" style="color: #a855f7;"></ion-icon>
-            </div>
-            <span>Overtime</span>
-          </div>
-          <div class="grid-item">
-            <div class="icon-box" style="background: rgba(59, 130, 246, 0.1);">
-              <ion-icon name="timer-outline" style="color: #3b82f6;"></ion-icon>
-            </div>
-            <span>Shift</span>
-          </div>
-        </div>
-
-        <!-- FINANCE -->
-        <div class="section-label mt-24">FINANCE</div>
-        <div class="grid-row">
-          <div class="grid-item">
-            <div class="icon-box" style="background: rgba(34, 197, 94, 0.1);">
-              <ion-icon name="receipt-outline" style="color: #22c55e;"></ion-icon>
-            </div>
-            <span>Payslip</span>
-          </div>
-          <div class="grid-item">
-            <div class="icon-box" style="background: rgba(6, 182, 212, 0.1);">
-              <ion-icon name="wallet-outline" style="color: #06b6d4;"></ion-icon>
-            </div>
-            <span>Reimburse</span>
-          </div>
-          <div class="grid-item">
-            <div class="icon-box" style="background: rgba(99, 102, 241, 0.1);">
-              <ion-icon name="cash-outline" style="color: #6366f1;"></ion-icon>
-            </div>
-            <span>Loan</span>
-          </div>
-          <div class="grid-item">
-            <div class="icon-box" style="background: rgba(16, 185, 129, 0.1);">
-              <ion-icon name="cash-outline" style="color: #10b981;"></ion-icon>
-            </div>
-            <span>Tax</span>
-          </div>
-        </div>
-
-        <!-- REQUESTS & GENERAL -->
-        <div class="section-label mt-24">REQUESTS & GENERAL</div>
-        <div class="grid-row">
-          <div class="grid-item">
-            <div class="icon-box" style="background: rgba(236, 72, 153, 0.1);">
-              <ion-icon name="people-outline" style="color: #ec4899;"></ion-icon>
-            </div>
-            <span>Team</span>
-          </div>
-          <div class="grid-item">
-            <div class="icon-box" style="background: rgba(234, 179, 8, 0.1);">
-              <ion-icon name="briefcase-outline" style="color: #eab308;"></ion-icon>
-            </div>
-            <span>Assets</span>
-          </div>
-          <div class="grid-item">
-            <div class="icon-box" style="background: rgba(14, 165, 233, 0.1);">
-              <ion-icon name="folder-outline" style="color: #0ea5e9;"></ion-icon>
-            </div>
-            <span>Docs</span>
-          </div>
-          <div class="grid-item">
-            <div class="icon-box" style="background: rgba(100, 116, 139, 0.1);">
-              <ion-icon name="options-outline" style="color: #64748b;"></ion-icon>
-            </div>
-            <span>Manage</span>
-          </div>
-        </div>
-
+      <div class="text-center" *ngIf="!isLoadingUpdates && recentUpdates.length === 0" style="padding: 20px; color: var(--ion-color-medium);">
+        <p style="margin: 0; font-size: 14px;">Belum ada pembaruan terbaru.</p>
       </div>
     </div>
   </div>
+  
     </ion-content>
+    <app-bottom-nav></app-bottom-nav>
   </ng-container>
 
-  <app-home-checked-in *ngSwitchCase="'checked_in'" [currentLocation]="currentLocationName"></app-home-checked-in>
-  <app-home-checked-out *ngSwitchCase="'completed'" [currentLocation]="currentLocationName"></app-home-checked-out>
+  <!-- ===== ADMIN HOME VIEW ===== -->
+  <ng-container *ngSwitchCase="'admin'">
+    <ion-content class="home-content" [fullscreen]="true">
+      <div class="header-bg"></div>
+
+      <div class="home-container">
+        <!-- Header -->
+        <div class="header-content">
+          <div class="header-text">
+            <p class="date-text">{{ currentDate }}</p>
+            <h1 class="welcome-text">{{ greeting }}<br/><span class="text-white-opacity">{{ userName }} 👋</span></h1>
+            <div style="display: flex; align-items: center; gap: 8px; margin-top: 4px; flex-wrap: wrap;">
+              <p class="location-text" style="margin: 0;">{{ 'home.currentLocation' | translate }} {{ currentLocationName }}</p>
+              <span *ngIf="userRoleLabel"
+                [style.background]="userRoleBg"
+                [style.color]="userRoleColor"
+                style="font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 100px; white-space: nowrap;">
+                {{ userRoleLabel }}
+              </span>
+            </div>
+          </div>
+          <div class="avatar-wrapper" routerLink="/profile" style="cursor: pointer;">
+            <img [src]="userAvatar || 'assets/images/avatar.png'" class="avatar-img" />
+            <div class="online-indicator"></div>
+          </div>
+        </div>
+
+        <!-- Admin Panel Card -->
+        <div class="admin-panel-card">
+          <div class="admin-panel-header">
+            <div class="admin-panel-icon">
+              <ion-icon name="shield-checkmark-outline"></ion-icon>
+            </div>
+            <div>
+              <h3>Panel Admin</h3>
+              <p>Kelola sistem & konfigurasi kantor</p>
+            </div>
+          </div>
+
+          <div class="admin-action-grid">
+            <div class="admin-action-item" routerLink="/admin/roles">
+              <div class="admin-action-icon" style="background: rgba(245,158,11,0.12); color: #f59e0b;">
+                <ion-icon name="shield-outline"></ion-icon>
+              </div>
+              <span>Role & Hak Akses</span>
+              <p>Atur privilege per role</p>
+            </div>
+            <div class="admin-action-item" routerLink="/admin/users">
+              <div class="admin-action-icon" style="background: rgba(139,92,246,0.12); color: #8b5cf6;">
+                <ion-icon name="people-outline"></ion-icon>
+              </div>
+              <span>Pengguna</span>
+              <p>Assign role ke karyawan</p>
+            </div>
+            <div class="admin-action-item" *ngIf="canManageOffice" routerLink="/attendance/set-office">
+              <div class="admin-action-icon" style="background: rgba(16,185,129,0.12); color: #10b981;">
+                <ion-icon name="location-outline"></ion-icon>
+              </div>
+              <span>Lokasi Kantor</span>
+              <p>Atur titik & radius geofence</p>
+            </div>
+            <div class="admin-action-item" routerLink="/admin/corrections">
+              <div class="admin-action-icon" style="background: rgba(239,68,68,0.12); color: #ef4444;">
+                <ion-icon name="document-text-outline"></ion-icon>
+              </div>
+              <span>Review Koreksi</span>
+              <p>Setujui / tolak lupa absen</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Updates -->
+        <div class="section-title flex-between" style="margin-top: 8px;">
+          <h2 class="text-h6">Recent Updates</h2>
+          <a class="view-all" routerLink="/notification">View All</a>
+        </div>
+
+        <div class="updates-list">
+          <app-card *ngFor="let u of displayUpdates" (click)="openUpdate(u.link)" style="cursor: pointer;">
+            <div class="update-card-content">
+              <div class="update-icon" [style.color]="u.colorHex" [style.background]="u.bg">
+                <ion-icon [name]="u.icon"></ion-icon>
+              </div>
+              <div class="update-content">
+                <div class="update-header">
+                  <h4>{{ u.title }}</h4>
+                  <span class="time">{{ u.timeLabel }}</span>
+                </div>
+                <p>{{ u.message }}</p>
+              </div>
+            </div>
+          </app-card>
+          <div class="text-center" *ngIf="!isLoadingUpdates && recentUpdates.length === 0" style="padding: 20px; color: var(--ion-color-medium);">
+            <p style="margin: 0; font-size: 14px;">Belum ada pembaruan terbaru.</p>
+          </div>
+        </div>
+      </div>
+    </ion-content>
+    <app-bottom-nav></app-bottom-nav>
+  </ng-container>
+
+  <app-home-checked-in *ngSwitchCase="'checked_in'"
+    [currentLocation]="currentLocationName"
+    [userAvatar]="userAvatar"
+    [currentTime]="currentTime"
+    [currentTimeAmPm]="currentTimeAmPm"
+    [currentDate]="currentDate"
+    [greeting]="greeting"
+    [userName]="userName"
+    [updates]="displayUpdates"
+    (onMoreClick)="toggleShortcuts()">
+  </app-home-checked-in>
+  <app-home-checked-out *ngSwitchCase="'completed'"
+    [currentLocation]="currentLocationName"
+    [userAvatar]="userAvatar"
+    [currentTime]="currentTime"
+    [currentTimeAmPm]="currentTimeAmPm"
+    [currentDate]="currentDate"
+    [greeting]="greeting"
+    [userName]="userName"
+    [updates]="displayUpdates"
+    (onMoreClick)="toggleShortcuts()">
+  </app-home-checked-out>
 </ng-container>
+
+<!-- Shortcuts Overlay — di luar ngSwitch agar aktif di semua view state -->
+<div class="shortcut-overlay" *ngIf="showShortcuts">
+  <div class="modal-backdrop" (click)="toggleShortcuts()"></div>
+
+  <div class="sheet-container">
+    <div class="drag-indicator-container">
+      <div class="drag-indicator"></div>
+    </div>
+
+    <div class="sheet-header">
+      <div class="title">Shortcuts</div>
+      <ion-button fill="clear" color="medium" class="close-btn" (click)="toggleShortcuts()">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </div>
+
+    <div class="sheet-content">
+      <!-- TIME MANAGEMENT -->
+      <div class="section-label">TIME MANAGEMENT</div>
+      <div class="grid-row">
+        <div class="grid-item" routerLink="/attendance/history" (click)="toggleShortcuts()" style="cursor: pointer;">
+          <div class="icon-box" style="background: rgba(59, 130, 246, 0.1);">
+            <ion-icon name="calendar-outline" style="color: #3b82f6;"></ion-icon>
+          </div>
+          <span>Attendance</span>
+        </div>
+        <div class="grid-item" routerLink="/leave" (click)="toggleShortcuts()" style="cursor: pointer;">
+          <div class="icon-box" style="background: rgba(249, 115, 22, 0.1);">
+            <ion-icon name="umbrella-outline" style="color: #f97316;"></ion-icon>
+          </div>
+          <span>Leave</span>
+        </div>
+        <div class="grid-item" routerLink="/overtime" (click)="toggleShortcuts()" style="cursor: pointer;">
+          <div class="icon-box" style="background: rgba(168, 85, 247, 0.1);">
+            <ion-icon name="time-outline" style="color: #a855f7;"></ion-icon>
+          </div>
+          <span>Overtime</span>
+        </div>
+        <div class="grid-item" routerLink="/timesheet" (click)="toggleShortcuts()" style="cursor: pointer;">
+          <div class="icon-box" style="background: rgba(59, 130, 246, 0.1);">
+            <ion-icon name="timer-outline" style="color: #3b82f6;"></ion-icon>
+          </div>
+          <span>Shift</span>
+        </div>
+      </div>
+
+      <!-- FINANCE -->
+      <div class="section-label mt-24">FINANCE</div>
+      <div class="grid-row">
+        <div class="grid-item" routerLink="/payslip" (click)="toggleShortcuts()" style="cursor: pointer;">
+          <div class="icon-box" style="background: rgba(34, 197, 94, 0.1);">
+            <ion-icon name="receipt-outline" style="color: #22c55e;"></ion-icon>
+          </div>
+          <span>Payslip</span>
+        </div>
+        <div class="grid-item" routerLink="/expense" (click)="toggleShortcuts()" style="cursor: pointer;">
+          <div class="icon-box" style="background: rgba(6, 182, 212, 0.1);">
+            <ion-icon name="wallet-outline" style="color: #06b6d4;"></ion-icon>
+          </div>
+          <span>Reimburse</span>
+        </div>
+        <div class="grid-item" style="opacity: 0.5;">
+          <div class="icon-box" style="background: rgba(99, 102, 241, 0.1);">
+            <ion-icon name="cash-outline" style="color: #6366f1;"></ion-icon>
+          </div>
+          <span>Loan</span>
+        </div>
+        <div class="grid-item" style="opacity: 0.5;">
+          <div class="icon-box" style="background: rgba(16, 185, 129, 0.1);">
+            <ion-icon name="cash-outline" style="color: #10b981;"></ion-icon>
+          </div>
+          <span>Tax</span>
+        </div>
+      </div>
+
+      <!-- REQUESTS & GENERAL -->
+      <div class="section-label mt-24">REQUESTS & GENERAL</div>
+      <div class="grid-row">
+        <div class="grid-item">
+          <div class="icon-box" style="background: rgba(236, 72, 153, 0.1);">
+            <ion-icon name="people-outline" style="color: #ec4899;"></ion-icon>
+          </div>
+          <span>Team</span>
+        </div>
+        <div class="grid-item" *ngIf="!isAdminOnly" routerLink="/attendance/correction/history" (click)="toggleShortcuts()" style="cursor: pointer;">
+          <div class="icon-box" style="background: rgba(234, 179, 8, 0.1);">
+            <ion-icon name="time-outline" style="color: #eab308;"></ion-icon>
+          </div>
+          <span>Riwayat Koreksi</span>
+        </div>
+        <div class="grid-item" *ngIf="isAdminOnly">
+          <div class="icon-box" style="background: rgba(234, 179, 8, 0.1);">
+            <ion-icon name="briefcase-outline" style="color: #eab308;"></ion-icon>
+          </div>
+          <span>Assets</span>
+        </div>
+        <div class="grid-item" *ngIf="!isAdminOnly" routerLink="/attendance/correction/reason" (click)="toggleShortcuts()" style="cursor: pointer;">
+          <div class="icon-box" style="background: rgba(239, 68, 68, 0.1);">
+            <ion-icon name="alert-circle-outline" style="color: #ef4444;"></ion-icon>
+          </div>
+          <span>Lupa Absen</span>
+        </div>
+        <div class="grid-item" *ngIf="isAdminOnly">
+          <div class="icon-box" style="background: rgba(14, 165, 233, 0.1);">
+            <ion-icon name="folder-outline" style="color: #0ea5e9;"></ion-icon>
+          </div>
+          <span>Docs</span>
+        </div>
+        <div class="grid-item" *ngIf="!isAdminOnly" routerLink="/dinas-luar/history" (click)="toggleShortcuts()" style="cursor: pointer;">
+          <div class="icon-box" style="background: rgba(16, 185, 129, 0.1);">
+            <ion-icon name="briefcase-outline" style="color: #10b981;"></ion-icon>
+          </div>
+          <span>Dinas Luar</span>
+        </div>
+        <div class="grid-item" [routerLink]="canManageUsers ? '/admin/roles' : null" [style.opacity]="canManageUsers ? '1' : '0.4'" (click)="canManageUsers && toggleShortcuts()" style="cursor: pointer;">
+          <div class="icon-box" style="background: rgba(100, 116, 139, 0.1);">
+            <ion-icon name="options-outline" style="color: #64748b;"></ion-icon>
+          </div>
+          <span>Manage</span>
+        </div>
+      </div>
+
+      <!-- ADMIN (muncul untuk manager / supervisor yang punya attendance.approve) -->
+      <ng-container *ngIf="canManageUsers || canManageOffice || canApproveAttendance">
+        <div class="section-label mt-24">ADMIN</div>
+        <div class="grid-row">
+          <div class="grid-item" *ngIf="canApproveAttendance" routerLink="/admin/corrections" (click)="toggleShortcuts()" style="cursor: pointer;">
+            <div class="icon-box" style="background: rgba(239, 68, 68, 0.1);">
+              <ion-icon name="document-text-outline" style="color: #ef4444;"></ion-icon>
+            </div>
+            <span>Review Koreksi</span>
+          </div>
+          <div class="grid-item" *ngIf="canApproveAttendance" routerLink="/dinas-luar/review" (click)="toggleShortcuts()" style="cursor: pointer;">
+            <div class="icon-box" style="background: rgba(16, 185, 129, 0.1);">
+              <ion-icon name="briefcase-outline" style="color: #10b981;"></ion-icon>
+            </div>
+            <span>Review Dinas</span>
+          </div>
+          <div class="grid-item" *ngIf="canApproveAttendance" routerLink="/attendance/team-dashboard" (click)="toggleShortcuts()" style="cursor: pointer;">
+            <div class="icon-box" style="background: rgba(99, 102, 241, 0.1);">
+              <ion-icon name="stats-chart-outline" style="color: #6366f1;"></ion-icon>
+            </div>
+            <span>Dashboard Absensi</span>
+          </div>
+          <div class="grid-item" *ngIf="canApproveAttendance" routerLink="/attendance/team-list" (click)="toggleShortcuts()" style="cursor: pointer;">
+            <div class="icon-box" style="background: rgba(14, 165, 233, 0.1);">
+              <ion-icon name="people-outline" style="color: #0ea5e9;"></ion-icon>
+            </div>
+            <span>List Absensi</span>
+          </div>
+          <div class="grid-item" *ngIf="canManageUsers" routerLink="/admin/roles" (click)="toggleShortcuts()" style="cursor: pointer;">
+            <div class="icon-box" style="background: rgba(245, 158, 11, 0.1);">
+              <ion-icon name="shield-outline" style="color: #f59e0b;"></ion-icon>
+            </div>
+            <span>Role & Hak</span>
+          </div>
+          <div class="grid-item" *ngIf="canManageUsers" routerLink="/admin/users" (click)="toggleShortcuts()" style="cursor: pointer;">
+            <div class="icon-box" style="background: rgba(139, 92, 246, 0.1);">
+              <ion-icon name="people-outline" style="color: #8b5cf6;"></ion-icon>
+            </div>
+            <span>Pengguna</span>
+          </div>
+          <div class="grid-item" *ngIf="canManageOffice" routerLink="/attendance/set-office" (click)="toggleShortcuts()" style="cursor: pointer;">
+            <div class="icon-box" style="background: rgba(16, 185, 129, 0.1);">
+              <ion-icon name="location-outline" style="color: #10b981;"></ion-icon>
+            </div>
+            <span>Lokasi Kantor</span>
+          </div>
+        </div>
+      </ng-container>
+
+    </div>
+  </div>
+</div>

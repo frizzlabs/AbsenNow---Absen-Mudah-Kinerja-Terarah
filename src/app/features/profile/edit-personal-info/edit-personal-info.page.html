@@ -1,97 +1,92 @@
 <ion-content [fullscreen]="true" class="bg-light">
   <app-page-header title="Edit Personal Information"></app-page-header>
-  
+
   <div class="page-container">
-    
-    <app-section-card iconName="person-outline" title="Basic Information" badgeText="Read-only">
-      <div class="photo-row">
-        <div class="avatar-small">
-          <img src="assets/images/avatar-placeholder.png" alt="Profile Photo">
+
+    <!-- FOTO PROFIL -->
+    <app-section-card iconName="person-outline" title="Foto Profil">
+      <div class="photo-area" (click)="fileInput.click()">
+        <div class="avatar-wrap">
+          <img [src]="previewUrl || user?.avatar_url || 'assets/images/avatar-placeholder.png'" alt="Foto Profil" class="avatar-img" />
+          <div class="avatar-overlay">
+            <ion-icon name="camera-outline"></ion-icon>
+          </div>
         </div>
-        <div class="upload-link">
-          <ion-icon name="push-outline"></ion-icon>
-          <span>Upload Photo</span>
+        <div class="photo-meta">
+          <span class="photo-hint">Tap foto untuk mengganti</span>
+          <span class="photo-sub">JPG, PNG, WebP · Maks 4 MB</span>
         </div>
+        <ion-spinner *ngIf="isUploading" name="crescent" class="upload-spinner"></ion-spinner>
       </div>
-      
-      <div class="form-group">
-        <label>Full Name</label>
-        <app-input placeholder="Full Name" [value]="'Sarah Miller'" class="disabled"></app-input>
-      </div>
-      
-      <div class="form-row-2col">
-        <div class="form-group">
-          <label>Date of Birth</label>
-          <app-input placeholder="Date of Birth" [value]="'14 Oct 1992'" class="disabled"></app-input>
-        </div>
-        <div class="form-group">
-          <label>Gender</label>
-          <app-input placeholder="Gender" [value]="'Male'" class="disabled"></app-input>
-        </div>
-      </div>
+      <input #fileInput type="file" accept="image/jpeg,image/png,image/webp" style="display:none" (change)="onFileSelected($event)" />
     </app-section-card>
-    
-    <app-section-card iconName="call-outline" title="Contact Information">
-      <div class="form-group">
-        <label>Phone Number</label>
-        <div class="phone-input-group">
-          <div class="country-code">
-            <span class="flag">🇺🇸</span>
-            <span class="code">+1</span>
-            <ion-icon name="chevron-down-outline"></ion-icon>
-          </div>
-          <input type="tel" value="(555) 123-4567" class="phone-input">
+
+    <!-- BASIC INFO (read-only) -->
+    <app-section-card iconName="id-card-outline" title="Basic Information" badgeText="Read-only">
+      <div class="info-group">
+        <span class="label">Full Name</span>
+        <span class="value">{{ user?.name || '-' }}</span>
+      </div>
+      <div class="info-row-2col">
+        <div class="info-group">
+          <span class="label">Date of Birth</span>
+          <span class="value">{{ dobLabel }}</span>
         </div>
-      </div>
-      
-      <div class="form-group">
-        <label>Personal Email</label>
-        <app-input placeholder="Personal Email" [value]="'sarah@karajo.app'"></app-input>
-      </div>
-      
-      <div class="form-group">
-        <label>Residential Address</label>
-        <div class="textarea-box">
-          <textarea rows="3">42 Innovation Drive, Apt 304&#10;San Francisco, CA 94107</textarea>
-          <div class="textarea-footer">
-            <span class="char-count">50/200</span>
-            <ion-icon name="resize-outline" class="resize-icon"></ion-icon>
-          </div>
-        </div>
-      </div>
-    </app-section-card>
-    
-    <app-section-card iconName="medkit-outline" title="Emergency Contact">
-      <div class="form-group">
-        <label>Contact Name</label>
-        <app-input placeholder="Contact Name" [value]="'Hanna Jenkins'"></app-input>
-      </div>
-      
-      <div class="form-group">
-        <label>Relationship</label>
-        <div class="select-box">
-          <span class="value">Spouse</span>
-          <ion-icon name="chevron-down-outline" class="chevron"></ion-icon>
-        </div>
-      </div>
-      
-      <div class="form-group">
-        <label>Phone Number</label>
-        <div class="phone-input-group">
-          <div class="country-code">
-            <span class="flag">🇺🇸</span>
-            <span class="code">+1</span>
-            <ion-icon name="chevron-down-outline"></ion-icon>
-          </div>
-          <input type="tel" value="(555) 987-6543" class="phone-input">
+        <div class="info-group">
+          <span class="label">Gender</span>
+          <span class="value">{{ user?.gender || '-' }}</span>
         </div>
       </div>
     </app-section-card>
 
+    <!-- CONTACT INFO (editable) -->
+    <app-section-card iconName="call-outline" title="Contact Information">
+      <div class="form-group">
+        <label>Phone Number</label>
+        <app-input placeholder="cth. +62 812-3456-7890" [(value)]="model.phone"></app-input>
+      </div>
+      <div class="form-group">
+        <label>Personal Email</label>
+        <app-input type="email" placeholder="Personal Email" [(value)]="model.personal_email"></app-input>
+      </div>
+      <div class="form-group">
+        <label>Residential Address</label>
+        <div class="textarea-box">
+          <textarea rows="3" maxlength="200" [(ngModel)]="model.address" placeholder="Alamat tempat tinggal"></textarea>
+          <div class="textarea-footer">
+            <span class="char-count">{{ model.address.length }}/200</span>
+          </div>
+        </div>
+      </div>
+    </app-section-card>
+
+    <!-- EMERGENCY CONTACT (editable) -->
+    <app-section-card iconName="medkit-outline" title="Emergency Contact">
+      <div class="form-group">
+        <label>Contact Name</label>
+        <app-input placeholder="Contact Name" [(value)]="model.emergency_contact_name"></app-input>
+      </div>
+      <div class="form-group">
+        <label>Relationship</label>
+        <div class="select-box">
+          <select [(ngModel)]="model.emergency_contact_relationship">
+            <option value="">Pilih hubungan...</option>
+            <option *ngFor="let r of relationshipOptions" [value]="r">{{ r }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Phone Number</label>
+        <app-input placeholder="cth. +62 813-9876-5432" [(value)]="model.emergency_contact_phone"></app-input>
+      </div>
+    </app-section-card>
+
   </div>
-  
+
   <div class="fixed-bottom">
-    <app-button variant="primary" styleClass="w-full mb-12" routerLink="/profile/personal-info">Save Changes</app-button>
-    <app-button variant="outline" styleClass="w-full" routerLink="/profile/personal-info">Cancel</app-button>
+    <app-button variant="primary" styleClass="w-full mb-12" (click)="save()" [disabled]="isSaving">
+      {{ isSaving ? 'Menyimpan...' : 'Save Changes' }}
+    </app-button>
+    <app-button variant="outline" styleClass="w-full" (click)="cancel()">Cancel</app-button>
   </div>
 </ion-content>

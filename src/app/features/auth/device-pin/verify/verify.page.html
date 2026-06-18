@@ -1,24 +1,26 @@
 <ion-content [fullscreen]="true">
   <div class="page-container">
-    <app-page-header></app-page-header>
-    
-    <app-auth-header-icon icon="lock-closed-outline"></app-auth-header-icon>
-    
-    <div class="text-center auth-text">
-      <h2 class="text-h4">Enter your Security PIN</h2>
-      <p class="text-body-medium-regular text-medium">
-        Please enter your PIN to access your account.
-      </p>
+    <div class="top-content">
+      <app-page-header></app-page-header>
+
+      <app-auth-header-icon icon="lock-closed-outline"></app-auth-header-icon>
+
+      <div class="text-center auth-text">
+        <h2 class="text-h4">Enter your Security PIN</h2>
+        <p class="text-body-medium-regular text-medium">
+          Please enter your PIN to access your account.
+        </p>
+      </div>
+
+      <app-pin-dots [length]="4" [currentLength]="pinValue.length"></app-pin-dots>
+
+      <div class="text-center mt-6">
+        <a href="#" class="text-blue font-semibold text-body-medium-semibold">Forgot PIN?</a>
+      </div>
     </div>
-    
-    <app-pin-dots [length]="4" [currentLength]="pinValue.length"></app-pin-dots>
-    
-    <div class="text-center mt-6">
-      <a href="#" class="text-blue font-semibold text-body-medium-semibold">Forgot PIN?</a>
+
+    <div class="numpad-wrap">
+      <app-numpad variant="transparent" (keyPress)="onKeyPress($event)"></app-numpad>
     </div>
   </div>
 </ion-content>
-
-<div class="fixed-bottom">
-  <app-numpad variant="transparent" (keyPress)="onKeyPress($event)"></app-numpad>
-</div>

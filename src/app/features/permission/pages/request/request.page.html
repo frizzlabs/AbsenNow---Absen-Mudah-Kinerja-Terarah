@@ -10,69 +10,93 @@
 
   <div class="progress-container">
     <div class="progress-labels">
-      <span class="step-label">Step 1 of 3</span>
+      <span class="step-label">Step 1 of 2</span>
       <span class="title-label">Request Permission</span>
     </div>
     <div class="progress-bar-bg">
-      <div class="progress-bar-fill" style="width: 33%"></div>
+      <div class="progress-bar-fill" style="width: 50%"></div>
     </div>
   </div>
 </ion-header>
 
 <ion-content>
   <div class="content-wrapper">
-    <!-- Mock Calendar -->
-    <div class="calendar-card">
-      <div class="calendar-header">
-        <ion-icon name="chevron-back-outline"></ion-icon>
-        <div class="month">February 2026</div>
-        <ion-icon name="chevron-forward-outline"></ion-icon>
-      </div>
-      <div class="weekdays">
-        <span>SUN</span><span>MON</span><span>TUE</span><span>WED</span><span>THU</span><span>FRI</span><span>SAT</span>
-      </div>
-      <div class="days-grid">
-        <div class="day empty">27</div><div class="day empty">28</div><div class="day empty">29</div><div class="day empty">30</div><div class="day">1</div><div class="day">2</div><div class="day">3</div>
-        <div class="day">4</div><div class="day">5</div><div class="day">6</div><div class="day">7</div><div class="day">8</div><div class="day">9</div><div class="day">10</div>
-        <div class="day">11</div><div class="day selected">12</div><div class="day selected-light">13</div><div class="day selected">14</div><div class="day">15</div><div class="day">16</div><div class="day">17</div>
-        <div class="day">18</div><div class="day">19</div><div class="day">20</div><div class="day">21</div><div class="day">22</div><div class="day">23</div><div class="day">24</div>
-        <div class="day">25</div><div class="day">26</div><div class="day">27</div><div class="day">28</div><div class="day">29</div><div class="day">30</div><div class="day">31</div>
+    <!-- Inputs for Purpose & Category -->
+    <div class="input-group">
+      <label>Purpose / Title</label>
+      <div class="input-box">
+        <input type="text" [(ngModel)]="title" placeholder="e.g. Doctor's Appointment" style="width: 100%; border: none; outline: none; background: transparent; font-size: 14px; color: var(--ion-color-dark);">
       </div>
     </div>
 
-    <div class="time-row">
+    <div class="input-group mt-16" style="margin-top: 16px;">
+      <label>Category</label>
+      <div class="input-box">
+        <select [(ngModel)]="category" style="width: 100%; border: none; outline: none; background: transparent; font-size: 14px; color: var(--ion-color-dark);">
+          <option value="personal">Personal Permission</option>
+          <option value="family">Family Emergency</option>
+          <option value="emergency">House Emergency</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Date Picker Input -->
+    <div class="input-group mt-16" style="margin-top: 16px;">
+      <label>Date</label>
+      <div class="input-box">
+        <input type="date" [(ngModel)]="permissionDate" style="width: 100%; border: none; outline: none; background: transparent; font-size: 14px; color: var(--ion-color-dark);">
+      </div>
+    </div>
+
+    <div class="time-row" style="margin-top: 16px;">
       <div class="input-group">
         <label>Start Time</label>
         <div class="input-box">
-          <span>9:00 AM</span>
-          <ion-icon name="time-outline"></ion-icon>
+          <input type="time" [(ngModel)]="startTime" style="width: 100%; border: none; outline: none; background: transparent; font-size: 14px; color: var(--ion-color-dark);">
         </div>
       </div>
       <div class="input-group">
         <label>End Time</label>
         <div class="input-box">
-          <span>10:30 AM</span>
-          <ion-icon name="time-outline"></ion-icon>
+          <input type="time" [(ngModel)]="endTime" style="width: 100%; border: none; outline: none; background: transparent; font-size: 14px; color: var(--ion-color-dark);">
         </div>
       </div>
     </div>
 
     <div class="input-group mt-24">
-      <label>Reason</label>
+      <label>Reason / Notes</label>
       <div class="textarea-box">
-        <textarea placeholder="Add any details or notes about this work session..."></textarea>
-        <div class="char-count">0/200</div>
+        <textarea [(ngModel)]="notes" maxlength="200" placeholder="Add any details or notes about this permission request..."></textarea>
+        <div class="char-count">{{ notes?.length || 0 }}/200</div>
       </div>
     </div>
 
     <div class="input-group mt-24">
       <label>Attachments (Optional)</label>
-      <div class="upload-box">
+      <input type="file" #fileInput (change)="onFileSelected($event)" style="display: none;" accept="image/*,application/pdf">
+      
+      <!-- Upload Box -->
+      <div class="upload-box" *ngIf="!fileName" (click)="triggerFileInput(fileInput)" style="cursor: pointer;">
         <div class="upload-icon-circle">
           <ion-icon name="cloud-upload-outline" color="primary"></ion-icon>
         </div>
         <div class="upload-text">Click to upload</div>
         <div class="upload-hint">PDF, JPG or PNG (MAX. 5MB)</div>
+      </div>
+
+      <!-- Attachment Preview Card -->
+      <div class="attachment-card-preview" *ngIf="fileName" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; margin-top: 8px;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <ion-icon name="document-text-outline" color="primary" style="font-size: 24px;"></ion-icon>
+          <div>
+            <div style="font-size: 14px; font-weight: 500; color: var(--ion-color-dark);">{{ fileName }}</div>
+            <div style="font-size: 12px; color: var(--ion-color-medium);">{{ fileSizeText }}</div>
+          </div>
+        </div>
+        <ion-button fill="clear" color="danger" (click)="removeFile()" style="margin: 0; --padding-start: 4px; --padding-end: 4px;">
+          <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
+        </ion-button>
       </div>
     </div>
   </div>

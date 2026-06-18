@@ -14,11 +14,23 @@
     <app-otp-input [length]="6" [value]="otpValue"></app-otp-input>
     
     <div class="text-center resend-text">
-      <p class="text-body-small-regular text-medium">Didn't receive the code?</p>
-      <p class="text-body-small-semibold text-dark">Resend code in 00:59</p>
+      <ng-container *ngIf="isBlocked; else normalHint">
+        <p class="text-body-small-regular text-medium">Terlalu banyak percobaan.</p>
+        <p class="text-body-small-semibold" style="color: #ef4444;">
+          Coba lagi dalam <span style="font-variant-numeric: tabular-nums;">{{ countdownLabel }}</span>
+        </p>
+      </ng-container>
+      <ng-template #normalHint>
+        <p class="text-body-small-regular text-medium">Didn't receive the code?</p>
+        <p class="text-body-small-semibold text-dark">Periksa folder spam / masuk kembali untuk kirim ulang.</p>
+      </ng-template>
     </div>
-    
-    <app-button variant="primary" class="w-full" icon="arrow-forward-outline" iconPosition="right" [disabled]="isLoading" (onClick)="verifyOtp()">{{ isLoading ? 'Verifying...' : 'Verify Account' }}</app-button>
+
+    <app-button variant="primary" class="w-full" icon="arrow-forward-outline" iconPosition="right"
+      [disabled]="isLoading || isBlocked || otpValue.length < 6"
+      (onClick)="verifyOtp()">
+      {{ isBlocked ? ('Tunggu ' + countdownLabel) : (isLoading ? 'Memverifikasi...' : 'Verify Account') }}
+    </app-button>
   </div>
 </ion-content>
 

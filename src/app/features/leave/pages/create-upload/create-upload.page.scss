@@ -104,3 +104,21 @@ ion-content {
     --border-radius: 12px;
   }
 }
+
+.upload-box {
+  .icon-circle.success {
+    background: rgba(var(--ion-color-success-rgb), 0.1);
+    color: var(--ion-color-success);
+    
+    ion-icon {
+      color: var(--ion-color-success);
+    }
+  }
+
+  .uploaded-file-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+}

@@ -13,7 +13,7 @@
   <app-leave-stepper [currentStep]="5" [totalSteps]="6" rightText="Request Leave"></app-leave-stepper>
 
   <div class="content-wrapper">
-    <h1 class="page-title">Annual Leave</h1>
+    <h1 class="page-title">{{ getLeaveTypeName(draft?.leave_type) }}</h1>
     <p class="page-description">Review the details of your request.</p>
 
     <div class="timeline-container">
@@ -23,7 +23,7 @@
         </div>
         <div class="timeline-content">
           <div class="label">Start Date</div>
-          <div class="value">Feb 24, 2026</div>
+          <div class="value">{{ formatDate(draft?.start_date) }}</div>
         </div>
       </div>
       <div class="timeline-line"></div>
@@ -33,33 +33,47 @@
         </div>
         <div class="timeline-content">
           <div class="label">End Date</div>
-          <div class="value">Feb 26, 2026</div>
+          <div class="value">{{ formatDate(draft?.end_date) }}</div>
         </div>
       </div>
     </div>
 
     <div class="section-label">TOTAL DAYS</div>
-    <div class="days-badge">3 Days</div>
+    <div class="days-badge">{{ totalDays }} Day{{ totalDays !== 1 ? 's' : '' }}</div>
+
+    <div class="section-label">REASON FOR LEAVE</div>
+    <div class="reason-input-card" style="background: #fdfdfd; border: 1px solid #e0e0e0; border-radius: 12px; padding: 12px; margin-bottom: 8px;">
+      <textarea *ngIf="draft" [(ngModel)]="draft.reason" placeholder="Please provide details/reason for your leave..." rows="3" class="reason-textarea" style="width: 100%; border: none; resize: none; font-size: 14px; color: var(--ion-color-tertiary); outline: none; background: transparent; font-family: inherit; line-height: 1.5;"></textarea>
+    </div>
 
     <div class="section-label">DELEGATE / BACKUP</div>
-    <div class="delegate-box">
+    <div class="delegate-box" *ngIf="draft?.delegate_user_id">
       <div class="avatar-box">
-        <img src="assets/images/avatar-hanna.png" alt="Hanna" />
+        <img [src]="draft?.delegate_name?.toLowerCase()?.includes('hanna') ? 'assets/images/avatar-hanna.png' : 
+                   draft?.delegate_name?.toLowerCase()?.includes('michael') ? 'assets/images/avatar-michael.png' : 
+                   draft?.delegate_name?.toLowerCase()?.includes('david') ? 'assets/images/avatar-david.png' : 
+                   'assets/images/avatar-emma.png'" alt="Delegate" />
         <div class="status-dot"></div>
       </div>
       <div class="delegate-info">
-        <div class="name">Hanna Jenkins</div>
-        <div class="role">Sr. Project Manager</div>
+        <div class="name">{{ draft?.delegate_name }}</div>
+        <div class="role">Backup Colleague</div>
       </div>
+    </div>
+    <div class="no-delegate-text" *ngIf="!draft?.delegate_user_id" style="font-size: 14px; color: var(--ion-color-medium);">
+      Skipped delegation backup.
     </div>
 
     <div class="section-label">ATTACHMENTS</div>
-    <app-leave-file-card
-      fileName="medical_cert.pdf"
-      fileSize="1.2 MB"
-      fileType="PDF"
+    <app-leave-file-card *ngIf="draft?.attachment_name"
+      [fileName]="draft?.attachment_name || ''"
+      [fileSize]="draft?.attachment_size || ''"
+      [fileType]="draft?.attachment_type || ''"
       iconName="document-text-outline">
     </app-leave-file-card>
+    <div class="no-file-text" *ngIf="!draft?.attachment_name" style="font-size: 14px; color: var(--ion-color-medium);">
+      No attachment uploaded.
+    </div>
 
   </div>
 </ion-content>

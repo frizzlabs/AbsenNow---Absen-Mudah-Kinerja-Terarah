@@ -1,0 +1,53 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back-outline" color="dark"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Kelola Pengguna</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="text-center" *ngIf="isLoading" style="padding:40px;">
+    <ion-spinner name="crescent" color="primary"></ion-spinner>
+  </div>
+
+  <div class="wrap" *ngIf="!isLoading">
+    <p class="hint">Atur role & posisi tiap pengguna.</p>
+
+    <div class="user-card" *ngFor="let u of users">
+      <div class="user-head">
+        <div class="avatar">{{ (u.name || '?').charAt(0) }}</div>
+        <div class="user-info">
+          <div class="user-name">{{ u.name }}</div>
+          <div class="user-email">{{ u.email }}</div>
+        </div>
+        <div class="role-badge" *ngIf="u.role">{{ u.role.label }}</div>
+      </div>
+
+      <div class="form-row">
+        <label>Role</label>
+        <div class="select-box">
+          <select [(ngModel)]="edit[u.id].roleId">
+            <option [ngValue]="null">— Pilih role —</option>
+            <option *ngFor="let r of roles" [ngValue]="r.id">{{ r.label }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label>Posisi (mis. Office Boy, Admin Gudang)</label>
+        <div class="input-box">
+          <input type="text" [(ngModel)]="edit[u.id].position" placeholder="Posisi pekerjaan">
+        </div>
+      </div>
+
+      <ion-button expand="block" fill="outline" size="small" [disabled]="savingId === u.id" (click)="save(u)">
+        <ion-icon name="save-outline" slot="start"></ion-icon>
+        Simpan
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

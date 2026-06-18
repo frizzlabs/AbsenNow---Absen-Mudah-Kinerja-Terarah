@@ -9,13 +9,13 @@
 
     <h1 class="success-title">Timesheet Submitted Successfully</h1>
     <p class="success-message">
-      Your timesheet for <strong>Feb 22 - Feb 28</strong> has been forwarded for approval.
+      Your timesheet for <strong>{{ rangeLabel }}</strong> has been forwarded for approval.
     </p>
 
     <div class="hours-card">
       <div class="card-label">Total Hours Recorded</div>
       <div class="card-value">
-        <span class="big-num">40:00</span>
+        <span class="big-num">{{ totalLabel }}</span>
         <span class="unit">hrs</span>
       </div>
     </div>

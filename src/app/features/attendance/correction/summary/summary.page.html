@@ -1,83 +1,81 @@
 <ion-content [fullscreen]="true" class="bg-light">
-  <app-page-header title="Attendance Correction"></app-page-header>
-  
+  <app-page-header title="Koreksi Absensi"></app-page-header>
+
   <div class="stepper-section">
     <div class="stepper-labels">
-      <span class="step-text text-blue">Step 3 of 3</span>
-      <span class="progress-text text-gray">Correction Progress</span>
+      <span class="step-text text-blue">Langkah 3 dari 3</span>
+      <span class="progress-text text-gray">Progress Pengajuan</span>
     </div>
-    <div class="progress-bar">
-      <div class="progress-fill" style="width: 100%"></div>
-    </div>
+    <div class="progress-bar"><div class="progress-fill" style="width: 100%"></div></div>
   </div>
-  
   <div class="divider-full"></div>
 
   <div class="page-container">
-    
+
     <div class="summary-card">
       <div class="card-header">
-        <span class="label">RECORD SUMMARY</span>
-        <div class="badge">Current Log</div>
+        <span class="label">DETAIL KOREKSI</span>
       </div>
-      
       <div class="info-row">
         <ion-icon name="calendar-outline"></ion-icon>
-        <span>Wed, 15 May 2024</span>
+        <span>{{ dateFormatted }}</span>
       </div>
-      
       <div class="info-row">
-        <ion-icon name="time-outline"></ion-icon>
-        <span>09:15 AM <span class="dash">—</span> 06:05 PM</span>
+        <ion-icon name="alert-circle-outline"></ion-icon>
+        <span>{{ typeLabel }}</span>
       </div>
     </div>
 
     <div class="final-data-card">
       <div class="card-header">
-        <span class="label">FINAL REQUEST DATA</span>
+        <span class="label">WAKTU YANG DIUSULKAN</span>
       </div>
-      
       <div class="card-divider"></div>
-      
+
       <div class="time-columns">
-        <div class="time-col">
-          <span class="sub-label">Clock In</span>
+        <div class="time-col" *ngIf="draft.proposedCheckin">
+          <span class="sub-label">Absen Masuk</span>
           <div class="time-val">
-            <span class="time blue">08:55</span>
-            <span class="meridian">AM</span>
+            <span class="time blue">{{ draft.proposedCheckin }}</span>
           </div>
-          <div class="status-badge green">Corrected</div>
+          <div class="status-badge green">Dikoreksi</div>
         </div>
-        
-        <div class="time-col">
-          <span class="sub-label">Clock Out</span>
+        <div class="time-col" *ngIf="draft.proposedCheckout">
+          <span class="sub-label">Absen Pulang</span>
           <div class="time-val">
-            <span class="time dark">06:05</span>
-            <span class="meridian">PM</span>
+            <span class="time blue">{{ draft.proposedCheckout }}</span>
           </div>
-          <div class="status-badge gray">No Change</div>
+          <div class="status-badge green">Dikoreksi</div>
         </div>
       </div>
-      
+
       <div class="card-divider"></div>
-      
+
       <div class="reason-section">
-        <span class="label">REASON FOR CORRECTION</span>
-        <p class="reason-text">"The biometric scanner at the North Entrance was failing to recognize my fingerprint. Security manual log shows arrival at 08:55 AM."</p>
+        <span class="label">KETERANGAN</span>
+        <p class="reason-text">"{{ draft.justification }}"</p>
+      </div>
+
+      <div class="evidence-row" *ngIf="draft.evidenceFile">
+        <ion-icon name="document-attach-outline"></ion-icon>
+        <span>{{ draft.evidenceFile.name }}</span>
       </div>
     </div>
 
     <div class="info-box">
       <ion-icon name="information-circle-outline"></ion-icon>
-      <p>By submitting this request, your supervisor will be notified for approval. Ensure the provided data is accurate as per company policy.</p>
+      <p>Dengan mengirimkan pengajuan ini, atasan Anda akan mendapat notifikasi untuk persetujuan. Pastikan data yang diberikan akurat.</p>
     </div>
-
   </div>
 
   <div class="fixed-bottom">
     <div class="action-buttons">
-      <app-button variant="primary" styleClass="w-full" routerLink="/attendance/correction/submitted">Submit for Approval</app-button>
-      <app-button variant="outline" styleClass="w-full" routerLink="/attendance/correction/form">Edit Request</app-button>
+      <app-button variant="primary" styleClass="w-full" (onClick)="submit()" [disabled]="isSubmitting">
+        Kirim Pengajuan
+      </app-button>
+      <app-button variant="outline" styleClass="w-full" (onClick)="goBack()">
+        Edit Pengajuan
+      </app-button>
     </div>
   </div>
 </ion-content>

@@ -1,23 +1,23 @@
 <ion-content>
   <div class="px-5">
-    <app-page-header title="KPIs (Q1 2026)"></app-page-header>
-    
+    <app-page-header [title]="'KPIs (' + period + ')'"></app-page-header>
+
     <div class="pb-24">
       <!-- Summary Card -->
       <div class="summary-card mb-4">
         <div class="summary-item">
           <span class="summary-label">Total</span>
-          <span class="summary-value text-dark">12</span>
+          <span class="summary-value text-dark">{{ stats.total }}</span>
         </div>
         <div class="summary-divider"></div>
         <div class="summary-item">
           <span class="summary-label text-primary">Completed</span>
-          <span class="summary-value text-success">9</span>
+          <span class="summary-value text-success">{{ stats.completed }}</span>
         </div>
         <div class="summary-divider"></div>
         <div class="summary-item">
           <span class="summary-label text-primary">Rate</span>
-          <span class="summary-value text-primary">75%</span>
+          <span class="summary-value text-primary">{{ stats.rate }}%</span>
         </div>
       </div>
 
@@ -30,8 +30,13 @@
           [description]="kpi.description"
           [target]="kpi.targetText"
           [current]="kpi.currentText"
-          [link]="kpi.link">
+          [link]="kpi.link"
+          [queryParams]="kpi.queryParams">
         </app-kpi-card>
+      </div>
+
+      <div class="text-center" *ngIf="!isLoading && kpis.length === 0" style="padding: 32px; color: var(--ion-color-medium);">
+        <p>Belum ada KPI untuk periode ini.</p>
       </div>
     </div>
   </div>

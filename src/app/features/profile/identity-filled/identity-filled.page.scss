@@ -1,101 +1,121 @@
-ion-content.bg-light {
-  --background: #F9FAFB;
+ion-content.bg-light { --background: #F9FAFB; }
+
+.center-spinner {
+  display: flex;
+  justify-content: center;
+  padding: 80px 0;
 }
 
 .page-container {
-  padding: 16px 24px 140px;
+  padding: 16px 16px 120px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
-.info-box {
+// ── Status banner ─────────────────────────────────────────────────
+.status-banner {
+  border-radius: 16px;
+  padding: 16px;
   display: flex;
   align-items: flex-start;
   gap: 12px;
-  background: #EFF4FF;
-  padding: 16px;
-  border-radius: 8px;
-  margin-bottom: 24px;
-  
-  ion-icon {
-    font-size: 20px;
-    color: var(--ion-color-primary);
-    flex-shrink: 0;
-    margin-top: 2px;
-  }
-  
-  p {
-    margin: 0;
-    font-size: 14px;
-    line-height: 1.5;
-    color: var(--ion-color-primary);
-  }
+
+  ion-icon { font-size: 28px; flex-shrink: 0; margin-top: 2px; }
 }
 
-.form-group {
-  margin-bottom: 20px;
-  
-  &:last-child {
-    margin-bottom: 0;
-  }
-  
-  label {
-    display: block;
-    font-size: 12px;
-    color: var(--ion-color-medium);
-    margin-bottom: 8px;
-  }
-}
-
-.form-row-2col {
-  display: flex;
-  gap: 16px;
-  
-  .form-group {
-    flex: 1;
-    margin-bottom: 0;
-  }
-}
-
-.select-box {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border: 1px solid #D0D5DD;
-  border-radius: 8px;
-  padding: 12px 14px;
-  background: white;
-  
-  .placeholder {
-    font-size: 16px;
-    color: #98A2B3;
-  }
-  
-  .value {
-    font-size: 16px;
-    color: var(--ion-color-tertiary);
-  }
-  
-  .chevron {
-    color: #667085;
-    font-size: 20px;
-  }
-}
-
-.fixed-bottom {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 16px 24px 32px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #FFFFFF 100%);
+.status-text {
   display: flex;
   flex-direction: column;
-  
-  .mb-12 {
-    margin-bottom: 12px;
+  gap: 3px;
+}
+
+.status-label {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.status-sub {
+  font-size: 13px;
+  color: #475569;
+  line-height: 1.4;
+}
+
+// ── ID photos ─────────────────────────────────────────────────────
+.photo-row {
+  display: flex;
+  gap: 12px;
+}
+
+.photo-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.photo-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.id-photo {
+  width: 100%;
+  aspect-ratio: 16/10;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+}
+
+.no-photo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 24px;
+  color: #94a3b8;
+  font-size: 13px;
+  ion-icon { font-size: 32px; }
+}
+
+// ── Info rows ─────────────────────────────────────────────────────
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 0;
+
+  .label {
+    font-size: 13px;
+    color: #94a3b8;
+    flex-shrink: 0;
   }
-  
-  ::ng-deep .w-full {
-    width: 100%;
-    display: block;
+
+  .value {
+    font-size: 13px;
+    font-weight: 600;
+    color: #1e293b;
+    text-align: right;
+
+    &.mono { font-family: monospace; letter-spacing: 1px; }
   }
+}
+
+.divider {
+  height: 1px;
+  background: #f1f5f9;
+}
+
+// ── Fixed bottom ──────────────────────────────────────────────────
+.fixed-bottom {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  padding: 16px 16px calc(20px + env(safe-area-inset-bottom));
+  background: linear-gradient(180deg, rgba(249,250,251,0) 0%, #F9FAFB 30%);
+
+  ::ng-deep .w-full { width: 100%; display: block; }
 }

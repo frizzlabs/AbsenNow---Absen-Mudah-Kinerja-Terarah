@@ -177,6 +177,18 @@ ion-content.bg-light {
     }
   }
   
+  .evidence-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+    padding: 10px 12px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    ion-icon { font-size: 18px; color: var(--ion-color-primary); }
+    span { font-size: 13px; color: #667085; }
+  }
+
   .reason-section {
     .label {
       display: block;

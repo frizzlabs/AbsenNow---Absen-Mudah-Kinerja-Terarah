@@ -1,0 +1,45 @@
+<ion-content [fullscreen]="true" class="bg-light">
+  <app-page-header title="Pilih Dinas Aktif"></app-page-header>
+
+  <div class="page-container">
+
+    <p class="hint-text">Pilih salah satu dinas luar yang sedang aktif untuk melakukan absen.</p>
+
+    <div *ngIf="isLoading" class="loading-state">
+      <ion-spinner name="crescent"></ion-spinner>
+      <span>Memuat daftar dinas...</span>
+    </div>
+
+    <div *ngIf="error && !isLoading" class="error-state">
+      <ion-icon name="alert-circle-outline"></ion-icon>
+      <p>{{ error }}</p>
+      <button class="retry-btn" (click)="load()">Coba Lagi</button>
+    </div>
+
+    <div *ngIf="!isLoading && !error && items.length === 0" class="empty-state">
+      <ion-icon name="briefcase-outline"></ion-icon>
+      <p>Tidak ada dinas aktif saat ini.</p>
+      <span class="empty-sub">Pengajuan dinas harus sudah disetujui dan dalam rentang waktu aktif.</span>
+    </div>
+
+    <div *ngFor="let item of items" class="dinas-card" (click)="pick(item)">
+      <div class="card-top">
+        <div class="location-name">{{ item.location_name }}</div>
+        <ion-badge color="success">Aktif</ion-badge>
+      </div>
+      <div class="time-range">
+        <ion-icon name="time-outline"></ion-icon>
+        <span>{{ fmtDt(item.start_datetime) }} — {{ fmtDt(item.end_datetime) }}</span>
+      </div>
+      <div class="radius-row">
+        <ion-icon name="radio-button-on-outline"></ion-icon>
+        <span>Radius: {{ item.radius }}m</span>
+      </div>
+      <div class="details-preview">{{ item.work_details | slice:0:80 }}{{ item.work_details?.length > 80 ? '...' : '' }}</div>
+      <div class="arrow-row">
+        <span>Pilih untuk absen</span>
+        <ion-icon name="chevron-forward-outline"></ion-icon>
+      </div>
+    </div>
+  </div>
+</ion-content>

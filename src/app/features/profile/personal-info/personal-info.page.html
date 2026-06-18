@@ -6,7 +6,7 @@
     <app-section-card iconName="person-outline" title="Basic Information">
       <div class="photo-row">
         <div class="avatar-small">
-          <img src="assets/images/avatar-placeholder.png" alt="Profile Photo">
+          <img [src]="user?.avatar_url || 'assets/images/avatar-placeholder.png'" alt="Profile Photo">
         </div>
         <div class="upload-link">
           <ion-icon name="push-outline"></ion-icon>
@@ -16,56 +16,56 @@
       
       <div class="info-group">
         <span class="label">Full Name</span>
-        <span class="value">Sarah Miller</span>
+        <span class="value">{{ user?.name || '-' }}</span>
       </div>
-      
+
       <div class="info-row-2col">
         <div class="info-group">
           <span class="label">Date of Birth</span>
-          <span class="value">14 Oct 1992</span>
+          <span class="value">{{ dobLabel }}</span>
         </div>
         <div class="info-group">
           <span class="label">Gender</span>
-          <span class="value">Male</span>
+          <span class="value">{{ user?.gender || '-' }}</span>
         </div>
       </div>
     </app-section-card>
-    
+
     <app-section-card iconName="call-outline" title="Contact Information">
       <div class="info-group">
         <span class="label">Phone Number</span>
         <div class="value-with-icon">
-          <span class="value">+1 (555) 123-4567</span>
-          <ion-icon name="checkmark-circle-outline" class="verified-icon"></ion-icon>
+          <span class="value">{{ user?.phone || '-' }}</span>
+          <ion-icon *ngIf="user?.phone" name="checkmark-circle-outline" class="verified-icon"></ion-icon>
         </div>
       </div>
-      
+
       <div class="info-group">
         <span class="label">Personal Email</span>
-        <span class="value">sarah@karajo.app</span>
+        <span class="value">{{ user?.personal_email || '-' }}</span>
       </div>
-      
+
       <div class="info-group">
         <span class="label">Residential Address</span>
-        <span class="value">42 Innovation Drive, Apt 304<br>San Francisco, CA 94107</span>
+        <span class="value" style="white-space: pre-line;">{{ user?.address || '-' }}</span>
       </div>
     </app-section-card>
-    
+
     <!-- Using medkit-outline to approximate emergency contact icon -->
     <app-section-card iconName="medkit-outline" title="Emergency Contact">
       <div class="info-group">
         <span class="label">Contact Name</span>
-        <span class="value">Hanna Jenkins</span>
+        <span class="value">{{ user?.emergency_contact_name || '-' }}</span>
       </div>
-      
+
       <div class="info-row-2col">
         <div class="info-group">
           <span class="label">Relationship</span>
-          <span class="value">Spouse</span>
+          <span class="value">{{ user?.emergency_contact_relationship || '-' }}</span>
         </div>
         <div class="info-group">
           <span class="label">Phone Number</span>
-          <span class="value">+1 (555) 987-6543</span>
+          <span class="value">{{ user?.emergency_contact_phone || '-' }}</span>
         </div>
       </div>
     </app-section-card>

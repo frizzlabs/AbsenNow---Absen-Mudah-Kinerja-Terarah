@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { permissionGuard, nonAdminGuard } from '../../core/guards/permission.guard';
 
 export const routes: Routes = [
   {
@@ -11,18 +12,27 @@ export const routes: Routes = [
   },
   {
     path: 'validation',
+    canActivate: [nonAdminGuard],
     loadComponent: () => import('./validation/validation.page').then( m => m.ValidationPage)
   },
   {
+    path: 'set-office',
+    canActivate: [permissionGuard('office.manage')],
+    loadComponent: () => import('./set-office/set-office.page').then( m => m.SetOfficePage)
+  },
+  {
     path: 'face-validation',
+    canActivate: [nonAdminGuard],
     loadComponent: () => import('./face-validation/face-validation.page').then( m => m.FaceValidationPage)
   },
   {
     path: 'qr-validation',
+    canActivate: [nonAdminGuard],
     loadComponent: () => import('./qr-validation/qr-validation.page').then( m => m.QrValidationPage)
   },
   {
     path: 'success',
+    canActivate: [nonAdminGuard],
     loadComponent: () => import('./success/success.page').then( m => m.SuccessPage)
   },
   {
@@ -52,5 +62,17 @@ export const routes: Routes = [
   {
     path: 'correction/submitted',
     loadComponent: () => import('./correction/submitted/submitted.page').then( m => m.SubmittedPage)
+  },
+  {
+    path: 'correction/history',
+    loadComponent: () => import('./correction/history/history.page').then( m => m.CorrectionHistoryPage)
+  },
+  {
+    path: 'team-dashboard',
+    loadComponent: () => import('./team-dashboard/team-dashboard.page').then(m => m.TeamDashboardPage)
+  },
+  {
+    path: 'team-list',
+    loadComponent: () => import('./team-list/team-list.page').then(m => m.TeamListPage)
   }
 ];

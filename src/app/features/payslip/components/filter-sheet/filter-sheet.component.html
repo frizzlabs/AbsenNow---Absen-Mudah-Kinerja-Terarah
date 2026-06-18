@@ -3,7 +3,7 @@
     <div class="drag-indicator-container">
       <div class="drag-indicator"></div>
     </div>
-    <ion-title>Filter Payslips</ion-title>
+    <ion-title>Filter Slip Gaji</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="dismiss()">
         <ion-icon name="close-outline" color="medium"></ion-icon>
@@ -13,9 +13,9 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <!-- Year Section -->
+  <!-- Tahun -->
   <div class="filter-section">
-    <div class="section-label">Year</div>
+    <div class="section-label">Tahun</div>
     <div class="pill-group">
       <div class="pill" [class.active]="selectedYear === '2023'" (click)="setYear('2023')">2023</div>
       <div class="pill" [class.active]="selectedYear === '2024'" (click)="setYear('2024')">2024</div>
@@ -24,30 +24,24 @@
     </div>
   </div>
 
-  <!-- Month Section -->
-  <div class="filter-section">
-    <div class="section-label">Month</div>
-    <div class="select-box">
-      <span>{{ selectedMonth }}</span>
-      <ion-icon name="chevron-down-outline" color="medium"></ion-icon>
-    </div>
-  </div>
-
-  <!-- Status Section -->
+  <!-- Status -->
   <div class="filter-section">
     <div class="section-label">Status</div>
     <div class="segmented-control">
-      <div class="segment" [class.active]="selectedStatus === 'Paid'" (click)="setStatus('Paid')">Paid</div>
-      <div class="segment" [class.active]="selectedStatus === 'Pending'" (click)="setStatus('Pending')">Pending</div>
-      <div class="segment" [class.active]="selectedStatus === 'Processing'" (click)="setStatus('Processing')">Processing</div>
+      <div class="segment" [class.active]="selectedStatus === 'dibayar'" (click)="setStatus('dibayar')">Dibayar</div>
+      <div class="segment" [class.active]="selectedStatus === 'menunggu'" (click)="setStatus('menunggu')">Menunggu</div>
+      <div class="segment" [class.active]="selectedStatus === 'diproses'" (click)="setStatus('diproses')">Diproses</div>
     </div>
   </div>
 </ion-content>
 
 <ion-footer class="ion-no-border">
   <div class="footer-content">
+    <ion-button expand="block" fill="clear" color="medium" (click)="reset()">
+      Reset
+    </ion-button>
     <ion-button expand="block" shape="round" color="primary" (click)="apply()">
-      Apply Filters (3)
+      Terapkan Filter
     </ion-button>
   </div>
 </ion-footer>

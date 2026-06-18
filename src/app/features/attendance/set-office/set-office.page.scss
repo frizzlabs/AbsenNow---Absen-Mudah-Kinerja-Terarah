@@ -1,0 +1,209 @@
+ion-content {
+  --background: #f8f9fa;
+}
+
+.search-wrap {
+  position: relative;
+  padding: 12px 16px 0;
+  background: #f8f9fa;
+  z-index: 10;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 14px;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+
+  ion-icon { font-size: 18px; color: var(--ion-color-medium); flex-shrink: 0; }
+
+  input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 14px;
+    color: var(--ion-color-tertiary);
+  }
+
+  .search-spinner { width: 18px; height: 18px; flex-shrink: 0; }
+}
+
+.search-results {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  top: calc(100% - 2px);
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 0 0 10px 10px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+  z-index: 999;
+  overflow: hidden;
+}
+
+.result-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  font-size: 13px;
+  color: var(--ion-color-tertiary);
+  line-height: 1.4;
+  cursor: pointer;
+  border-bottom: 1px solid #f1f5f9;
+
+  &:last-child { border-bottom: none; }
+  &:active { background: #f8faff; }
+
+  ion-icon { font-size: 16px; color: var(--ion-color-primary); margin-top: 1px; flex-shrink: 0; }
+}
+
+.map-wrap {
+  position: relative;
+  width: 100%;
+  height: 320px;
+
+  #set-office-map {
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+
+  .map-hint {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    right: 12px;
+    z-index: 2;
+    background: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    font-size: 12px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    ion-icon { font-size: 16px; }
+  }
+}
+
+.panel {
+  padding: 20px 16px 140px;
+
+  .form-group {
+    margin-bottom: 20px;
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ion-color-tertiary);
+      margin-bottom: 8px;
+    }
+
+    .input-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      background: #fff;
+      border: 1px solid #e0e0e0;
+      border-radius: 10px;
+
+      ion-icon { font-size: 18px; color: var(--ion-color-medium); }
+
+      input {
+        flex: 1;
+        border: none;
+        outline: none;
+        background: transparent;
+        font-size: 14px;
+        color: var(--ion-color-tertiary);
+      }
+    }
+
+    .address-box {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 12px 14px;
+      background: #fff;
+      border: 1px solid #e0e0e0;
+      border-radius: 10px;
+      font-size: 13px;
+      color: var(--ion-color-tertiary);
+      line-height: 1.4;
+
+      ion-icon { font-size: 18px; color: var(--ion-color-primary); margin-top: 1px; }
+    }
+
+    .coords {
+      margin-top: 6px;
+      font-size: 12px;
+      color: var(--ion-color-medium);
+      padding-left: 2px;
+    }
+  }
+
+  .radius-pills {
+    display: flex;
+    gap: 8px;
+
+    .pill {
+      flex: 1;
+      text-align: center;
+      padding: 10px 0;
+      border-radius: 10px;
+      border: 1px solid #e0e0e0;
+      background: #fff;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--ion-color-medium);
+
+      &.active {
+        border-color: var(--ion-color-primary);
+        background: rgba(27, 89, 248, 0.08);
+        color: var(--ion-color-primary);
+        font-weight: 600;
+      }
+    }
+  }
+
+  .use-location-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px;
+    background: #fff;
+    border: 1px dashed var(--ion-color-primary);
+    border-radius: 10px;
+    color: var(--ion-color-primary);
+    font-size: 14px;
+    font-weight: 600;
+
+    ion-icon { font-size: 18px; }
+  }
+}
+
+.fixed-bottom {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 16px 16px calc(20px + env(safe-area-inset-bottom));
+  background: linear-gradient(180deg, rgba(248,249,250,0) 0%, #f8f9fa 30%);
+
+  ion-button {
+    margin: 0;
+    height: 50px;
+    --border-radius: 12px;
+    font-weight: 600;
+  }
+}

@@ -9,7 +9,7 @@
         <p class="location-text">Current Location: Pemda Kota Bogor</p>
       </div>
       <div class="avatar-wrapper" routerLink="/profile" style="cursor: pointer;">
-        <img src="assets/images/avatar.png" class="avatar-img" />
+        <img [src]="userAvatar || 'assets/images/avatar.png'" class="avatar-img" />
         <div class="online-indicator"></div>
       </div>
     </div>

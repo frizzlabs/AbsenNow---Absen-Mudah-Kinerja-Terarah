@@ -8,7 +8,7 @@ import { IonicModule } from '@ionic/angular';
   standalone: true,
   imports: [CommonModule, RouterModule, IonicModule],
   template: `
-    <div class="feedback-card" [ngClass]="borderClass" [routerLink]="link ? link : null">
+    <div class="feedback-card" [ngClass]="borderClass" [routerLink]="link ? link : null" [queryParams]="queryParams">
       <div class="flex justify-between items-start mb-3">
         <div class="flex items-center gap-3">
           <img [src]="avatar" class="avatar" alt="Avatar">
@@ -169,4 +169,5 @@ export class FeedbackCardComponent {
   @Input() showAction: boolean = false;
   @Input() borderClass: string = 'border-orange';
   @Input() link: string = '';
+  @Input() queryParams: any = null;
 }

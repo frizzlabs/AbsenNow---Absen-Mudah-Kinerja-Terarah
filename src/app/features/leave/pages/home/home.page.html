@@ -10,7 +10,12 @@
 </ion-header>
 
 <ion-content color="light">
-  <div class="content-wrapper">
+  <div class="text-center" *ngIf="isLoading" style="padding: 40px; text-align: center;">
+    <ion-spinner name="crescent" color="primary"></ion-spinner>
+    <p style="color: var(--ion-color-medium); margin-top: 12px;">Loading leave details...</p>
+  </div>
+
+  <div class="content-wrapper" *ngIf="!isLoading">
     <div class="section-title">Leave Balance</div>
     
     <div class="balance-grid">
@@ -18,9 +23,9 @@
         <app-leave-balance-card
           title="Annual Leave"
           subtitle="Yearly quota"
-          [daysLeft]="12"
-          [usedDays]="8"
-          [totalDays]="20"
+          [daysLeft]="getBalance('annual').allocated - getBalance('annual').used"
+          [usedDays]="getBalance('annual').used"
+          [totalDays]="getBalance('annual').allocated"
           colorClass="primary">
         </app-leave-balance-card>
       </div>
@@ -28,9 +33,9 @@
         <app-leave-balance-card
           title="Sick Leave"
           subtitle="Medical care"
-          [daysLeft]="5"
-          [usedDays]="2"
-          [totalDays]="7"
+          [daysLeft]="getBalance('sick').allocated - getBalance('sick').used"
+          [usedDays]="getBalance('sick').used"
+          [totalDays]="getBalance('sick').allocated"
           colorClass="danger">
         </app-leave-balance-card>
       </div>
@@ -42,7 +47,7 @@
       </div>
       <div class="content">
         <div class="label">Total Allocated</div>
-        <div class="value">20 Days</div>
+        <div class="value">{{ getAllocatedDays() }} {{ getAllocatedDays() > 1 ? 'Days' : 'Day' }}</div>
       </div>
     </div>
 
@@ -52,14 +57,14 @@
           <ion-icon name="checkmark-circle-outline" class="text-success"></ion-icon>
           <span>USED DAYS</span>
         </div>
-        <div class="stat-value">8 Days</div>
+        <div class="stat-value">{{ getUsedDays() }} {{ getUsedDays() > 1 ? 'Days' : 'Day' }}</div>
       </div>
       <div class="stat-card">
         <div class="stat-header">
           <ion-icon name="time-outline" class="text-warning"></ion-icon>
           <span>PENDING</span>
         </div>
-        <div class="stat-value">0 Days</div>
+        <div class="stat-value">{{ getPendingRequestsCount() }} {{ getPendingRequestsCount() > 1 ? 'Days' : 'Day' }}</div>
       </div>
     </div>
 
@@ -68,22 +73,19 @@
       <div class="view-history" (click)="viewHistory()">View History</div>
     </div>
 
-    <app-leave-request-card
-      month="Feb"
-      day="24"
-      title="Annual Leave"
-      subtitle="Feb 24 - Feb 25 (2 days)"
-      status="pending">
-    </app-leave-request-card>
+    <div *ngIf="requests.length === 0" style="padding: 24px; text-align: center; color: var(--ion-color-medium); background: white; border-radius: 12px; border: 1px dashed var(--ion-color-medium-light);">
+      <ion-icon name="calendar-outline" style="font-size: 32px; margin-bottom: 8px; color: var(--ion-color-medium-light);"></ion-icon>
+      <p style="margin: 0; font-size: 14px;">No leave requests found.</p>
+    </div>
 
     <app-leave-request-card
-      month="Nov"
-      day="01"
-      title="Remote Work"
-      subtitle="Nov 01 (1 day)"
-      status="approved">
+      *ngFor="let req of requests"
+      [month]="formatMonth(req.start_date)"
+      [day]="formatDay(req.start_date)"
+      [title]="capitalize(req.leave_type) + ' Leave'"
+      [subtitle]="formatSubtitle(req)"
+      [status]="req.status">
     </app-leave-request-card>
-
   </div>
 </ion-content>
 

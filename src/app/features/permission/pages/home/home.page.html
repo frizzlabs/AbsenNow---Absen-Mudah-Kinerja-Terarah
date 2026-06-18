@@ -17,7 +17,13 @@
 </ion-header>
 
 <ion-content>
-  <div class="content-wrapper">
+  <!-- Loading spinner -->
+  <div class="text-center" *ngIf="isLoading" style="padding: 40px; text-align: center;">
+    <ion-spinner name="crescent" color="primary"></ion-spinner>
+    <p style="color: var(--ion-color-medium); margin-top: 12px;">Loading permissions...</p>
+  </div>
+
+  <div class="content-wrapper" *ngIf="!isLoading">
     <!-- Stat Cards -->
     <div class="stats-row">
       <div class="stat-card">
@@ -25,111 +31,51 @@
           <ion-icon name="time-outline" color="warning"></ion-icon>
         </div>
         <div class="stat-label">TOTAL HOURS</div>
-        <div class="stat-value">24.5h</div>
+        <div class="stat-value">{{ totalHours }}h</div>
       </div>
       <div class="stat-card">
         <div class="icon-circle success-light">
           <ion-icon name="medal-outline" color="success"></ion-icon>
         </div>
         <div class="stat-label">APPROVED</div>
-        <div class="stat-value">12</div>
+        <div class="stat-value">{{ approvedCount }}</div>
       </div>
     </div>
 
-    <!-- Group: This Month -->
-    <div class="group-title">This Month</div>
-    
-    <div class="list-item">
-      <div class="item-header">
-        <div class="icon-box primary-light">
-          <ion-icon name="document-text-outline" color="primary"></ion-icon>
-        </div>
-        <div class="title-content">
-          <div class="title">Doctor's Appointment</div>
-          <div class="subtitle">Personal Permission</div>
-        </div>
-        <div class="status-badge pending">Pending</div>
-      </div>
-      <div class="item-footer">
-        <div class="footer-col">
-          <div class="footer-label">Date & Time</div>
-          <div class="footer-value">Oct 24 • 09:00 - 11:00</div>
-        </div>
-        <div class="footer-col">
-          <div class="footer-label">Duration</div>
-          <div class="footer-value duration">2 Hours</div>
-        </div>
-      </div>
+    <!-- Empty State -->
+    <div *ngIf="filteredGroups.length === 0" style="padding: 32px; text-align: center; color: var(--ion-color-medium); background: white; border-radius: 12px; margin-top: 16px; border: 1px dashed var(--ion-color-medium-light);">
+      <ion-icon name="document-text-outline" style="font-size: 32px; margin-bottom: 8px; color: var(--ion-color-medium-light);"></ion-icon>
+      <p style="margin: 0; font-size: 14px;">No permissions found.</p>
     </div>
 
-    <div class="list-item">
-      <div class="item-header">
-        <div class="icon-box primary-light">
-          <ion-icon name="document-text-outline" color="primary"></ion-icon>
+    <!-- Group Loop -->
+    <div *ngFor="let group of filteredGroups">
+      <div class="group-title">{{ group.title }}</div>
+      
+      <div class="list-item" *ngFor="let item of group.items">
+        <div class="item-header">
+          <div class="icon-box primary-light">
+            <ion-icon name="document-text-outline" color="primary"></ion-icon>
+          </div>
+          <div class="title-content">
+            <div class="title">{{ item.title }}</div>
+            <div class="subtitle">{{ formatCategory(item.category) }}</div>
+          </div>
+          <div class="status-badge" [ngClass]="item.status.toLowerCase()">
+            {{ formatStatus(item.status) }}
+          </div>
         </div>
-        <div class="title-content">
-          <div class="title">School Pick-up</div>
-          <div class="subtitle">Family Emergency</div>
-        </div>
-        <div class="status-badge approved">Approved</div>
-      </div>
-      <div class="item-footer">
-        <div class="footer-col">
-          <div class="footer-label">Date & Time</div>
-          <div class="footer-value">Oct 18 • 15:00 - 16:30</div>
-        </div>
-        <div class="footer-col">
-          <div class="footer-label">Duration</div>
-          <div class="footer-value duration">1.5 Hours</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Group: September 2023 -->
-    <div class="group-title">September 2023</div>
-
-    <div class="list-item">
-      <div class="item-header">
-        <div class="icon-box primary-light">
-          <ion-icon name="document-text-outline" color="primary"></ion-icon>
-        </div>
-        <div class="title-content">
-          <div class="title">Internet Maintenance</div>
-          <div class="subtitle">House Emergency</div>
-        </div>
-        <div class="status-badge approved">Approved</div>
-      </div>
-      <div class="item-footer">
-        <div class="footer-col">
-          <div class="footer-label">Date & Time</div>
-          <div class="footer-value">Sep 12 • 08:00 - 12:00</div>
-        </div>
-        <div class="footer-col">
-          <div class="footer-label">Duration</div>
-          <div class="footer-value duration">4 Hours</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="list-item">
-      <div class="item-header">
-        <div class="icon-box primary-light">
-          <ion-icon name="document-text-outline" color="primary"></ion-icon>
-        </div>
-        <div class="title-content">
-          <div class="title">Brief Personal Matter</div>
-          <div class="subtitle">Other</div>
-        </div>
-        <div class="status-badge rejected">Rejected</div>
-      </div>
-      <div class="item-footer">
-        <div class="footer-col">
-          <div class="footer-label">Date & Time</div>
-          <div class="footer-value">Sep 05 • 10:00 - 11:00</div>
-        </div>
-        <div class="footer-col">
-          <div class="footer-label">Duration</div>
-          <div class="footer-value duration">1 Hour</div>
+        <div class="item-footer">
+          <div class="footer-col">
+            <div class="footer-label">Date & Time</div>
+            <div class="footer-value">
+              {{ formatDate(item.permission_date) }} &bull; {{ formatTime(item.start_time) }} - {{ formatTime(item.end_time) }}
+            </div>
+          </div>
+          <div class="footer-col">
+            <div class="footer-label">Duration</div>
+            <div class="footer-value duration">{{ formatDuration(item.duration_hours) }}</div>
+          </div>
         </div>
       </div>
     </div>

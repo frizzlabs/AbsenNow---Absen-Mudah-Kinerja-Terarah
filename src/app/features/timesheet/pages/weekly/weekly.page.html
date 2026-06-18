@@ -3,7 +3,7 @@
     <div class="header-content">
       <ion-icon name="chevron-back-outline" class="nav-icon"></ion-icon>
       <div class="date-range">
-        <div class="dates">Feb 22 - Feb 28</div>
+        <div class="dates">{{ headerRange }}</div>
         <div class="subtitle">This Week</div>
       </div>
       <ion-icon name="chevron-forward-outline" class="nav-icon"></ion-icon>
@@ -12,7 +12,7 @@
 
   <div class="segment-container">
     <div class="segment-pill">
-      <div class="segment-btn">Daily</div>
+      <div class="segment-btn" (click)="goDaily()">Daily</div>
       <div class="segment-btn active">Weekly</div>
       <div class="segment-btn" (click)="goMonthly()">Monthly</div>
     </div>
@@ -25,22 +25,22 @@
     <div class="summary-card">
       <div class="summary-top">
         <div class="total-hours">
-          <div class="hours-val">38h 00m</div>
+          <div class="hours-val">{{ totalLogged }}</div>
           <div class="hours-label">Total Logged</div>
         </div>
         <div class="days-logged">
-          <div class="days-val">5 Days</div>
+          <div class="days-val">{{ workDays }} Days</div>
           <div class="days-label">Work week</div>
         </div>
       </div>
-      
+
       <div class="progress-section">
         <div class="progress-labels">
           <span>Weekly Goal</span>
-          <span>38h / 40h</span>
+          <span>{{ goalLabel }}</span>
         </div>
         <div class="progress-bar-bg">
-          <div class="progress-bar-fill" style="width: 95%;"></div>
+          <div class="progress-bar-fill" [style.width.%]="goalPercent"></div>
         </div>
       </div>
     </div>
@@ -52,14 +52,14 @@
           <ion-icon name="calendar-outline"></ion-icon>
           <span>WORK DAYS</span>
         </div>
-        <div class="stat-val">5 Days</div>
+        <div class="stat-val">{{ workDays }} Days</div>
       </div>
       <div class="stat-card">
         <div class="stat-header">
           <ion-icon name="time-outline"></ion-icon>
           <span>AVG DAILY</span>
         </div>
-        <div class="stat-val">8h 30m</div>
+        <div class="stat-val">{{ avgDaily }}</div>
       </div>
     </div>
 
@@ -70,7 +70,7 @@
       </div>
       <div class="ot-content">
         <div class="ot-label">Total Overtime</div>
-        <div class="ot-val">2h 30m</div>
+        <div class="ot-val">{{ overtime }}</div>
       </div>
       <div class="status-badge pending">
         <div class="dot warning"></div>
@@ -78,112 +78,30 @@
       </div>
     </div>
 
-    <!-- Logs Group: Friday -->
-    <div class="log-group">
-      <div class="group-header">
-        <div class="group-date">Friday, Feb 28</div>
-        <div class="group-total">4h 15m Total</div>
-      </div>
-
-      <div class="log-card">
-        <div class="log-header">
-          <div class="log-title">Frontend Development</div>
-          <div class="log-duration">3h 15m</div>
-        </div>
-        <div class="log-subtitle">
-          <div class="dot primary"></div>
-          Karajo HRIS Internal Tools
-        </div>
-        <div class="log-time">
-          <ion-icon name="time-outline"></ion-icon>
-          1:00 PM - 4:15 PM
-        </div>
-      </div>
-
-      <div class="log-card">
-        <div class="log-header">
-          <div class="log-title">Client Meeting</div>
-          <div class="log-duration">1h 00m</div>
-        </div>
-        <div class="log-subtitle">
-          <div class="dot primary"></div>
-          Project Alpha
-        </div>
-        <div class="log-time">
-          <ion-icon name="time-outline"></ion-icon>
-          9:00 AM - 10:00 AM
-        </div>
-      </div>
+    <!-- Empty state -->
+    <div class="text-center" *ngIf="!isLoading && groups.length === 0" style="padding: 32px; color: var(--ion-color-medium);">
+      <p>No activities logged this week.</p>
     </div>
 
-    <!-- Logs Group: Thursday -->
-    <div class="log-group">
+    <!-- Logs Groups -->
+    <div class="log-group" *ngFor="let group of groups; let last = last" [class.pb-24]="last">
       <div class="group-header">
-        <div class="group-date">Thursday, Feb 27</div>
-        <div class="group-total">6h 30m Total</div>
+        <div class="group-date">{{ group.date | date:'EEEE, MMM d' }}</div>
+        <div class="group-total">{{ minsToHm(group.totalMins) }} Total</div>
       </div>
 
-      <div class="log-card">
+      <div class="log-card" *ngFor="let log of group.logs">
         <div class="log-header">
-          <div class="log-title">Sprint Planning</div>
-          <div class="log-duration">3h 30m</div>
+          <div class="log-title">{{ log.title }}</div>
+          <div class="log-duration">{{ minsToHm(log.duration_minutes) }}</div>
         </div>
         <div class="log-subtitle">
-          <div class="dot warning"></div>
-          All Hands
+          <div class="dot {{ log.project_color }}"></div>
+          {{ log.project || '—' }}
         </div>
         <div class="log-time">
           <ion-icon name="time-outline"></ion-icon>
-          1:00 PM - 4:30 PM
-        </div>
-      </div>
-
-      <div class="log-card">
-        <div class="log-header">
-          <div class="log-title">Design System Update</div>
-          <div class="log-duration">2h 15m</div>
-        </div>
-        <div class="log-subtitle">
-          <div class="dot primary"></div>
-          Internal Tools
-        </div>
-        <div class="log-time">
-          <ion-icon name="time-outline"></ion-icon>
-          10:00 AM - 12:15 PM
-        </div>
-      </div>
-
-      <div class="log-card">
-        <div class="log-header">
-          <div class="log-title">Code Review & Merge</div>
-          <div class="log-duration">0h 45m</div>
-        </div>
-        <div class="log-subtitle">
-          <div class="dot purple"></div>
-          Project Y
-        </div>
-        <div class="log-time">
-          <ion-icon name="time-outline"></ion-icon>
-          9:00 AM - 9:45 AM
-        </div>
-      </div>
-    </div>
-
-    <!-- Logs Group: Wednesday -->
-    <div class="log-group pb-24">
-      <div class="group-header">
-        <div class="group-date">Wednesday, Feb 26</div>
-        <div class="group-total">4h 00m Total</div>
-      </div>
-
-      <div class="log-card">
-        <div class="log-header">
-          <div class="log-title">User Testing Session</div>
-          <div class="log-duration">4h 00m</div>
-        </div>
-        <div class="log-subtitle">
-          <div class="dot primary"></div>
-          Project Alpha
+          {{ toAmPm(log.start_time) }} - {{ toAmPm(log.end_time) }}
         </div>
       </div>
     </div>
@@ -196,12 +114,12 @@
         <ion-icon name="send-outline" slot="start"></ion-icon>
         Submit Timesheet
       </ion-button>
-      <ion-button class="add-btn" shape="round" color="primary">
+      <ion-button class="add-btn" shape="round" color="primary" (click)="addActivity()">
         <ion-icon name="add-outline"></ion-icon>
       </ion-button>
     </div>
   </div>
-  
+
 </ion-content>
 
 <app-bottom-nav></app-bottom-nav>

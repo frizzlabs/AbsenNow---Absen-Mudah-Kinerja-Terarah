@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 use App\Models\Attendance;
 use App\Models\Office;
+use App\Models\User;
 use Carbon\Carbon;
 
 class AttendanceController extends Controller
@@ -177,24 +178,124 @@ class AttendanceController extends Controller
         $request->validate([
             'latitude' => 'required|numeric',
             'longitude' => 'required|numeric',
+            'radius_meters' => 'nullable|integer|min:10|max:5000',
+            'name' => 'nullable|string|max:255',
         ]);
 
         $office = Office::first();
-        if ($office) {
-            $office->name = 'Kantor (Lokasi GPS Aktif)';
-            $office->latitude = $request->latitude;
-            $office->longitude = $request->longitude;
-            $office->save();
-
-            return response()->json([
-                'message' => 'Lokasi kantor berhasil diperbarui ke lokasi Anda saat ini.',
-                'office' => $office
-            ]);
+        if (!$office) {
+            $office = new Office();
+            $office->name = 'Kantor';
         }
 
+        if ($request->filled('name')) {
+            $office->name = $request->name;
+        }
+        $office->latitude = $request->latitude;
+        $office->longitude = $request->longitude;
+        if ($request->filled('radius_meters')) {
+            $office->radius_meters = $request->radius_meters;
+        }
+        $office->save();
+
         return response()->json([
-            'message' => 'Office not found.'
-        ], 404);
+            'message' => 'Lokasi kantor berhasil disimpan.',
+            'office' => $office
+        ]);
+    }
+
+    // Supervisor/Manager: ringkasan absensi semua karyawan pada tanggal tertentu
+    public function teamToday(Request $request)
+    {
+        if (!$request->user()->hasPermission('attendance.approve')) {
+            return response()->json(['message' => 'Forbidden'], 403);
+        }
+
+        $date = $request->query('date', Carbon::today()->toDateString());
+        $lateThreshold = '08:00:00';
+
+        $users = User::with(['role', 'attendances' => function ($q) use ($date) {
+            $q->where('date', $date);
+        }])->whereHas('role', fn($q) => $q->where('name', '!=', 'superadmin'))
+          ->orderBy('name')
+          ->get();
+
+        $employees = $users->map(function ($u) use ($lateThreshold) {
+            $att = $u->attendances->first();
+            $attStatus = 'absent';
+            if ($att) {
+                $attStatus = ($att->check_in && $att->check_in > $lateThreshold) ? 'late' : 'present';
+                if ($att->check_out) $attStatus = ($att->check_in > $lateThreshold) ? 'late' : 'present';
+            }
+            return [
+                'id'          => $u->id,
+                'name'        => $u->name,
+                'employee_id' => $u->employee_id,
+                'department'  => $u->department,
+                'job_title'   => $u->job_title,
+                'role'        => $u->role?->name,
+                'attendance'  => $att ? [
+                    'check_in'  => $att->check_in,
+                    'check_out' => $att->check_out,
+                    'status'    => $attStatus,
+                ] : null,
+                'status'      => $attStatus,
+            ];
+        });
+
+        $present = $employees->whereIn('status', ['present'])->count();
+        $late    = $employees->where('status', 'late')->count();
+        $absent  = $employees->where('status', 'absent')->count();
+        $checkedOut = $employees->filter(fn($e) => $e['attendance'] && $e['attendance']['check_out'])->count();
+
+        return response()->json([
+            'date'     => $date,
+            'summary'  => [
+                'total'       => $employees->count(),
+                'present'     => $present,
+                'late'        => $late,
+                'absent'      => $absent,
+                'checked_out' => $checkedOut,
+            ],
+            'employees' => $employees->values(),
+        ]);
+    }
+
+    // Supervisor/Manager: list semua attendance dengan filter tanggal & search nama
+    public function teamList(Request $request)
+    {
+        if (!$request->user()->hasPermission('attendance.approve')) {
+            return response()->json(['message' => 'Forbidden'], 403);
+        }
+
+        $date   = $request->query('date', Carbon::today()->toDateString());
+        $search = $request->query('search', '');
+        $lateThreshold = '08:00:00';
+
+        $query = Attendance::with('user:id,name,employee_id,department,job_title')
+            ->where('date', $date)
+            ->whereHas('user', fn($q) => $q->where('name', 'like', "%{$search}%"))
+            ->orderBy('check_in', 'asc');
+
+        $records = $query->get()->map(function ($a) use ($lateThreshold) {
+            $late = $a->check_in && $a->check_in > $lateThreshold;
+            return [
+                'id'         => $a->id,
+                'date'       => $a->date,
+                'check_in'   => $a->check_in,
+                'check_out'  => $a->check_out,
+                'status'     => $late ? 'late' : $a->status,
+                'user'       => $a->user ? [
+                    'id'          => $a->user->id,
+                    'name'        => $a->user->name,
+                    'employee_id' => $a->user->employee_id,
+                    'department'  => $a->user->department,
+                    'job_title'   => $a->user->job_title,
+                ] : null,
+            ];
+        });
+
+        return response()->json(['date' => $date, 'records' => $records]);
     }
 
     private function calculateDistance($lat1, $lon1, $lat2, $lon2)

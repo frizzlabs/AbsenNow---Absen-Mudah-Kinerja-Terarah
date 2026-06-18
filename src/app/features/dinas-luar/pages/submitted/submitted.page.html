@@ -1,0 +1,33 @@
+<ion-content [fullscreen]="true" class="bg-light">
+  <div class="submitted-container">
+
+    <div class="icon-circle" [class.success]="type === 'ajukan' || geofenceValid !== false"
+                              [class.warning]="type === 'absen' && geofenceValid === false">
+      <ion-icon [name]="type === 'absen' && geofenceValid === false ? 'warning-outline' : 'checkmark-circle-outline'"></ion-icon>
+    </div>
+
+    <h2 class="title">{{ title }}</h2>
+    <p class="subtitle">{{ subtitle }}</p>
+
+    <div class="geofence-badge" *ngIf="type === 'absen' && geofenceValid !== null">
+      <ion-icon [name]="geofenceValid ? 'location-outline' : 'location-outline'"></ion-icon>
+      <span [class.valid]="geofenceValid" [class.invalid]="!geofenceValid">
+        Geofence: {{ geofenceValid ? 'Valid (dalam area)' : 'Di luar area geofence' }}
+      </span>
+    </div>
+
+    <div class="status-pill" *ngIf="type === 'ajukan'">
+      <ion-icon name="time-outline"></ion-icon>
+      <span>Status: Menunggu Persetujuan</span>
+    </div>
+
+    <div class="actions">
+      <app-button variant="primary" styleClass="w-full" (onClick)="goHistory()">
+        Lihat Riwayat Dinas
+      </app-button>
+      <app-button variant="outline" styleClass="w-full" (onClick)="goHome()">
+        Kembali ke Beranda
+      </app-button>
+    </div>
+  </div>
+</ion-content>
