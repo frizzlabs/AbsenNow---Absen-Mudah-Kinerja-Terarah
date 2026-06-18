@@ -5,13 +5,14 @@ import { RouterModule, Router } from '@angular/router';
 import { ExpenseReceiptPreviewComponent } from '../../../../shared/components/expense-receipt-preview/expense-receipt-preview.component';
 import { ExpenseTimelineComponent } from '../../../../shared/components/expense-timeline/expense-timeline.component';
 import { TimelineStep } from '../../../../shared/components/expense-timeline/expense-timeline.models';
+import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
 
 @Component({
   selector: 'app-detail',
   templateUrl: './detail.page.html',
   styleUrls: ['./detail.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, RouterModule, ExpenseReceiptPreviewComponent, ExpenseTimelineComponent]
+  imports: [CommonModule, IonicModule, RouterModule, ExpenseReceiptPreviewComponent, ExpenseTimelineComponent, PageHeaderComponent]
 })
 export class DetailPage implements OnInit {
   timelineSteps: TimelineStep[] = [

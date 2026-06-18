@@ -4,13 +4,14 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule, Router } from '@angular/router';
 import { ExpenseCardComponent } from '../../../../shared/components/expense-card/expense-card.component';
+import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
 
 @Component({
   selector: 'app-history',
   templateUrl: './history.page.html',
   styleUrls: ['./history.page.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, IonicModule, RouterModule, ExpenseCardComponent, CurrencyPipe]
+  imports: [CommonModule, FormsModule, IonicModule, RouterModule, ExpenseCardComponent, CurrencyPipe, PageHeaderComponent]
 })
 export class HistoryPage implements OnInit {
   groups = [

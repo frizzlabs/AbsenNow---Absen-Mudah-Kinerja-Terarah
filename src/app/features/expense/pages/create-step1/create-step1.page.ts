@@ -4,13 +4,14 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule, Router } from '@angular/router';
 import { ExpenseStepperComponent } from '../../../../shared/components/expense-stepper/expense-stepper.component';
+import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
 
 @Component({
   selector: 'app-create-step1',
   templateUrl: './create-step1.page.html',
   styleUrls: ['./create-step1.page.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, IonicModule, RouterModule, ExpenseStepperComponent]
+  imports: [CommonModule, FormsModule, IonicModule, RouterModule, ExpenseStepperComponent, PageHeaderComponent]
 })
 export class CreateStep1Page implements OnInit {
   categories = [

@@ -5,13 +5,14 @@ import { IonicModule } from '@ionic/angular';
 import { RouterModule, Router } from '@angular/router';
 import { ExpenseStatCardComponent } from '../../../../shared/components/expense-stat-card/expense-stat-card.component';
 import { ExpenseCardComponent } from '../../../../shared/components/expense-card/expense-card.component';
+import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
 
 @Component({
   selector: 'app-overview',
   templateUrl: './overview.page.html',
   styleUrls: ['./overview.page.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, IonicModule, RouterModule, ExpenseStatCardComponent, ExpenseCardComponent]
+  imports: [CommonModule, FormsModule, IonicModule, RouterModule, ExpenseStatCardComponent, ExpenseCardComponent, PageHeaderComponent]
 })
 export class OverviewPage implements OnInit {
   currentRequests = [
