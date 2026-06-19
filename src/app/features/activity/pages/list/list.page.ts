@@ -4,12 +4,12 @@ import { IonicModule, ModalController, ToastController, LoadingController } from
 import { Router } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { BottomNavComponent } from '../../../../shared/components/bottom-nav/bottom-nav.component';
-import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
 import { FilterSheetComponent } from '../../components/filter-sheet/filter-sheet.component';
 import { SubmitTimesheetModalComponent } from '../../components/submit-timesheet-modal/submit-timesheet-modal.component';
 import { SubmitSuccessModalComponent } from '../../components/submit-success-modal/submit-success-modal.component';
 import { ActivityService, ActivitySummary } from '../../../../core/services/activity.service';
 import { TimesheetService } from '../../../../core/services/timesheet.service';
+import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
 
 export interface Activity {
   id: number;
@@ -93,7 +93,7 @@ export class ListPage {
       title: a.title,
       durationHours: Math.floor(mins / 60),
       durationMinutes: mins % 60,
-      project: a.project || '—',
+      project: a.project || 'â€”',
       projectColor: a.project_color || 'primary',
       timeRange: `${this.toAmPm(a.start_time)} - ${this.toAmPm(a.end_time)}`,
       date: new Date(a.activity_date)

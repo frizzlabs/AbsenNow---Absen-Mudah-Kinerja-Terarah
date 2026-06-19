@@ -4,7 +4,13 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule, Router } from '@angular/router';
 import { ExpenseCardComponent } from '../../../../shared/components/expense-card/expense-card.component';
+import { ExpenseService } from '../../../../core/services/expense.service';
 import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
+
+interface ExpenseGroup {
+  month: string;
+  items: any[];
+}
 
 @Component({
   selector: 'app-history',
@@ -14,67 +20,151 @@ import { PageHeaderComponent } from '../../../../shared/components/page-header/p
   imports: [CommonModule, FormsModule, IonicModule, RouterModule, ExpenseCardComponent, CurrencyPipe, PageHeaderComponent]
 })
 export class HistoryPage implements OnInit {
-  groups = [
-    {
-      month: 'FEBRUARY 2026',
-      items: [
-        {
-          title: 'Uber to Airport',
-          category: 'Business Trip',
-          date: 'Oct 24',
-          amount: 45.00,
-          status: 'Pending' as any,
-          icon: 'car-outline',
-          iconColor: 'primary' as any
-        },
-        {
-          title: 'Flight to NYC',
-          category: 'Business Trip',
-          date: 'Oct 24',
-          amount: 450.00,
-          status: 'Paid' as any,
-          icon: 'airplane-outline',
-          iconColor: 'primary' as any
-        },
-        {
-          title: 'Client Lunch',
-          category: 'Marketing',
-          date: 'Oct 22',
-          amount: 4250.00,
-          status: 'Paid' as any,
-          icon: 'restaurant-outline',
-          iconColor: 'warning' as any
-        },
-        {
-          title: 'Client Dinner',
-          category: 'Marketing',
-          date: 'Oct 22',
-          amount: 4250.00,
-          status: 'Paid' as any,
-          icon: 'restaurant-outline',
-          iconColor: 'warning' as any
-        }
-      ]
-    },
-    {
-      month: 'JANUARY 2026',
-      items: [
-        {
-          title: 'Uber to Airport',
-          category: 'Business Trip',
-          date: 'Oct 24',
-          amount: 45.00,
-          status: 'Pending' as any,
-          icon: 'car-outline',
-          iconColor: 'primary' as any
-        }
-      ]
-    }
-  ];
+  groups: ExpenseGroup[] = [];
+  isLoading = true;
 
-  constructor(private router: Router) { }
+  pendingTotal = 0;
+  approvedTotal = 0;
+  rejectedTotal = 0;
+
+  constructor(
+    private router: Router,
+    private expenseService: ExpenseService
+  ) { }
 
   ngOnInit() {
+  }
+
+  ionViewWillEnter() {
+    this.loadHistory();
+  }
+
+  loadHistory() {
+    this.isLoading = true;
+    this.expenseService.getRequests().subscribe({
+      next: (requests) => {
+        this.groupExpenses(requests);
+        this.isLoading = false;
+      },
+      error: (err) => {
+        console.error('Failed to load expense history', err);
+        this.isLoading = false;
+      }
+    });
+  }
+
+  groupExpenses(requests: any[]) {
+    const tempGroups: { [key: string]: any[] } = {};
+    
+    this.pendingTotal = 0;
+    this.approvedTotal = 0;
+    this.rejectedTotal = 0;
+
+    requests.forEach(req => {
+      try {
+        const amountNum = parseFloat(req.amount);
+        const lowerStatus = req.status.toLowerCase();
+        
+        if (lowerStatus === 'pending') {
+          this.pendingTotal += amountNum;
+        } else if (lowerStatus === 'approved' || lowerStatus === 'paid') {
+          this.approvedTotal += amountNum;
+        } else if (lowerStatus === 'rejected') {
+          this.rejectedTotal += amountNum;
+        }
+
+        const d = new Date(req.expense_date);
+        const monthName = d.toLocaleDateString('en-US', { month: 'long' }).toUpperCase();
+        const year = d.getFullYear();
+        const key = `${monthName} ${year}`;
+
+        if (!tempGroups[key]) {
+          tempGroups[key] = [];
+        }
+        
+        tempGroups[key].push({
+          id: req.id,
+          title: req.merchant,
+          category: this.getCategoryName(req.category),
+          date: this.formatDate(req.expense_date),
+          amount: amountNum,
+          status: this.formatStatus(req.status),
+          icon: this.getIconName(req.category),
+          iconColor: this.getIconColor(req.category)
+        });
+      } catch (e) {
+        const key = 'OTHER';
+        if (!tempGroups[key]) {
+          tempGroups[key] = [];
+        }
+        tempGroups[key].push(req);
+      }
+    });
+
+    this.groups = Object.keys(tempGroups).map(key => ({
+      month: key,
+      items: tempGroups[key]
+    }));
+  }
+
+  getAmountMain(val: number): number {
+    return Math.floor(val);
+  }
+
+  getAmountCents(val: number): string {
+    const cents = Math.round((val - Math.floor(val)) * 100);
+    return '.' + String(cents).padStart(2, '0');
+  }
+
+  getCategoryName(cat: string): string {
+    const mapping: { [key: string]: string } = {
+      travel: 'Travel & Transportation',
+      meals: 'Meals & Entertainment',
+      office: 'Office Supplies',
+      hotel: 'Accommodation / Hotel',
+      other: 'Other'
+    };
+    return mapping[cat] || cat;
+  }
+
+  getIconName(cat: string): string {
+    const mapping: { [key: string]: string } = {
+      travel: 'car-outline',
+      meals: 'restaurant-outline',
+      office: 'business-outline',
+      hotel: 'bed-outline',
+      other: 'ellipsis-horizontal-outline'
+    };
+    return mapping[cat] || 'ellipsis-horizontal-outline';
+  }
+
+  getIconColor(cat: string): 'primary' | 'warning' | 'danger' | 'success' | 'medium' {
+    const mapping: { [key: string]: 'primary' | 'warning' | 'danger' | 'success' | 'medium' } = {
+      travel: 'primary',
+      meals: 'warning',
+      office: 'primary',
+      hotel: 'success',
+      other: 'medium'
+    };
+    return mapping[cat] || 'medium';
+  }
+
+  formatDate(dateStr: string): string {
+    try {
+      const d = new Date(dateStr);
+      return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    } catch (e) {
+      return dateStr;
+    }
+  }
+
+  formatStatus(status: string): any {
+    if (!status) return 'Pending';
+    const lower = status.toLowerCase();
+    if (lower === 'paid') return 'Paid';
+    if (lower === 'approved') return 'Approved';
+    if (lower === 'rejected') return 'Rejected';
+    return 'Pending';
   }
 
   goBack() {
@@ -82,6 +172,11 @@ export class HistoryPage implements OnInit {
   }
 
   goToCreate() {
+    this.expenseService.resetDraft();
     this.router.navigate(['/expense/create/step-1']);
+  }
+
+  goToDetail(id: number) {
+    this.router.navigate(['/expense/detail'], { queryParams: { id } });
   }
 }

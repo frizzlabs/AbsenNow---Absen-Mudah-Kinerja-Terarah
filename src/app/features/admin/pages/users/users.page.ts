@@ -19,6 +19,7 @@ export class AdminUsersPage {
   isLoading = true;
   savingId: number | null = null;
 
+  // state edit per user
   edit: { [id: number]: { roleId: number | null; position: string } } = {};
 
   constructor(
