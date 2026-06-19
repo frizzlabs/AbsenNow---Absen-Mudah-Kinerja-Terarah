@@ -7,7 +7,9 @@ import { Location } from '@angular/common';
   selector: 'app-page-header',
   template: `
     <div class="header">
-      <ion-icon name="arrow-back-outline" class="back-btn" (click)="goBack()"></ion-icon>
+      <button class="back-btn" (click)="goBack()" type="button">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </button>
       <span class="header-title">{{ title }}</span>
       <ng-content></ng-content>
     </div>
