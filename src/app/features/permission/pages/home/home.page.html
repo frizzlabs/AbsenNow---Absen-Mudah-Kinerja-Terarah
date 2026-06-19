@@ -9,121 +9,60 @@
   </div>
 
   <div class="content-wrapper">
-    <!-- Stat Cards -->
-    <div class="stats-row">
-      <div class="stat-card">
-        <div class="icon-circle warning-light">
-          <ion-icon name="time-outline" color="warning"></ion-icon>
-        </div>
-        <div class="stat-label">TOTAL HOURS</div>
-        <div class="stat-value">24.5h</div>
-      </div>
-      <div class="stat-card">
-        <div class="icon-circle success-light">
-          <ion-icon name="medal-outline" color="success"></ion-icon>
-        </div>
-        <div class="stat-label">APPROVED</div>
-        <div class="stat-value">12</div>
-      </div>
+    <div *ngIf="isLoading" style="display:flex;justify-content:center;padding:32px 0">
+      <ion-spinner name="crescent" color="primary"></ion-spinner>
     </div>
 
-    <!-- Group: This Month -->
-    <div class="group-title">This Month</div>
-    
-    <div class="list-item">
-      <div class="item-header">
-        <div class="icon-box primary-light">
-          <ion-icon name="document-text-outline" color="primary"></ion-icon>
+    <ng-container *ngIf="!isLoading">
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="icon-circle warning-light">
+            <ion-icon name="time-outline" color="warning"></ion-icon>
+          </div>
+          <div class="stat-label">TOTAL HOURS</div>
+          <div class="stat-value">{{ totalHours }}h</div>
         </div>
-        <div class="title-content">
-          <div class="title">Doctor's Appointment</div>
-          <div class="subtitle">Personal Permission</div>
-        </div>
-        <div class="status-badge pending">Pending</div>
-      </div>
-      <div class="item-footer">
-        <div class="footer-col">
-          <div class="footer-label">Date & Time</div>
-          <div class="footer-value">Oct 24 • 09:00 - 11:00</div>
-        </div>
-        <div class="footer-col">
-          <div class="footer-label">Duration</div>
-          <div class="footer-value duration">2 Hours</div>
+        <div class="stat-card">
+          <div class="icon-circle success-light">
+            <ion-icon name="medal-outline" color="success"></ion-icon>
+          </div>
+          <div class="stat-label">APPROVED</div>
+          <div class="stat-value">{{ approvedCount }}</div>
         </div>
       </div>
-    </div>
 
-    <div class="list-item">
-      <div class="item-header">
-        <div class="icon-box primary-light">
-          <ion-icon name="document-text-outline" color="primary"></ion-icon>
-        </div>
-        <div class="title-content">
-          <div class="title">School Pick-up</div>
-          <div class="subtitle">Family Emergency</div>
-        </div>
-        <div class="status-badge approved">Approved</div>
+      <div *ngIf="filteredGroups.length === 0" style="text-align:center;color:#98A2B3;padding:32px 0;font-size:14px">
+        Tidak ada data izin
       </div>
-      <div class="item-footer">
-        <div class="footer-col">
-          <div class="footer-label">Date & Time</div>
-          <div class="footer-value">Oct 18 • 15:00 - 16:30</div>
-        </div>
-        <div class="footer-col">
-          <div class="footer-label">Duration</div>
-          <div class="footer-value duration">1.5 Hours</div>
-        </div>
-      </div>
-    </div>
 
-    <!-- Group: September 2023 -->
-    <div class="group-title">September 2023</div>
-
-    <div class="list-item">
-      <div class="item-header">
-        <div class="icon-box primary-light">
-          <ion-icon name="document-text-outline" color="primary"></ion-icon>
+      <ng-container *ngFor="let group of filteredGroups">
+        <div class="group-title">{{ group.title }}</div>
+        <div class="list-item" *ngFor="let item of group.items">
+          <div class="item-header">
+            <div class="icon-box primary-light">
+              <ion-icon name="document-text-outline" color="primary"></ion-icon>
+            </div>
+            <div class="title-content">
+              <div class="title">{{ item.title }}</div>
+              <div class="subtitle">{{ formatCategory(item.category) }}</div>
+            </div>
+            <div class="status-badge" [class.pending]="item.status === 'pending'" [class.approved]="item.status === 'approved'" [class.rejected]="item.status === 'rejected'">
+              {{ formatStatus(item.status) }}
+            </div>
+          </div>
+          <div class="item-footer">
+            <div class="footer-col">
+              <div class="footer-label">Date & Time</div>
+              <div class="footer-value">{{ formatDate(item.permission_date) }} • {{ formatTime(item.start_time) }} - {{ formatTime(item.end_time) }}</div>
+            </div>
+            <div class="footer-col">
+              <div class="footer-label">Duration</div>
+              <div class="footer-value duration">{{ formatDuration(item.duration_hours) }}</div>
+            </div>
+          </div>
         </div>
-        <div class="title-content">
-          <div class="title">Internet Maintenance</div>
-          <div class="subtitle">House Emergency</div>
-        </div>
-        <div class="status-badge approved">Approved</div>
-      </div>
-      <div class="item-footer">
-        <div class="footer-col">
-          <div class="footer-label">Date & Time</div>
-          <div class="footer-value">Sep 12 • 08:00 - 12:00</div>
-        </div>
-        <div class="footer-col">
-          <div class="footer-label">Duration</div>
-          <div class="footer-value duration">4 Hours</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="list-item">
-      <div class="item-header">
-        <div class="icon-box primary-light">
-          <ion-icon name="document-text-outline" color="primary"></ion-icon>
-        </div>
-        <div class="title-content">
-          <div class="title">Brief Personal Matter</div>
-          <div class="subtitle">Other</div>
-        </div>
-        <div class="status-badge rejected">Rejected</div>
-      </div>
-      <div class="item-footer">
-        <div class="footer-col">
-          <div class="footer-label">Date & Time</div>
-          <div class="footer-value">Sep 05 • 10:00 - 11:00</div>
-        </div>
-        <div class="footer-col">
-          <div class="footer-label">Duration</div>
-          <div class="footer-value duration">1 Hour</div>
-        </div>
-      </div>
-    </div>
+      </ng-container>
+    </ng-container>
   </div>
 </ion-content>
 

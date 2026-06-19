@@ -103,6 +103,10 @@ export class WeeklyPage {
     return goal > 0 ? Math.min(100, Math.round((logged / goal) * 100)) : 0;
   }
 
+  goToActivity(id: number) {
+    this.router.navigate(['/activity/detail'], { queryParams: { id } });
+  }
+
   goMonthly() {
     this.router.navigate(['/timesheet/monthly']);
   }

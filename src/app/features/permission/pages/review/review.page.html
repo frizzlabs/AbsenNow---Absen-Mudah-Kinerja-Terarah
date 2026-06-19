@@ -12,55 +12,54 @@
   </div>
 
   <div class="content-wrapper">
-    <h2 class="page-heading">Fri 20, Feb</h2>
-    <p class="summary-text">
-      Review the details of your request.
-    </p>
+    <h2 class="page-heading">{{ formatDate(draft?.permission_date) }}</h2>
+    <p class="summary-text">Review the details of your request.</p>
 
-    <!-- Time Window Card -->
     <div class="info-card outline">
       <div class="card-header">TIME WINDOW</div>
       <div class="time-content">
         <div class="time-block">
           <div class="time-label">Start</div>
-          <div class="time-value">09:00 AM</div>
+          <div class="time-value">{{ draft?.start_time }}</div>
         </div>
         <div class="time-divider"></div>
         <div class="time-block end">
           <div class="time-label">End</div>
-          <div class="time-value">10:30 AM</div>
+          <div class="time-value">{{ draft?.end_time }}</div>
         </div>
       </div>
     </div>
 
-    <div class="section-title">REASON</div>
-    <p class="reason-text">
-      Medical appointment at City Hospital for an annual check-up. Will be back before lunch break.
-    </p>
+    <div class="section-title">CATEGORY</div>
+    <p class="reason-text">{{ formatCategory(draft?.category) }}</p>
 
-    <div class="section-title">ATTACHMENTS</div>
-    <div class="attachment-card">
-      <div class="icon-circle danger-light">
-        <ion-icon name="document-text-outline" color="danger"></ion-icon>
+    <div class="section-title">REASON</div>
+    <p class="reason-text">{{ draft?.notes || '-' }}</p>
+
+    <ng-container *ngIf="draft?.attachment_name">
+      <div class="section-title">ATTACHMENTS</div>
+      <div class="attachment-card">
+        <div class="icon-circle danger-light">
+          <ion-icon name="document-text-outline" color="danger"></ion-icon>
+        </div>
+        <div class="attachment-content">
+          <div class="filename">{{ draft?.attachment_name }}</div>
+        </div>
+        <ion-icon name="eye-outline" class="view-icon"></ion-icon>
       </div>
-      <div class="attachment-content">
-        <div class="filename">medical_cert.pdf</div>
-        <div class="filesize">1.2 MB • PDF</div>
-      </div>
-      <ion-icon name="eye-outline" class="view-icon"></ion-icon>
-    </div>
+    </ng-container>
   </div>
 </ion-content>
 
 <ion-footer class="ion-no-border">
   <div class="footer-wrapper">
     <div class="checkbox-container">
-      <ion-checkbox></ion-checkbox>
+      <ion-checkbox [(ngModel)]="isChecked"></ion-checkbox>
       <div class="checkbox-label">I confirm these entries are accurate and comply with company policy.</div>
     </div>
-    <ion-button expand="block" shape="round" color="primary" (click)="submitRequest()">
+    <ion-button expand="block" shape="round" color="primary" [disabled]="isSubmitting" (click)="submitRequest()">
       <ion-icon name="send-outline" slot="start"></ion-icon>
-      Submit request
+      {{ isSubmitting ? 'Submitting...' : 'Submit request' }}
     </ion-button>
   </div>
 </ion-footer>

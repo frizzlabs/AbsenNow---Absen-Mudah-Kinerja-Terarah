@@ -2,90 +2,49 @@
   <app-page-header title="Payslips"></app-page-header>
 
   <div class="content-wrapper">
-    <!-- Latest Payslip Card -->
-    <div class="latest-card" (click)="goToDetail()">
-      <div class="latest-label">Latest Pay Period</div>
-      <div class="latest-period">Feb 1 - Feb 28, 2026</div>
-      <div class="latest-amount-row">
-        <div class="amount">$4,250.00</div>
-        <div class="paid-badge">
-          <ion-icon name="checkmark-circle"></ion-icon>
-          <span>Paid</span>
-        </div>
-      </div>
+    <div *ngIf="isLoading" style="display:flex;justify-content:center;padding:48px 0">
+      <ion-spinner name="crescent" color="primary"></ion-spinner>
     </div>
 
-    <!-- History Section -->
-    <div class="section-title">HISTORY</div>
-
-    <div class="history-list">
-      <!-- Item 1 -->
-      <div class="history-card" (click)="goToDetail()">
-        <div class="icon-container primary-light">
-          <ion-icon name="document-text-outline" color="primary"></ion-icon>
-        </div>
-        <div class="card-content">
-          <div class="title-row">
-            <span class="month">February 2026</span>
-            <span class="amount">$4,250.00</span>
-          </div>
-          <div class="subtitle-row">
-            <span class="paid-date">Paid on Feb 01, 2024</span>
-            <span class="status-text success">Paid</span>
-          </div>
-        </div>
+    <ng-container *ngIf="!isLoading">
+      <div *ngIf="payslips.length === 0" style="text-align:center;color:#98A2B3;padding:48px 0;font-size:14px">
+        Belum ada slip gaji
       </div>
 
-      <!-- Item 2 -->
-      <div class="history-card" (click)="goToDetail()">
-        <div class="icon-container primary-light">
-          <ion-icon name="document-text-outline" color="primary"></ion-icon>
-        </div>
-        <div class="card-content">
-          <div class="title-row">
-            <span class="month">January 2026</span>
-            <span class="amount">$4,250.00</span>
-          </div>
-          <div class="subtitle-row">
-            <span class="paid-date">Paid on Jan 01, 2026</span>
-            <span class="status-text success">Paid</span>
+      <ng-container *ngIf="latest">
+        <div class="latest-card" (click)="goToDetail(latest.id)">
+          <div class="latest-label">Latest Pay Period</div>
+          <div class="latest-period">{{ formatPeriod(latest) }}</div>
+          <div class="latest-amount-row">
+            <div class="amount">{{ fmt(latest.net_salary) }}</div>
+            <div class="paid-badge">
+              <ion-icon [name]="latest.status === 'dibayar' ? 'checkmark-circle' : 'time-outline'"></ion-icon>
+              <span>{{ statusLabel(latest.status) }}</span>
+            </div>
           </div>
         </div>
-      </div>
+      </ng-container>
 
-      <!-- Item 3 -->
-      <div class="history-card" (click)="goToDetail()">
-        <div class="icon-container warning-light">
-          <ion-icon name="gift-outline" color="warning"></ion-icon>
-        </div>
-        <div class="card-content">
-          <div class="title-row">
-            <span class="month">Annual Bonus</span>
-            <span class="amount">$1,500.00</span>
-          </div>
-          <div class="subtitle-row">
-            <span class="paid-date">Paid on Dec 20, 2026</span>
-            <span class="status-text success">Paid</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Item 4 -->
-      <div class="history-card" (click)="goToDetail()">
-        <div class="icon-container primary-light">
-          <ion-icon name="document-text-outline" color="primary"></ion-icon>
-        </div>
-        <div class="card-content">
-          <div class="title-row">
-            <span class="month">February 2026</span>
-            <span class="amount">$4,250.00</span>
-          </div>
-          <div class="subtitle-row">
-            <span class="paid-date">Paid on Feb 01, 2024</span>
-            <span class="status-text success">Paid</span>
+      <ng-container *ngIf="history.length > 0">
+        <div class="section-title">HISTORY</div>
+        <div class="history-list">
+          <div class="history-card" *ngFor="let p of history" (click)="goToDetail(p.id)">
+            <div [class]="isBonus(p) ? 'icon-container warning-light' : 'icon-container primary-light'">
+              <ion-icon [name]="isBonus(p) ? 'gift-outline' : 'document-text-outline'" [color]="isBonus(p) ? 'warning' : 'primary'"></ion-icon>
+            </div>
+            <div class="card-content">
+              <div class="title-row">
+                <span class="month">{{ p.period_label }}</span>
+                <span class="amount">{{ fmt(p.net_salary) }}</span>
+              </div>
+              <div class="subtitle-row">
+                <span class="paid-date">{{ formatPaidDate(p.paid_date) }}</span>
+                <span class="status-text" [class.success]="p.status === 'dibayar'" [class.warning]="p.status !== 'dibayar'">{{ statusLabel(p.status) }}</span>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
+      </ng-container>
+    </ng-container>
   </div>
 </ion-content>

@@ -1,47 +1,61 @@
 <ion-content color="light">
   <app-page-header title="Claim Detail"></app-page-header>
   <div class="content-wrapper">
-    
-    <div class="section-title">Expense Data</div>
-    <div class="data-card">
-      <div class="data-row">
-        <div class="label">Merchant</div>
-        <div class="value">The Corner Bistro</div>
-      </div>
-      <div class="data-row">
-        <div class="label">Category</div>
-        <div class="value">Meals & Entertainment</div>
-      </div>
-      <div class="data-row">
-        <div class="label">Date</div>
-        <div class="value">Oct 24, 2026</div>
-      </div>
-      <div class="data-row">
-        <div class="label">Expense ID</div>
-        <div class="value">#EXP-2026-089</div>
-      </div>
-      <div class="data-row">
-        <div class="label">Notes</div>
-        <div class="value">Client lunch with ABC Corp.</div>
-      </div>
+    <div *ngIf="isLoading" style="display:flex;justify-content:center;padding:48px 0">
+      <ion-spinner name="crescent" color="primary"></ion-spinner>
     </div>
 
-    <div class="section-title">Attached Receipt</div>
-    <div class="receipt-wrapper">
-      <app-expense-receipt-preview
-        imageUrl="assets/images/receipt-placeholder.jpg"
-        fileName="Receipt_The Corner Bistro.jpg"
-        fileSize="1.2 MB"
-        [showClose]="false"
-        [showView]="true">
-      </app-expense-receipt-preview>
-    </div>
+    <ng-container *ngIf="!isLoading && expense">
+      <div class="section-title">Expense Data</div>
+      <div class="data-card">
+        <div class="data-row">
+          <div class="label">Merchant</div>
+          <div class="value">{{ expense.merchant }}</div>
+        </div>
+        <div class="data-row">
+          <div class="label">Category</div>
+          <div class="value">{{ getCategoryName(expense.category) }}</div>
+        </div>
+        <div class="data-row">
+          <div class="label">Amount</div>
+          <div class="value">{{ expense.amount | currency:'IDR':'symbol':'1.0-0' }}</div>
+        </div>
+        <div class="data-row">
+          <div class="label">Date</div>
+          <div class="value">{{ getFormattedDate(expense.expense_date) }}</div>
+        </div>
+        <div class="data-row">
+          <div class="label">Expense ID</div>
+          <div class="value">#EXP-{{ expense.id }}</div>
+        </div>
+        <div class="data-row" *ngIf="expense.notes">
+          <div class="label">Notes</div>
+          <div class="value">{{ expense.notes }}</div>
+        </div>
+        <div class="data-row">
+          <div class="label">Status</div>
+          <div class="value">{{ formatStatus(expense.status) }}</div>
+        </div>
+      </div>
 
-    <div class="section-title">Approval Timeline</div>
-    <div class="timeline-wrapper">
-      <app-expense-timeline [steps]="timelineSteps"></app-expense-timeline>
-    </div>
+      <ng-container *ngIf="expense.receipt_path">
+        <div class="section-title">Attached Receipt</div>
+        <div class="receipt-wrapper">
+          <app-expense-receipt-preview
+            [imageUrl]="getReceiptUrl(expense.receipt_path)"
+            [fileName]="getFileName(expense.receipt_path)"
+            [showClose]="false"
+            [showView]="true"
+            (viewClicked)="viewReceipt(getReceiptUrl(expense.receipt_path))">
+          </app-expense-receipt-preview>
+        </div>
+      </ng-container>
 
+      <div class="section-title">Approval Timeline</div>
+      <div class="timeline-wrapper">
+        <app-expense-timeline [steps]="timelineSteps"></app-expense-timeline>
+      </div>
+    </ng-container>
   </div>
 </ion-content>
 
