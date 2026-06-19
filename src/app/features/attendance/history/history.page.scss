@@ -91,6 +91,23 @@ ion-content {
     letter-spacing: 1px;
   }
   
+  .loading-state {
+    display: flex;
+    justify-content: center;
+    padding: 48px 0;
+  }
+
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 48px 0;
+    color: #98A2B3;
+
+    ion-icon { font-size: 48px; margin-bottom: 12px; }
+    p { margin: 0; font-size: 14px; }
+  }
+
   .history-list {
     display: flex;
     flex-direction: column;

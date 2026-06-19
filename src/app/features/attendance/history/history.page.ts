@@ -147,6 +147,31 @@ export class HistoryPage implements OnInit {
     this.navCtrl.back();
   }
 
+  formatSelectedDate(date: Date): string {
+    try {
+      return date.toLocaleDateString('en-US', { weekday: 'short', day: 'numeric', month: 'short' });
+    } catch { return ''; }
+  }
+
+  formatLogDate(dateStr: string): string {
+    try {
+      const d = new Date(dateStr + 'T00:00:00');
+      return d.toLocaleDateString('en-US', { weekday: 'short', day: 'numeric', month: 'short' });
+    } catch { return dateStr; }
+  }
+
+  getStatusColor(status: string): string {
+    if (status === 'late') return 'warning';
+    if (status === 'absent') return 'danger';
+    return 'success';
+  }
+
+  getStatusLabel(status: string): string {
+    if (status === 'late') return 'Late';
+    if (status === 'absent') return 'Absent';
+    return 'On Time';
+  }
+
   calculateDuration(checkIn: string, checkOut: string | null): string {
     if (!checkOut) return '-';
     try {
