@@ -1,5 +1,10 @@
 <ion-content [fullscreen]="true" class="bg-light">
-  <app-page-header title="Koreksi Absensi"></app-page-header>
+  <app-page-header title="Koreksi Absensi">
+    <button class="header-action" (click)="ajukanBaru()" type="button">
+      <ion-icon name="add"></ion-icon>
+      <span>Ajukan</span>
+    </button>
+  </app-page-header>
 
   <!-- Tab bar -->
   <div class="tab-bar">
@@ -13,6 +18,14 @@
     <button class="tab-btn" [class.active]="activeTab === 'mine'" (click)="setTab('mine')">
       {{ canReview ? 'Milik Saya' : 'Pengajuan Saya' }}
     </button>
+  </div>
+
+  <!-- Filter status (hanya tab Pengajuan Saya) -->
+  <div class="filter-chips" *ngIf="activeTab === 'mine'">
+    <button class="chip" [class.active]="statusFilter === ''" (click)="setStatusFilter('')">Semua</button>
+    <button class="chip" [class.active]="statusFilter === 'pending'" (click)="setStatusFilter('pending')">Menunggu</button>
+    <button class="chip" [class.active]="statusFilter === 'approved'" (click)="setStatusFilter('approved')">Disetujui</button>
+    <button class="chip" [class.active]="statusFilter === 'rejected'" (click)="setStatusFilter('rejected')">Ditolak</button>
   </div>
 
   <div class="page-container">
@@ -29,8 +42,7 @@
         <p>Tidak ada koreksi yang menunggu review.</p>
       </div>
 
-      <div *ngFor="let item of pendingItems" class="correction-card">
-        <div class="status-bar pending"></div>
+      <div *ngFor="let item of pendingItems" class="correction-card" (click)="goToDetail(item.id)">
         <div class="card-body">
           <div class="card-top">
             <div>
@@ -77,8 +89,7 @@
         <p>Belum ada koreksi yang Anda review.</p>
       </div>
 
-      <div *ngFor="let item of reviewedItems" class="correction-card">
-        <div class="status-bar" [class]="item.status"></div>
+      <div *ngFor="let item of reviewedItems" class="correction-card" (click)="goToDetail(item.id)">
         <div class="card-body">
           <div class="card-top">
             <div>
@@ -117,12 +128,12 @@
     <ng-container *ngIf="activeTab === 'mine' && !isLoading">
       <div *ngIf="myItems.length === 0" class="empty-state">
         <ion-icon name="document-outline"></ion-icon>
-        <p>Belum ada pengajuan koreksi absensi.</p>
-        <ion-button fill="outline" size="small" (click)="ajukanBaru()">Ajukan Sekarang</ion-button>
+        <p *ngIf="statusFilter === ''">Belum ada pengajuan koreksi absensi.</p>
+        <p *ngIf="statusFilter !== ''">Tidak ada koreksi dengan status ini.</p>
+        <ion-button fill="outline" size="small" (click)="ajukanBaru()" *ngIf="statusFilter === ''">Ajukan Sekarang</ion-button>
       </div>
 
-      <div *ngFor="let item of myItems" class="correction-card">
-        <div class="status-bar" [class]="item.status"></div>
+      <div *ngFor="let item of myItems" class="correction-card" (click)="goToDetail(item.id)">
         <div class="card-body">
           <div class="card-top">
             <div>
@@ -158,13 +169,12 @@
         </div>
       </div>
 
-      <div class="add-btn-wrap" *ngIf="myItems.length > 0">
-        <ion-button expand="block" fill="outline" (click)="ajukanBaru()">
-          <ion-icon name="add-circle-outline" slot="start"></ion-icon>
-          Ajukan Koreksi Baru
-        </ion-button>
-      </div>
     </ng-container>
 
   </div>
+
+  <!-- Infinite scroll untuk Pengajuan Saya -->
+  <ion-infinite-scroll *ngIf="activeTab === 'mine'" [disabled]="!canLoadMore" (ionInfinite)="loadMore($event)">
+    <ion-infinite-scroll-content loadingSpinner="crescent" loadingText="Memuat lainnya..."></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>

@@ -20,6 +20,12 @@ export class CorrectionHistoryPage {
   myItems: any[] = [];
   isLoading = true;
 
+  // ── "Pengajuan Saya": filter + pagination ──
+  statusFilter: '' | 'pending' | 'approved' | 'rejected' = '';
+  currentPage = 1;
+  lastPage = 1;
+  total = 0;
+
   constructor(
     private correctionService: CorrectionService,
     private roleService: RoleService,
@@ -38,11 +44,7 @@ export class CorrectionHistoryPage {
   }
 
   load() {
-    this.isLoading = true;
-    this.correctionService.getCorrections().subscribe({
-      next: (data) => { this.myItems = data; this.isLoading = false; },
-      error: () => { this.isLoading = false; }
-    });
+    this.loadMine(true);
 
     if (this.canReview) {
       this.correctionService.getPendingReview().subscribe({
@@ -52,6 +54,47 @@ export class CorrectionHistoryPage {
         next: (data) => { this.reviewedItems = data; }
       });
     }
+  }
+
+  // Load page 1 (reset) atau halaman berikutnya (append)
+  private loadMine(reset: boolean) {
+    if (reset) {
+      this.currentPage = 1;
+      this.myItems = [];
+      this.isLoading = true;
+    }
+    this.correctionService.getCorrections(this.currentPage, this.statusFilter).subscribe({
+      next: (res) => {
+        const items = res?.data ?? [];
+        this.myItems = reset ? items : [...this.myItems, ...items];
+        this.currentPage = res?.current_page ?? 1;
+        this.lastPage = res?.last_page ?? 1;
+        this.total = res?.total ?? this.myItems.length;
+        this.isLoading = false;
+      },
+      error: () => { this.isLoading = false; }
+    });
+  }
+
+  get canLoadMore(): boolean { return this.currentPage < this.lastPage; }
+
+  setStatusFilter(status: '' | 'pending' | 'approved' | 'rejected') {
+    if (this.statusFilter === status) return;
+    this.statusFilter = status;
+    this.loadMine(true);
+  }
+
+  loadMore(ev: any) {
+    if (!this.canLoadMore) { ev.target.complete(); return; }
+    this.currentPage++;
+    this.correctionService.getCorrections(this.currentPage, this.statusFilter).subscribe({
+      next: (res) => {
+        this.myItems = [...this.myItems, ...(res?.data ?? [])];
+        this.lastPage = res?.last_page ?? this.lastPage;
+        ev.target.complete();
+      },
+      error: () => { this.currentPage--; ev.target.complete(); }
+    });
   }
 
   setTab(tab: 'pending' | 'reviewed' | 'mine') { this.activeTab = tab; }
@@ -109,6 +152,10 @@ export class CorrectionHistoryPage {
   formatAt(iso: string): string {
     if (!iso) return '-';
     return new Date(iso).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+  }
+
+  goToDetail(id: number) {
+    this.router.navigate(['/attendance/correction/detail'], { queryParams: { id } });
   }
 
   ajukanBaru() { this.router.navigate(['/attendance/correction/reason']); }

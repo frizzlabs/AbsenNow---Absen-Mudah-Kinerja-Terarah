@@ -34,6 +34,35 @@
   text-align: center;
 }
 
+.filter-chips {
+  display: flex;
+  gap: 8px;
+  padding: 12px 16px 4px;
+  background: #fff;
+  overflow-x: auto;
+  scrollbar-width: none;
+  &::-webkit-scrollbar { display: none; }
+}
+
+.chip {
+  flex-shrink: 0;
+  padding: 7px 16px;
+  border-radius: 100px;
+  border: 1.5px solid #e2e8f0;
+  background: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  color: #64748b;
+  cursor: pointer;
+  transition: background-color .15s, border-color .15s, color .15s;
+  &.active {
+    background: #1B59F8;
+    border-color: #1B59F8;
+    color: #fff;
+  }
+  &:active { transform: scale(0.97); }
+}
+
 .page-container {
   padding: 16px;
   padding-bottom: 40px;
@@ -60,20 +89,10 @@
   border-radius: 14px;
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-  display: flex;
-}
-
-.status-bar {
-  width: 5px;
-  flex-shrink: 0;
-  &.pending  { background: #f59e0b; }
-  &.approved { background: #10b981; }
-  &.rejected { background: #ef4444; }
 }
 
 .card-body {
-  flex: 1;
-  padding: 14px 14px 14px 12px;
+  padding: 14px;
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -198,4 +217,22 @@
   }
 }
 
-.add-btn-wrap { margin-top: 4px; }
+.header-action {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-right: 16px;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 100px;
+  background: #1B59F8;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(27, 89, 248, 0.30);
+  transition: transform .1s, opacity .15s;
+  ion-icon { font-size: 18px; }
+  &:active { transform: scale(0.96); opacity: 0.9; }
+}

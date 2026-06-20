@@ -71,6 +71,8 @@
     cursor: grab;
     transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     touch-action: none;
+    will-change: transform;
+    backface-visibility: hidden;
     
     ion-icon {
       color: white;

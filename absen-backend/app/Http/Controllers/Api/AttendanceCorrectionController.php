@@ -10,17 +10,24 @@ use Carbon\Carbon;
 
 class AttendanceCorrectionController extends Controller
 {
-    // Pegawai: list koreksi milik sendiri
+    // Pegawai: list koreksi milik sendiri (paginated + filter status)
     public function index(Request $request)
     {
         $user = $request->user();
-        $corrections = AttendanceCorrection::where('user_id', $user->id)
+        $query = AttendanceCorrection::where('user_id', $user->id)
             ->with('reviewer:id,name')
             ->orderByDesc('correction_date')
-            ->get()
-            ->map(fn($c) => $this->format($c));
+            ->orderByDesc('id');
 
-        return response()->json($corrections);
+        if (in_array($request->status, ['pending', 'approved', 'rejected'], true)) {
+            $query->where('status', $request->status);
+        }
+
+        $perPage = (int) $request->input('per_page', 15);
+        $paginated = $query->paginate($perPage);
+        $paginated->getCollection()->transform(fn($c) => $this->format($c));
+
+        return response()->json($paginated);
     }
 
     // Pegawai: detail satu koreksi

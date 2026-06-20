@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, Output, ViewChild, HostListener } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild, NgZone, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 
@@ -9,20 +9,30 @@ import { IonicModule } from '@ionic/angular';
   standalone: true,
   imports: [CommonModule, IonicModule]
 })
-export class SwipeButtonComponent {
+export class SwipeButtonComponent implements OnDestroy {
   @Input() text: string = 'Slide to Check In';
   @Input() icon: string = 'log-in-outline';
   @Input() variant: 'primary' | 'danger' = 'primary';
   @Output() swipeComplete = new EventEmitter<void>();
 
-  @ViewChild('container') containerRef!: ElementRef;
-  @ViewChild('handle') handleRef!: ElementRef;
+  @ViewChild('container') containerRef!: ElementRef<HTMLElement>;
+  @ViewChild('handle') handleRef!: ElementRef<HTMLElement>;
+  @ViewChild('btnText') textRef!: ElementRef<HTMLElement>;
 
   isDragging = false;
-  startX = 0;
-  currentX = 0;
-  maxX = 0;
   isCompleted = false;
+  currentX = 0;
+
+  private startX = 0;
+  private maxX = 0;
+  private pendingX = 0;
+  private rafId: number | null = null;
+
+  // Stable references so we can remove the listeners we add on start
+  private readonly moveListener = (e: MouseEvent | TouchEvent) => this.onMove(e);
+  private readonly endListener = () => this.onEnd();
+
+  constructor(private zone: NgZone) {}
 
   get textOpacity(): number {
     if (this.maxX === 0) return 1;
@@ -35,50 +45,89 @@ export class SwipeButtonComponent {
     if (this.isCompleted) return;
     this.isDragging = true;
     this.startX = this.getClientX(event);
-    
+
     // Calculate boundaries
-    const containerWidth = this.containerRef.nativeElement.offsetWidth;
-    const handleWidth = this.handleRef.nativeElement.offsetWidth;
-    const computedStyle = getComputedStyle(this.containerRef.nativeElement);
+    const containerEl = this.containerRef.nativeElement;
+    const handleEl = this.handleRef.nativeElement;
+    const computedStyle = getComputedStyle(containerEl);
     const paddingLeft = parseFloat(computedStyle.paddingLeft) || 0;
     const paddingRight = parseFloat(computedStyle.paddingRight) || 0;
-    
-    this.maxX = containerWidth - handleWidth - paddingLeft - paddingRight;
+    this.maxX = containerEl.offsetWidth - handleEl.offsetWidth - paddingLeft - paddingRight;
+
+    // Drive the drag OUTSIDE Angular so per-frame moves don't trigger
+    // change detection on the whole page (the cause of the jank on device).
+    this.zone.runOutsideAngular(() => {
+      document.addEventListener('mousemove', this.moveListener);
+      document.addEventListener('touchmove', this.moveListener, { passive: false });
+      document.addEventListener('mouseup', this.endListener);
+      document.addEventListener('touchend', this.endListener);
+    });
   }
 
-  @HostListener('document:mousemove', ['$event'])
-  @HostListener('document:touchmove', ['$event'])
-  onMove(event: MouseEvent | TouchEvent) {
+  private onMove(event: MouseEvent | TouchEvent) {
     if (!this.isDragging || this.isCompleted) return;
-    
+    // Stop the page from scrolling/rubber-banding while dragging
+    if (event.type === 'touchmove' && event.cancelable) event.preventDefault();
+
     const clientX = this.getClientX(event);
     const deltaX = clientX - this.startX;
-    
-    // Clamp between 0 and maxX
-    this.currentX = Math.max(0, Math.min(deltaX, this.maxX));
+    this.pendingX = Math.max(0, Math.min(deltaX, this.maxX));
+
+    // Coalesce to one DOM write per frame, written directly (no change detection)
+    if (this.rafId === null) {
+      this.rafId = requestAnimationFrame(() => {
+        this.rafId = null;
+        this.currentX = this.pendingX;
+        this.handleRef.nativeElement.style.transform = `translateX(${this.currentX}px)`;
+        this.textRef.nativeElement.style.opacity = String(this.textOpacity);
+      });
+    }
   }
 
-  @HostListener('document:mouseup')
-  @HostListener('document:touchend')
-  onEnd() {
+  private onEnd() {
     if (!this.isDragging || this.isCompleted) return;
-    this.isDragging = false;
 
-    // Check threshold (90%)
-    const threshold = this.maxX * 0.9;
-    
-    if (this.currentX >= threshold) {
-      this.currentX = this.maxX; // Snap to end
-      this.isCompleted = true;
-      this.swipeComplete.emit();
-    } else {
-      this.currentX = 0; // Snap back to start
+    this.detachListeners();
+    if (this.rafId !== null) {
+      cancelAnimationFrame(this.rafId);
+      this.rafId = null;
     }
+    this.currentX = this.pendingX;
+
+    const threshold = this.maxX * 0.9;
+    const completed = this.currentX >= threshold;
+
+    // Re-enter Angular to finalize state and let the CSS snap transition run via bindings
+    this.zone.run(() => {
+      this.isDragging = false;
+      if (completed) {
+        this.currentX = this.maxX; // Snap to end
+        this.isCompleted = true;
+        this.swipeComplete.emit();
+      } else {
+        this.currentX = 0; // Snap back to start
+      }
+      // Hand styling back to the template bindings for the animated snap
+      this.handleRef.nativeElement.style.transform = '';
+      this.textRef.nativeElement.style.opacity = '';
+    });
+  }
+
+  private detachListeners() {
+    document.removeEventListener('mousemove', this.moveListener);
+    document.removeEventListener('touchmove', this.moveListener);
+    document.removeEventListener('mouseup', this.endListener);
+    document.removeEventListener('touchend', this.endListener);
+  }
+
+  ngOnDestroy() {
+    this.detachListeners();
+    if (this.rafId !== null) cancelAnimationFrame(this.rafId);
   }
 
   private getClientX(event: MouseEvent | TouchEvent): number {
     if (window.TouchEvent && event instanceof TouchEvent) {
-      return event.touches[0]?.clientX || event.changedTouches[0]?.clientX;
+      return event.touches[0]?.clientX ?? event.changedTouches[0]?.clientX;
     }
     return (event as MouseEvent).clientX;
   }

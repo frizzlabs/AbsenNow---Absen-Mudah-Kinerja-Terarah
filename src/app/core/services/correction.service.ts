@@ -50,9 +50,13 @@ export class CorrectionService {
 
   resetDraft() { this.draft = this.emptyDraft(); }
 
-  // Pegawai
-  getCorrections(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/attendance/corrections`, { headers: this.headers() });
+  // Pegawai — paginated list, optional status filter ('' = semua)
+  getCorrections(page = 1, status = '', perPage = 15): Observable<any> {
+    const params = new URLSearchParams();
+    params.set('page', String(page));
+    params.set('per_page', String(perPage));
+    if (status) params.set('status', status);
+    return this.http.get<any>(`${this.apiUrl}/attendance/corrections?${params.toString()}`, { headers: this.headers() });
   }
 
   getCorrection(id: number | string): Observable<any> {

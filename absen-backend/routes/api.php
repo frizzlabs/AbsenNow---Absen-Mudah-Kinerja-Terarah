@@ -42,6 +42,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/attendance/history', [AttendanceController::class, 'history']);
     Route::get('/attendance/team/today', [AttendanceController::class, 'teamToday']);
     Route::get('/attendance/team/list', [AttendanceController::class, 'teamList']);
+    Route::get('/attendance/{id}', [AttendanceController::class, 'show'])->whereNumber('id');
 
     // Leave Endpoints
     Route::get('/leave/balances', [LeaveController::class, 'balances']);

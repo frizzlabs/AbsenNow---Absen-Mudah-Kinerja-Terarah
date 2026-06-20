@@ -60,11 +60,197 @@ $karajo-text-secondary: #64748B;
 // Alignment Utility Classes
 .text-center { text-align: center; }
 
-// Alert dialog — tombol Keluar berwarna merah
-.alert-btn-danger {
-  color: #ef4444 !important;
-  font-weight: 600 !important;
+// ── Premium Alert Dialog ─────────────────────────────────────────
+.sc-ion-alert-ios-h, .sc-ion-alert-md-h {
+  --backdrop-opacity: 0.55 !important;
 }
-.alert-btn-cancel {
-  color: #64748b !important;
+
+ion-alert {
+  --background: #ffffff;
+
+  .alert-wrapper {
+    border-radius: 24px !important;
+    overflow: hidden !important;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.18), 0 4px 16px rgba(0,0,0,0.08) !important;
+    min-width: 300px !important;
+  }
+
+  // ── Header ───────────────────────────────────────────────────
+  .alert-head {
+    padding: 28px 24px 0 !important;
+    text-align: left !important;
+  }
+
+  .alert-title {
+    font-family: 'Manrope', sans-serif !important;
+    font-size: 19px !important;
+    font-weight: 800 !important;
+    color: #0f172a !important;
+    letter-spacing: -0.3px !important;
+  }
+
+  // ── Message ──────────────────────────────────────────────────
+  .alert-message {
+    font-family: 'Manrope', sans-serif !important;
+    font-size: 14px !important;
+    color: #64748b !important;
+    line-height: 1.6 !important;
+    text-align: left !important;
+    padding: 8px 24px 4px !important;
+  }
+
+  // ── Input field ──────────────────────────────────────────────
+  .alert-input-group {
+    padding: 12px 24px 4px !important;
+
+    .alert-input {
+      border: 1.5px solid #e2e8f0 !important;
+      border-radius: 14px !important;
+      padding: 13px 16px !important;
+      font-size: 14px !important;
+      font-family: 'Manrope', sans-serif !important;
+      color: #0f172a !important;
+      background: #f8fafc !important;
+      box-shadow: none !important;
+      outline: none !important;
+      transition: border-color 0.2s, box-shadow 0.2s !important;
+
+      &::placeholder {
+        color: #94a3b8 !important;
+        font-weight: 400 !important;
+      }
+
+      &:focus {
+        border-color: #1B59F8 !important;
+        background: #fff !important;
+        box-shadow: 0 0 0 3px rgba(27, 89, 248, 0.10) !important;
+      }
+    }
+
+    textarea.alert-input {
+      min-height: 90px !important;
+      resize: none !important;
+      line-height: 1.5 !important;
+    }
+  }
+
+  // ── Button group ─────────────────────────────────────────────
+  .alert-button-group {
+    flex-direction: row !important;
+    display: flex !important;
+    padding: 16px 20px 20px !important;
+    gap: 10px !important;
+
+    button.alert-button {
+      flex: 1 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      font-family: 'Manrope', sans-serif !important;
+      font-size: 14px !important;
+      font-weight: 700 !important;
+      text-transform: none !important;
+      letter-spacing: normal !important;
+      border-radius: 14px !important;
+      margin: 0 !important;
+      height: 48px !important;
+      min-height: 48px !important;
+      padding: 0 !important;
+      transition: opacity 0.15s, transform 0.1s !important;
+      border: none !important;
+
+      &:active { opacity: 0.85 !important; transform: scale(0.98) !important; }
+
+      // Ionic wraps button text in an inner span — center it too
+      .alert-button-inner {
+        flex: initial !important;
+        justify-content: center !important;
+        margin: 0 !important;
+      }
+
+      // ── Cancel: subtle ghost ──────────────────────────────────
+      &.alert-button-role-cancel {
+        background: #f1f5f9 !important;
+        color: #475569 !important;
+      }
+
+      // ── Approve / success: solid blue ─────────────────────────
+      &.alert-btn-success {
+        background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%) !important;
+        color: #ffffff !important;
+        box-shadow: 0 4px 12px rgba(34, 197, 94, 0.35) !important;
+      }
+
+      // ── Danger / reject: solid red ────────────────────────────
+      &.alert-btn-danger, &.alert-danger {
+        background: linear-gradient(135deg, #f87171 0%, #dc2626 100%) !important;
+        color: #ffffff !important;
+        box-shadow: 0 4px 12px rgba(220, 38, 38, 0.30) !important;
+      }
+
+      // ── Default confirm: solid brand blue ─────────────────────
+      &:not(.alert-button-role-cancel):not(.alert-btn-success):not(.alert-btn-danger):not(.alert-danger) {
+        background: linear-gradient(135deg, #3b82f6 0%, #1B59F8 100%) !important;
+        color: #ffffff !important;
+        box-shadow: 0 4px 12px rgba(27, 89, 248, 0.35) !important;
+      }
+    }
+  }
 }
+
+// ── Confirmation dialog with icon badge ──────────────────────────
+// Opt-in variant: pass cssClass "app-confirm app-confirm--approve"
+// (or "--reject") to AlertController for a focused, icon-led layout.
+ion-alert.app-confirm {
+  .alert-wrapper {
+    max-width: 330px !important;
+  }
+
+  // Centred, focused header
+  .alert-head {
+    text-align: center !important;
+    padding: 28px 24px 0 !important;
+  }
+
+  // Icon badge — squircle with soft halo, set per-variant below
+  .alert-head::before {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 60px;
+    margin: 2px auto 18px;
+    border-radius: 18px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 30px 30px;
+  }
+
+  .alert-title {
+    font-size: 20px !important;
+  }
+
+  .alert-message {
+    text-align: center !important;
+    padding: 10px 26px 4px !important;
+  }
+
+  // Slightly roomier input so the optional note feels intentional
+  .alert-input-group {
+    padding: 16px 24px 4px !important;
+  }
+}
+
+// Approve — emerald check
+ion-alert.app-confirm--approve .alert-head::before {
+  background-color: rgba(34, 197, 94, 0.12);
+  box-shadow: 0 0 0 6px rgba(34, 197, 94, 0.06);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 24 24' fill='none' stroke='%2316a34a' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+}
+
+// Reject — red cross
+ion-alert.app-confirm--reject .alert-head::before {
+  background-color: rgba(220, 38, 38, 0.10);
+  box-shadow: 0 0 0 6px rgba(220, 38, 38, 0.05);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 24 24' fill='none' stroke='%23dc2626' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='18' y1='6' x2='6' y2='18'/%3E%3Cline x1='6' y1='6' x2='18' y2='18'/%3E%3C/svg%3E");
+}
+

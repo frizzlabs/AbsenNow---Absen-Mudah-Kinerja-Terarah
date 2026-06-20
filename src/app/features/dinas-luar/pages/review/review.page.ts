@@ -63,12 +63,13 @@ export class DinasReviewPage implements OnInit {
 
   async approve(item: any) {
     const alert = await this.alertCtrl.create({
+      cssClass: 'app-confirm app-confirm--approve',
       header: 'Setujui Dinas?',
       message: `Setujui pengajuan dinas "${item.location_name}" dari ${item.user?.name}?`,
       inputs: [{ name: 'note', type: 'text', placeholder: 'Catatan (opsional)' }],
       buttons: [
         { text: 'Batal', role: 'cancel' },
-        { text: 'Setujui', handler: (data) => { this.doReview(item.id, 'approved', data.note || ''); } }
+        { text: 'Setujui', cssClass: 'alert-btn-success', handler: (data) => { this.doReview(item.id, 'approved', data.note || ''); } }
       ]
     });
     await alert.present();
@@ -76,6 +77,7 @@ export class DinasReviewPage implements OnInit {
 
   async reject(item: any) {
     const alert = await this.alertCtrl.create({
+      cssClass: 'app-confirm app-confirm--reject',
       header: 'Tolak Dinas?',
       message: `Tolak pengajuan dinas "${item.location_name}" dari ${item.user?.name}?`,
       inputs: [{ name: 'note', type: 'text', placeholder: 'Alasan penolakan' }],
