@@ -38,6 +38,44 @@ class AdminUserController extends Controller
     }
 
     /**
+     * Buat pengguna baru di organisasi yang sedang aktif.
+     */
+    public function store(Request $request)
+    {
+        $this->authorizeManage($request);
+        $orgId = app(TenantContext::class)->id();
+
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:users,email',
+            'password' => 'required|string|min:8',
+            'role_id' => 'nullable|exists:roles,id',
+            'department' => 'nullable|string|max:255',
+            'position' => 'nullable|string|max:255',
+            'employee_id' => 'nullable|string|max:255',
+        ]);
+
+        // Role harus milik organisasi ini
+        if (!empty($data['role_id']) && $orgId) {
+            $roleOk = Role::where('id', $data['role_id'])->where('organization_id', $orgId)->exists();
+            abort_unless($roleOk, 422, 'Role tidak valid untuk instansi ini.');
+        }
+
+        $user = User::create([
+            'organization_id' => $orgId,
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => bcrypt($data['password']),
+            'role_id' => $data['role_id'] ?? null,
+            'department' => $data['department'] ?? null,
+            'position' => $data['position'] ?? null,
+            'employee_id' => $data['employee_id'] ?? null,
+        ]);
+
+        return response()->json(['message' => 'Pengguna dibuat.', 'user' => $user->load('role')], 201);
+    }
+
+    /**
      * Set role + posisi untuk seorang user.
      */
     public function updateRole(Request $request, $id)
