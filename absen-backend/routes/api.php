@@ -28,6 +28,9 @@ Route::post('/forgot-password', [AuthController::class, 'forgotPassword'])->midd
 Route::post('/forgot-password/verify-otp', [AuthController::class, 'verifyPasswordResetOtp'])->middleware('throttle:5,1');
 Route::post('/forgot-password/reset', [AuthController::class, 'resetPassword'])->middleware('throttle:5,1');
 
+// Public tenant branding (web subdomain resolves nama/logo Pemda sebelum login)
+Route::get('/tenant/{code}', [\App\Http\Controllers\Api\TenantController::class, 'show']);
+
 Route::middleware(['auth:sanctum', 'tenant'])->group(function () {
     Route::post('/save-pin', [AuthController::class, 'savePin']);
     Route::get('/user', function (Request $request) {
