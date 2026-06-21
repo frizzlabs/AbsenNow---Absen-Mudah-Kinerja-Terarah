@@ -76,6 +76,45 @@ class AdminUserController extends Controller
     }
 
     /**
+     * Impor pengguna massal dari CSV (header: name,email,department,position,role).
+     * `role` = nama role dalam organisasi ini. Password default: "password".
+     */
+    public function import(Request $request)
+    {
+        $this->authorizeManage($request);
+        $orgId = app(TenantContext::class)->id();
+
+        $request->validate(['file' => 'required|file|mimes:csv,txt|max:2048']);
+
+        $rows = array_map('str_getcsv', file($request->file('file')->getRealPath(), FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES));
+        $header = array_map('trim', array_shift($rows) ?: []);
+
+        $roleIdByName = Role::when($orgId, fn ($q) => $q->where('organization_id', $orgId))->pluck('id', 'name');
+
+        $imported = 0;
+        $skipped = [];
+        foreach ($rows as $row) {
+            $data = array_combine($header, array_map('trim', $row));
+            if (empty($data['email']) || User::where('email', $data['email'])->exists()) {
+                $skipped[] = $data['email'] ?? '(kosong)';
+                continue;
+            }
+            User::create([
+                'organization_id' => $orgId,
+                'name' => $data['name'] ?? $data['email'],
+                'email' => $data['email'],
+                'password' => bcrypt('password'),
+                'department' => $data['department'] ?? null,
+                'position' => $data['position'] ?? null,
+                'role_id' => $roleIdByName[$data['role'] ?? ''] ?? null,
+            ]);
+            $imported++;
+        }
+
+        return response()->json(['message' => 'Import selesai.', 'imported' => $imported, 'skipped' => $skipped]);
+    }
+
+    /**
      * Set role + posisi untuk seorang user.
      */
     public function updateRole(Request $request, $id)
