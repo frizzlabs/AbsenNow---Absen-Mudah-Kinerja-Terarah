@@ -13,6 +13,7 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 #[Fillable([
+    'organization_id',
     'name', 'email', 'password', 'otp', 'otp_expires_at', 'otp_attempts', 'password_reset_token', 'password_reset_expires_at', 'device_pin',
     'employee_id', 'job_title', 'department', 'date_of_birth', 'gender',
     'phone', 'personal_email', 'address',
@@ -67,6 +68,17 @@ class User extends Authenticatable
     public function role(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Role::class);
+    }
+
+    public function organization(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Organization::class);
+    }
+
+    public function isPlatformSuperadmin(): bool
+    {
+        return $this->organization_id === null
+            && $this->role && $this->role->name === 'platform_superadmin';
     }
 
     public function isSuperadmin(): bool
