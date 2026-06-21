@@ -104,9 +104,20 @@ Route::middleware(['auth:sanctum', 'tenant'])->group(function () {
     Route::get('/roles/{id}', [RoleController::class, 'show']);
     Route::put('/roles/{id}/permissions', [RoleController::class, 'updatePermissions']);
 
+    // Platform super-admin: Organizations (Pemda) management
+    Route::get('/admin/organizations', [\App\Http\Controllers\Api\OrganizationController::class, 'index']);
+    Route::post('/admin/organizations', [\App\Http\Controllers\Api\OrganizationController::class, 'store']);
+    Route::put('/admin/organizations/{id}', [\App\Http\Controllers\Api\OrganizationController::class, 'update']);
+
     // Admin: User management
     Route::get('/admin/users', [AdminUserController::class, 'index']);
+    Route::post('/admin/users', [AdminUserController::class, 'store']);
+    Route::post('/admin/users/import', [AdminUserController::class, 'import']);
     Route::put('/admin/users/{id}/role', [AdminUserController::class, 'updateRole']);
+
+    // Admin: Office management (org-scoped)
+    Route::post('/offices', [\App\Http\Controllers\Api\OfficeController::class, 'store']);
+    Route::put('/offices/{id}', [\App\Http\Controllers\Api\OfficeController::class, 'update']);
 
     // Attendance Correction (Koreksi / Lupa Absen)
     Route::get('/attendance/corrections', [AttendanceCorrectionController::class, 'index']);
