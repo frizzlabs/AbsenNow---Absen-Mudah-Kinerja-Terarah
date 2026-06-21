@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Role;
+use App\Support\TenantContext;
 
 class AdminUserController extends Controller
 {
@@ -18,7 +19,10 @@ class AdminUserController extends Controller
     {
         $this->authorizeManage($request);
 
+        $orgId = app(TenantContext::class)->id();
+
         $users = User::with('role')
+            ->when($orgId, fn ($q) => $q->where('organization_id', $orgId))
             ->orderBy('name')
             ->get()
             ->map(fn ($u) => [

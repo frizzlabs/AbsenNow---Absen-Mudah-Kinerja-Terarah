@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Role;
 use App\Models\RolePermission;
+use App\Support\TenantContext;
 
 class RoleController extends Controller
 {
@@ -18,7 +19,11 @@ class RoleController extends Controller
     {
         $this->authorizeManage($request);
 
-        $roles = Role::withCount(['permissions', 'users'])->orderBy('id')->get();
+        $orgId = app(TenantContext::class)->id();
+        $roles = Role::withCount(['permissions', 'users'])
+            ->when($orgId, fn ($q) => $q->where('organization_id', $orgId))
+            ->orderBy('id')
+            ->get();
         return response()->json($roles);
     }
 
@@ -29,7 +34,10 @@ class RoleController extends Controller
     {
         $this->authorizeManage($request);
 
-        $role = Role::with('permissions')->find($id);
+        $orgId = app(TenantContext::class)->id();
+        $role = Role::with('permissions')
+            ->when($orgId, fn ($q) => $q->where('organization_id', $orgId))
+            ->find($id);
         if (!$role) {
             return response()->json(['message' => 'Role tidak ditemukan.'], 404);
         }
