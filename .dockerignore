@@ -1,0 +1,16 @@
+.git
+node_modules
+www
+dist
+/.angular
+android
+ios
+deploy
+docs
+absen-backend/vendor
+absen-backend/node_modules
+absen-backend/storage/*.key
+absen-backend/.env
+**/.env
+**/.DS_Store
+*.log

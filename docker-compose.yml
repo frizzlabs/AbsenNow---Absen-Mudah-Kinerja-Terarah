@@ -1,0 +1,64 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/backend.Dockerfile
+    restart: unless-stopped
+    env_file: ./absen-backend/.env
+    volumes:
+      - app_storage:/var/www/html/storage
+    depends_on:
+      db:
+        condition: service_healthy
+    networks: [appnet]
+
+  web:
+    build:
+      context: .
+      dockerfile: docker/frontend.Dockerfile
+    restart: unless-stopped
+    ports:
+      # host:container — host reverse proxy forwards hadirnow.jaritechnology.com here
+      - "${APP_PORT:-8682}:80"
+    volumes:
+      - app_storage:/var/www/html/storage:ro
+    depends_on:
+      - app
+    networks: [appnet]
+
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_DATABASE:-absen_now_prod}
+      POSTGRES_USER: ${DB_USERNAME:-absennow_user}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME:-absennow_user} -d ${DB_DATABASE:-absen_now_prod}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks: [appnet]
+
+  queue:
+    build:
+      context: .
+      dockerfile: docker/backend.Dockerfile
+    restart: unless-stopped
+    command: php artisan queue:work --tries=3 --timeout=90 --sleep=3
+    env_file: ./absen-backend/.env
+    volumes:
+      - app_storage:/var/www/html/storage
+    depends_on:
+      - app
+      - db
+    networks: [appnet]
+
+volumes:
+  db_data:
+  app_storage:
+
+networks:
+  appnet:
