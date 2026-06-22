@@ -5,10 +5,10 @@
 
   <div class="sheet-header">
     <div class="header-row">
-      <span class="modal-title">Submit Timesheet</span>
+      <span class="modal-title">Kirim Timesheet</span>
       <ion-icon name="close-outline" class="close-icon" (click)="dismiss()"></ion-icon>
     </div>
-    <div class="step-label">Step 1 of 2</div>
+    <div class="step-label">Langkah 1 dari 2</div>
     <div class="progress-bar-container">
       <div class="progress-bar"></div>
     </div>
@@ -16,9 +16,9 @@
 
   <div class="sheet-content">
     <div class="header-section">
-      <h1 class="text-h2 mb-2">Ready to submit?</h1>
+      <h1 class="text-h2 mb-2">Siap dikirim?</h1>
       <p class="text-body-medium-regular text-medium">
-        Please review your summary for {{ dateRange }}. Once submitted, changes require approval.
+        Mohon tinjau ringkasan Anda untuk {{ dateRange }}. Setelah dikirim, perubahan memerlukan persetujuan.
       </p>
     </div>
 
@@ -26,7 +26,7 @@
       <div class="total-card">
         <div class="flex-between">
           <div>
-            <span class="text-body-small-semibold text-medium block">Total Hours</span>
+            <span class="text-body-small-semibold text-medium block">Total Jam</span>
             <h2 class="text-h1 text-primary mt-1">{{ totalHoursLabel }}</h2>
           </div>
           <div class="icon-circle">
@@ -39,14 +39,14 @@
         <div class="info-card">
           <div class="flex-align-center mb-1">
             <ion-icon name="document-text-outline" class="text-primary mr-2"></ion-icon>
-            <span class="text-body-small-semibold text-medium">Activities</span>
+            <span class="text-body-small-semibold text-medium">Aktivitas</span>
           </div>
           <h3 class="text-h3">{{ activitiesCount }}</h3>
         </div>
         <div class="info-card">
           <div class="flex-align-center mb-1">
             <ion-icon name="calendar-outline" class="text-primary mr-2"></ion-icon>
-            <span class="text-body-small-semibold text-medium">Date Range</span>
+            <span class="text-body-small-semibold text-medium">Rentang Tanggal</span>
           </div>
           <h3 class="text-h3">{{ dateRange }}</h3>
         </div>
@@ -59,7 +59,7 @@
           <div class="icon-box">
             <ion-icon name="list-outline" color="primary"></ion-icon>
           </div>
-          <span class="text-body-medium-semibold ml-2">Activity Breakdown</span>
+          <span class="text-body-medium-semibold ml-2">Rincian Aktivitas</span>
         </div>
       </div>
       <div class="breakdown-list mt-3">
@@ -75,12 +75,12 @@
     <div class="confirmation-checkbox mb-4">
       <ion-checkbox [(ngModel)]="isConfirmed" mode="md"></ion-checkbox>
       <span class="text-body-small-regular text-medium ml-3">
-        I confirm these entries are accurate and comply with company policy.
+        Saya konfirmasi bahwa entri ini akurat dan sesuai dengan kebijakan perusahaan.
       </span>
     </div>
     <ion-button expand="block" shape="round" color="primary" [disabled]="!isConfirmed" (click)="submit()">
       <ion-icon name="send" slot="start"></ion-icon>
-      Submit Timesheet
+      Kirim Timesheet
     </ion-button>
   </div>
 </div>

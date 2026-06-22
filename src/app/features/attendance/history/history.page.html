@@ -1,5 +1,5 @@
 <ion-content [fullscreen]="true">
-  <app-page-header title="Attendance History"></app-page-header>
+  <app-page-header [title]="'Attendance History' | translate"></app-page-header>
   <div class="page-container">
 
     <div class="calendar-picker">
@@ -51,7 +51,7 @@
             </div>
             <div class="shift-text">
               <h4 class="text-body-medium-semibold">{{ formatLogDate(log.date) }}</h4>
-              <span class="text-body-small-regular text-medium">Regular Shift</span>
+              <span class="text-body-small-regular text-medium">{{ 'attendance.regularShift' | translate }}</span>
             </div>
           </div>
           <app-status-badge [color]="getStatusColor(log.status)" [text]="getStatusLabel(log.status)"></app-status-badge>
@@ -59,25 +59,27 @@
 
         <div class="time-logs">
           <div class="log">
-            <span class="text-body-small-regular text-medium">Check In</span>
+            <span class="text-body-small-regular text-medium">{{ 'home.checkIn' | translate }}</span>
             <div class="time-val">
               <ion-icon name="log-in-outline"></ion-icon>
-              <span class="text-h4">{{ formatTime12(log.check_in) }}</span>
+              <span class="text-h4">{{ formatTime24(log.check_in) }}</span>
             </div>
+            <img *ngIf="log.image_in" [src]="getImageUrl(log.image_in)" class="face-photo" />
           </div>
           <div class="log">
-            <span class="text-body-small-regular text-medium">Check Out</span>
+            <span class="text-body-small-regular text-medium">{{ 'home.checkOut' | translate }}</span>
             <div class="time-val">
               <ion-icon name="log-out-outline"></ion-icon>
-              <span class="text-h4">{{ formatTime12(log.check_out) }}</span>
+              <span class="text-h4">{{ formatTime24(log.check_out) }}</span>
             </div>
+            <img *ngIf="log.image_out" [src]="getImageUrl(log.image_out)" class="face-photo" />
           </div>
         </div>
 
         <div class="divider"></div>
 
         <div class="duration-footer">
-          <span class="text-body-small-regular text-medium">Total Duration</span>
+          <span class="text-body-small-regular text-medium">{{ 'attendance.totalDuration' | translate }}</span>
           <span class="text-body-medium-semibold text-dark">{{ calculateDuration(log.check_in, log.check_out) }}</span>
         </div>
       </app-card>

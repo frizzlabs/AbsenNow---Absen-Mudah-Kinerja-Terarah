@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, ModalController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { AttendanceService } from '../../../core/services/attendance.service';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
+import { AttendanceDetailModalComponent } from './attendance-detail-modal.component';
 
 @Component({
   selector: 'app-team-dashboard',
@@ -24,7 +25,8 @@ export class TeamDashboardPage implements OnInit {
   constructor(
     private attendanceService: AttendanceService,
     private router: Router,
-    private location: Location
+    private location: Location,
+    private modalCtrl: ModalController
   ) {}
 
   ngOnInit() { this.load(); }
@@ -61,6 +63,17 @@ export class TeamDashboardPage implements OnInit {
 
   goList() {
     this.router.navigate(['/attendance/team-list'], { queryParams: { date: this.selectedDate } });
+  }
+
+  async openDetail(emp: any) {
+    const modal = await this.modalCtrl.create({
+      component: AttendanceDetailModalComponent,
+      componentProps: { emp },
+      breakpoints: [0, 0.75, 1],
+      initialBreakpoint: 0.75,
+      cssClass: 'bottom-sheet-modal'
+    });
+    await modal.present();
   }
 
   goBack() { this.location.back(); }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule, LoadingController } from '@ionic/angular';
 import { RouterModule, Router } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
 import { ExpenseStepperComponent } from '../../../../shared/components/expense-stepper/expense-stepper.component';
 import { ExpenseReceiptPreviewComponent } from '../../../../shared/components/expense-receipt-preview/expense-receipt-preview.component';
 import { ExpenseService } from '../../../../core/services/expense.service';
@@ -12,7 +13,7 @@ import { PageHeaderComponent } from '../../../../shared/components/page-header/p
   templateUrl: './create-step2.page.html',
   styleUrls: ['./create-step2.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, RouterModule, ExpenseStepperComponent, ExpenseReceiptPreviewComponent, PageHeaderComponent]
+  imports: [CommonModule, IonicModule, RouterModule, TranslatePipe, ExpenseStepperComponent, ExpenseReceiptPreviewComponent, PageHeaderComponent]
 })
 export class CreateStep2Page implements OnInit {
   fileName: string | null = null;
@@ -79,35 +80,35 @@ export class CreateStep2Page implements OnInit {
     }
 
     const loading = await this.loadingController.create({
-      message: 'Processing receipt with AI...',
+      message: 'Memproses struk dengan AI...',
       duration: 1500,
       spinner: 'crescent'
     });
     await loading.present();
 
     const lowerName = (this.fileName || '').toLowerCase();
-    let merchant = 'General Store';
-    let amount = 25.50;
+    let merchant = 'Toko Umum';
+    let amount = 250000;
     
     if (lowerName.includes('bistro') || lowerName.includes('lunch') || lowerName.includes('eat')) {
       merchant = 'The Corner Bistro';
-      amount = 45.00;
+      amount = 450000;
     } else if (lowerName.includes('uber') || lowerName.includes('taxi') || lowerName.includes('ride')) {
       merchant = 'Uber Indonesia';
-      amount = 15.00;
+      amount = 150000;
     } else if (lowerName.includes('flight') || lowerName.includes('travel') || lowerName.includes('plane')) {
       merchant = 'Garuda Indonesia';
-      amount = 350.00;
+      amount = 3500000;
     } else if (lowerName.includes('hotel') || lowerName.includes('stay') || lowerName.includes('inn')) {
       merchant = 'Hotel Santika';
-      amount = 120.00;
+      amount = 1200000;
     } else if (lowerName.includes('supply') || lowerName.includes('paper') || lowerName.includes('office')) {
       merchant = 'Gramedia';
-      amount = 62.75;
+      amount = 627500;
     }
 
     const today = new Date();
-    const formattedDate = today.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    const formattedDate = today.toLocaleDateString('id-ID', { month: 'short', day: 'numeric', year: 'numeric' });
 
     this.expenseService.draftRequest.merchant = this.expenseService.draftRequest.merchant || merchant;
     this.expenseService.draftRequest.amount = this.expenseService.draftRequest.amount || amount;

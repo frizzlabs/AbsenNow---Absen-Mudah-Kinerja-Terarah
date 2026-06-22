@@ -1,7 +1,7 @@
 .home-content {
   --background: #F8F9FA;
   position: relative;
-  height: calc(100% - 80px);
+  height: 100%;
 }
 
 .header-bg {
@@ -21,6 +21,7 @@
   z-index: 2;
   padding: var(--spacing-6);
   padding-top: calc(env(safe-area-inset-top) + var(--spacing-6));
+  padding-bottom: 100px;
 }
 
 .header-content {
@@ -278,6 +279,14 @@
   }
 }
 
+// Desktop: jangan disebar selebar layar — kelompokkan dengan jarak wajar
+@media (min-width: 1024px) {
+  .quick-actions {
+    justify-content: flex-start;
+    gap: 40px;
+  }
+}
+
 .updates-list {
   display: flex;
   flex-direction: column;
@@ -461,6 +470,42 @@
   display: flex;
   flex-direction: column;
   padding-bottom: 32px; /* safe area padding */
+  max-height: 80vh; /* batasi tinggi maksimal agar tidak terdorong keluar layar */
+}
+
+// ── Desktop (≥1024px): modal Shortcuts jadi panel terpusat + grid rapi ──
+@media (min-width: 1024px) {
+  .shortcut-overlay {
+    .sheet-container {
+      top: 50%;
+      bottom: auto;
+      left: 50%;
+      right: auto;
+      transform: translate(-50%, -50%);
+      width: 100%;
+      max-width: 760px;
+      border-radius: 24px;
+      max-height: 85vh;
+      padding-bottom: 16px;
+    }
+
+    // Affordance geser (drag) nggak relevan di desktop
+    .drag-indicator-container {
+      display: none;
+    }
+
+    // Grid kolom tetap & rapi — tidak melebar/berantakan walau item 4–6
+    .grid-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px 12px;
+      justify-items: center;
+
+      .grid-item {
+        width: auto;
+      }
+    }
+  }
 }
 
 .drag-indicator-container {
@@ -493,18 +538,33 @@
 
   .close-btn {
     margin: 0;
-    --padding-start: 8px;
-    --padding-end: 8px;
+    --background: #f1f5f9;
+    --border-radius: 50%;
+    --padding-start: 0;
+    --padding-end: 0;
+    --color: #64748b;
     height: 32px;
+    width: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
     
     ion-icon {
-      font-size: 24px;
+      font-size: 20px;
     }
   }
 }
 
 .sheet-content {
   padding: 24px;
+  overflow-y: auto; /* buat area konten bisa di-scroll jika isinya panjang */
+  
+  &::-webkit-scrollbar {
+    display: none; /* Sembunyikan scrollbar untuk tampilan premium */
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 
   .section-label {
     font-size: 11px;

@@ -7,22 +7,22 @@
       </div>
     </div>
 
-    <h1 class="success-title">Timesheet Submitted Successfully</h1>
+    <h1 class="success-title">Timesheet Berhasil Dikirim</h1>
     <p class="success-message">
-      Your timesheet for <strong>{{ rangeLabel }}</strong> has been forwarded for approval.
+      Timesheet Anda untuk <strong>{{ rangeLabel }}</strong> telah diteruskan untuk persetujuan.
     </p>
 
     <div class="hours-card">
-      <div class="card-label">Total Hours Recorded</div>
+      <div class="card-label">Total Jam Tercatat</div>
       <div class="card-value">
         <span class="big-num">{{ totalLabel }}</span>
-        <span class="unit">hrs</span>
+        <span class="unit">jam</span>
       </div>
     </div>
 
     <div class="status-badge pending">
       <div class="dot warning"></div>
-      Pending Approval
+      Menunggu Persetujuan
     </div>
   </div>
 </ion-content>
@@ -30,10 +30,10 @@
 <ion-footer class="ion-no-border">
   <div class="footer-wrapper">
     <ion-button expand="block" color="primary" class="primary-btn" (click)="backToActivity()">
-      Back to Activity
+      Kembali ke Aktivitas
     </ion-button>
     <ion-button expand="block" fill="outline" color="primary" class="outline-btn" (click)="goToApproval()">
-      Go to approval
+      Lihat Status Persetujuan
     </ion-button>
   </div>
 </ion-footer>

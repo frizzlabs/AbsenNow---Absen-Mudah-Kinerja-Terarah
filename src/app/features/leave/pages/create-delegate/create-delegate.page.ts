@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule, Router } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
 import { LeaveStepperComponent } from '../../../../shared/components/leave-stepper/leave-stepper.component';
 import { LeaveRadioCardComponent } from '../../../../shared/components/leave-radio-card/leave-radio-card.component';
 import { FormsModule } from '@angular/forms';
@@ -13,7 +14,7 @@ import { PageHeaderComponent } from '../../../../shared/components/page-header/p
   templateUrl: './create-delegate.page.html',
   styleUrls: ['./create-delegate.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, RouterModule, FormsModule, LeaveStepperComponent, LeaveRadioCardComponent, PageHeaderComponent]
+  imports: [CommonModule, IonicModule, RouterModule, FormsModule, TranslatePipe, LeaveStepperComponent, LeaveRadioCardComponent, PageHeaderComponent]
 })
 export class CreateDelegatePage implements OnInit {
   skipDelegate: boolean = false;

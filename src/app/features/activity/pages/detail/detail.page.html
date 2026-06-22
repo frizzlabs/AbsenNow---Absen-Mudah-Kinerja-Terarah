@@ -1,5 +1,5 @@
 <ion-content>
-  <app-page-header title="Activity Record"></app-page-header>
+  <app-page-header [title]="'Activity Record' | translate"></app-page-header>
   <div class="content-wrapper">
     <div *ngIf="isLoading" style="display:flex;justify-content:center;padding:48px 0">
       <ion-spinner name="crescent" color="primary"></ion-spinner>
@@ -7,7 +7,7 @@
 
     <ng-container *ngIf="!isLoading && activity">
       <div class="flex-between mb-24">
-        <div class="status-badge">{{ activity.timesheet_id ? 'Submitted' : 'Draft' }}</div>
+        <div class="status-badge">{{ activity.timesheet_id ? 'Terkirim' : 'Draf' }}</div>
         <div class="activity-id">{{ activityCode }}</div>
       </div>
 
@@ -19,14 +19,14 @@
 
       <div class="info-grid mb-16">
         <div class="info-card">
-          <div class="label">DATE</div>
+          <div class="label">TANGGAL</div>
           <div class="value">
             <ion-icon name="calendar-outline"></ion-icon>
             {{ formatDate(activity.activity_date) }}
           </div>
         </div>
         <div class="info-card">
-          <div class="label">DURATION</div>
+          <div class="label">DURASI</div>
           <div class="value">
             <ion-icon name="time-outline"></ion-icon>
             {{ durationLabel }}
@@ -35,22 +35,22 @@
       </div>
 
       <div class="time-window-card mb-24">
-        <div class="label">TIME WINDOW</div>
+        <div class="label">JENDELA WAKTU</div>
         <div class="window-content">
           <div class="time-box">
-            <div class="time-label">Start</div>
+            <div class="time-label">Mulai</div>
             <div class="time-val">{{ toAmPm(activity.start_time) }}</div>
           </div>
           <div class="line"></div>
           <div class="time-box end">
-            <div class="time-label">End</div>
+            <div class="time-label">Selesai</div>
             <div class="time-val">{{ toAmPm(activity.end_time) }}</div>
           </div>
         </div>
       </div>
 
       <ng-container *ngIf="activity.description">
-        <div class="section-label mb-16">DESCRIPTION</div>
+        <div class="section-label mb-16">DESKRIPSI</div>
         <div class="description-text mb-24">
           <p>{{ activity.description }}</p>
         </div>
@@ -58,7 +58,7 @@
 
       <div class="alert-box info-alert mb-32" *ngIf="activity.timesheet_id">
         <ion-icon name="information-circle-outline"></ion-icon>
-        <div class="alert-text">This record has been finalized and synced with the central timesheet system.</div>
+        <div class="alert-text">Catatan ini telah difinalisasi dan disinkronkan dengan sistem lembar waktu pusat.</div>
       </div>
     </ng-container>
 

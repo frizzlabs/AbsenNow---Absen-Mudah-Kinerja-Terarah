@@ -1,10 +1,10 @@
 <ion-content>
-  <app-page-header title="Request Overtime"></app-page-header>
+  <app-page-header title="Ajukan Lembur"></app-page-header>
 
   <div class="progress-container">
     <div class="progress-labels">
-      <span class="step-label">Step 2 of 3</span>
-      <span class="title-label">Request Permission</span>
+      <span class="step-label">Langkah 2 dari 3</span>
+      <span class="title-label">Ajukan Lembur</span>
     </div>
     <div class="progress-bar-bg">
       <div class="progress-bar-fill" style="width: 66%"></div>
@@ -13,7 +13,7 @@
 
   <div class="content-wrapper">
     <p class="summary-text">
-      Please double-check the overtime schedule you've selected for <strong>Fri, Oct 20, 2026</strong>.
+      Silakan periksa kembali jadwal lembur yang telah Anda pilih untuk <strong>Jumat, 20 Okt 2026</strong>.
     </p>
 
     <!-- Time Card -->
@@ -22,7 +22,7 @@
         <ion-icon name="time-outline" color="primary"></ion-icon>
       </div>
       <div class="card-content">
-        <div class="label">TIME</div>
+        <div class="label">WAKTU</div>
         <div class="value">09:00 AM - 10:30 AM</div>
       </div>
     </div>
@@ -33,18 +33,18 @@
         <ion-icon name="hourglass-outline" color="light"></ion-icon>
       </div>
       <div class="card-content">
-        <div class="label">TOTAL DURATION</div>
-        <div class="sub-label">Calculated automatically</div>
+        <div class="label">TOTAL DURASI</div>
+        <div class="sub-label">Dihitung secara otomatis</div>
       </div>
-      <div class="duration-value">3h 15m</div>
+      <div class="duration-value">3 jam 15 mnt</div>
     </div>
 
-    <div class="section-title">REASON</div>
+    <div class="section-title">ALASAN</div>
     <p class="reason-text">
-      Finishing Q3 financial reports as requested by management due to the upcoming board meeting deadline. The team needs final numbers by tomorrow morning.
+      Menyelesaikan laporan keuangan Kuartal 3 sesuai permintaan manajemen karena tenggat waktu rapat dewan yang akan datang. Tim membutuhkan angka final besok pagi.
     </p>
 
-    <div class="section-title">ATTACHMENTS</div>
+    <div class="section-title">LAMPIRAN</div>
     <div class="attachment-card">
       <div class="icon-circle danger-light">
         <ion-icon name="document-text-outline" color="danger"></ion-icon>
@@ -62,11 +62,11 @@
   <div class="footer-wrapper">
     <div class="checkbox-container">
       <ion-checkbox></ion-checkbox>
-      <div class="checkbox-label">I confirm these entries are accurate and comply with company policy.</div>
+      <div class="checkbox-label">Saya konfirmasi bahwa entri ini akurat dan sesuai dengan kebijakan perusahaan.</div>
     </div>
     <ion-button expand="block" shape="round" color="primary" (click)="submitRequest()">
       <ion-icon name="send-outline" slot="start"></ion-icon>
-      Submit request
+      Kirim pengajuan
     </ion-button>
   </div>
 </ion-footer>

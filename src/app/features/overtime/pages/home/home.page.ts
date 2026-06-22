@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
 import { OvertimeService, OvertimeSummary } from '../../../../core/services/overtime.service';
 import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
 
@@ -10,7 +11,7 @@ import { PageHeaderComponent } from '../../../../shared/components/page-header/p
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, PageHeaderComponent]
+  imports: [CommonModule, IonicModule, TranslatePipe, PageHeaderComponent]
 })
 export class HomePage {
   selectedSegment = 'all';
@@ -63,7 +64,7 @@ export class HomePage {
       let key = 'Other';
       try {
         const d = new Date(item.overtime_date);
-        key = d.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+        key = d.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
       } catch (e) {
         key = 'Other';
       }
@@ -102,7 +103,7 @@ export class HomePage {
     if (!dateStr) return '';
     try {
       const d = new Date(dateStr);
-      return d.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
+      return d.toLocaleDateString('id-ID', { weekday: 'long', month: 'short', day: 'numeric' });
     } catch (e) {
       return dateStr;
     }
@@ -112,7 +113,7 @@ export class HomePage {
     const val = parseFloat(hours.toString());
     const h = Math.floor(val);
     const m = Math.round((val - h) * 60);
-    return `${h}h ${m}m`;
+    return `${h} jam ${m} mnt`;
   }
 
   get hasTrend(): boolean {
@@ -127,14 +128,18 @@ export class HomePage {
   get trendLabel(): string {
     const t = this.summary?.trend_percent ?? 0;
     return t >= 0
-      ? `${t}% more than last month`
-      : `${Math.abs(t)}% less than last month`;
+      ? `${t}% lebih banyak dari bulan lalu`
+      : `${Math.abs(t)}% lebih sedikit dari bulan lalu`;
   }
 
   formatStatus(status: string): string {
-    if (!status) return 'Pending';
-    const lower = status.toLowerCase();
-    return lower.charAt(0).toUpperCase() + lower.slice(1);
+    if (!status) return 'Menunggu';
+    switch (status.toLowerCase()) {
+      case 'pending': return 'Menunggu';
+      case 'approved': return 'Disetujui';
+      case 'rejected': return 'Ditolak';
+      default: return status.charAt(0).toUpperCase() + status.slice(1);
+    }
   }
 
   goBack() {

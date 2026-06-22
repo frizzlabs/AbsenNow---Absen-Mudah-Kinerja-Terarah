@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ActivityService } from '../../../../core/services/activity.service';
+import { TranslatePipe } from '@ngx-translate/core';
 import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
 
 @Component({
@@ -10,7 +11,7 @@ import { PageHeaderComponent } from '../../../../shared/components/page-header/p
   templateUrl: './detail.page.html',
   styleUrls: ['./detail.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, PageHeaderComponent]
+  imports: [CommonModule, IonicModule, TranslatePipe, PageHeaderComponent]
 })
 export class DetailPage implements OnInit {
   activity: any = null;
@@ -41,7 +42,7 @@ export class DetailPage implements OnInit {
 
   get durationLabel(): string {
     const mins = this.activity?.duration_minutes || 0;
-    return `${Math.floor(mins / 60)}h ${(mins % 60).toString().padStart(2, '0')}m`;
+    return `${Math.floor(mins / 60)} jam ${(mins % 60).toString().padStart(2, '0')} mnt`;
   }
 
   get activityCode(): string {
@@ -52,7 +53,7 @@ export class DetailPage implements OnInit {
   formatDate(dateStr: string): string {
     if (!dateStr) return '';
     try {
-      return new Date(dateStr).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+      return new Date(dateStr).toLocaleDateString('id-ID', { month: 'short', day: 'numeric', year: 'numeric' });
     } catch (e) {
       return dateStr;
     }

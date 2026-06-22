@@ -6,13 +6,14 @@ import { BottomNavComponent } from '../../../shared/components/bottom-nav/bottom
 import { CardComponent } from '../../../shared/components/card/card.component';
 import { StatusBadgeComponent } from '../../../shared/components/status-badge/status-badge.component';
 import { AttendanceStateService } from '../../../core/services/attendance-state.service';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-home-checked-out',
   templateUrl: './checked-out.page.html',
   styleUrls: ['./checked-out.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, RouterModule, BottomNavComponent, CardComponent, StatusBadgeComponent]
+  imports: [CommonModule, IonicModule, RouterModule, BottomNavComponent, CardComponent, StatusBadgeComponent, TranslatePipe]
 })
 export class CheckedOutPage {
   @Input() currentLocation = 'Mendeteksi lokasi…';
@@ -45,13 +46,11 @@ export class CheckedOutPage {
     }
   }
 
-  formatTime12(timeStr: string | null): string {
+  formatTime24(timeStr: string | null): string {
     if (!timeStr) return '-:-';
     try {
       const [hours, minutes] = timeStr.split(':').map(Number);
-      const ampm = hours >= 12 ? 'PM' : 'AM';
-      const hours12 = hours % 12 || 12;
-      return `${hours12.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')} ${ampm}`;
+      return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
     } catch (e) {
       return timeStr;
     }
@@ -64,7 +63,7 @@ export class CheckedOutPage {
       const [hIn, mIn] = log.check_in.split(':').map(Number);
       const [hOut, mOut] = log.check_out.split(':').map(Number);
       let diffMinutes = (hOut * 60 + mOut) - (hIn * 60 + mIn);
-      if (diffMinutes < 0) diffMinutes += 24 * 60;
+      if (diffMinutes < 0) return '00'; // Data tidak valid: keluar sebelum masuk
       const hours = Math.floor(diffMinutes / 60);
       return hours.toString().padStart(2, '0');
     } catch (e) {
@@ -79,7 +78,7 @@ export class CheckedOutPage {
       const [hIn, mIn] = log.check_in.split(':').map(Number);
       const [hOut, mOut] = log.check_out.split(':').map(Number);
       let diffMinutes = (hOut * 60 + mOut) - (hIn * 60 + mIn);
-      if (diffMinutes < 0) diffMinutes += 24 * 60;
+      if (diffMinutes < 0) return '00'; // Data tidak valid: keluar sebelum masuk
       const minutes = diffMinutes % 60;
       return minutes.toString().padStart(2, '0');
     } catch (e) {

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule, Router } from '@angular/router';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { LeaveBalanceCardComponent } from '../../../../shared/components/leave-balance-card/leave-balance-card.component';
 import { LeaveRequestCardComponent } from '../../../../shared/components/leave-request-card/leave-request-card.component';
 import { LeaveService } from '../../../../core/services/leave.service';
@@ -12,7 +13,7 @@ import { PageHeaderComponent } from '../../../../shared/components/page-header/p
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, RouterModule, LeaveBalanceCardComponent, LeaveRequestCardComponent, PageHeaderComponent]
+  imports: [CommonModule, IonicModule, RouterModule, TranslatePipe, LeaveBalanceCardComponent, LeaveRequestCardComponent, PageHeaderComponent]
 })
 export class HomePage implements OnInit {
   balances: any[] = [];
@@ -21,7 +22,8 @@ export class HomePage implements OnInit {
 
   constructor(
     private router: Router,
-    private leaveService: LeaveService
+    private leaveService: LeaveService,
+    private translate: TranslateService
   ) { }
 
   ngOnInit() {
@@ -76,7 +78,7 @@ export class HomePage implements OnInit {
   formatMonth(dateStr: string): string {
     try {
       const d = new Date(dateStr);
-      return d.toLocaleDateString('en-US', { month: 'short' });
+      return d.toLocaleDateString('id-ID', { month: 'short' });
     } catch (e) {
       return '';
     }
@@ -95,10 +97,10 @@ export class HomePage implements OnInit {
     try {
       const start = new Date(log.start_date);
       const end = new Date(log.end_date);
-      const startStr = start.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-      const endStr = end.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      const startStr = start.toLocaleDateString('id-ID', { month: 'short', day: 'numeric' });
+      const endStr = end.toLocaleDateString('id-ID', { month: 'short', day: 'numeric' });
       const days = log.total_days;
-      return `${startStr} - ${endStr} (${days} ${days > 1 ? 'days' : 'day'})`;
+      return `${startStr} - ${endStr} (${days} ${this.translate.instant('leave.days')})`;
     } catch (e) {
       return '';
     }

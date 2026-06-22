@@ -3,6 +3,7 @@ import { CommonModule, CurrencyPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule, Router } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
 import { ExpenseCardComponent } from '../../../../shared/components/expense-card/expense-card.component';
 import { ExpenseService } from '../../../../core/services/expense.service';
 import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
@@ -17,7 +18,7 @@ interface ExpenseGroup {
   templateUrl: './history.page.html',
   styleUrls: ['./history.page.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, IonicModule, RouterModule, ExpenseCardComponent, CurrencyPipe, PageHeaderComponent]
+  imports: [CommonModule, FormsModule, IonicModule, RouterModule, TranslatePipe, ExpenseCardComponent, CurrencyPipe, PageHeaderComponent]
 })
 export class HistoryPage implements OnInit {
   groups: ExpenseGroup[] = [];
@@ -32,11 +33,18 @@ export class HistoryPage implements OnInit {
     private expenseService: ExpenseService
   ) { }
 
+  private isFirstLoad = true;
+
   ngOnInit() {
+    this.loadHistory();
+    this.isFirstLoad = false;
   }
 
   ionViewWillEnter() {
-    this.loadHistory();
+    if (!this.isFirstLoad) {
+      this.loadHistory();
+    }
+    this.isFirstLoad = false;
   }
 
   loadHistory() {
@@ -74,7 +82,7 @@ export class HistoryPage implements OnInit {
         }
 
         const d = new Date(req.expense_date);
-        const monthName = d.toLocaleDateString('en-US', { month: 'long' }).toUpperCase();
+        const monthName = d.toLocaleDateString('id-ID', { month: 'long' }).toUpperCase();
         const year = d.getFullYear();
         const key = `${monthName} ${year}`;
 
@@ -118,11 +126,11 @@ export class HistoryPage implements OnInit {
 
   getCategoryName(cat: string): string {
     const mapping: { [key: string]: string } = {
-      travel: 'Travel & Transportation',
-      meals: 'Meals & Entertainment',
-      office: 'Office Supplies',
-      hotel: 'Accommodation / Hotel',
-      other: 'Other'
+      travel: 'Perjalanan & Transportasi',
+      meals: 'Makanan & Hiburan',
+      office: 'Peralatan Kantor',
+      hotel: 'Akomodasi / Hotel',
+      other: 'Lainnya'
     };
     return mapping[cat] || cat;
   }
@@ -152,19 +160,19 @@ export class HistoryPage implements OnInit {
   formatDate(dateStr: string): string {
     try {
       const d = new Date(dateStr);
-      return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      return d.toLocaleDateString('id-ID', { month: 'short', day: 'numeric' });
     } catch (e) {
       return dateStr;
     }
   }
 
   formatStatus(status: string): any {
-    if (!status) return 'Pending';
+    if (!status) return 'Menunggu';
     const lower = status.toLowerCase();
-    if (lower === 'paid') return 'Paid';
-    if (lower === 'approved') return 'Approved';
-    if (lower === 'rejected') return 'Rejected';
-    return 'Pending';
+    if (lower === 'paid') return 'Dibayar';
+    if (lower === 'approved') return 'Disetujui';
+    if (lower === 'rejected') return 'Ditolak';
+    return 'Menunggu';
   }
 
   goBack() {

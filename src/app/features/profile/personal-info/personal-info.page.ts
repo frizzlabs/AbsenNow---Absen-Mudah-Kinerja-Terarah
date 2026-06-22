@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
+import { TranslatePipe } from '@ngx-translate/core';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
 import { SectionCardComponent } from '../../../shared/components/section-card/section-card.component';
 import { ButtonComponent } from '../../../shared/components/button/button.component';
@@ -13,7 +14,7 @@ import { ProfileService } from '../../../core/services/profile.service';
   templateUrl: './personal-info.page.html',
   styleUrls: ['./personal-info.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, RouterModule, PageHeaderComponent, SectionCardComponent, ButtonComponent]
+  imports: [IonicModule, CommonModule, FormsModule, RouterModule, TranslatePipe, PageHeaderComponent, SectionCardComponent, ButtonComponent]
 })
 export class PersonalInfoPage {
   user: any = null;

@@ -2,17 +2,17 @@
   <div class="header-content">
     <ion-icon name="chevron-back-outline" class="nav-icon"></ion-icon>
     <div class="date-range">
-      <div class="dates">February 2026</div>
-      <div class="subtitle">Current period</div>
+      <div class="dates">{{ headerMonth }}</div>
+      <div class="subtitle">Periode Saat Ini</div>
     </div>
     <ion-icon name="chevron-forward-outline" class="nav-icon"></ion-icon>
   </div>
 
   <div class="segment-container">
     <div class="segment-pill">
-      <div class="segment-btn">Daily</div>
-      <div class="segment-btn" (click)="goWeekly()">Weekly</div>
-      <div class="segment-btn active">Monthly</div>
+      <div class="segment-btn" (click)="goDaily()">Harian</div>
+      <div class="segment-btn" (click)="goWeekly()">Mingguan</div>
+      <div class="segment-btn active">Bulanan</div>
     </div>
   </div>
 
@@ -21,12 +21,12 @@
     <div class="summary-card">
       <div class="summary-top">
         <div class="total-hours">
-          <div class="hours-val">168h 00m</div>
-          <div class="hours-label">Total Logged</div>
+          <div class="hours-val">{{ totalLogged }}</div>
+          <div class="hours-label">Total Tercatat</div>
         </div>
         <div class="days-logged">
-          <div class="days-val">20 Days</div>
-          <div class="days-label">Work month</div>
+          <div class="days-val">{{ workDays }} Hari</div>
+          <div class="days-label">Bulan Kerja</div>
         </div>
       </div>
     </div>
@@ -38,74 +38,40 @@
           <div class="icon-circle primary-light">
             <ion-icon name="time-outline" color="primary"></ion-icon>
           </div>
-          <span>Regular</span>
+          <span>Reguler</span>
         </div>
-        <div class="stat-val">160 hours</div>
+        <div class="stat-val">{{ regularHours }} jam</div>
       </div>
       <div class="stat-card">
         <div class="stat-header">
           <div class="icon-circle warning-light">
             <ion-icon name="stopwatch-outline" color="warning"></ion-icon>
           </div>
-          <span>Overtime</span>
+          <span>Lembur</span>
         </div>
-        <div class="stat-val">08 hours</div>
+        <div class="stat-val">{{ overtimeHours }} jam</div>
       </div>
     </div>
 
     <!-- Weeks List -->
-    <div class="week-card">
-      <div class="date-box warning-light text-warning">
-        <div class="month-txt">FEB</div>
-        <div class="day-txt">28</div>
-      </div>
-      <div class="week-info">
-        <div class="week-title">Feb 22 - Feb 28</div>
-        <div class="week-status">Week 4 • <span class="text-warning">Pending</span></div>
-      </div>
-      <div class="week-hours">40h 30m</div>
-      <ion-icon name="chevron-forward-outline" class="nav-icon"></ion-icon>
+    <div *ngIf="weeks.length === 0" style="text-align:center;color:#98A2B3;padding:48px 16px;font-size:14px">
+      Belum ada riwayat timesheet bulan ini
     </div>
 
-    <div class="week-card">
-      <div class="date-box primary-light text-primary">
-        <div class="month-txt">FEB</div>
-        <div class="day-txt">21</div>
+    <div class="week-card" *ngFor="let w of weeks; let i = index" (click)="viewWeek(w.id)" style="cursor: pointer;">
+      <div [class]="'date-box ' + statusColor(w.status) + '-light text-' + statusColor(w.status)">
+        <div class="month-txt">{{ weekMonth(w) }}</div>
+        <div class="day-txt">{{ weekDay(w) }}</div>
       </div>
       <div class="week-info">
-        <div class="week-title">Feb 15 - Feb 21</div>
-        <div class="week-status">Week 3 • <span class="text-success">Approved</span></div>
+        <div class="week-title">{{ weekTitle(w) }}</div>
+        <div class="week-status">Minggu ke-{{ weeks.length - i }} • <span [class]="'text-' + statusColor(w.status)">{{ statusText(w.status) }}</span></div>
       </div>
-      <div class="week-hours">42h 00m</div>
-      <ion-icon name="chevron-forward-outline" class="nav-icon"></ion-icon>
-    </div>
-
-    <div class="week-card">
-      <div class="date-box primary-light text-primary">
-        <div class="month-txt">FEB</div>
-        <div class="day-txt">14</div>
-      </div>
-      <div class="week-info">
-        <div class="week-title">Feb 08 - Feb 14</div>
-        <div class="week-status">Week 2 • <span class="text-success">Approved</span></div>
-      </div>
-      <div class="week-hours">40h 00m</div>
-      <ion-icon name="chevron-forward-outline" class="nav-icon"></ion-icon>
-    </div>
-
-    <div class="week-card">
-      <div class="date-box primary-light text-primary">
-        <div class="month-txt">FEB</div>
-        <div class="day-txt">07</div>
-      </div>
-      <div class="week-info">
-        <div class="week-title">Feb 01 - Feb 07</div>
-        <div class="week-status">Week 1 • <span class="text-success">Approved</span></div>
-      </div>
-      <div class="week-hours">46h 00m</div>
+      <div class="week-hours">{{ minsToHm(w.total_minutes) }}</div>
       <ion-icon name="chevron-forward-outline" class="nav-icon"></ion-icon>
     </div>
   </div>
 </ion-content>
 
 <app-bottom-nav></app-bottom-nav>
+

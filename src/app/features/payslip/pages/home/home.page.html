@@ -1,5 +1,5 @@
 <ion-content>
-  <app-page-header title="Payslips"></app-page-header>
+  <app-page-header title="Slip Gaji"></app-page-header>
 
   <div class="content-wrapper">
     <div *ngIf="isLoading" style="display:flex;justify-content:center;padding:48px 0">
@@ -13,7 +13,7 @@
 
       <ng-container *ngIf="latest">
         <div class="latest-card" (click)="goToDetail(latest.id)">
-          <div class="latest-label">Latest Pay Period</div>
+          <div class="latest-label">Periode Gaji Terakhir</div>
           <div class="latest-period">{{ formatPeriod(latest) }}</div>
           <div class="latest-amount-row">
             <div class="amount">{{ fmt(latest.net_salary) }}</div>
@@ -26,7 +26,7 @@
       </ng-container>
 
       <ng-container *ngIf="history.length > 0">
-        <div class="section-title">HISTORY</div>
+        <div class="section-title">RIWAYAT</div>
         <div class="history-list">
           <div class="history-card" *ngFor="let p of history" (click)="goToDetail(p.id)">
             <div [class]="isBonus(p) ? 'icon-container warning-light' : 'icon-container primary-light'">

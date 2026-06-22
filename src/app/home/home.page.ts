@@ -40,6 +40,7 @@ export class HomePage implements OnInit, OnDestroy {
   recentUpdates: RecentUpdate[] = [];
   displayUpdates: any[] = [];
   isLoadingUpdates = false;
+  isAttendanceSyncing = true;
 
   constructor(
     public attendanceService: AttendanceStateService,
@@ -99,12 +100,29 @@ export class HomePage implements OnInit, OnDestroy {
     this.updateClock();
   }
 
-  ionViewWillEnter() {
-    this.roleService.loadMyPermissions().subscribe(() => this.cdr.markForCheck());
-    this.attendanceService.syncStatus();
-    this.getCurrentLocation();
-    this.startClock();
-    this.loadRecentUpdates();
+  async ionViewWillEnter() {
+    this.isAttendanceSyncing = true;
+    this.cdr.detectChanges();
+    try {
+      this.roleService.loadMyPermissions().subscribe({
+        next: () => this.cdr.markForCheck(),
+        error: (err) => console.error('Error loading permissions on home entry:', err)
+      });
+      await this.attendanceService.syncStatus();
+    } catch (error) {
+      console.error('Error syncing status on home entry:', error);
+    } finally {
+      this.isAttendanceSyncing = false;
+      this.cdr.detectChanges();
+    }
+
+    try {
+      this.getCurrentLocation();
+      this.startClock();
+      this.loadRecentUpdates();
+    } catch (error) {
+      console.error('Error during post-sync home initialization:', error);
+    }
   }
 
   loadRecentUpdates() {
@@ -152,11 +170,11 @@ export class HomePage implements OnInit, OnDestroy {
     const diff = Date.now() - d.getTime();
     const mins = Math.floor(diff / 60000);
     if (mins < 1) return 'baru saja';
-    if (mins < 60) return `${mins}m lalu`;
+    if (mins < 60) return `${mins} mnt lalu`;
     const hours = Math.floor(mins / 60);
-    if (hours < 24) return `${hours}j lalu`;
+    if (hours < 24) return `${hours} jam lalu`;
     const days = Math.floor(hours / 24);
-    if (days < 7) return `${days}h lalu`;
+    if (days < 7) return `${days} hari lalu`;
     return d.toLocaleDateString('id-ID', { day: 'numeric', month: 'short' });
   }
 
@@ -203,16 +221,13 @@ export class HomePage implements OnInit, OnDestroy {
     const now = new Date();
 
     // Time Formatting
-    let hours = now.getHours();
+    const hours = now.getHours();
     const minutes = now.getMinutes();
-    const ampm = hours >= 12 ? 'PM' : 'AM';
-    hours = hours % 12;
-    hours = hours ? hours : 12; // 0 should be 12
     const strMinutes = minutes < 10 ? '0' + minutes : minutes;
     const strHours = hours < 10 ? '0' + hours : hours;
-    
+
     this.currentTime = `${strHours}:${strMinutes}`;
-    this.currentTimeAmPm = ampm;
+    this.currentTimeAmPm = '';
 
     // Date Formatting (e.g. "Thursday, 12 Feb")
     const lang = this.languageService.getCurrentLanguage() === 'id' ? 'id-ID' : 'en-US';

@@ -54,7 +54,7 @@ export class HistoryPage implements OnInit {
     requests.forEach(req => {
       try {
         const d = new Date(req.start_date);
-        const monthName = d.toLocaleDateString('en-US', { month: 'long' }).toUpperCase();
+        const monthName = d.toLocaleDateString('id-ID', { month: 'long' }).toUpperCase();
         const year = d.getFullYear();
         const key = `${monthName} ${year}`;
         
@@ -79,11 +79,11 @@ export class HistoryPage implements OnInit {
 
   getLeaveTypeName(type: string): string {
     const mapping: { [key: string]: string } = {
-      annual: 'Annual Leave',
-      sick: 'Sick Leave',
-      unpaid: 'Unpaid Leave'
+      annual: 'Cuti Tahunan',
+      sick: 'Cuti Sakit',
+      unpaid: 'Cuti Diluar Tanggungan'
     };
-    return mapping[type] || 'Leave Request';
+    return mapping[type] || 'Pengajuan Cuti';
   }
 
   getIconName(type: string): string {
@@ -107,11 +107,11 @@ export class HistoryPage implements OnInit {
       const start = new Date(req.start_date);
       const end = new Date(req.end_date);
       
-      const startStr = start.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-      const endStr = end.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      const startStr = start.toLocaleDateString('id-ID', { month: 'short', day: 'numeric' });
+      const endStr = end.toLocaleDateString('id-ID', { month: 'short', day: 'numeric' });
       
       if (req.start_date === req.end_date) {
-        return start.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        return start.toLocaleDateString('id-ID', { month: 'short', day: 'numeric', year: 'numeric' });
       }
       return `${startStr} - ${endStr}`;
     } catch (e) {
@@ -120,7 +120,7 @@ export class HistoryPage implements OnInit {
   }
 
   formatTotalDays(days: number): string {
-    return `${days} Day${days !== 1 ? 's' : ''}`;
+    return `${days} Hari`;
   }
 
   goBack() {

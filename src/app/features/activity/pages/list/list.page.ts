@@ -117,28 +117,28 @@ export class ListPage {
     this.activities.forEach(act => {
       totalMins += (act.durationHours * 60) + act.durationMinutes;
     });
-    return `${Math.floor(totalMins / 60)}h ${totalMins % 60}m`;
+    return `${Math.floor(totalMins / 60)} jam ${totalMins % 60} mnt`;
   }
 
   get dateSubtitle(): string {
-    if (this.selectedView === 'daily') return 'Today';
-    if (this.selectedView === 'weekly') return 'This Week';
-    if (this.selectedView === 'monthly') return 'This Month';
+    if (this.selectedView === 'daily') return 'Hari Ini';
+    if (this.selectedView === 'weekly') return 'Minggu Ini';
+    if (this.selectedView === 'monthly') return 'Bulan Ini';
     return '';
   }
 
   get dateHeader(): string {
     const today = new Date();
     if (this.selectedView === 'daily') {
-      return today.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+      return today.toLocaleDateString('id-ID', { month: 'short', day: 'numeric', year: 'numeric' });
     } else if (this.selectedView === 'weekly') {
       const startOfWeek = new Date(today);
       startOfWeek.setDate(today.getDate() - today.getDay());
       const endOfWeek = new Date(today);
       endOfWeek.setDate(today.getDate() + (6 - today.getDay()));
-      return `${startOfWeek.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - ${endOfWeek.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`;
+      return `${startOfWeek.toLocaleDateString('id-ID', { month: 'short', day: 'numeric' })} - ${endOfWeek.toLocaleDateString('id-ID', { month: 'short', day: 'numeric', year: 'numeric' })}`;
     } else if (this.selectedView === 'monthly') {
-      return today.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+      return today.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
     }
     return '';
   }
@@ -191,7 +191,7 @@ export class ListPage {
   get goalLabel(): string {
     const goal = Math.round((this.summary?.weekly_goal_minutes || 2400) / 60);
     const logged = Math.round((this.summary?.total_minutes || 0) / 60);
-    return `${logged}h / ${goal}h`;
+    return `${logged} jam / ${goal} jam`;
   }
   get goalPercent(): number {
     const goal = this.summary?.weekly_goal_minutes || 2400;
@@ -201,18 +201,23 @@ export class ListPage {
 
   private minsToHm(mins: number): string {
     const m = mins || 0;
-    return `${Math.floor(m / 60)}h ${(m % 60).toString().padStart(2, '0')}m`;
+    return `${Math.floor(m / 60)} jam ${(m % 60).toString().padStart(2, '0')} mnt`;
   }
 
   private weekLabel(start: string, end: string): string {
     const s = new Date(start);
     const e = new Date(end);
-    return `${s.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - ${e.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`;
+    return `${s.toLocaleDateString('id-ID', { month: 'short', day: 'numeric' })} - ${e.toLocaleDateString('id-ID', { month: 'short', day: 'numeric' })}`;
   }
 
   formatStatus(status: string): string {
-    if (!status) return 'Pending';
-    return status.charAt(0).toUpperCase() + status.slice(1);
+    if (!status) return 'Menunggu';
+    switch (status.toLowerCase()) {
+      case 'pending': return 'Menunggu';
+      case 'approved': return 'Disetujui';
+      case 'revision': return 'Perlu Revisi';
+      default: return status.charAt(0).toUpperCase() + status.slice(1);
+    }
   }
 
   statusClass(status: string): string {
@@ -274,7 +279,7 @@ export class ListPage {
   }
 
   formatDuration(hours: number, minutes: number): string {
-    return `${hours}h ${minutes.toString().padStart(2, '0')}m`;
+    return `${hours} jam ${minutes.toString().padStart(2, '0')} mnt`;
   }
 
   addActivity() {

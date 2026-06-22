@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule, Router } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
 import { LeaveStepperComponent } from '../../../../shared/components/leave-stepper/leave-stepper.component';
 import { LeaveService } from '../../../../core/services/leave.service';
 import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
@@ -11,7 +12,7 @@ import { PageHeaderComponent } from '../../../../shared/components/page-header/p
   templateUrl: './create-upload.page.html',
   styleUrls: ['./create-upload.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, RouterModule, LeaveStepperComponent, PageHeaderComponent]
+  imports: [CommonModule, IonicModule, RouterModule, TranslatePipe, LeaveStepperComponent, PageHeaderComponent]
 })
 export class CreateUploadPage implements OnInit {
   fileName: string | null = null;

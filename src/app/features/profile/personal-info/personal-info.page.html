@@ -1,39 +1,39 @@
 <ion-content [fullscreen]="true" class="bg-light">
-  <app-page-header title="Personal Information"></app-page-header>
+  <app-page-header [title]="'Personal Information' | translate"></app-page-header>
   
   <div class="page-container">
     
-    <app-section-card iconName="person-outline" title="Basic Information">
+    <app-section-card iconName="person-outline" title="Informasi Dasar">
       <div class="photo-row">
         <div class="avatar-small">
           <img [src]="user?.avatar_url || 'assets/images/avatar-placeholder.png'" alt="Profile Photo">
         </div>
         <div class="upload-link">
           <ion-icon name="push-outline"></ion-icon>
-          <span>Upload Photo</span>
+          <span>Upload Foto</span>
         </div>
       </div>
       
       <div class="info-group">
-        <span class="label">Full Name</span>
+        <span class="label">Nama Lengkap</span>
         <span class="value">{{ user?.name || '-' }}</span>
       </div>
 
       <div class="info-row-2col">
         <div class="info-group">
-          <span class="label">Date of Birth</span>
+          <span class="label">Tanggal Lahir</span>
           <span class="value">{{ dobLabel }}</span>
         </div>
         <div class="info-group">
-          <span class="label">Gender</span>
+          <span class="label">Jenis Kelamin</span>
           <span class="value">{{ user?.gender || '-' }}</span>
         </div>
       </div>
     </app-section-card>
 
-    <app-section-card iconName="call-outline" title="Contact Information">
+    <app-section-card iconName="call-outline" title="Informasi Kontak">
       <div class="info-group">
-        <span class="label">Phone Number</span>
+        <span class="label">Nomor Telepon</span>
         <div class="value-with-icon">
           <span class="value">{{ user?.phone || '-' }}</span>
           <ion-icon *ngIf="user?.phone" name="checkmark-circle-outline" class="verified-icon"></ion-icon>
@@ -41,30 +41,30 @@
       </div>
 
       <div class="info-group">
-        <span class="label">Personal Email</span>
+        <span class="label">Email Pribadi</span>
         <span class="value">{{ user?.personal_email || '-' }}</span>
       </div>
 
       <div class="info-group">
-        <span class="label">Residential Address</span>
+        <span class="label">Alamat Tempat Tinggal</span>
         <span class="value" style="white-space: pre-line;">{{ user?.address || '-' }}</span>
       </div>
     </app-section-card>
 
     <!-- Using medkit-outline to approximate emergency contact icon -->
-    <app-section-card iconName="medkit-outline" title="Emergency Contact">
+    <app-section-card iconName="medkit-outline" title="Kontak Darurat">
       <div class="info-group">
-        <span class="label">Contact Name</span>
+        <span class="label">Nama Kontak</span>
         <span class="value">{{ user?.emergency_contact_name || '-' }}</span>
       </div>
 
       <div class="info-row-2col">
         <div class="info-group">
-          <span class="label">Relationship</span>
+          <span class="label">Hubungan</span>
           <span class="value">{{ user?.emergency_contact_relationship || '-' }}</span>
         </div>
         <div class="info-group">
-          <span class="label">Phone Number</span>
+          <span class="label">Nomor Telepon</span>
           <span class="value">{{ user?.emergency_contact_phone || '-' }}</span>
         </div>
       </div>
@@ -75,7 +75,7 @@
   <div class="fixed-bottom">
     <app-button variant="primary" styleClass="w-full" routerLink="/profile/personal-info/edit">
       <ion-icon name="create-outline" slot="start" style="margin-right: 8px; font-size: 20px;"></ion-icon>
-      Edit Personal Information
+      Edit Informasi Pribadi
     </app-button>
   </div>
 </ion-content>

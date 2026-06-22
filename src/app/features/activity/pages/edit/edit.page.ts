@@ -26,10 +26,10 @@ export class EditPage implements OnInit {
   description = '';
 
   categories = [
-    { value: 'development', label: 'Development', icon: 'code-slash-outline' },
-    { value: 'meeting', label: 'Meeting', icon: 'people-outline' },
+    { value: 'development', label: 'Pengembangan', icon: 'code-slash-outline' },
+    { value: 'meeting', label: 'Rapat', icon: 'people-outline' },
     { value: 'admin', label: 'Admin', icon: 'document-text-outline' },
-    { value: 'design', label: 'Design', icon: 'color-palette-outline' },
+    { value: 'design', label: 'Desain', icon: 'color-palette-outline' },
     { value: 'qa', label: 'QA', icon: 'search-outline' }
   ];
 
@@ -66,7 +66,7 @@ export class EditPage implements OnInit {
       },
       error: () => {
         this.isLoading = false;
-        this.showToast('Failed to load activity.', 'danger');
+        this.showToast('Gagal memuat aktivitas.', 'danger');
       }
     });
   }
@@ -80,7 +80,7 @@ export class EditPage implements OnInit {
     const [eh, em] = this.endTime.split(':').map(Number);
     let mins = (eh * 60 + em) - (sh * 60 + sm);
     if (mins < 0) mins = 0;
-    return `${Math.floor(mins / 60)}h ${mins % 60}m`;
+    return `${Math.floor(mins / 60)} jam ${mins % 60} mnt`;
   }
 
   goBack() {
@@ -93,15 +93,15 @@ export class EditPage implements OnInit {
       return;
     }
     if (!this.title.trim()) {
-      this.showToast('Please enter an activity title.');
+      this.showToast('Silakan masukkan judul aktivitas.');
       return;
     }
     if (this.endTime <= this.startTime) {
-      this.showToast('End time must be after start time.');
+      this.showToast('Waktu selesai harus setelah waktu mulai.');
       return;
     }
 
-    const loading = await this.loadingCtrl.create({ message: 'Updating log...' });
+    const loading = await this.loadingCtrl.create({ message: 'Memperbarui log...' });
     await loading.present();
 
     this.activityService.updateActivity(this.activityId, {
@@ -119,7 +119,7 @@ export class EditPage implements OnInit {
       },
       error: async (err) => {
         loading.dismiss();
-        this.showToast(err.error?.message || 'Failed to update activity.', 'danger');
+        this.showToast(err.error?.message || 'Gagal memperbarui aktivitas.', 'danger');
       }
     });
   }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonicModule, ToastController } from '@ionic/angular';
+import { IonicModule, ToastController, AlertController, LoadingController } from '@ionic/angular';
 import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
 import { AuthHeaderIconComponent } from '../../../../shared/components/auth-header-icon/auth-header-icon.component';
 import { PinDotsComponent } from '../../../../shared/components/pin-dots/pin-dots.component';
@@ -27,7 +27,9 @@ export class VerifyPage implements OnInit {
     private router: Router,
     private authService: AuthService,
     private roleService: RoleService,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private alertController: AlertController,
+    private loadingController: LoadingController
   ) { }
 
   ngOnInit() {
@@ -46,6 +48,27 @@ export class VerifyPage implements OnInit {
     }
   }
   
+  async forgotPin() {
+    const alert = await this.alertController.create({
+      header: 'Lupa PIN?',
+      message: 'Anda akan keluar dan diarahkan ke halaman login untuk masuk ulang dan membuat PIN baru.',
+      buttons: [
+        { text: 'Batal', role: 'cancel' },
+        {
+          text: 'Lanjutkan',
+          handler: () => {
+            localStorage.removeItem('hasPin');
+            localStorage.removeItem('pin_email');
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('auth_token');
+            this.router.navigateByUrl('/auth/login', { replaceUrl: true });
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
   async onKeyPress(key: string) {
     if (this.isLoading) return;
 
@@ -55,24 +78,40 @@ export class VerifyPage implements OnInit {
       this.pinValue += key;
       if (this.pinValue.length === 4) {
         this.isLoading = true;
+        
+        const loading = await this.loadingController.create({
+          message: 'Memverifikasi PIN...',
+          spinner: 'crescent'
+        });
+        await loading.present();
+
         this.authService.verifyPin(this.email, this.pinValue).subscribe({
           next: () => {
-            this.isLoading = false;
             localStorage.setItem('isLoggedIn', 'true');
             localStorage.setItem('hasPin', 'true');
             localStorage.setItem('pin_email', this.email);
             localStorage.removeItem('temp_email');
+            
             // Preload role sebelum navigasi agar home page tidak flash
             this.roleService.loadMyPermissions().subscribe({
-              next: () => this.router.navigateByUrl('/home', { replaceUrl: true }),
-              error: () => this.router.navigateByUrl('/home', { replaceUrl: true }),
+              next: () => {
+                loading.dismiss();
+                this.isLoading = false;
+                this.router.navigateByUrl('/home', { replaceUrl: true });
+              },
+              error: () => {
+                loading.dismiss();
+                this.isLoading = false;
+                this.router.navigateByUrl('/home', { replaceUrl: true });
+              },
             });
           },
           error: async (err) => {
+            loading.dismiss();
             this.isLoading = false;
             this.pinValue = '';
             const toast = await this.toastController.create({
-              message: err.error?.message || 'Incorrect PIN code.',
+              message: err.error?.message || 'Kode PIN salah.',
               duration: 3000,
               position: 'top',
               color: 'danger'

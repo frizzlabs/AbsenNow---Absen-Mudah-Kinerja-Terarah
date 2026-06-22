@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule, NavController } from '@ionic/angular';
+import { TranslatePipe } from '@ngx-translate/core';
 import { CardComponent } from '../../../shared/components/card/card.component';
 import { StatusBadgeComponent } from '../../../shared/components/status-badge/status-badge.component';
 import { AttendanceService } from '../../../core/services/attendance.service';
@@ -13,7 +14,7 @@ import { PageHeaderComponent } from '../../../shared/components/page-header/page
   templateUrl: './history.page.html',
   styleUrls: ['./history.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, CardComponent, StatusBadgeComponent, PageHeaderComponent]
+  imports: [IonicModule, CommonModule, FormsModule, TranslatePipe, CardComponent, StatusBadgeComponent, PageHeaderComponent]
 })
 export class HistoryPage implements OnInit {
   historyLogs: any[] = [];
@@ -44,7 +45,7 @@ export class HistoryPage implements OnInit {
     startOfWeek.setHours(0, 0, 0, 0);
 
     const days = [];
-    const dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    const dayNames = ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'];
 
     for (let i = 0; i < 7; i++) {
       const d = new Date(startOfWeek);
@@ -70,7 +71,7 @@ export class HistoryPage implements OnInit {
     // Calculate Week of the Month
     const day = midWeek.getDate();
     const weekNum = Math.ceil(day / 7);
-    this.weekLabel = `Week ${weekNum}`;
+    this.weekLabel = `Minggu ke-${weekNum}`;
   }
 
   prevWeek() {
@@ -149,27 +150,27 @@ export class HistoryPage implements OnInit {
 
   formatSelectedDate(date: Date): string {
     try {
-      return date.toLocaleDateString('en-US', { weekday: 'short', day: 'numeric', month: 'short' });
+      return date.toLocaleDateString('id-ID', { weekday: 'short', day: 'numeric', month: 'short' });
     } catch { return ''; }
   }
 
   formatLogDate(dateStr: string): string {
     try {
       const d = new Date(dateStr + 'T00:00:00');
-      return d.toLocaleDateString('en-US', { weekday: 'short', day: 'numeric', month: 'short' });
+      return d.toLocaleDateString('id-ID', { weekday: 'short', day: 'numeric', month: 'short' });
     } catch { return dateStr; }
   }
 
-  getStatusColor(status: string): string {
+  getStatusColor(status: string): 'success' | 'warning' | 'danger' | 'primary' | 'medium' {
     if (status === 'late') return 'warning';
     if (status === 'absent') return 'danger';
     return 'success';
   }
 
   getStatusLabel(status: string): string {
-    if (status === 'late') return 'Late';
-    if (status === 'absent') return 'Absent';
-    return 'On Time';
+    if (status === 'late') return 'Terlambat';
+    if (status === 'absent') return 'Tidak Hadir';
+    return 'Tepat Waktu';
   }
 
   calculateDuration(checkIn: string, checkOut: string | null): string {
@@ -184,19 +185,17 @@ export class HistoryPage implements OnInit {
       const hours = Math.floor(diffMinutes / 60);
       const minutes = diffMinutes % 60;
       
-      return `${hours}h ${minutes.toString().padStart(2, '0')}m`;
+      return `${hours} jam ${minutes.toString().padStart(2, '0')} mnt`;
     } catch (e) {
       return '-';
     }
   }
 
-  formatTime12(timeStr: string | null): string {
+  formatTime24(timeStr: string | null): string {
     if (!timeStr) return '-';
     try {
       const [hours, minutes] = timeStr.split(':').map(Number);
-      const ampm = hours >= 12 ? 'PM' : 'AM';
-      const hours12 = hours % 12 || 12;
-      return `${hours12}:${minutes.toString().padStart(2, '0')} ${ampm}`;
+      return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
     } catch (e) {
       return timeStr;
     }

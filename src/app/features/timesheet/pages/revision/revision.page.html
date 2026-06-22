@@ -1,5 +1,5 @@
 <ion-content>
-  <app-page-header title="Revision Requested"></app-page-header>
+  <app-page-header [title]="'Revision Requested' | translate"></app-page-header>
 
   <div class="content-wrapper">
     <!-- Reviewer Note Card -->
@@ -8,21 +8,21 @@
         <img src="assets/images/alex.png" alt="Alex Washington" class="avatar" onerror="this.src='https://ui-avatars.com/api/?name=Alex+Washington&background=0D8ABC&color=fff'">
         <div class="reviewer-info">
           <div class="name">Alex Washington</div>
-          <div class="role">Reviewer</div>
+          <div class="role">Peninjau</div>
         </div>
       </div>
       
       <div class="note-box">
-        <p>"Please double-check the project assignment for Friday. The hours seem correct but the project code might be mismatched."</p>
+        <p>"Silakan periksa kembali penugasan proyek untuk hari Jumat. Jumlah jam tampaknya benar tetapi kode proyek mungkin tidak sesuai."</p>
       </div>
       
-      <div class="timestamp">Sent today at 9:42 AM</div>
+      <div class="timestamp">Terkirim hari ini pukul 9:42</div>
     </div>
 
     <!-- Weekly Entries -->
     <div class="section-header">
-      <div class="section-title">WEEKLY ENTRIES</div>
-      <div class="section-date">Oct 23 - Oct 27</div>
+      <div class="section-title">ENTRI MINGGUAN</div>
+      <div class="section-date">23 Okt - 27 Okt</div>
     </div>
 
     <div class="entry-list">
@@ -34,8 +34,8 @@
               <ion-icon name="calendar-outline"></ion-icon>
             </div>
             <div>
-              <div class="day-label">Monday, Oct 23</div>
-              <div class="hours-label">8.0 hrs</div>
+              <div class="day-label">Senin, 23 Okt</div>
+              <div class="hours-label">8.0 jam</div>
             </div>
           </div>
           <ion-icon name="checkmark-circle-outline" class="text-success text-xl"></ion-icon>
@@ -50,8 +50,8 @@
               <ion-icon name="calendar-outline"></ion-icon>
             </div>
             <div>
-              <div class="day-label">Tuesday, Oct 24</div>
-              <div class="hours-label">7.5 hrs</div>
+              <div class="day-label">Selasa, 24 Okt</div>
+              <div class="hours-label">7.5 jam</div>
             </div>
           </div>
           <ion-icon name="checkmark-circle-outline" class="text-success text-xl"></ion-icon>
@@ -66,8 +66,8 @@
               <ion-icon name="pencil" color="warning"></ion-icon>
             </div>
             <div>
-              <div class="day-label text-dark">Friday, Oct 27</div>
-              <div class="hours-label text-warning">Correction Needed</div>
+              <div class="day-label text-dark">Jumat, 27 Okt</div>
+              <div class="hours-label text-warning">Perlu Koreksi</div>
             </div>
           </div>
           <ion-icon name="ellipsis-horizontal" class="text-medium"></ion-icon>
@@ -79,7 +79,7 @@
               <div class="task-title">UX Research</div>
               <div class="task-project">Project Alpha</div>
             </div>
-            <div class="task-hours">4.0h</div>
+            <div class="task-hours">4.0 jam</div>
           </div>
           
           <div class="flex-between">
@@ -87,7 +87,7 @@
               <div class="task-title">Design System</div>
               <div class="task-project">Internal Ops</div>
             </div>
-            <div class="task-hours">4.0h</div>
+            <div class="task-hours">4.0 jam</div>
           </div>
         </div>
       </div>
@@ -99,7 +99,7 @@
   <div class="footer-wrapper">
     <ion-button expand="block" shape="round" color="primary" class="resubmit-btn" (click)="resubmit()">
       <ion-icon name="send-outline" slot="start"></ion-icon>
-      Resubmit
+      Kirim Ulang
     </ion-button>
   </div>
 </ion-footer>

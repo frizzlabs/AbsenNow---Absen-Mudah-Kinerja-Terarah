@@ -26,13 +26,13 @@ export class CreateSuccessPage implements OnInit {
   }
 
   getLeaveTypeName(type?: string): string {
-    if (!type) return 'Leave Request';
+    if (!type) return 'Pengajuan Cuti';
     const mapping: { [key: string]: string } = {
-      annual: 'Annual Leave',
-      sick: 'Sick Leave',
-      unpaid: 'Unpaid Leave'
+      annual: 'Cuti Tahunan',
+      sick: 'Cuti Sakit',
+      unpaid: 'Cuti Diluar Tanggungan'
     };
-    return mapping[type] || 'Leave Request';
+    return mapping[type] || 'Pengajuan Cuti';
   }
 
   formatDateRange(): string {
@@ -41,8 +41,8 @@ export class CreateSuccessPage implements OnInit {
       const start = new Date(this.draft.start_date);
       const end = this.draft.end_date ? new Date(this.draft.end_date) : start;
       const options: Intl.DateTimeFormatOptions = { weekday: 'short', month: 'short', day: 'numeric' };
-      const startText = start.toLocaleDateString('en-US', options);
-      const endText = end.toLocaleDateString('en-US', options);
+      const startText = start.toLocaleDateString('id-ID', options);
+      const endText = end.toLocaleDateString('id-ID', options);
       return this.isSameDay(start, end) ? startText : `${startText} — ${endText}`;
     } catch (e) {
       return `${this.draft.start_date} - ${this.draft.end_date}`;

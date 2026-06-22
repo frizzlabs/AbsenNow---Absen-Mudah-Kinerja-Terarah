@@ -1,150 +1,76 @@
 <ion-content>
-  <app-page-header title="Approval Status"></app-page-header>
+  <app-page-header [title]="'Approval Status' | translate"></app-page-header>
 
-  <div class="content-wrapper">
+  <div class="content-wrapper" *ngIf="!isLoading && timesheet">
     <!-- Top Summary Card -->
     <div class="summary-card">
       <div class="card-header">
-        <div class="period-label">Weekly Period</div>
-        <div class="period-val">Feb 1 - Feb 7, 2023</div>
+        <div class="period-label">Periode Mingguan</div>
+        <div class="period-val">{{ rangeLabel }}</div>
       </div>
       <div class="divider"></div>
       <div class="summary-bottom">
         <div class="total-hours">
-          <div class="hours-val">40h 00m</div>
-          <div class="hours-label">Total Logged</div>
+          <div class="hours-val">{{ totalLogged }}</div>
+          <div class="hours-label">Total Tercatat</div>
         </div>
         <div class="days-logged">
-          <div class="days-val">5 Days</div>
-          <div class="days-label">Work week</div>
+          <div class="days-val">{{ workDays }} Hari</div>
+          <div class="days-label">Minggu Kerja</div>
         </div>
       </div>
     </div>
 
-    <!-- Weeks List -->
+    <!-- Weeks List -> Activities Breakdown -->
     <div class="weeks-container">
       <div class="breakdown-header">
         <div class="flex-center">
           <div class="icon-box primary-light">
             <ion-icon name="reader-outline" color="primary"></ion-icon>
           </div>
-          <span class="breakdown-title">View Timesheet Breakdown</span>
+          <span class="breakdown-title">Rincian Aktivitas</span>
         </div>
-        <ion-icon name="chevron-down-outline" color="medium"></ion-icon>
       </div>
 
-      <div class="week-row">
-        <div class="date-box warning-light text-warning">
-          <div class="month-txt">FEB</div>
-          <div class="day-txt">28</div>
+      <div class="week-row" *ngFor="let act of timesheet.activities">
+        <div class="icon-circle primary-light" style="margin-right: 12px; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: rgba(28, 100, 242, 0.1);">
+          <ion-icon name="document-text-outline" color="primary" style="font-size: 18px;"></ion-icon>
         </div>
         <div class="week-info">
-          <div class="week-title">Feb 22 - Feb 28</div>
-          <div class="week-status">Week 4 • <span class="text-warning">Pending</span></div>
+          <div class="week-title">{{ act.title }}</div>
+          <div class="week-status">{{ act.activity_date | date:'dd MMM yyyy' }}</div>
         </div>
-        <div class="week-hours">40h 30m</div>
-        <ion-icon name="chevron-forward-outline" class="nav-icon"></ion-icon>
-      </div>
-
-      <div class="week-row">
-        <div class="date-box primary-light text-primary">
-          <div class="month-txt">FEB</div>
-          <div class="day-txt">21</div>
-        </div>
-        <div class="week-info">
-          <div class="week-title">Feb 15 - Feb 21</div>
-          <div class="week-status">Week 3 • <span class="text-success">Approved</span></div>
-        </div>
-        <div class="week-hours">42h 00m</div>
-        <ion-icon name="chevron-forward-outline" class="nav-icon"></ion-icon>
-      </div>
-
-      <div class="week-row">
-        <div class="date-box primary-light text-primary">
-          <div class="month-txt">FEB</div>
-          <div class="day-txt">14</div>
-        </div>
-        <div class="week-info">
-          <div class="week-title">Feb 08 - Feb 14</div>
-          <div class="week-status">Week 2 • <span class="text-success">Approved</span></div>
-        </div>
-        <div class="week-hours">40h 00m</div>
-        <ion-icon name="chevron-forward-outline" class="nav-icon"></ion-icon>
-      </div>
-
-      <div class="week-row">
-        <div class="date-box primary-light text-primary">
-          <div class="month-txt">FEB</div>
-          <div class="day-txt">07</div>
-        </div>
-        <div class="week-info">
-          <div class="week-title">Feb 01 - Feb 07</div>
-          <div class="week-status">Week 1 • <span class="text-success">Approved</span></div>
-        </div>
-        <div class="week-hours">46h 00m</div>
-        <ion-icon name="chevron-forward-outline" class="nav-icon"></ion-icon>
+        <div class="week-hours">{{ minsToHm(act.duration_minutes) }}</div>
       </div>
     </div>
 
     <!-- Approval Timeline -->
     <div class="timeline-container">
-      <h2 class="timeline-title">Approval Timeline</h2>
+      <h2 class="timeline-title">Linimasa Persetujuan</h2>
       
       <div class="timeline">
-        <div class="timeline-item">
-          <div class="dot primary"></div>
-          <div class="line"></div>
+        <div class="timeline-item" *ngFor="let ev of timesheet.events; let last = last">
+          <div [class]="'dot ' + (ev.status.toLowerCase() === 'approved' ? 'success' : (ev.status.toLowerCase() === 'revision' || ev.status.toLowerCase() === 'rejected' ? 'danger' : 'primary'))"></div>
+          <div class="line" [class.transparent]="last"></div>
           <div class="content">
             <div class="header">
-              <span class="status">Submitted</span>
-              <span class="time">Feb 28, 09:00 PM</span>
+              <span class="status">{{ statusText(ev.status) }}</span>
+              <span class="time">{{ formatEventTime(ev.created_at) }}</span>
             </div>
-            <div class="details">Request created by <strong>Sarah Miller</strong></div>
-          </div>
-        </div>
-
-        <div class="timeline-item">
-          <div class="dot primary"></div>
-          <div class="line"></div>
-          <div class="content">
-            <div class="header">
-              <span class="status">HR Review</span>
-              <span class="time">Feb 28, 09:20 PM</span>
-            </div>
-            <div class="details">Reviewed by <strong>Alex Johnson</strong></div>
-          </div>
-        </div>
-
-        <div class="timeline-item">
-          <div class="dot primary"></div>
-          <div class="line"></div>
-          <div class="content">
-            <div class="header">
-              <span class="status">Revision Requested</span>
-              <span class="time">Feb 28, 09:20 PM</span>
-            </div>
-            <div class="details">Request created by <strong>Alex Johnson</strong></div>
-          </div>
-        </div>
-
-        <div class="timeline-item">
-          <div class="dot warning"></div>
-          <div class="line transparent"></div>
-          <div class="content">
-            <div class="header">
-              <span class="status">Correction Needed</span>
-              <span class="time">Feb 28, 09:20 PM</span>
-            </div>
-            <div class="details">Request created by <strong>Alex Johnson</strong></div>
+            <div class="details">{{ ev.note }} (oleh <strong>{{ ev.actor_name }}</strong>)</div>
           </div>
         </div>
       </div>
 
-      <ion-button expand="block" color="primary" class="edit-btn" (click)="editActivity()">
+      <ion-button expand="block" color="primary" class="edit-btn" (click)="editActivity()" *ngIf="timesheet.status === 'revision'">
         <ion-icon name="create-outline" slot="start"></ion-icon>
-        Edit Activity
+        Edit Aktivitas
       </ion-button>
     </div>
+  </div>
+
+  <div *ngIf="isLoading" style="display:flex; justify-content:center; padding:48px 0;">
+    <ion-spinner name="crescent" color="primary"></ion-spinner>
   </div>
 </ion-content>
 

@@ -68,6 +68,10 @@ export const routes: Routes = [
     loadComponent: () => import('./correction/history/history.page').then( m => m.CorrectionHistoryPage)
   },
   {
+    path: 'correction/detail',
+    loadComponent: () => import('./correction/detail/detail.page').then( m => m.CorrectionDetailPage)
+  },
+  {
     path: 'team-dashboard',
     loadComponent: () => import('./team-dashboard/team-dashboard.page').then(m => m.TeamDashboardPage)
   },

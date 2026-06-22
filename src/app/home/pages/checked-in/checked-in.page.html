@@ -1,12 +1,12 @@
 <ion-content class="home-content" [fullscreen]="true">
   <div class="header-bg"></div>
-  
+
   <div class="home-container">
     <div class="header-content">
       <div class="header-text">
         <p class="date-text">{{ currentDate }}</p>
         <h1 class="welcome-text">{{ greeting }}<br/><span class="text-white-opacity">{{ userName }} 👋</span></h1>
-        <p class="location-text">Current Location: {{ currentLocation }}</p>
+        <p class="location-text">{{ 'home.currentLocation' | translate }} {{ currentLocation }}</p>
       </div>
       <div class="avatar-wrapper" routerLink="/profile" style="cursor: pointer;">
         <img [src]="userAvatar || 'assets/images/avatar.png'" class="avatar-img" />
@@ -17,37 +17,41 @@
     <div class="main-card">
       <div class="card-header">
         <div>
-          <p class="current-time-label">CURRENT TIME</p>
+          <p class="current-time-label">{{ 'home.currentTime' | translate }}</p>
           <div class="time-display">
             <span class="time-big">{{ currentTime }}</span>
-            <span class="time-am">{{ currentTimeAmPm }}</span>
           </div>
           <div class="schedule-display">
             <ion-icon name="time" class="schedule-icon text-green"></ion-icon>
             <span class="schedule-time text-green">{{ getWorkingTime() }}</span>
-            <span class="schedule-label">Working Time</span>
+            <span class="schedule-label">{{ 'home.workingHours' | translate }}</span>
+          </div>
+          <div class="schedule-display" style="margin-top: 6px;">
+            <ion-icon name="time-outline" class="schedule-icon" style="color: #64748b;"></ion-icon>
+            <span class="schedule-time" style="color: #64748b; font-weight: 600; margin-right: 6px;">{{ attendanceStateService.workScheduleLabel }}</span>
+            <span class="schedule-label">{{ 'home.workSchedule' | translate }}</span>
           </div>
         </div>
-        <app-status-badge color="success" text="On Time"></app-status-badge>
+        <app-status-badge color="success" [text]="'home.onTime' | translate"></app-status-badge>
       </div>
-      
-      <app-swipe-button variant="danger" icon="log-out-outline" text="Slide to Check Out" (swipeComplete)="onSwipeCheckOut()"></app-swipe-button>
-      
-      <p class="current-status">You're Currently: <strong class="text-green">Working</strong></p>
-      
+
+      <app-swipe-button variant="danger" icon="log-out-outline" [text]="'home.slideToCheckOut' | translate" (swipeComplete)="onSwipeCheckOut()"></app-swipe-button>
+
+      <p class="current-status">{{ 'home.currentlyWorking' | translate }}</p>
+
       <div class="check-times">
         <div class="time-col">
           <div class="col-header text-green">
             <ion-icon name="enter-outline"></ion-icon>
-            <span>Check In</span>
+            <span>{{ 'home.checkIn' | translate }}</span>
           </div>
-          <div class="col-value">{{ formatTime12(attendanceStateService.todayAttendance?.check_in) }}</div>
+          <div class="col-value">{{ formatTime24(attendanceStateService.todayAttendance?.check_in) }}</div>
         </div>
         <div class="divider-vertical"></div>
         <div class="time-col">
           <div class="col-header text-red">
             <ion-icon name="exit-outline"></ion-icon>
-            <span>Check Out</span>
+            <span>{{ 'home.checkOut' | translate }}</span>
           </div>
           <div class="col-value">-:-</div>
         </div>
@@ -55,41 +59,41 @@
     </div>
 
     <div class="section-title">
-      <h2 class="text-h6">Quick Actions</h2>
+      <h2 class="text-h6">{{ 'home.quickActions' | translate }}</h2>
     </div>
-    
+
     <div class="quick-actions">
       <div class="action-item" routerLink="/attendance/history">
         <div class="action-icon bg-blue">
           <ion-icon name="calendar-outline" color="primary"></ion-icon>
         </div>
-        <span>Attendance</span>
+        <span>{{ 'home.attendance' | translate }}</span>
       </div>
       <div class="action-item" routerLink="/leave">
         <div class="action-icon bg-orange">
           <ion-icon name="umbrella-outline" color="warning"></ion-icon>
         </div>
-        <span>Leave</span>
+        <span>{{ 'home.leave' | translate }}</span>
       </div>
       <div class="action-item" routerLink="/payslip">
         <div class="action-icon bg-green">
           <ion-icon name="receipt-outline" color="success"></ion-icon>
         </div>
-        <span>Payslip</span>
+        <span>{{ 'home.payslip' | translate }}</span>
       </div>
       <div class="action-item" (click)="onMoreClick.emit()" style="cursor: pointer;">
         <div class="action-icon bg-grey">
           <ion-icon name="grid-outline" color="medium"></ion-icon>
         </div>
-        <span>More</span>
+        <span>{{ 'home.more' | translate }}</span>
       </div>
     </div>
 
     <div class="section-title flex-between">
-      <h2 class="text-h6">Recent Updates</h2>
-      <a class="view-all" routerLink="/notification">View All</a>
+      <h2 class="text-h6">{{ 'home.recentUpdates' | translate }}</h2>
+      <a class="view-all" routerLink="/notification">{{ 'home.viewAll' | translate }}</a>
     </div>
-    
+
     <div class="updates-list">
       <app-card *ngFor="let u of updates" (click)="openUpdate(u.link)" style="cursor: pointer;">
         <div class="update-card-content">

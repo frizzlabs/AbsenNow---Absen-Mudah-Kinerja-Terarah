@@ -59,12 +59,14 @@ export class AttendanceService {
     });
   }
 
-  setOfficeLocation(latitude: number, longitude: number, radiusMeters: number, name?: string): Observable<any> {
+  setOfficeLocation(latitude: number, longitude: number, radiusMeters: number, name?: string, workStart?: string, workEnd?: string): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/offices/update-coordinates`, {
       latitude,
       longitude,
       radius_meters: radiusMeters,
-      name: name ?? null
+      name: name ?? null,
+      work_start: workStart ?? null,
+      work_end: workEnd ?? null,
     }, {
       headers: this.getHeaders()
     });
@@ -72,6 +74,12 @@ export class AttendanceService {
 
   getHistory(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/attendance/history`, {
+      headers: this.getHeaders()
+    });
+  }
+
+  getAttendanceById(id: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/attendance/${id}`, {
       headers: this.getHeaders()
     });
   }

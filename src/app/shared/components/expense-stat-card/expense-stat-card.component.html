@@ -1,7 +1,7 @@
 <div class="stat-card">
   <div class="top-section">
     <div class="label">Total submitted this month</div>
-    <div class="total-amount">{{ totalAmount | currency:'USD':'symbol':'1.2-2' }}</div>
+    <div class="total-amount">{{ totalAmount | currency:'IDR':'symbol-narrow':'1.0-0' }}</div>
     <div class="growth-badge" [ngClass]="growthPercentage >= 0 ? 'positive' : 'negative'">
       <ion-icon [name]="growthPercentage >= 0 ? 'trending-up-outline' : 'trending-down-outline'"></ion-icon>
       {{ growthPercentage >= 0 ? '+' : ''}}{{ growthPercentage }}% vs last month
@@ -13,7 +13,7 @@
         <ion-icon name="time-outline"></ion-icon>
       </div>
       <div class="sub-label">Pending</div>
-      <div class="sub-amount">{{ pendingAmount | currency:'USD':'symbol':'1.2-2' }}</div>
+      <div class="sub-amount">{{ pendingAmount | currency:'IDR':'symbol-narrow':'1.0-0' }}</div>
     </div>
     <div class="divider"></div>
     <div class="stat-half">
@@ -21,7 +21,7 @@
         <ion-icon name="checkmark-circle-outline"></ion-icon>
       </div>
       <div class="sub-label">Approved</div>
-      <div class="sub-amount">{{ approvedAmount | currency:'USD':'symbol':'1.2-2' }}</div>
+      <div class="sub-amount">{{ approvedAmount | currency:'IDR':'symbol-narrow':'1.0-0' }}</div>
     </div>
   </div>
 </div>

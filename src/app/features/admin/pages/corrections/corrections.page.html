@@ -4,7 +4,7 @@
   <div class="tab-bar">
     <button class="tab-btn" [class.active]="activeTab === 'pending'" (click)="setTab('pending')">
       Menunggu
-      <span class="badge" *ngIf="activeTab === 'pending' && items.length > 0">{{ items.length }}</span>
+      <span class="badge" *ngIf="pendingItems.length > 0">{{ pendingItems.length }}</span>
     </button>
     <button class="tab-btn" [class.active]="activeTab === 'reviewed'" (click)="setTab('reviewed')">Direview</button>
     <button class="tab-btn" *ngIf="canSeeAll" [class.active]="activeTab === 'all'" (click)="setTab('all')">Semua</button>

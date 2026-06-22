@@ -2,17 +2,17 @@
   <div class="header-content">
     <ion-icon name="chevron-back-outline" class="nav-icon"></ion-icon>
     <div class="date-range">
-      <div class="dates">{{ headerRange || 'This Week' }}</div>
-      <div class="subtitle">This Week</div>
+      <div class="dates">{{ headerRange || 'Minggu Ini' }}</div>
+      <div class="subtitle">Minggu Ini</div>
     </div>
     <ion-icon name="chevron-forward-outline" class="nav-icon"></ion-icon>
   </div>
 
   <div class="segment-container">
     <div class="segment-pill">
-      <div class="segment-btn">Daily</div>
-      <div class="segment-btn active">Weekly</div>
-      <div class="segment-btn" (click)="goMonthly()">Monthly</div>
+      <div class="segment-btn">Harian</div>
+      <div class="segment-btn active">Mingguan</div>
+      <div class="segment-btn" (click)="goMonthly()">Bulanan</div>
     </div>
   </div>
 
@@ -26,16 +26,16 @@
         <div class="summary-top">
           <div class="total-hours">
             <div class="hours-val">{{ totalLogged }}</div>
-            <div class="hours-label">Total Logged</div>
+            <div class="hours-label">Total Tercatat</div>
           </div>
           <div class="days-logged">
-            <div class="days-val">{{ workDays }} Days</div>
-            <div class="days-label">Work week</div>
+            <div class="days-val">{{ workDays }} Hari</div>
+            <div class="days-label">Minggu Kerja</div>
           </div>
         </div>
         <div class="progress-section">
           <div class="progress-labels">
-            <span>Weekly Goal</span>
+            <span>Target Mingguan</span>
             <span>{{ goalLabel }}</span>
           </div>
           <div class="progress-bar-bg">
@@ -48,14 +48,14 @@
         <div class="stat-card">
           <div class="stat-header">
             <ion-icon name="calendar-outline"></ion-icon>
-            <span>WORK DAYS</span>
+            <span>HARI KERJA</span>
           </div>
-          <div class="stat-val">{{ workDays }} Days</div>
+          <div class="stat-val">{{ workDays }} Hari</div>
         </div>
         <div class="stat-card">
           <div class="stat-header">
             <ion-icon name="time-outline"></ion-icon>
-            <span>AVG DAILY</span>
+            <span>RATA-RATA HARIAN</span>
           </div>
           <div class="stat-val">{{ avgDaily }}</div>
         </div>
@@ -66,7 +66,7 @@
           <ion-icon name="stopwatch-outline" color="warning"></ion-icon>
         </div>
         <div class="ot-content">
-          <div class="ot-label">Total Overtime</div>
+          <div class="ot-label">Total Lembur</div>
           <div class="ot-val">{{ overtime }}</div>
         </div>
       </div>
@@ -102,7 +102,7 @@
     <div class="actions-row">
       <ion-button class="submit-btn" shape="round" color="primary" (click)="submitTimesheet()">
         <ion-icon name="send-outline" slot="start"></ion-icon>
-        Submit Timesheet
+        Kirim Timesheet
       </ion-button>
       <ion-button class="add-btn" shape="round" color="primary" (click)="addActivity()">
         <ion-icon name="add-outline"></ion-icon>

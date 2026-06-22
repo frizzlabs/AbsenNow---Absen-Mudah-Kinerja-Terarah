@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { Location } from '@angular/common';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-page-header',
@@ -10,13 +11,13 @@ import { Location } from '@angular/common';
       <button class="back-btn" (click)="goBack()" type="button">
         <ion-icon name="arrow-back-outline"></ion-icon>
       </button>
-      <span class="header-title">{{ title }}</span>
+      <span class="header-title">{{ title | translate }}</span>
       <ng-content></ng-content>
     </div>
   `,
   styleUrls: ['./page-header.component.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule]
+  imports: [CommonModule, IonicModule, TranslatePipe]
 })
 export class PageHeaderComponent {
   @Input() title: string = '';

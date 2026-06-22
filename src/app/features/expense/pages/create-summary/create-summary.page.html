@@ -1,12 +1,12 @@
 <ion-content color="light">
-  <app-page-header title="Create Request"></app-page-header>
-  <app-expense-stepper [currentStep]="4" [totalSteps]="5" title="Expense Request"></app-expense-stepper>
+  <app-page-header [title]="'Create Request' | translate"></app-page-header>
+  <app-expense-stepper [currentStep]="4" [totalSteps]="5" title="Pengajuan Pengeluaran"></app-expense-stepper>
 
   <div class="content-wrapper">
-    <h1 class="page-title">Review Expense Summary</h1>
+    <h1 class="page-title">Tinjau Ringkasan Pengeluaran</h1>
     
     <div class="amount-display">
-      {{ draft?.amount | currency:'USD':'symbol':'1.2-2' }}
+      {{ draft?.amount | currency:'IDR':'symbol':'1.0-0' }}
     </div>
 
     <div class="data-card">
@@ -15,21 +15,21 @@
         <div class="value">{{ draft?.merchant }}</div>
       </div>
       <div class="data-row">
-        <div class="label">Category</div>
+        <div class="label">Kategori</div>
         <div class="value">{{ getCategoryName(draft?.category) }}</div>
       </div>
       <div class="data-row">
-        <div class="label">Date</div>
+        <div class="label">Tanggal</div>
         <div class="value">{{ draft?.expense_date }}</div>
       </div>
       <div class="data-row">
-        <div class="label">Notes</div>
-        <div class="value">{{ draft?.notes || 'No description provided' }}</div>
+        <div class="label">Catatan</div>
+        <div class="value">{{ draft?.notes || 'Tidak ada deskripsi' }}</div>
       </div>
     </div>
 
     <div class="attached-section" *ngIf="draft?.receipt_name">
-      <div class="section-title">Attached Receipt</div>
+      <div class="section-title">Lampiran Tanda Terima</div>
       <app-expense-receipt-preview
         [imageUrl]="draft?.receipt || 'assets/images/receipt-placeholder.jpg'"
         [fileName]="draft?.receipt_name || ''"
@@ -43,7 +43,7 @@
 <ion-footer class="ion-no-border">
   <div class="footer-pad">
     <ion-button expand="block" shape="round" color="primary" class="submit-btn" (click)="submit()">
-      Submit Request
+      Kirim Pengajuan
     </ion-button>
   </div>
 </ion-footer>

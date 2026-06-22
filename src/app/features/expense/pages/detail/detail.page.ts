@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule, Router, ActivatedRoute } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
 import { ExpenseReceiptPreviewComponent } from '../../../../shared/components/expense-receipt-preview/expense-receipt-preview.component';
 import { ExpenseTimelineComponent } from '../../../../shared/components/expense-timeline/expense-timeline.component';
 import { TimelineStep } from '../../../../shared/components/expense-timeline/expense-timeline.models';
@@ -14,7 +15,7 @@ import { PageHeaderComponent } from '../../../../shared/components/page-header/p
   templateUrl: './detail.page.html',
   styleUrls: ['./detail.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, RouterModule, ExpenseReceiptPreviewComponent, ExpenseTimelineComponent, CurrencyPipe, PageHeaderComponent]
+  imports: [CommonModule, IonicModule, RouterModule, TranslatePipe, ExpenseReceiptPreviewComponent, ExpenseTimelineComponent, CurrencyPipe, PageHeaderComponent]
 })
 export class DetailPage implements OnInit {
   expense: any = null;
@@ -58,14 +59,14 @@ export class DetailPage implements OnInit {
     if (!this.expense) return;
 
     const steps: TimelineStep[] = [];
-    const creatorName = this.expense.user ? this.expense.user.name : 'Employee';
+    const creatorName = this.expense.user ? this.expense.user.name : 'Karyawan';
     const createdAtFormatted = this.formatTime(this.expense.created_at);
     const updatedAtFormatted = this.formatTime(this.expense.updated_at);
 
     // Step 1: Submitted (always success)
     steps.push({
-      title: 'Submitted',
-      subtitle: `Request created by <strong>${creatorName}</strong>`,
+      title: 'Dikirim',
+      subtitle: `Pengajuan dibuat oleh <strong>${creatorName}</strong>`,
       time: createdAtFormatted,
       status: 'success'
     });
@@ -74,30 +75,30 @@ export class DetailPage implements OnInit {
 
     if (status === 'pending') {
       steps.push({
-        title: 'Finance Review',
-        subtitle: 'Awaiting review from Finance team',
+        title: 'Tinjauan Keuangan',
+        subtitle: 'Menunggu tinjauan dari tim Keuangan',
         time: '',
         status: 'warning'
       });
     } else if (status === 'approved' || status === 'paid') {
       steps.push({
-        title: 'Finance Review',
-        subtitle: 'Approved by Finance team',
+        title: 'Tinjauan Keuangan',
+        subtitle: 'Disetujui oleh tim Keuangan',
         time: updatedAtFormatted,
         status: 'success'
       });
       if (status === 'paid') {
         steps.push({
-          title: 'Processed',
-          subtitle: 'Reimbursement disbursed to bank account',
+          title: 'Diproses',
+          subtitle: 'Reimbursement disalurkan ke rekening bank',
           time: updatedAtFormatted,
           status: 'success'
         });
       }
     } else if (status === 'rejected') {
       steps.push({
-        title: 'Rejected',
-        subtitle: 'Rejected by Finance team',
+        title: 'Ditolak',
+        subtitle: 'Ditolak oleh tim Keuangan',
         time: updatedAtFormatted,
         status: 'danger'
       });
@@ -110,7 +111,7 @@ export class DetailPage implements OnInit {
     if (!dateTimeStr) return '';
     try {
       const d = new Date(dateTimeStr);
-      return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) + ' ' + d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+      return d.toLocaleDateString('id-ID', { month: 'short', day: 'numeric' }) + ' ' + d.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', hour12: false });
     } catch (e) {
       return dateTimeStr;
     }
@@ -118,11 +119,11 @@ export class DetailPage implements OnInit {
 
   getCategoryName(cat: string): string {
     const mapping: { [key: string]: string } = {
-      travel: 'Travel & Transportation',
-      meals: 'Meals & Entertainment',
-      office: 'Office Supplies',
-      hotel: 'Accommodation / Hotel',
-      other: 'Other'
+      travel: 'Perjalanan & Transportasi',
+      meals: 'Makanan & Hiburan',
+      office: 'Peralatan Kantor',
+      hotel: 'Akomodasi / Hotel',
+      other: 'Lainnya'
     };
     return mapping[cat] || cat;
   }
@@ -131,7 +132,7 @@ export class DetailPage implements OnInit {
     if (!dateStr) return '';
     try {
       const d = new Date(dateStr);
-      return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+      return d.toLocaleDateString('id-ID', { month: 'short', day: 'numeric', year: 'numeric' });
     } catch (e) {
       return dateStr;
     }
@@ -147,17 +148,17 @@ export class DetailPage implements OnInit {
   }
 
   getFileName(receiptPath: string | null): string {
-    if (!receiptPath) return 'No Receipt';
+    if (!receiptPath) return 'Tidak Ada Struk';
     return receiptPath.split('/').pop() || 'receipt.jpg';
   }
 
   formatStatus(status: string): string {
-    if (!status) return 'Pending';
+    if (!status) return 'Menunggu';
     const lower = status.toLowerCase();
-    if (lower === 'paid') return 'Paid';
-    if (lower === 'approved') return 'Approved';
-    if (lower === 'rejected') return 'Rejected';
-    return 'Pending';
+    if (lower === 'paid') return 'Dibayar';
+    if (lower === 'approved') return 'Disetujui';
+    if (lower === 'rejected') return 'Ditolak';
+    return 'Menunggu';
   }
 
   viewReceipt(url: string) {

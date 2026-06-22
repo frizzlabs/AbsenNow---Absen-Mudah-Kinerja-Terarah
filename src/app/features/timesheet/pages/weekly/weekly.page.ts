@@ -72,7 +72,7 @@ export class WeeklyPage {
   // ---- formatting helpers ----
   minsToHm(mins: number): string {
     const m = mins || 0;
-    return `${Math.floor(m / 60)}h ${(m % 60).toString().padStart(2, '0')}m`;
+    return `${Math.floor(m / 60)} jam ${(m % 60).toString().padStart(2, '0')} mnt`;
   }
   toAmPm(timeStr: string): string {
     if (!timeStr) return '';
@@ -86,7 +86,7 @@ export class WeeklyPage {
     if (!this.summary) return '';
     const s = new Date(this.summary.period_start);
     const e = new Date(this.summary.period_end);
-    return `${s.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - ${e.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`;
+    return `${s.toLocaleDateString('id-ID', { month: 'short', day: 'numeric' })} - ${e.toLocaleDateString('id-ID', { month: 'short', day: 'numeric' })}`;
   }
   get totalLogged(): string { return this.minsToHm(this.summary?.total_minutes || 0); }
   get workDays(): number { return this.summary?.work_days || 0; }
@@ -95,7 +95,7 @@ export class WeeklyPage {
   get goalLabel(): string {
     const goal = Math.round((this.summary?.weekly_goal_minutes || 2400) / 60);
     const logged = Math.round((this.summary?.total_minutes || 0) / 60);
-    return `${logged}h / ${goal}h`;
+    return `${logged} jam / ${goal} jam`;
   }
   get goalPercent(): number {
     const goal = this.summary?.weekly_goal_minutes || 2400;
@@ -141,7 +141,7 @@ export class WeeklyPage {
   }
 
   private async doSubmit() {
-    const loading = await this.loadingCtrl.create({ message: 'Submitting timesheet...' });
+    const loading = await this.loadingCtrl.create({ message: 'Mengirim timesheet...' });
     await loading.present();
 
     const isoDate = new Date().toISOString().slice(0, 10);
@@ -155,7 +155,7 @@ export class WeeklyPage {
       },
       error: async (err) => {
         loading.dismiss();
-        const msg = err.error?.message || 'Failed to submit timesheet.';
+        const msg = err.error?.message || 'Gagal mengirim timesheet.';
         const toast = await this.toastCtrl.create({ message: msg, duration: 3000, position: 'top', color: 'danger' });
         await toast.present();
       }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
+import { TranslatePipe } from '@ngx-translate/core';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
 import { ButtonComponent } from '../../../shared/components/button/button.component';
 
@@ -10,7 +11,7 @@ import { ButtonComponent } from '../../../shared/components/button/button.compon
   templateUrl: './monthly-summary.page.html',
   styleUrls: ['./monthly-summary.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, PageHeaderComponent, ButtonComponent]
+  imports: [IonicModule, CommonModule, FormsModule, TranslatePipe, PageHeaderComponent, ButtonComponent]
 })
 export class MonthlySummaryPage implements OnInit {
 

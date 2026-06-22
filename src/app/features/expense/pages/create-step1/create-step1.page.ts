@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule, Router } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
 import { ExpenseStepperComponent } from '../../../../shared/components/expense-stepper/expense-stepper.component';
 import { ExpenseService } from '../../../../core/services/expense.service';
 import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
@@ -12,15 +13,15 @@ import { PageHeaderComponent } from '../../../../shared/components/page-header/p
   templateUrl: './create-step1.page.html',
   styleUrls: ['./create-step1.page.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, IonicModule, RouterModule, ExpenseStepperComponent, PageHeaderComponent]
+  imports: [CommonModule, FormsModule, IonicModule, RouterModule, TranslatePipe, ExpenseStepperComponent, PageHeaderComponent]
 })
 export class CreateStep1Page implements OnInit {
   categories = [
-    { id: 'travel', name: 'Travel & Transportation', icon: 'car-outline' },
-    { id: 'meals', name: 'Meals & Entertainment', icon: 'restaurant-outline' },
-    { id: 'office', name: 'Office Supplies', icon: 'business-outline' },
-    { id: 'hotel', name: 'Accommodation / Hotel', icon: 'bed-outline' },
-    { id: 'other', name: 'Other', icon: 'ellipsis-horizontal-outline' }
+    { id: 'travel', name: 'Perjalanan & Transportasi', icon: 'car-outline' },
+    { id: 'meals', name: 'Makanan & Hiburan', icon: 'restaurant-outline' },
+    { id: 'office', name: 'Peralatan Kantor', icon: 'business-outline' },
+    { id: 'hotel', name: 'Akomodasi / Hotel', icon: 'bed-outline' },
+    { id: 'other', name: 'Lainnya', icon: 'ellipsis-horizontal-outline' }
   ];
   
   selectedCategory: string = 'meals';

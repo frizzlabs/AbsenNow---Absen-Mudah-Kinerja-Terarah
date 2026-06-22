@@ -1,7 +1,7 @@
 <ion-content color="light">
-  <app-page-header title="Leave"></app-page-header>
+  <app-page-header [title]="'Leave' | translate"></app-page-header>
   <div class="content-wrapper">
-    <div class="section-title">Leave Balance</div>
+    <div class="section-title">{{ 'leave.leaveBalance' | translate }}</div>
     
     <div *ngIf="isLoading" style="display:flex;justify-content:center;padding:32px 0">
       <ion-spinner name="crescent" color="primary"></ion-spinner>
@@ -26,8 +26,8 @@
           <ion-icon name="calendar-outline"></ion-icon>
         </div>
         <div class="content">
-          <div class="label">Total Allocated</div>
-          <div class="value">{{ getAllocatedDays() }} Days</div>
+          <div class="label">{{ 'leave.totalAllocated' | translate }}</div>
+          <div class="value">{{ getAllocatedDays() }} {{ 'leave.days' | translate }}</div>
         </div>
       </div>
 
@@ -35,22 +35,22 @@
         <div class="stat-card">
           <div class="stat-header">
             <ion-icon name="checkmark-circle-outline" class="text-success"></ion-icon>
-            <span>USED DAYS</span>
+            <span>{{ 'leave.usedDays' | translate }}</span>
           </div>
-          <div class="stat-value">{{ getUsedDays() }} Days</div>
+          <div class="stat-value">{{ getUsedDays() }} {{ 'leave.days' | translate }}</div>
         </div>
         <div class="stat-card">
           <div class="stat-header">
             <ion-icon name="time-outline" class="text-warning"></ion-icon>
-            <span>PENDING</span>
+            <span>{{ 'leave.pending' | translate }}</span>
           </div>
-          <div class="stat-value">{{ getPendingRequestsCount() }} Days</div>
+          <div class="stat-value">{{ getPendingRequestsCount() }} {{ 'leave.days' | translate }}</div>
         </div>
       </div>
 
       <div class="section-header">
-        <div class="section-title">Current Requests</div>
-        <div class="view-history" (click)="viewHistory()">View History</div>
+        <div class="section-title">{{ 'leave.currentRequests' | translate }}</div>
+        <div class="view-history" (click)="viewHistory()">{{ 'leave.viewHistory' | translate }}</div>
       </div>
 
       <div *ngIf="requests.length === 0" style="text-align:center;color:#98A2B3;padding:24px 0;font-size:14px">
@@ -74,7 +74,7 @@
   <div class="footer-pad">
     <ion-button expand="block" shape="round" color="primary" class="request-btn" (click)="requestLeave()">
       <ion-icon name="add-outline" slot="start"></ion-icon>
-      Request leave
+      {{ 'leave.requestLeave' | translate }}
     </ion-button>
   </div>
 </ion-footer>

@@ -1,71 +1,96 @@
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" class="bg-light">
   <app-page-header title="Atur Lokasi Kantor"></app-page-header>
-  <!-- SEARCH BOX -->
-  <div class="search-wrap">
-    <div class="search-box">
-      <ion-icon name="search-outline"></ion-icon>
-      <input
-        type="text"
-        placeholder="Cari lokasi kantor..."
-        [(ngModel)]="searchQuery"
-        (input)="onSearchInput()"
-        (blur)="closeSearch()"
-      />
-      <ion-spinner *ngIf="isSearching" name="crescent" class="search-spinner"></ion-spinner>
-    </div>
-    <div class="search-results" *ngIf="showResults && searchResults.length > 0">
-      <div class="result-item" *ngFor="let r of searchResults" (mousedown)="selectResult(r)">
+
+  <div class="page-container">
+
+    <!-- MAP SECTION -->
+    <div class="section-card">
+      <div class="section-title">
         <ion-icon name="location-outline"></ion-icon>
-        <span>{{ r.display_name }}</span>
+        <span>Lokasi Kantor</span>
       </div>
-    </div>
-  </div>
 
-  <div class="map-wrap">
-    <div id="set-office-map"></div>
-    <div class="map-hint">
-      <ion-icon name="information-circle-outline"></ion-icon>
-      Ketuk peta atau geser pin untuk menentukan titik kantor
-    </div>
-  </div>
-
-  <div class="panel">
-    <div class="form-group">
-      <label>Nama Kantor</label>
-      <div class="input-box">
-        <ion-icon name="business-outline"></ion-icon>
-        <input type="text" [(ngModel)]="officeName" placeholder="cth. Alfamart Cabang X">
+      <!-- SEARCH BOX -->
+      <div class="search-wrap">
+        <div class="search-box">
+          <ion-icon name="search-outline" class="search-icon"></ion-icon>
+          <input
+            class="search-input"
+            type="text"
+            placeholder="Cari lokasi kantor..."
+            [(ngModel)]="searchQuery"
+            (input)="onSearchInput()"
+            (blur)="closeSearch()"
+          />
+          <ion-spinner *ngIf="isSearching" name="crescent" class="search-spinner"></ion-spinner>
+        </div>
+        <div class="search-results" *ngIf="showResults && searchResults.length > 0">
+          <button
+            class="result-item"
+            *ngFor="let r of searchResults"
+            (mousedown)="selectResult(r)"
+          >
+            <ion-icon name="location-outline" class="result-icon"></ion-icon>
+            <span class="result-text">{{ r.display_name }}</span>
+          </button>
+        </div>
       </div>
-    </div>
 
-    <div class="form-group">
-      <label>Alamat (otomatis)</label>
-      <div class="address-box">
-        <ion-icon name="location-outline"></ion-icon>
-        <span>{{ address || 'Memuat alamat...' }}</span>
+      <div id="set-office-map" class="map-box"></div>
+      <p class="address-text" [class.geocoding]="isGeocoding" *ngIf="address">{{ address }}</p>
+
+      <button class="location-btn" [disabled]="isFetchingLocation" (click)="useMyLocation()">
+        <ion-spinner *ngIf="isFetchingLocation" name="crescent" class="location-spinner"></ion-spinner>
+        <ion-icon *ngIf="!isFetchingLocation" name="navigate-outline"></ion-icon>
+        <span>{{ isFetchingLocation ? 'Mencari Lokasi...' : 'Gunakan Lokasi Saya' }}</span>
+      </button>
+
+      <div class="field-group">
+        <label class="field-label">Nama Kantor</label>
+        <input class="field-input" type="text" placeholder="cth. Kantor Pusat"
+               [(ngModel)]="officeName" />
       </div>
-      <div class="coords">{{ lat | number:'1.6-6' }}, {{ lng | number:'1.6-6' }}</div>
-    </div>
 
-    <div class="form-group">
-      <label>Radius Geofence</label>
-      <div class="radius-pills">
-        <div class="pill" *ngFor="let r of radiusOptions" [class.active]="radius === r" (click)="selectRadius(r)">
-          {{ r }} m
+      <div class="field-group">
+        <label class="field-label">Radius Geofence</label>
+        <div class="radius-chips">
+          <button *ngFor="let r of radiusOptions"
+                  class="chip"
+                  [class.active]="radius === r"
+                  (click)="selectRadius(r)">{{ r }}m</button>
         </div>
       </div>
     </div>
 
-    <button class="use-location-btn" (click)="useMyLocation()">
-      <ion-icon name="navigate-outline"></ion-icon>
-      Pakai lokasi saya sekarang
-    </button>
-  </div>
+    <!-- WORK SCHEDULE SECTION -->
+    <div class="section-card">
+      <div class="section-title">
+        <ion-icon name="time-outline"></ion-icon>
+        <span>Jadwal Kerja</span>
+      </div>
 
-  <div class="fixed-bottom">
-    <ion-button expand="block" shape="round" color="primary" [disabled]="isSaving" (click)="save()">
-      <ion-icon name="save-outline" slot="start"></ion-icon>
-      Simpan Lokasi Kantor
-    </ion-button>
+      <div class="schedule-row">
+        <div class="field-group">
+          <label class="field-label">Jam Masuk</label>
+          <input class="field-input" type="time" [(ngModel)]="workStart" />
+        </div>
+        <div class="field-group">
+          <label class="field-label">Jam Keluar</label>
+          <input class="field-input" type="time" [(ngModel)]="workEnd" />
+        </div>
+      </div>
+      <p class="schedule-hint" *ngIf="workStart && workEnd && workStart >= workEnd">
+        <ion-icon name="warning-outline"></ion-icon>
+        Jam masuk harus lebih awal dari jam keluar.
+      </p>
+    </div>
+
+    <div class="bottom-actions">
+      <ion-button expand="block" shape="round" color="primary" [disabled]="isSaving" (click)="save()">
+        <ion-icon name="save-outline" slot="start"></ion-icon>
+        {{ isSaving ? 'Menyimpan...' : 'SIMPAN PENGATURAN KANTOR' }}
+      </ion-button>
+    </div>
+
   </div>
 </ion-content>

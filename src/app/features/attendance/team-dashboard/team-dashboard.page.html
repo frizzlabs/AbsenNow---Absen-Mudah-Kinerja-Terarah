@@ -76,7 +76,7 @@
     </div>
 
     <!-- EMPLOYEE LIST -->
-    <div class="list-item" *ngFor="let emp of filtered">
+    <div class="list-item" *ngFor="let emp of filtered" (click)="openDetail(emp)" style="cursor: pointer;">
       <div class="item-header">
         <div class="emp-info">
           <div class="emp-avatar">{{ emp.name?.charAt(0)?.toUpperCase() }}</div>

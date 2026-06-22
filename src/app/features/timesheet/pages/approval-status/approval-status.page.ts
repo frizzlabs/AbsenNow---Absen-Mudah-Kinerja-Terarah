@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { Router, ActivatedRoute } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
 import { BottomNavComponent } from '../../../../shared/components/bottom-nav/bottom-nav.component';
 import { TimesheetService } from '../../../../core/services/timesheet.service';
 import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
@@ -11,7 +12,7 @@ import { PageHeaderComponent } from '../../../../shared/components/page-header/p
   templateUrl: './approval-status.page.html',
   styleUrls: ['./approval-status.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, BottomNavComponent, PageHeaderComponent]
+  imports: [CommonModule, IonicModule, TranslatePipe, BottomNavComponent, PageHeaderComponent]
 })
 export class ApprovalStatusPage implements OnInit {
   timesheet: any = null;
@@ -40,17 +41,17 @@ export class ApprovalStatusPage implements OnInit {
 
   minsToHm(mins: number): string {
     const m = mins || 0;
-    return `${Math.floor(m / 60)}h ${(m % 60).toString().padStart(2, '0')}m`;
+    return `${Math.floor(m / 60)} jam ${(m % 60).toString().padStart(2, '0')} mnt`;
   }
   get rangeLabel(): string {
     if (!this.timesheet) return '';
     const s = new Date(this.timesheet.week_start_date);
     const e = new Date(this.timesheet.week_end_date);
-    return `${s.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - ${e.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`;
+    return `${s.toLocaleDateString('id-ID', { month: 'short', day: 'numeric' })} - ${e.toLocaleDateString('id-ID', { month: 'short', day: 'numeric', year: 'numeric' })}`;
   }
   get monthLabel(): string {
     if (!this.timesheet) return '';
-    return new Date(this.timesheet.week_start_date).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+    return new Date(this.timesheet.week_start_date).toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
   }
   get totalLogged(): string { return this.minsToHm(this.timesheet?.total_minutes || 0); }
   get workDays(): number {
@@ -59,13 +60,18 @@ export class ApprovalStatusPage implements OnInit {
     return days.size;
   }
   statusText(status: string): string {
-    if (!status) return 'Pending';
-    return status.charAt(0).toUpperCase() + status.slice(1);
+    if (!status) return 'Menunggu';
+    switch (status.toLowerCase()) {
+      case 'pending': return 'Menunggu';
+      case 'approved': return 'Disetujui';
+      case 'revision': return 'Perlu Revisi';
+      default: return status;
+    }
   }
   formatEventTime(dateStr: string): string {
     if (!dateStr) return '';
     try {
-      return new Date(dateStr).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+      return new Date(dateStr).toLocaleString('id-ID', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
     } catch (e) {
       return dateStr;
     }

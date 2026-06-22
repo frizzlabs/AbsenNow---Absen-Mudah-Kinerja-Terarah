@@ -43,10 +43,10 @@ export class MonthlyPage {
   // ---- helpers ----
   minsToHm(mins: number): string {
     const m = mins || 0;
-    return `${Math.floor(m / 60)}h ${(m % 60).toString().padStart(2, '0')}m`;
+    return `${Math.floor(m / 60)} jam ${(m % 60).toString().padStart(2, '0')} mnt`;
   }
   get headerMonth(): string {
-    return new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+    return new Date().toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
   }
   get totalLogged(): string { return this.minsToHm(this.summary?.total_minutes || 0); }
   get workDays(): number { return this.summary?.work_days || 0; }
@@ -56,21 +56,27 @@ export class MonthlyPage {
   weekTitle(w: any): string {
     const s = new Date(w.week_start_date);
     const e = new Date(w.week_end_date);
-    return `${s.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - ${e.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`;
+    return `${s.toLocaleDateString('id-ID', { month: 'short', day: 'numeric' })} - ${e.toLocaleDateString('id-ID', { month: 'short', day: 'numeric' })}`;
   }
   weekMonth(w: any): string {
-    return new Date(w.week_end_date).toLocaleDateString('en-US', { month: 'short' }).toUpperCase();
+    return new Date(w.week_end_date).toLocaleDateString('id-ID', { month: 'short' }).toUpperCase();
   }
   weekDay(w: any): string {
     return new Date(w.week_end_date).getDate().toString().padStart(2, '0');
   }
   statusText(status: string): string {
-    if (!status) return 'Pending';
-    return status.charAt(0).toUpperCase() + status.slice(1);
+    if (!status) return 'Menunggu';
+    const map: { [k: string]: string } = {
+      pending: 'Menunggu',
+      approved: 'Disetujui',
+      rejected: 'Ditolak',
+      revision: 'Revisi'
+    };
+    return map[status.toLowerCase()] || status;
   }
   statusColor(status: string): string {
     const s = (status || '').toLowerCase();
-    if (s === 'approved') return 'success';
+    if (s === 'approved') return 'primary';
     if (s === 'rejected' || s === 'revision') return 'danger';
     return 'warning';
   }

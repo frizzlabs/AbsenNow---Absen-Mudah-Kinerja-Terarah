@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule, Router } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
 import { ExpenseStatCardComponent } from '../../../../shared/components/expense-stat-card/expense-stat-card.component';
 import { ExpenseCardComponent } from '../../../../shared/components/expense-card/expense-card.component';
 import { ExpenseService } from '../../../../core/services/expense.service';
@@ -13,7 +14,7 @@ import { PageHeaderComponent } from '../../../../shared/components/page-header/p
   templateUrl: './overview.page.html',
   styleUrls: ['./overview.page.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, IonicModule, RouterModule, ExpenseStatCardComponent, ExpenseCardComponent, PageHeaderComponent]
+  imports: [CommonModule, FormsModule, IonicModule, RouterModule, TranslatePipe, ExpenseStatCardComponent, ExpenseCardComponent, PageHeaderComponent]
 })
 export class OverviewPage implements OnInit {
   currentRequests: any[] = [];
@@ -28,11 +29,18 @@ export class OverviewPage implements OnInit {
     private expenseService: ExpenseService
   ) { }
 
+  private isFirstLoad = true;
+
   ngOnInit() {
+    this.loadExpenses();
+    this.isFirstLoad = false;
   }
 
   ionViewWillEnter() {
-    this.loadExpenses();
+    if (!this.isFirstLoad) {
+      this.loadExpenses();
+    }
+    this.isFirstLoad = false;
   }
 
   loadExpenses() {
@@ -64,11 +72,11 @@ export class OverviewPage implements OnInit {
 
   calculateStats() {
     this.pendingAmount = this.currentRequests
-      .filter(r => r.status === 'Pending')
+      .filter(r => r.status === 'Menunggu')
       .reduce((acc, r) => acc + r.amount, 0);
 
     this.approvedAmount = this.currentRequests
-      .filter(r => r.status === 'Approved' || r.status === 'Paid')
+      .filter(r => r.status === 'Disetujui' || r.status === 'Dibayar')
       .reduce((acc, r) => acc + r.amount, 0);
 
     this.totalAmount = this.pendingAmount + this.approvedAmount;
@@ -76,11 +84,11 @@ export class OverviewPage implements OnInit {
 
   getCategoryName(cat: string): string {
     const mapping: { [key: string]: string } = {
-      travel: 'Travel & Transportation',
-      meals: 'Meals & Entertainment',
-      office: 'Office Supplies',
-      hotel: 'Accommodation / Hotel',
-      other: 'Other'
+      travel: 'Perjalanan & Transportasi',
+      meals: 'Makanan & Hiburan',
+      office: 'Peralatan Kantor',
+      hotel: 'Akomodasi / Hotel',
+      other: 'Lainnya'
     };
     return mapping[cat] || cat;
   }
@@ -110,19 +118,19 @@ export class OverviewPage implements OnInit {
   formatDate(dateStr: string): string {
     try {
       const d = new Date(dateStr);
-      return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      return d.toLocaleDateString('id-ID', { month: 'short', day: 'numeric' });
     } catch (e) {
       return dateStr;
     }
   }
 
   formatStatus(status: string): any {
-    if (!status) return 'Pending';
+    if (!status) return 'Menunggu';
     const lower = status.toLowerCase();
-    if (lower === 'paid') return 'Paid';
-    if (lower === 'approved') return 'Approved';
-    if (lower === 'rejected') return 'Rejected';
-    return 'Pending';
+    if (lower === 'paid') return 'Dibayar';
+    if (lower === 'approved') return 'Disetujui';
+    if (lower === 'rejected') return 'Ditolak';
+    return 'Menunggu';
   }
 
   goBack() {

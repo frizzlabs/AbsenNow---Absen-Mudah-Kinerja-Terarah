@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { IonicModule, AlertController, LoadingController } from '@ionic/angular';
 import { RouterModule, Router } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
 import { ExpenseStepperComponent } from '../../../../shared/components/expense-stepper/expense-stepper.component';
 import { ExpenseReceiptPreviewComponent } from '../../../../shared/components/expense-receipt-preview/expense-receipt-preview.component';
 import { ExpenseService, ExpenseDraft } from '../../../../core/services/expense.service';
@@ -12,7 +13,7 @@ import { PageHeaderComponent } from '../../../../shared/components/page-header/p
   templateUrl: './create-summary.page.html',
   styleUrls: ['./create-summary.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, RouterModule, ExpenseStepperComponent, ExpenseReceiptPreviewComponent, CurrencyPipe, PageHeaderComponent]
+  imports: [CommonModule, IonicModule, RouterModule, TranslatePipe, ExpenseStepperComponent, ExpenseReceiptPreviewComponent, CurrencyPipe, PageHeaderComponent]
 })
 export class CreateSummaryPage implements OnInit {
   draft: ExpenseDraft | null = null;
@@ -31,11 +32,11 @@ export class CreateSummaryPage implements OnInit {
   getCategoryName(cat?: string): string {
     if (!cat) return '';
     const mapping: { [key: string]: string } = {
-      travel: 'Travel & Transportation',
-      meals: 'Meals & Entertainment',
-      office: 'Office Supplies',
-      hotel: 'Accommodation / Hotel',
-      other: 'Other'
+      travel: 'Perjalanan & Transportasi',
+      meals: 'Makanan & Hiburan',
+      office: 'Peralatan Kantor',
+      hotel: 'Akomodasi / Hotel',
+      other: 'Lainnya'
     };
     return mapping[cat] || cat;
   }
@@ -48,7 +49,7 @@ export class CreateSummaryPage implements OnInit {
     if (!this.draft) return;
 
     const loading = await this.loadingController.create({
-      message: 'Submitting claim...',
+      message: 'Mengirimkan klaim...',
       spinner: 'crescent'
     });
     await loading.present();
@@ -77,7 +78,7 @@ export class CreateSummaryPage implements OnInit {
         await loading.dismiss();
         console.error('Failed to submit expense claim', err);
 
-        let errorMessage = 'An error occurred while submitting your reimbursement claim.';
+        let errorMessage = 'Terjadi kesalahan saat mengirim klaim penggantian Anda.';
         if (err?.error?.message) {
           errorMessage = err.error.message;
         } else if (err?.error?.errors) {
@@ -86,7 +87,7 @@ export class CreateSummaryPage implements OnInit {
         }
 
         const alert = await this.alertController.create({
-          header: 'Submission Failed',
+          header: 'Pengajuan Gagal',
           message: errorMessage,
           buttons: ['OK']
         });

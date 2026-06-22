@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule, Router } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
 import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
 
 @Component({
@@ -10,7 +11,7 @@ import { PageHeaderComponent } from '../../../../shared/components/page-header/p
   templateUrl: './filter.page.html',
   styleUrls: ['./filter.page.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, IonicModule, RouterModule, PageHeaderComponent]
+  imports: [CommonModule, FormsModule, IonicModule, RouterModule, TranslatePipe, PageHeaderComponent]
 })
 export class FilterPage implements OnInit {
   selectedStatus: string = 'Approved';

@@ -1,20 +1,20 @@
 <ion-content color="light">
-  <app-page-header title="Create Request"></app-page-header>
-  <app-expense-stepper [currentStep]="3" [totalSteps]="5" title="Expense Request"></app-expense-stepper>
+  <app-page-header [title]="'Create Request' | translate"></app-page-header>
+  <app-expense-stepper [currentStep]="3" [totalSteps]="5" title="Pengajuan Pengeluaran"></app-expense-stepper>
 
   <div class="content-wrapper">
-    <h1 class="page-title">Review Extracted Details</h1>
-    <p class="page-desc">Our AI extracted these details from your receipt. Please review and make any necessary corrections.</p>
+    <h1 class="page-title">Tinjau Detail Hasil Ekstraksi</h1>
+    <p class="page-desc">AI kami mengekstrak detail ini dari struk Anda. Harap tinjau dan lakukan koreksi jika diperlukan.</p>
 
     <div class="form-group">
-      <div class="input-label">Merchant Name</div>
+      <div class="input-label">Nama Merchant / Pedagang</div>
       <div class="custom-input">
         <ion-input type="text" [(ngModel)]="merchantName"></ion-input>
       </div>
     </div>
 
     <div class="form-group">
-      <div class="input-label">Date of Expense</div>
+      <div class="input-label">Tanggal Pengeluaran</div>
       <div class="custom-input">
         <ion-input type="text" [(ngModel)]="expenseDate"></ion-input>
         <ion-icon name="calendar-outline" class="input-icon"></ion-icon>
@@ -22,9 +22,9 @@
     </div>
 
     <div class="form-group">
-      <div class="input-label">Total Amount</div>
+      <div class="input-label">Total Jumlah</div>
       <div class="currency-input-wrapper">
-        <div class="currency-prefix">USD</div>
+        <div class="currency-prefix">IDR</div>
         <div class="custom-input currency-input">
           <ion-input type="number" [(ngModel)]="amount"></ion-input>
         </div>
@@ -32,9 +32,9 @@
     </div>
 
     <div class="form-group" style="margin-top: 16px;">
-      <div class="input-label">Notes / Description</div>
+      <div class="input-label">Catatan / Deskripsi</div>
       <div class="custom-input" style="border: 1px solid #e0e0e0; border-radius: 8px; background: white; padding: 4px 8px;">
-        <ion-textarea rows="3" placeholder="Explain the business purpose (e.g. client lunch, taxi to airport)..." [(ngModel)]="notes" style="font-size: 14px; --padding-start: 0;"></ion-textarea>
+        <ion-textarea rows="3" placeholder="Jelaskan keperluan bisnis (misal: makan siang klien, taksi ke bandara)..." [(ngModel)]="notes" style="font-size: 14px; --padding-start: 0;"></ion-textarea>
       </div>
     </div>
   </div>
@@ -43,7 +43,7 @@
 <ion-footer class="ion-no-border">
   <div class="footer-pad">
     <ion-button expand="block" shape="round" color="primary" class="continue-btn" (click)="next()">
-      Continue
+      Lanjutkan
     </ion-button>
   </div>
 </ion-footer>

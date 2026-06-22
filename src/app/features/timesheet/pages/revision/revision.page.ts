@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule, ToastController, LoadingController } from '@ionic/angular';
 import { Router, ActivatedRoute } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
 import { TimesheetService } from '../../../../core/services/timesheet.service';
 import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
 
@@ -10,7 +11,7 @@ import { PageHeaderComponent } from '../../../../shared/components/page-header/p
   templateUrl: './revision.page.html',
   styleUrls: ['./revision.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, PageHeaderComponent]
+  imports: [CommonModule, IonicModule, TranslatePipe, PageHeaderComponent]
 })
 export class RevisionPage implements OnInit {
   timesheet: any = null;
@@ -40,20 +41,20 @@ export class RevisionPage implements OnInit {
   }
 
   hoursLabel(mins: number): string {
-    return `${((mins || 0) / 60).toFixed(1)} hrs`;
+    return `${((mins || 0) / 60).toFixed(1)} jam`;
   }
   taskHours(mins: number): string {
-    return `${((mins || 0) / 60).toFixed(1)}h`;
+    return `${((mins || 0) / 60).toFixed(1)} jam`;
   }
   get rangeLabel(): string {
     if (!this.timesheet) return '';
     const s = new Date(this.timesheet.week_start_date);
     const e = new Date(this.timesheet.week_end_date);
-    return `${s.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - ${e.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`;
+    return `${s.toLocaleDateString('id-ID', { month: 'short', day: 'numeric' })} - ${e.toLocaleDateString('id-ID', { month: 'short', day: 'numeric' })}`;
   }
   get reviewedAtLabel(): string {
     if (!this.timesheet?.reviewed_at) return '';
-    return new Date(this.timesheet.reviewed_at).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+    return new Date(this.timesheet.reviewed_at).toLocaleString('id-ID', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
   }
 
   /** Group activities by date for display. */

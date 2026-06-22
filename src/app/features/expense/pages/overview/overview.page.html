@@ -1,29 +1,38 @@
 <ion-content color="light" class="ion-padding">
-  <app-page-header title="Expense Overview"></app-page-header>
+  <app-page-header [title]="'Expense Overview' | translate"></app-page-header>
 
-  <app-expense-stat-card
-    [totalAmount]="totalAmount"
-    [pendingAmount]="pendingAmount"
-    [approvedAmount]="approvedAmount">
-  </app-expense-stat-card>
-
-  <div class="section-header">
-    <h2 class="section-title">Current Requests</h2>
-    <div class="view-all" (click)="goToHistory()">View History</div>
+  <div *ngIf="isLoading" style="display:flex;justify-content:center;align-items:center;height:240px">
+    <ion-spinner name="crescent" color="primary"></ion-spinner>
   </div>
 
-  <div class="requests-list">
-    <app-expense-card
-      *ngFor="let req of currentRequests"
-      [title]="req.title"
-      [category]="req.category"
-      [date]="req.date"
-      [amount]="req.amount"
-      [status]="req.status"
-      [icon]="req.icon"
-      [iconColor]="req.iconColor">
-    </app-expense-card>
-  </div>
+  <ng-container *ngIf="!isLoading">
+    <app-expense-stat-card
+      [totalAmount]="totalAmount"
+      [pendingAmount]="pendingAmount"
+      [approvedAmount]="approvedAmount">
+    </app-expense-stat-card>
+
+    <div class="section-header">
+      <h2 class="section-title">Pengajuan Saat Ini</h2>
+      <div class="view-all" (click)="goToHistory()">Lihat Riwayat</div>
+    </div>
+
+    <div class="requests-list">
+      <div *ngIf="currentRequests.length === 0" style="text-align:center;color:#98A2B3;padding:48px 16px;font-size:14px">
+        Belum ada pengajuan pengeluaran
+      </div>
+      <app-expense-card
+        *ngFor="let req of currentRequests"
+        [title]="req.title"
+        [category]="req.category"
+        [date]="req.date"
+        [amount]="req.amount"
+        [status]="req.status"
+        [icon]="req.icon"
+        [iconColor]="req.iconColor">
+      </app-expense-card>
+    </div>
+  </ng-container>
 
   <div class="bottom-spacer"></div>
 </ion-content>
@@ -31,6 +40,6 @@
 <div class="floating-btn-container">
   <ion-button expand="block" shape="round" color="primary" class="create-btn" (click)="goToCreate()">
     <ion-icon name="add-outline" slot="start"></ion-icon>
-    Create Expense Request
+    Buat Pengajuan Pengeluaran
   </ion-button>
 </div>

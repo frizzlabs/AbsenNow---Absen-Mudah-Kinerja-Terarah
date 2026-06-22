@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule, Router } from '@angular/router';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { LeaveStepperComponent } from '../../../../shared/components/leave-stepper/leave-stepper.component';
 import { LeaveService } from '../../../../core/services/leave.service';
 import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
@@ -13,6 +14,7 @@ interface CalendarDay {
   isCurrentMonth: boolean;
   isSelected: boolean;
   isRange: boolean;
+  isPast: boolean;
   fullDate: Date;
 }
 
@@ -21,10 +23,10 @@ interface CalendarDay {
   templateUrl: './create-dates.page.html',
   styleUrls: ['./create-dates.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, RouterModule, LeaveStepperComponent, PageHeaderComponent]
+  imports: [CommonModule, IonicModule, RouterModule, TranslatePipe, LeaveStepperComponent, PageHeaderComponent]
 })
 export class CreateDatesPage implements OnInit {
-  daysOfWeek = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+  daysOfWeek = ['MIN', 'SEN', 'SEL', 'RAB', 'KAM', 'JUM', 'SAB'];
   
   currentDate = new Date();
   displayYear = this.currentDate.getFullYear();
@@ -39,7 +41,8 @@ export class CreateDatesPage implements OnInit {
 
   constructor(
     private router: Router,
-    private leaveService: LeaveService
+    private leaveService: LeaveService,
+    private translate: TranslateService
   ) { }
 
   ngOnInit() {
@@ -70,10 +73,17 @@ export class CreateDatesPage implements OnInit {
 
   getMonthName(monthIndex: number): string {
     const months = [
-      'January', 'February', 'March', 'April', 'May', 'June',
-      'July', 'August', 'September', 'October', 'November', 'December'
+      'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+      'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
     ];
     return months[monthIndex];
+  }
+
+  isPastDate(d: Date): boolean {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const checkDate = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+    return checkDate.getTime() < today.getTime();
   }
 
   generateCalendar() {
@@ -103,6 +113,7 @@ export class CreateDatesPage implements OnInit {
         isCurrentMonth: false,
         isSelected: this.isDateSelected(fullDate),
         isRange: this.isDateInRange(fullDate),
+        isPast: this.isPastDate(fullDate),
         fullDate
       });
     }
@@ -117,6 +128,7 @@ export class CreateDatesPage implements OnInit {
         isCurrentMonth: true,
         isSelected: this.isDateSelected(fullDate),
         isRange: this.isDateInRange(fullDate),
+        isPast: this.isPastDate(fullDate),
         fullDate
       });
     }
@@ -135,6 +147,7 @@ export class CreateDatesPage implements OnInit {
         isCurrentMonth: false,
         isSelected: this.isDateSelected(fullDate),
         isRange: this.isDateInRange(fullDate),
+        isPast: this.isPastDate(fullDate),
         fullDate
       });
       nextDate++;
@@ -184,6 +197,7 @@ export class CreateDatesPage implements OnInit {
   }
 
   selectDay(d: CalendarDay) {
+    if (d.isPast) return;
     const clickedDate = d.fullDate;
     if (!this.startDate || (this.startDate && this.endDate)) {
       this.startDate = clickedDate;
@@ -206,15 +220,15 @@ export class CreateDatesPage implements OnInit {
   }
 
   getSelectedRangeText(): string {
-    if (!this.startDate) return 'Select start date';
+    if (!this.startDate) return this.translate.instant('leave.selectStartDate');
     
     const options: Intl.DateTimeFormatOptions = { weekday: 'short', month: 'short', day: 'numeric' };
-    const startText = this.startDate.toLocaleDateString('en-US', options);
+    const startText = this.startDate.toLocaleDateString('id-ID', options);
     
-    if (!this.endDate) return `${startText} - Select end date`;
+    if (!this.endDate) return `${startText} - ${this.translate.instant('leave.selectEndDate')}`;
     
-    const endText = this.endDate.toLocaleDateString('en-US', options);
-    return `${startText} â€” ${endText}`;
+    const endText = this.endDate.toLocaleDateString('id-ID', options);
+    return `${startText} – ${endText}`;
   }
 
   getTotalRequestedDays(): number {
@@ -229,22 +243,22 @@ export class CreateDatesPage implements OnInit {
   getLeaveBalanceText(after: boolean = false): string {
     const bal = this.balances.find(b => b.leave_type === this.selectedLeaveType);
     if (!bal) {
-      if (this.selectedLeaveType === 'unpaid') return 'Unlimited';
+      if (this.selectedLeaveType === 'unpaid') return this.translate.instant('leave.unlimited');
       const initial = this.selectedLeaveType === 'annual' ? 12 : 5;
       if (after) {
-        return `${Math.max(0, initial - this.getTotalRequestedDays())} Days`;
+        return `${Math.max(0, initial - this.getTotalRequestedDays())} ${this.translate.instant('leave.days')}`;
       }
-      return `${initial} Days`;
+      return `${initial} ${this.translate.instant('leave.days')}`;
     }
 
     const remaining = bal.allocated - bal.used;
-    if (this.selectedLeaveType === 'unpaid') return 'Unlimited';
+    if (this.selectedLeaveType === 'unpaid') return this.translate.instant('leave.unlimited');
 
     if (after) {
       const remainingAfter = Math.max(0, remaining - this.getTotalRequestedDays());
-      return `${remainingAfter} Day${remainingAfter !== 1 ? 's' : ''}`;
+      return `${remainingAfter} ${this.translate.instant('leave.days')}`;
     }
-    return `${remaining} Day${remaining !== 1 ? 's' : ''}`;
+    return `${remaining} ${this.translate.instant('leave.days')}`;
   }
 
   goBack() {

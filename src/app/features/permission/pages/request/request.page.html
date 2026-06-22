@@ -1,10 +1,10 @@
 <ion-content>
-  <app-page-header title="Request Permission"></app-page-header>
+  <app-page-header title="Ajukan Izin"></app-page-header>
 
   <div class="progress-container">
     <div class="progress-labels">
-      <span class="step-label">Step 1 of 2</span>
-      <span class="title-label">Request Permission</span>
+      <span class="step-label">Langkah 1 dari 2</span>
+      <span class="title-label">Ajukan Izin</span>
     </div>
     <div class="progress-bar-bg">
       <div class="progress-bar-fill" style="width: 50%"></div>
@@ -14,27 +14,27 @@
   <div class="content-wrapper">
     <!-- Inputs for Purpose & Category -->
     <div class="input-group">
-      <label>Purpose / Title</label>
+      <label>Keperluan / Judul</label>
       <div class="input-box">
-        <input type="text" [(ngModel)]="title" placeholder="e.g. Doctor's Appointment" style="width: 100%; border: none; outline: none; background: transparent; font-size: 14px; color: var(--ion-color-dark);">
+        <input type="text" [(ngModel)]="title" placeholder="mis. Janji Temu Dokter" style="width: 100%; border: none; outline: none; background: transparent; font-size: 14px; color: var(--ion-color-dark);">
       </div>
     </div>
 
     <div class="input-group mt-16" style="margin-top: 16px;">
-      <label>Category</label>
+      <label>Kategori</label>
       <div class="input-box">
         <select [(ngModel)]="category" style="width: 100%; border: none; outline: none; background: transparent; font-size: 14px; color: var(--ion-color-dark);">
-          <option value="personal">Personal Permission</option>
-          <option value="family">Family Emergency</option>
-          <option value="emergency">House Emergency</option>
-          <option value="other">Other</option>
+          <option value="personal">Izin Pribadi</option>
+          <option value="family">Darurat Keluarga</option>
+          <option value="emergency">Darurat Rumah</option>
+          <option value="other">Lainnya</option>
         </select>
       </div>
     </div>
 
     <!-- Date Picker Input -->
     <div class="input-group mt-16" style="margin-top: 16px;">
-      <label>Date</label>
+      <label>Tanggal</label>
       <div class="input-box">
         <input type="date" [(ngModel)]="permissionDate" style="width: 100%; border: none; outline: none; background: transparent; font-size: 14px; color: var(--ion-color-dark);">
       </div>
@@ -42,13 +42,13 @@
 
     <div class="time-row" style="margin-top: 16px;">
       <div class="input-group">
-        <label>Start Time</label>
+        <label>Waktu Mulai</label>
         <div class="input-box">
           <input type="time" [(ngModel)]="startTime" style="width: 100%; border: none; outline: none; background: transparent; font-size: 14px; color: var(--ion-color-dark);">
         </div>
       </div>
       <div class="input-group">
-        <label>End Time</label>
+        <label>Waktu Selesai</label>
         <div class="input-box">
           <input type="time" [(ngModel)]="endTime" style="width: 100%; border: none; outline: none; background: transparent; font-size: 14px; color: var(--ion-color-dark);">
         </div>
@@ -56,15 +56,15 @@
     </div>
 
     <div class="input-group mt-24">
-      <label>Reason / Notes</label>
+      <label>Alasan / Catatan</label>
       <div class="textarea-box">
-        <textarea [(ngModel)]="notes" maxlength="200" placeholder="Add any details or notes about this permission request..."></textarea>
+        <textarea [(ngModel)]="notes" maxlength="200" placeholder="Tambahkan rincian atau catatan tentang pengajuan izin ini..."></textarea>
         <div class="char-count">{{ notes?.length || 0 }}/200</div>
       </div>
     </div>
 
     <div class="input-group mt-24">
-      <label>Attachments (Optional)</label>
+      <label>Lampiran (Opsional)</label>
       <input type="file" #fileInput (change)="onFileSelected($event)" style="display: none;" accept="image/*,application/pdf">
       
       <!-- Upload Box -->
@@ -72,8 +72,8 @@
         <div class="upload-icon-circle">
           <ion-icon name="cloud-upload-outline" color="primary"></ion-icon>
         </div>
-        <div class="upload-text">Click to upload</div>
-        <div class="upload-hint">PDF, JPG or PNG (MAX. 5MB)</div>
+        <div class="upload-text">Klik untuk mengunggah</div>
+        <div class="upload-hint">PDF, JPG atau PNG (MAKS. 5MB)</div>
       </div>
 
       <!-- Attachment Preview Card -->
@@ -96,7 +96,7 @@
 <ion-footer class="ion-no-border">
   <div class="footer-wrapper">
     <ion-button expand="block" shape="round" color="primary" (click)="continue()">
-      Continue
+      Lanjutkan
     </ion-button>
   </div>
 </ion-footer>

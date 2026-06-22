@@ -15,7 +15,7 @@
       <app-pin-dots [length]="4" [currentLength]="pinValue.length"></app-pin-dots>
 
       <div class="text-center mt-6">
-        <a href="#" class="text-blue font-semibold text-body-medium-semibold">Forgot PIN?</a>
+        <a (click)="forgotPin()" class="text-blue font-semibold text-body-medium-semibold" style="cursor:pointer">Forgot PIN?</a>
       </div>
     </div>
 

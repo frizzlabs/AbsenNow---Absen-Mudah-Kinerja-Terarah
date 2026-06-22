@@ -1,10 +1,10 @@
 <ion-content color="light">
-  <app-page-header title="Request Leave Summary"></app-page-header>
-  <app-leave-stepper [currentStep]="5" [totalSteps]="6" rightText="Request Leave"></app-leave-stepper>
+  <app-page-header [title]="'Request Leave Summary' | translate"></app-page-header>
+  <app-leave-stepper [currentStep]="5" [totalSteps]="6" [rightText]="'leave.requestLeaveTitle' | translate"></app-leave-stepper>
 
   <div class="content-wrapper">
     <h1 class="page-title">{{ getLeaveTypeName(draft?.leave_type) }}</h1>
-    <p class="page-description">Review the details of your request.</p>
+    <p class="page-description">{{ 'leave.reviewDetails' | translate }}</p>
 
     <div class="timeline-container">
       <div class="timeline-item">
@@ -12,7 +12,7 @@
           <ion-icon name="enter-outline"></ion-icon>
         </div>
         <div class="timeline-content">
-          <div class="label">Start Date</div>
+          <div class="label">{{ 'leave.startDate' | translate }}</div>
           <div class="value">{{ formatDate(draft?.start_date) }}</div>
         </div>
       </div>
@@ -22,21 +22,21 @@
           <ion-icon name="exit-outline"></ion-icon>
         </div>
         <div class="timeline-content">
-          <div class="label">End Date</div>
+          <div class="label">{{ 'leave.endDate' | translate }}</div>
           <div class="value">{{ formatDate(draft?.end_date) }}</div>
         </div>
       </div>
     </div>
 
-    <div class="section-label">TOTAL DAYS</div>
-    <div class="days-badge">{{ totalDays }} Day{{ totalDays !== 1 ? 's' : '' }}</div>
+    <div class="section-label">{{ 'leave.totalDays' | translate }}</div>
+    <div class="days-badge">{{ totalDays }} {{ 'leave.days' | translate }}</div>
 
-    <div class="section-label">REASON FOR LEAVE</div>
+    <div class="section-label">{{ 'leave.reasonForLeave' | translate }}</div>
     <div class="reason-input-card" style="background: #fdfdfd; border: 1px solid #e0e0e0; border-radius: 12px; padding: 12px; margin-bottom: 8px;">
-      <textarea *ngIf="draft" [(ngModel)]="draft.reason" placeholder="Please provide details/reason for your leave..." rows="3" class="reason-textarea" style="width: 100%; border: none; resize: none; font-size: 14px; color: var(--ion-color-tertiary); outline: none; background: transparent; font-family: inherit; line-height: 1.5;"></textarea>
+      <textarea *ngIf="draft" [(ngModel)]="draft.reason" [placeholder]="'leave.reasonPlaceholder' | translate" rows="3" class="reason-textarea" style="width: 100%; border: none; resize: none; font-size: 14px; color: var(--ion-color-tertiary); outline: none; background: transparent; font-family: inherit; line-height: 1.5;"></textarea>
     </div>
 
-    <div class="section-label">DELEGATE / BACKUP</div>
+    <div class="section-label">{{ 'leave.delegateBackup' | translate }}</div>
     <div class="delegate-box" *ngIf="draft?.delegate_user_id">
       <div class="avatar-box">
         <img [src]="draft?.delegate_name?.toLowerCase()?.includes('hanna') ? 'assets/images/avatar-hanna.png' : 
@@ -47,14 +47,14 @@
       </div>
       <div class="delegate-info">
         <div class="name">{{ draft?.delegate_name }}</div>
-        <div class="role">Backup Colleague</div>
+        <div class="role">{{ 'leave.backupColleague' | translate }}</div>
       </div>
     </div>
     <div class="no-delegate-text" *ngIf="!draft?.delegate_user_id" style="font-size: 14px; color: var(--ion-color-medium);">
-      Skipped delegation backup.
+      {{ 'leave.skippedDelegation' | translate }}
     </div>
 
-    <div class="section-label">ATTACHMENTS</div>
+    <div class="section-label">{{ 'leave.attachments' | translate }}</div>
     <app-leave-file-card *ngIf="draft?.attachment_name"
       [fileName]="draft?.attachment_name || ''"
       [fileSize]="draft?.attachment_size || ''"
@@ -62,7 +62,7 @@
       iconName="document-text-outline">
     </app-leave-file-card>
     <div class="no-file-text" *ngIf="!draft?.attachment_name" style="font-size: 14px; color: var(--ion-color-medium);">
-      No attachment uploaded.
+      {{ 'leave.noAttachment' | translate }}
     </div>
 
   </div>
@@ -74,12 +74,12 @@
       <div class="checkbox-outer" [class.checked]="isConfirmed">
         <ion-icon name="checkmark-outline" *ngIf="isConfirmed"></ion-icon>
       </div>
-      <div class="checkbox-text">I confirm these entries are accurate and comply with company policy.</div>
+      <div class="checkbox-text">{{ 'leave.confirmAccuracy' | translate }}</div>
     </div>
     
     <ion-button expand="block" shape="round" color="primary" class="submit-btn" [disabled]="!isConfirmed" (click)="submit()">
       <ion-icon name="send-outline" slot="start"></ion-icon>
-      Submit request
+      {{ 'leave.submitRequest' | translate }}
     </ion-button>
   </div>
 </ion-footer>

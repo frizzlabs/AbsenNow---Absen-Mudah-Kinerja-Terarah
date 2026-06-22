@@ -1,4 +1,5 @@
 <ng-container [ngSwitch]="viewState">
+
   <ng-container *ngSwitchCase="'default'">
     <ion-content class="home-content" [fullscreen]="true">
   <div class="header-bg"></div>
@@ -30,26 +31,25 @@
           <p class="current-time-label">{{ 'home.currentTime' | translate }}</p>
           <div class="time-display">
             <span class="time-big">{{ currentTime }}</span>
-            <span class="time-am">{{ currentTimeAmPm }}</span>
           </div>
           <div class="schedule-display">
             <ion-icon name="time" class="schedule-icon"></ion-icon>
-            <span class="schedule-time">09:00 - 17:00</span>
-            <span class="schedule-label">Work Schedule</span>
+            <span class="schedule-time">{{ attendanceService.workScheduleLabel }}</span>
+            <span class="schedule-label">{{ 'home.workSchedule' | translate }}</span>
           </div>
         </div>
-        <app-status-badge color="success" text="On Time"></app-status-badge>
+        <app-status-badge color="success" [text]="'home.onTime' | translate"></app-status-badge>
       </div>
       
-      <app-swipe-button text="Slide to Check In" (swipeComplete)="onSwipeCheckIn()"></app-swipe-button>
-      
-      <p class="current-status">You're Currently: <strong>Checked Out</strong></p>
+      <app-swipe-button [text]="'home.slideToCheckIn' | translate" (swipeComplete)="onSwipeCheckIn()"></app-swipe-button>
+
+      <p class="current-status">{{ 'home.currentlyCheckedOut' | translate }}</p>
       
       <div class="check-times">
         <div class="time-col">
           <div class="col-header text-green">
             <ion-icon name="enter-outline"></ion-icon>
-            <span>Check In</span>
+            <span>{{ 'home.checkIn' | translate }}</span>
           </div>
           <div class="col-value">-:-</div>
         </div>
@@ -57,7 +57,7 @@
         <div class="time-col">
           <div class="col-header text-red">
             <ion-icon name="exit-outline"></ion-icon>
-            <span>Check Out</span>
+            <span>{{ 'home.checkOut' | translate }}</span>
           </div>
           <div class="col-value">-:-</div>
         </div>
@@ -65,7 +65,7 @@
     </div>
 
     <div class="section-title">
-      <h2 class="text-h6">Quick Actions</h2>
+      <h2 class="text-h6">{{ 'home.quickActions' | translate }}</h2>
     </div>
     
     <div class="quick-actions">
@@ -91,13 +91,13 @@
         <div class="action-icon bg-grey">
           <ion-icon name="grid-outline" color="medium"></ion-icon>
         </div>
-        <span>More</span>
+        <span>{{ 'home.more' | translate }}</span>
       </div>
     </div>
 
     <div class="section-title flex-between">
-      <h2 class="text-h6">Recent Updates</h2>
-      <a class="view-all" routerLink="/notification">View All</a>
+      <h2 class="text-h6">{{ 'home.recentUpdates' | translate }}</h2>
+      <a class="view-all" routerLink="/notification">{{ 'home.viewAll' | translate }}</a>
     </div>
     
     <div class="updates-list">
@@ -199,8 +199,8 @@
 
         <!-- Recent Updates -->
         <div class="section-title flex-between" style="margin-top: 8px;">
-          <h2 class="text-h6">Recent Updates</h2>
-          <a class="view-all" routerLink="/notification">View All</a>
+          <h2 class="text-h6">{{ 'home.recentUpdates' | translate }}</h2>
+          <a class="view-all" routerLink="/notification">{{ 'home.viewAll' | translate }}</a>
         </div>
 
         <div class="updates-list">
@@ -261,7 +261,7 @@
     </div>
 
     <div class="sheet-header">
-      <div class="title">Shortcuts</div>
+      <div class="title">{{ 'home.shortcuts.title' | translate }}</div>
       <ion-button fill="clear" color="medium" class="close-btn" (click)="toggleShortcuts()">
         <ion-icon name="close-outline"></ion-icon>
       </ion-button>
@@ -269,71 +269,71 @@
 
     <div class="sheet-content">
       <!-- TIME MANAGEMENT -->
-      <div class="section-label">TIME MANAGEMENT</div>
+      <div class="section-label">{{ 'home.shortcuts.timeManagement' | translate }}</div>
       <div class="grid-row">
         <div class="grid-item" routerLink="/attendance/history" (click)="toggleShortcuts()" style="cursor: pointer;">
           <div class="icon-box" style="background: rgba(59, 130, 246, 0.1);">
             <ion-icon name="calendar-outline" style="color: #3b82f6;"></ion-icon>
           </div>
-          <span>Attendance</span>
+          <span>{{ 'home.attendance' | translate }}</span>
         </div>
         <div class="grid-item" routerLink="/leave" (click)="toggleShortcuts()" style="cursor: pointer;">
           <div class="icon-box" style="background: rgba(249, 115, 22, 0.1);">
             <ion-icon name="umbrella-outline" style="color: #f97316;"></ion-icon>
           </div>
-          <span>Leave</span>
+          <span>{{ 'home.leave' | translate }}</span>
         </div>
         <div class="grid-item" routerLink="/overtime" (click)="toggleShortcuts()" style="cursor: pointer;">
           <div class="icon-box" style="background: rgba(168, 85, 247, 0.1);">
             <ion-icon name="time-outline" style="color: #a855f7;"></ion-icon>
           </div>
-          <span>Overtime</span>
+          <span>{{ 'home.overtime' | translate }}</span>
         </div>
         <div class="grid-item" routerLink="/timesheet" (click)="toggleShortcuts()" style="cursor: pointer;">
           <div class="icon-box" style="background: rgba(59, 130, 246, 0.1);">
             <ion-icon name="timer-outline" style="color: #3b82f6;"></ion-icon>
           </div>
-          <span>Shift</span>
+          <span>{{ 'home.shortcuts.shift' | translate }}</span>
         </div>
       </div>
 
       <!-- FINANCE -->
-      <div class="section-label mt-24">FINANCE</div>
+      <div class="section-label mt-24">{{ 'home.shortcuts.finance' | translate }}</div>
       <div class="grid-row">
         <div class="grid-item" routerLink="/payslip" (click)="toggleShortcuts()" style="cursor: pointer;">
           <div class="icon-box" style="background: rgba(34, 197, 94, 0.1);">
             <ion-icon name="receipt-outline" style="color: #22c55e;"></ion-icon>
           </div>
-          <span>Payslip</span>
+          <span>{{ 'home.payslip' | translate }}</span>
         </div>
-        <div class="grid-item" routerLink="/expense" (click)="toggleShortcuts()" style="cursor: pointer;">
+        <div class="grid-item" routerLink="/expense/overview" (click)="toggleShortcuts()" style="cursor: pointer;">
           <div class="icon-box" style="background: rgba(6, 182, 212, 0.1);">
             <ion-icon name="wallet-outline" style="color: #06b6d4;"></ion-icon>
           </div>
-          <span>Reimburse</span>
+          <span>{{ 'home.shortcuts.reimburse' | translate }}</span>
         </div>
         <div class="grid-item" style="opacity: 0.5;">
           <div class="icon-box" style="background: rgba(99, 102, 241, 0.1);">
             <ion-icon name="cash-outline" style="color: #6366f1;"></ion-icon>
           </div>
-          <span>Loan</span>
+          <span>{{ 'home.shortcuts.loan' | translate }}</span>
         </div>
         <div class="grid-item" style="opacity: 0.5;">
           <div class="icon-box" style="background: rgba(16, 185, 129, 0.1);">
             <ion-icon name="cash-outline" style="color: #10b981;"></ion-icon>
           </div>
-          <span>Tax</span>
+          <span>{{ 'home.shortcuts.tax' | translate }}</span>
         </div>
       </div>
 
       <!-- REQUESTS & GENERAL -->
-      <div class="section-label mt-24">REQUESTS & GENERAL</div>
+      <div class="section-label mt-24">{{ 'home.shortcuts.requestsGeneral' | translate }}</div>
       <div class="grid-row">
         <div class="grid-item">
           <div class="icon-box" style="background: rgba(236, 72, 153, 0.1);">
             <ion-icon name="people-outline" style="color: #ec4899;"></ion-icon>
           </div>
-          <span>Team</span>
+          <span>{{ 'home.shortcuts.team' | translate }}</span>
         </div>
         <div class="grid-item" *ngIf="!isAdminOnly" routerLink="/attendance/correction/history" (click)="toggleShortcuts()" style="cursor: pointer;">
           <div class="icon-box" style="background: rgba(234, 179, 8, 0.1);">
@@ -345,7 +345,7 @@
           <div class="icon-box" style="background: rgba(234, 179, 8, 0.1);">
             <ion-icon name="briefcase-outline" style="color: #eab308;"></ion-icon>
           </div>
-          <span>Assets</span>
+          <span>{{ 'home.shortcuts.assets' | translate }}</span>
         </div>
         <div class="grid-item" *ngIf="!isAdminOnly" routerLink="/attendance/correction/reason" (click)="toggleShortcuts()" style="cursor: pointer;">
           <div class="icon-box" style="background: rgba(239, 68, 68, 0.1);">
@@ -357,7 +357,7 @@
           <div class="icon-box" style="background: rgba(14, 165, 233, 0.1);">
             <ion-icon name="folder-outline" style="color: #0ea5e9;"></ion-icon>
           </div>
-          <span>Docs</span>
+          <span>{{ 'home.shortcuts.docs' | translate }}</span>
         </div>
         <div class="grid-item" *ngIf="!isAdminOnly" routerLink="/dinas-luar/history" (click)="toggleShortcuts()" style="cursor: pointer;">
           <div class="icon-box" style="background: rgba(16, 185, 129, 0.1);">
@@ -369,13 +369,13 @@
           <div class="icon-box" style="background: rgba(100, 116, 139, 0.1);">
             <ion-icon name="options-outline" style="color: #64748b;"></ion-icon>
           </div>
-          <span>Manage</span>
+          <span>{{ 'home.shortcuts.manage' | translate }}</span>
         </div>
       </div>
 
       <!-- ADMIN (muncul untuk manager / supervisor yang punya attendance.approve) -->
       <ng-container *ngIf="canManageUsers || canManageOffice || canApproveAttendance">
-        <div class="section-label mt-24">ADMIN</div>
+        <div class="section-label mt-24">{{ 'home.shortcuts.admin' | translate }}</div>
         <div class="grid-row">
           <div class="grid-item" *ngIf="canApproveAttendance" routerLink="/admin/corrections" (click)="toggleShortcuts()" style="cursor: pointer;">
             <div class="icon-box" style="background: rgba(239, 68, 68, 0.1);">

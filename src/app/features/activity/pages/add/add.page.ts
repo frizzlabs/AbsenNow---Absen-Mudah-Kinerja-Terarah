@@ -23,10 +23,10 @@ export class AddPage {
   description = '';
 
   categories = [
-    { value: 'development', label: 'Development', icon: 'code-slash-outline' },
-    { value: 'meeting', label: 'Meeting', icon: 'people-outline' },
+    { value: 'development', label: 'Pengembangan', icon: 'code-slash-outline' },
+    { value: 'meeting', label: 'Rapat', icon: 'people-outline' },
     { value: 'admin', label: 'Admin', icon: 'document-text-outline' },
-    { value: 'design', label: 'Design', icon: 'color-palette-outline' },
+    { value: 'design', label: 'Desain', icon: 'color-palette-outline' },
     { value: 'qa', label: 'QA', icon: 'search-outline' }
   ];
 
@@ -46,7 +46,7 @@ export class AddPage {
     const [eh, em] = this.endTime.split(':').map(Number);
     let mins = (eh * 60 + em) - (sh * 60 + sm);
     if (mins < 0) mins = 0;
-    return `${Math.floor(mins / 60)}h ${mins % 60}m`;
+    return `${Math.floor(mins / 60)} jam ${mins % 60} mnt`;
   }
 
   goBack() {
@@ -55,15 +55,15 @@ export class AddPage {
 
   async save() {
     if (!this.title.trim()) {
-      this.showToast('Please enter an activity title.');
+      this.showToast('Silakan masukkan judul aktivitas.');
       return;
     }
     if (this.endTime <= this.startTime) {
-      this.showToast('End time must be after start time.');
+      this.showToast('Waktu selesai harus setelah waktu mulai.');
       return;
     }
 
-    const loading = await this.loadingCtrl.create({ message: 'Saving log...' });
+    const loading = await this.loadingCtrl.create({ message: 'Menyimpan log...' });
     await loading.present();
 
     this.activityService.createActivity({
@@ -82,7 +82,7 @@ export class AddPage {
       },
       error: async (err) => {
         loading.dismiss();
-        const msg = err.error?.message || 'Failed to save activity.';
+        const msg = err.error?.message || 'Gagal menyimpan aktivitas.';
         this.showToast(msg, 'danger');
       }
     });

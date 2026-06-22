@@ -254,3 +254,20 @@ ion-alert.app-confirm--reject .alert-head::before {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 24 24' fill='none' stroke='%23dc2626' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='18' y1='6' x2='6' y2='18'/%3E%3Cline x1='6' y1='6' x2='18' y2='18'/%3E%3C/svg%3E");
 }
 
+// ── Desktop shell (≥1024px) — Fase 0 ─────────────────────────────
+// Di layar lebar, <app-bottom-nav> berubah jadi sidebar kiri 240px
+// (lihat bottom-nav.component.scss). Halaman yang punya nav itu didorong
+// ke kanan supaya kontennya tak ketutup sidebar. Mobile (<1024px) tak
+// terpengaruh — native iOS/Android aman.
+@media (min-width: 1024px) {
+  .ion-page:has(app-bottom-nav) {
+    padding-left: 240px;
+  }
+
+  // Dipakai halaman yang sudah diadaptasi: kolom konten max-width & center.
+  .desktop-shell-content {
+    max-width: 1200px;
+    margin-inline: auto;
+  }
+}
+

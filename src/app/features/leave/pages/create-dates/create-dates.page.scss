@@ -81,6 +81,15 @@ ion-content {
         }
       }
 
+      &.past {
+        pointer-events: none;
+        .day-inner {
+          color: #cbd5e1;
+          text-decoration: line-through;
+          opacity: 0.5;
+        }
+      }
+
       &.selected {
         .day-inner {
           background-color: var(--ion-color-primary);

@@ -7,7 +7,7 @@
     <div class="subtitle">{{ category }} &bull; {{ date }}</div>
   </div>
   <div class="amount-block">
-    <div class="amount">{{ amount | currency:'USD':'symbol':'1.2-2' }}</div>
+    <div class="amount">{{ amount | currency:'IDR':'symbol-narrow':'1.0-0' }}</div>
     <div class="status-badge" [ngClass]="status.toLowerCase()">{{ status }}</div>
   </div>
 </div>

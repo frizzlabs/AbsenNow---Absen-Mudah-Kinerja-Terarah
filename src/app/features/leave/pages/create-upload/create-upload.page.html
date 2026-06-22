@@ -1,10 +1,10 @@
 <ion-content color="light">
-  <app-page-header title="Upload Supporting Documents"></app-page-header>
-  <app-leave-stepper [currentStep]="4" [totalSteps]="6" rightText="Request Leave"></app-leave-stepper>
+  <app-page-header [title]="'Upload Supporting Documents' | translate"></app-page-header>
+  <app-leave-stepper [currentStep]="4" [totalSteps]="6" [rightText]="'leave.requestLeaveTitle' | translate"></app-leave-stepper>
 
   <div class="content-wrapper">
-    <h1 class="page-title">Upload Supporting Documents</h1>
-    <p class="page-description">Please upload your medical certificate or other relevant documents. This step is optional.</p>
+    <h1 class="page-title">{{ 'Upload Supporting Documents' | translate }}</h1>
+    <p class="page-description">{{ 'leave.uploadDescription' | translate }}</p>
 
     <div class="upload-box" (click)="triggerFileInput(fileInput)">
       <input type="file" #fileInput style="display: none;" accept="image/*,application/pdf" (change)="onFileSelected($event)" />
@@ -13,8 +13,8 @@
         <div class="icon-circle">
           <ion-icon name="cloud-upload-outline"></ion-icon>
         </div>
-        <div class="upload-title">Click to upload</div>
-        <div class="upload-subtitle">PDF, JPG or PNG (MAX. 5MB)</div>
+        <div class="upload-title">{{ 'leave.clickToUpload' | translate }}</div>
+        <div class="upload-subtitle">{{ 'leave.uploadSubtitle' | translate }}</div>
       </div>
 
       <div *ngIf="fileName" class="uploaded-file-info" (click)="$event.stopPropagation()">
@@ -32,7 +32,7 @@
     <div class="info-alert">
       <ion-icon name="alert-circle-outline"></ion-icon>
       <div class="alert-text">
-        If you don't have the document ready, you can skip this step and upload it later from your request history.
+        {{ 'leave.uploadSkipAlert' | translate }}
       </div>
     </div>
   </div>
@@ -41,7 +41,7 @@
 <ion-footer class="ion-no-border">
   <div class="footer-pad">
     <ion-button expand="block" shape="round" color="primary" class="continue-btn" (click)="continue()">
-      Continue
+      {{ 'leave.continue' | translate }}
     </ion-button>
   </div>
 </ion-footer>

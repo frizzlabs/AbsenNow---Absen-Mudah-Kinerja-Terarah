@@ -1,14 +1,14 @@
 <ion-content [fullscreen]="true" class="bg-gray">
   <div class="header-container">
-    <app-page-header title="Monthly Summary">
+    <app-page-header [title]="'Monthly Summary' | translate">
       <ion-icon name="download-outline" slot="end" class="header-action-icon"></ion-icon>
     </app-page-header>
     
     <div class="month-nav">
       <div class="nav-btn"><ion-icon name="chevron-back-outline"></ion-icon></div>
       <div class="current-month">
-        <div class="text-body-medium-semibold">Febober 2026</div>
-        <div class="text-body-xsmall-regular text-gray">Current Period</div>
+        <div class="text-body-medium-semibold">Februari 2026</div>
+        <div class="text-body-xsmall-regular text-gray">Periode Sekarang</div>
       </div>
       <div class="nav-btn"><ion-icon name="chevron-forward-outline"></ion-icon></div>
     </div>
@@ -20,13 +20,13 @@
     <div class="productivity-card">
       <div class="card-bg-pattern"></div>
       <div class="content">
-        <span class="label">Monthly Productivity Score</span>
+        <span class="label">Skor Produktivitas Bulanan</span>
         <div class="score-row">
           <span class="score">94</span>
           <span class="out-of">/100</span>
           <div class="badge">+2.5%</div>
         </div>
-        <p class="message">Excellent! You're above the team average.</p>
+        <p class="message">Luar biasa! Anda di atas rata-rata tim.</p>
         
         <div class="progress-bars">
           <div class="bar full"></div>
@@ -45,47 +45,47 @@
       <div class="icon-circle">
         <ion-icon name="time-outline"></ion-icon>
       </div>
-      <span class="label">TOTAL HOURS</span>
+      <span class="label">TOTAL JAM</span>
       <div class="time-val">
-        <span class="hrs">176h</span>
-        <span class="mins">30m</span>
+        <span class="hrs">176 jam</span>
+        <span class="mins">30 mnt</span>
       </div>
       <div class="compare">
-        <span class="badge green">+4h</span>
-        <span class="text">vs last month</span>
+        <span class="badge green">+4 jam</span>
+        <span class="text">vs bulan lalu</span>
       </div>
     </div>
 
     <!-- 2 Column Stats -->
     <div class="stats-grid">
       <div class="stat-card">
-        <span class="label">Work Days</span>
-        <div class="val">22 Days</div>
-        <div class="sub-val">20 On-time</div>
+        <span class="label">Hari Kerja</span>
+        <div class="val">22 Hari</div>
+        <div class="sub-val">20 Tepat Waktu</div>
       </div>
       <div class="stat-card">
-        <span class="label">Avg. Clock-In</span>
-        <div class="val">08:52 AM</div>
-        <div class="sub-val green">2m early</div>
+        <span class="label">Rata-rata Masuk</span>
+        <div class="val">08:52</div>
+        <div class="sub-val green">2 mnt lebih cepat</div>
       </div>
     </div>
 
     <!-- Weekly Activity Chart -->
     <div class="chart-card">
       <div class="chart-header">
-        <span class="title">Weekly Activity</span>
+        <span class="title">Aktivitas Mingguan</span>
         <div class="legend">
-          <div class="item"><div class="dot blue"></div>Actual</div>
+          <div class="item"><div class="dot blue"></div>Aktual</div>
           <div class="item"><div class="dot gray"></div>Target</div>
         </div>
       </div>
       
       <div class="chart-bars">
-        <div class="day-col" *ngFor="let day of ['Mon','Tue','Wed','Thu','Fri']; let i = index">
+        <div class="day-col" *ngFor="let day of ['Sen','Sel','Rab','Kam','Jum']; let i = index">
           <div class="bar-bg">
             <div class="bar-fill" [style.height.%]="[50, 70, 40, 60, 50][i]"></div>
           </div>
-          <span class="day-label" [class.active]="day === 'Tue'">{{ day }}</span>
+          <span class="day-label" [class.active]="day === 'Sel'">{{ day }}</span>
         </div>
       </div>
     </div>
@@ -95,12 +95,12 @@
       <div class="list-item">
         <div class="icon-box blue"><ion-icon name="time-outline"></ion-icon></div>
         <div class="item-content">
-          <div class="title">Overtime</div>
-          <div class="subtitle">Approved extra hours</div>
+          <div class="title">Lembur</div>
+          <div class="subtitle">Jam lembur disetujui</div>
         </div>
         <div class="item-value">
-          <div class="val">4h 30m</div>
-          <div class="sub green">Paid</div>
+          <div class="val">4 jam 30 mnt</div>
+          <div class="sub green">Dibayar</div>
         </div>
         <ion-icon name="chevron-forward-outline" class="chevron"></ion-icon>
       </div>
@@ -108,12 +108,12 @@
       <div class="list-item">
         <div class="icon-box orange"><ion-icon name="umbrella-outline"></ion-icon></div>
         <div class="item-content">
-          <div class="title">Leave Taken</div>
-          <div class="subtitle">Annual & Sick leave</div>
+          <div class="title">Cuti Diambil</div>
+          <div class="subtitle">Cuti Tahunan & Sakit</div>
         </div>
         <div class="item-value">
-          <div class="val">1 Day</div>
-          <div class="sub gray">Annual</div>
+          <div class="val">1 Hari</div>
+          <div class="sub gray">Tahunan</div>
         </div>
         <ion-icon name="chevron-forward-outline" class="chevron"></ion-icon>
       </div>
@@ -121,12 +121,12 @@
       <div class="list-item">
         <div class="icon-box red"><ion-icon name="warning-outline"></ion-icon></div>
         <div class="item-content">
-          <div class="title">Late Arrivals</div>
-          <div class="subtitle">Clock-in past 9:00 AM</div>
+          <div class="title">Kedatangan Terlambat</div>
+          <div class="subtitle">Absen masuk setelah 09:00</div>
         </div>
         <div class="item-value">
-          <div class="val">2 Days</div>
-          <div class="sub red">-15 mins</div>
+          <div class="val">2 Hari</div>
+          <div class="sub red">-15 mnt</div>
         </div>
         <ion-icon name="chevron-forward-outline" class="chevron"></ion-icon>
       </div>
@@ -135,6 +135,6 @@
   </div>
 
   <div class="fixed-bottom">
-    <app-button variant="primary" icon="download-outline" iconPosition="right" styleClass="w-full">Download Full Reports</app-button>
+    <app-button variant="primary" icon="download-outline" iconPosition="right" styleClass="w-full">Unduh Laporan Lengkap</app-button>
   </div>
 </ion-content>

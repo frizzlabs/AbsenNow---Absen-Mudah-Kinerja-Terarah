@@ -15,9 +15,21 @@ import { PageHeaderComponent } from '../../../../shared/components/page-header/p
   imports: [CommonModule, FormsModule, IonicModule, PageHeaderComponent]
 })
 export class AdminCorrectionsPage {
-  items: any[] = [];
+  pendingItems: any[] = [];
+  reviewedItems: any[] = [];
+  allItems: any[] = [];
   isLoading = true;
   activeTab: 'pending' | 'reviewed' | 'all' = 'pending';
+
+  get items(): any[] {
+    if (this.activeTab === 'all') {
+      return this.allItems;
+    } else if (this.activeTab === 'reviewed') {
+      return this.reviewedItems;
+    } else {
+      return this.pendingItems;
+    }
+  }
 
   reviewNotes: Record<number, string> = {};
   reviewingId: number | null = null;
@@ -50,7 +62,13 @@ export class AdminCorrectionsPage {
 
     obs.subscribe({
       next: (data) => {
-        this.items = data;
+        if (this.activeTab === 'all') {
+          this.allItems = data;
+        } else if (this.activeTab === 'reviewed') {
+          this.reviewedItems = data;
+        } else {
+          this.pendingItems = data;
+        }
         this.isLoading = false;
       },
       error: () => { this.isLoading = false; }
@@ -138,6 +156,13 @@ export class AdminCorrectionsPage {
           status === 'approved' ? 'success' : 'danger'
         );
         this.load();
+
+        // Refresh pending count if reviewed from another tab to keep the badge in sync
+        if (this.activeTab !== 'pending') {
+          this.correctionService.getPendingReview().subscribe({
+            next: (data) => { this.pendingItems = data; }
+          });
+        }
       },
       error: async (err) => {
         this.reviewingId = null;

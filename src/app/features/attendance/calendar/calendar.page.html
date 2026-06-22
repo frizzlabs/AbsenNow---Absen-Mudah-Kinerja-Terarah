@@ -1,10 +1,10 @@
 <ion-content [fullscreen]="true" class="bg-light">
-  <app-page-header title="Attendance"></app-page-header>
+  <app-page-header title="Absensi"></app-page-header>
   
   <div class="stepper-section">
     <div class="stepper-labels">
-      <span class="step-text text-blue">Step 1 of 3</span>
-      <span class="progress-text text-gray">Correction Progress</span>
+      <span class="step-text text-blue">Langkah 1 dari 3</span>
+      <span class="progress-text text-gray">Proses Koreksi</span>
     </div>
     <div class="progress-bar">
       <div class="progress-fill" style="width: 33%"></div>
@@ -15,34 +15,34 @@
 
   <div class="page-container">
     <div class="legend">
-      <div class="legend-item"><div class="dot blue"></div>Present</div>
-      <div class="legend-item"><div class="dot red"></div>Absent</div>
-      <div class="legend-item"><div class="dot yellow"></div>Holiday</div>
+      <div class="legend-item"><div class="dot blue"></div>Hadir</div>
+      <div class="legend-item"><div class="dot red"></div>Absen</div>
+      <div class="legend-item"><div class="dot yellow"></div>Hari Libur</div>
     </div>
 
     <app-calendar-widget></app-calendar-widget>
 
-    <h3 class="section-title text-h5">Daily Summary</h3>
+    <h3 class="section-title text-h5">Ringkasan Harian</h3>
     
     <div class="summary-card">
       <div class="card-header">
         <div class="date-info">
-          <span class="date-str">Monday, Feb 12</span>
-          <span class="shift-str">Regular Shift</span>
+          <span class="date-str">Senin, 12 Feb</span>
+          <span class="shift-str">Shift Reguler</span>
         </div>
-        <div class="badge-present">PRESENT</div>
+        <div class="badge-present">HADIR</div>
       </div>
       
       <div class="time-cards">
         <div class="time-card">
-          <div class="label"><ion-icon name="log-in-outline" class="green"></ion-icon> CHECK IN</div>
+          <div class="label"><ion-icon name="log-in-outline" class="green"></ion-icon> MASUK</div>
           <div class="time">08:32 AM</div>
-          <div class="sub">On Time</div>
+          <div class="sub">Tepat Waktu</div>
         </div>
         <div class="time-card">
-          <div class="label"><ion-icon name="log-out-outline" class="red"></ion-icon> CHECK OUT</div>
+          <div class="label"><ion-icon name="log-out-outline" class="red"></ion-icon> KELUAR</div>
           <div class="time">05:00 PM</div>
-          <div class="sub">8h 15m Worked</div>
+          <div class="sub">Bekerja 8 jam 15 mnt</div>
         </div>
       </div>
       
@@ -51,9 +51,9 @@
       <div class="card-footer">
         <div class="approver">
           <div class="avatar-placeholder"></div>
-          <span>Approved by Manager</span>
+          <span>Disetujui oleh Manajer</span>
         </div>
-        <a routerLink="/attendance/correction/reason" class="details-link">Details <ion-icon name="chevron-forward-outline"></ion-icon></a>
+        <a routerLink="/attendance/correction/reason" class="details-link">Detail <ion-icon name="chevron-forward-outline"></ion-icon></a>
       </div>
     </div>
   </div>

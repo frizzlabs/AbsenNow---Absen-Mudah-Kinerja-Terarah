@@ -1,15 +1,15 @@
 <ion-content color="light">
-  <app-page-header title="Select Leave Type"></app-page-header>
-  <app-leave-stepper [currentStep]="1" [totalSteps]="6" rightText="Request Leave"></app-leave-stepper>
+  <app-page-header [title]="'Select Leave Type' | translate"></app-page-header>
+  <app-leave-stepper [currentStep]="1" [totalSteps]="6" [rightText]="'leave.requestLeaveTitle' | translate"></app-leave-stepper>
 
   <div class="content-wrapper">
-    <h1 class="page-title">Select Leave Type</h1>
+    <h1 class="page-title">{{ 'Select Leave Type' | translate }}</h1>
 
     <app-leave-radio-card
       iconName="umbrella-outline"
       iconColorClass="primary"
-      title="Annual Leave"
-      [subtitle]="'Balance: <strong>' + getRemainingDays('annual') + '</strong> Remaining'"
+      title="{{ 'leave.annualLeave' | translate }}"
+      [subtitle]="('leave.balance' | translate) + ': <strong>' + getRemainingDays('annual') + '</strong> ' + ('leave.remaining' | translate)"
       [selected]="selectedType === 'annual'"
       (cardSelect)="selectType('annual')">
     </app-leave-radio-card>
@@ -17,8 +17,8 @@
     <app-leave-radio-card
       iconName="medkit-outline"
       iconColorClass="warning"
-      title="Sick Leave"
-      [subtitle]="'Balance: <strong>' + getRemainingDays('sick') + '</strong> Remaining'"
+      title="{{ 'leave.sickLeave' | translate }}"
+      [subtitle]="('leave.balance' | translate) + ': <strong>' + getRemainingDays('sick') + '</strong> ' + ('leave.remaining' | translate)"
       [selected]="selectedType === 'sick'"
       (cardSelect)="selectType('sick')">
     </app-leave-radio-card>
@@ -26,8 +26,8 @@
     <app-leave-radio-card
       iconName="wallet-outline"
       iconColorClass="medium"
-      title="Unpaid Leave"
-      [subtitle]="'Balance: <strong>' + getRemainingDays('unpaid') + '</strong>'"
+      title="{{ 'leave.unpaidLeave' | translate }}"
+      [subtitle]="('leave.balance' | translate) + ': <strong>' + getRemainingDays('unpaid') + '</strong>'"
       [selected]="selectedType === 'unpaid'"
       (cardSelect)="selectType('unpaid')">
     </app-leave-radio-card>
@@ -35,7 +35,7 @@
     <div class="info-alert">
       <ion-icon name="information-circle-outline"></ion-icon>
       <div class="alert-text">
-        Leave balances are updated daily. Requests exceeding your balance may require special approval.
+        {{ 'leave.balanceInfoAlert' | translate }}
       </div>
     </div>
   </div>
@@ -44,7 +44,7 @@
 <ion-footer class="ion-no-border">
   <div class="footer-pad">
     <ion-button expand="block" shape="round" color="primary" class="continue-btn" (click)="continue()">
-      Continue
+      {{ 'leave.continue' | translate }}
     </ion-button>
   </div>
 </ion-footer>

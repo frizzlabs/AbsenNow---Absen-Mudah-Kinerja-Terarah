@@ -1,24 +1,24 @@
 <ion-content color="light">
-  <app-page-header title="Who is your backup?"></app-page-header>
-  <app-leave-stepper [currentStep]="3" [totalSteps]="6" rightText="Request Leave"></app-leave-stepper>
+  <app-page-header [title]="'Who is your backup?' | translate"></app-page-header>
+  <app-leave-stepper [currentStep]="3" [totalSteps]="6" [rightText]="'leave.requestLeaveTitle' | translate"></app-leave-stepper>
 
   <div class="content-wrapper">
-    <h1 class="page-title">Who is your backup?</h1>
-    <p class="page-description">Choose a colleague to handle your tasks while you are away. This step is optional.</p>
+    <h1 class="page-title">{{ 'Who is your backup?' | translate }}</h1>
+    <p class="page-description">{{ 'leave.delegateDescription' | translate }}</p>
 
     <div class="toggle-card">
       <div class="toggle-content">
-        <div class="toggle-title">I don't need a delegate</div>
-        <div class="toggle-subtitle">Skip this step</div>
+        <div class="toggle-title">{{ 'leave.noDelegate' | translate }}</div>
+        <div class="toggle-subtitle">{{ 'leave.skipStep' | translate }}</div>
       </div>
       <ion-toggle [(ngModel)]="skipDelegate" color="primary"></ion-toggle>
     </div>
 
-    <div class="section-title">Suggested Colleagues</div>
+    <div class="section-title">{{ 'leave.suggestedColleagues' | translate }}</div>
 
     <div class="search-bar">
       <ion-icon name="search-outline"></ion-icon>
-      <input type="text" placeholder="Search activities or projects..." [ngModel]="searchQuery" (input)="onSearchChange($event)" />
+      <input type="text" [placeholder]="'leave.searchPlaceholder' | translate" [ngModel]="searchQuery" (input)="onSearchChange($event)" />
     </div>
 
     <div class="delegates-list" [class.disabled]="skipDelegate">
@@ -37,7 +37,7 @@
 <ion-footer class="ion-no-border">
   <div class="footer-pad">
     <ion-button expand="block" shape="round" color="primary" class="continue-btn" (click)="continue()">
-      Continue
+      {{ 'leave.continue' | translate }}
     </ion-button>
   </div>
 </ion-footer>

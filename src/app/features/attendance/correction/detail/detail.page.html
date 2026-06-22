@@ -1,0 +1,93 @@
+<ion-content [fullscreen]="true" class="bg-light">
+  <app-page-header title="Detail Koreksi"></app-page-header>
+
+  <div class="page-container">
+
+    <div *ngIf="isLoading" class="loading-state">
+      <ion-spinner name="crescent"></ion-spinner>
+      <span>Memuat data...</span>
+    </div>
+
+    <ng-container *ngIf="!isLoading && correction">
+
+      <!-- Status banner -->
+      <div class="status-banner" [class]="correction.status">
+        <ion-icon [name]="correction.status === 'approved' ? 'checkmark-circle-outline' : correction.status === 'rejected' ? 'close-circle-outline' : 'time-outline'"></ion-icon>
+        <div>
+          <div class="status-title">{{ statusLabel(correction.status) }}</div>
+          <div class="status-sub" *ngIf="correction.reviewed_at">
+            {{ formatAt(correction.reviewed_at) }}
+          </div>
+          <div class="status-sub" *ngIf="!correction.reviewed_at">Menunggu persetujuan atasan</div>
+        </div>
+      </div>
+
+      <!-- Detail card -->
+      <div class="section-card">
+        <div class="section-label">DETAIL KOREKSI</div>
+
+        <div class="info-row">
+          <ion-icon name="calendar-outline"></ion-icon>
+          <span>{{ formatDate(correction.correction_date) }}</span>
+        </div>
+        <div class="info-row">
+          <ion-icon name="alert-circle-outline"></ion-icon>
+          <span>{{ typeLabel(correction.correction_type) }}</span>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="time-cols">
+          <div class="time-col" *ngIf="correction.proposed_checkin">
+            <span class="col-label">Absen Masuk</span>
+            <div class="time-val">{{ correction.proposed_checkin }}</div>
+            <span class="chip blue">Diusulkan</span>
+          </div>
+          <div class="time-col" *ngIf="correction.proposed_checkout">
+            <span class="col-label">Absen Pulang</span>
+            <div class="time-val">{{ correction.proposed_checkout }}</div>
+            <span class="chip blue">Diusulkan</span>
+          </div>
+        </div>
+
+        <div class="divider" *ngIf="correction.justification"></div>
+
+        <div class="reason-section" *ngIf="correction.justification">
+          <div class="section-label">KETERANGAN</div>
+          <p class="reason-text">"{{ correction.justification }}"</p>
+        </div>
+
+        <div class="evidence-row" *ngIf="correction.evidence_path">
+          <ion-icon name="document-attach-outline"></ion-icon>
+          <span>Bukti terlampir</span>
+        </div>
+      </div>
+
+      <!-- Review card (only if reviewed) -->
+      <div class="section-card" *ngIf="correction.status !== 'pending'">
+        <div class="section-label">REVIEW ATASAN</div>
+
+        <div class="info-row" *ngIf="correction.reviewer">
+          <ion-icon name="person-circle-outline"></ion-icon>
+          <span>{{ correction.reviewer?.name }}</span>
+        </div>
+        <div class="info-row" *ngIf="correction.reviewed_at">
+          <ion-icon name="calendar-outline"></ion-icon>
+          <span>{{ formatAt(correction.reviewed_at) }}</span>
+        </div>
+
+        <div class="review-note" *ngIf="correction.review_note">
+          <ion-icon name="chatbubble-outline"></ion-icon>
+          <p>"{{ correction.review_note }}"</p>
+        </div>
+      </div>
+
+    </ng-container>
+
+    <div *ngIf="!isLoading && !correction" class="empty-state">
+      <ion-icon name="document-outline"></ion-icon>
+      <p>Data tidak ditemukan.</p>
+    </div>
+
+  </div>
+</ion-content>

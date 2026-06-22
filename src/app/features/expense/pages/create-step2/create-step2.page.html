@@ -1,26 +1,26 @@
 <ion-content color="light">
-  <app-page-header title="Create Request"></app-page-header>
-  <app-expense-stepper [currentStep]="2" [totalSteps]="5" title="Expense Request"></app-expense-stepper>
+  <app-page-header [title]="'Create Request' | translate"></app-page-header>
+  <app-expense-stepper [currentStep]="2" [totalSteps]="5" title="Pengajuan Pengeluaran"></app-expense-stepper>
 
   <div class="content-wrapper">
-    <h1 class="page-title">Upload Expense Receipt</h1>
-    <p class="page-desc">Upload a clear photo or PDF of your receipt. Our AI will automatically extract the details.</p>
+    <h1 class="page-title">Unggah Tanda Terima Pengeluaran</h1>
+    <p class="page-desc">Unggah foto atau PDF tanda terima yang jelas. AI kami akan mengekstrak detailnya secara otomatis.</p>
 
     <div class="upload-box" *ngIf="!fileName" (click)="triggerFileInput(fileInput)" style="cursor: pointer;">
       <input type="file" #fileInput style="display: none;" accept="image/*,application/pdf" (change)="onFileSelected($event)" />
       <div class="upload-icon">
         <ion-icon name="cloud-upload-outline"></ion-icon>
       </div>
-      <div class="upload-text">Click to upload</div>
-      <div class="upload-subtext">PDF, JPG or PNG (MAX. 5MB)</div>
+      <div class="upload-text">Klik untuk mengunggah</div>
+      <div class="upload-subtext">PDF, JPG atau PNG (MAKS. 5MB)</div>
     </div>
 
     <div class="attached-section" *ngIf="fileName">
       <div class="section-header">
-        <div class="section-title">Attached Receipt</div>
+        <div class="section-title">Lampiran Tanda Terima</div>
         <div class="verified-badge">
           <ion-icon name="sparkles"></ion-icon>
-          AI Verified
+          Diverifikasi AI
         </div>
       </div>
       
@@ -39,7 +39,7 @@
   <div class="footer-pad">
     <ion-button expand="block" shape="round" color="primary" class="continue-btn" [disabled]="!fileName" (click)="next()">
       <ion-icon name="sparkles" slot="start"></ion-icon>
-      Process Receipt
+      Proses Tanda Terima
     </ion-button>
   </div>
 </ion-footer>

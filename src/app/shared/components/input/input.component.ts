@@ -9,8 +9,11 @@ import { IonicModule } from '@ionic/angular';
       <label class="text-body-small-medium" *ngIf="label">{{ label }}</label>
       <div class="input-wrapper">
         <ion-icon *ngIf="leftIcon" [name]="leftIcon" class="input-icon-left"></ion-icon>
-        <input [type]="type" [placeholder]="placeholder" [value]="value" (input)="onInput($event)" class="custom-input text-body-medium-regular" [ngClass]="{'has-left-icon': leftIcon, 'has-right-icon': rightIcon, 'pw-input': type === 'password'}" />
-        <ion-icon *ngIf="rightIcon" [name]="rightIcon" class="input-icon-right"></ion-icon>
+        <input [type]="effectiveType" [placeholder]="placeholder" [value]="value" (input)="onInput($event)" class="custom-input text-body-medium-regular" [ngClass]="{'has-left-icon': leftIcon, 'has-right-icon': rightIcon}" />
+        <button *ngIf="rightIcon && type === 'password'" type="button" class="icon-btn-right" (click)="togglePassword()">
+          <ion-icon [name]="showPassword ? 'eye-off-outline' : 'eye-outline'" style="pointer-events:none"></ion-icon>
+        </button>
+        <ion-icon *ngIf="rightIcon && type !== 'password'" [name]="rightIcon" class="input-icon-right"></ion-icon>
       </div>
     </div>
   `,
@@ -27,6 +30,14 @@ export class InputComponent {
   @Input() rightIcon?: string;
 
   @Output() valueChange = new EventEmitter<string>();
+
+  showPassword = false;
+
+  get effectiveType(): string {
+    return this.type === 'password' && this.showPassword ? 'text' : this.type;
+  }
+
+  togglePassword() { this.showPassword = !this.showPassword; }
 
   onInput(event: any) {
     this.value = event.target.value;

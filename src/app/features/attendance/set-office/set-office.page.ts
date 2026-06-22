@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import * as L from 'leaflet';
+import { Subscription } from 'rxjs';
 import { AttendanceService } from '../../../core/services/attendance.service';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
 
@@ -24,12 +25,18 @@ export class SetOfficePage implements OnInit {
   address = '';
   isLoading = true;
   isSaving = false;
+  isFetchingLocation = false;
+  isGeocoding = false;
+  workStart = '09:00';
+  workEnd = '17:00';
 
   searchQuery = '';
   searchResults: any[] = [];
   isSearching = false;
   showResults = false;
   private searchTimer: any = null;
+  private geocodeSub: Subscription | null = null;
+  private searchSub: Subscription | null = null;
 
   radiusOptions = [50, 100, 200, 500];
 
@@ -55,6 +62,8 @@ export class SetOfficePage implements OnInit {
           this.lat = parseFloat(o.latitude);
           this.lng = parseFloat(o.longitude);
           this.radius = o.radius_meters || 100;
+          if (o.work_start) this.workStart = o.work_start.substring(0, 5);
+          if (o.work_end) this.workEnd = o.work_end.substring(0, 5);
         }
         this.isLoading = false;
         this.initMap();
@@ -109,7 +118,7 @@ export class SetOfficePage implements OnInit {
     }, 150);
   }
 
-  private setPoint(lat: number, lng: number, moveMarker: boolean) {
+  private setPoint(lat: number, lng: number, moveMarker: boolean, knownAddress?: string) {
     this.lat = lat;
     this.lng = lng;
     if (moveMarker && this.marker) {
@@ -118,7 +127,15 @@ export class SetOfficePage implements OnInit {
     if (this.circle) {
       this.circle.setLatLng([lat, lng]);
     }
-    this.reverseGeocode();
+    if (knownAddress !== undefined) {
+      this.address = knownAddress;
+      if (this.geocodeSub) {
+        this.geocodeSub.unsubscribe();
+      }
+      this.isGeocoding = false;
+    } else {
+      this.reverseGeocode();
+    }
   }
 
   onSearchInput() {
@@ -126,21 +143,30 @@ export class SetOfficePage implements OnInit {
     if (!this.searchQuery.trim()) {
       this.searchResults = [];
       this.showResults = false;
+      this.isSearching = false;
+      if (this.searchSub) {
+        this.searchSub.unsubscribe();
+      }
       return;
     }
-    this.searchTimer = setTimeout(() => this.searchLocation(), 500);
+    this.isSearching = true;
+    this.searchTimer = setTimeout(() => this.searchLocation(), 300);
   }
 
   searchLocation() {
-    this.isSearching = true;
+    if (this.searchSub) {
+      this.searchSub.unsubscribe();
+    }
     const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(this.searchQuery)}&countrycodes=id&limit=5`;
-    this.http.get<any[]>(url, { headers: { 'Accept-Language': 'id' } }).subscribe({
+    this.searchSub = this.http.get<any[]>(url, { headers: { 'Accept-Language': 'id' } }).subscribe({
       next: (results) => {
         this.searchResults = results;
         this.showResults = true;
         this.isSearching = false;
       },
-      error: () => { this.isSearching = false; }
+      error: () => {
+        this.isSearching = false;
+      }
     });
   }
 
@@ -150,7 +176,7 @@ export class SetOfficePage implements OnInit {
     this.showResults = false;
     this.searchQuery = '';
     this.searchResults = [];
-    this.setPoint(lat, lng, true);
+    this.setPoint(lat, lng, true, r.display_name);
     if (this.map) this.map.setView([lat, lng], 16);
   }
 
@@ -169,26 +195,41 @@ export class SetOfficePage implements OnInit {
   }
 
   useMyLocation() {
-    if (!navigator.geolocation) return;
+    if (!navigator.geolocation) {
+      this.showToast('Geolocation tidak didukung oleh browser Anda.', 'danger');
+      return;
+    }
+    this.isFetchingLocation = true;
     navigator.geolocation.getCurrentPosition(
       (pos) => {
+        this.isFetchingLocation = false;
         const { latitude, longitude } = pos.coords;
         this.setPoint(latitude, longitude, true);
         if (this.map) this.map.setView([latitude, longitude], 16);
       },
-      () => this.showToast('Tidak dapat mengambil lokasi GPS.', 'danger'),
+      (err) => {
+        this.isFetchingLocation = false;
+        this.showToast('Tidak dapat mengambil lokasi GPS.', 'danger');
+      },
       { enableHighAccuracy: true, timeout: 10000 }
     );
   }
 
   reverseGeocode() {
+    if (this.geocodeSub) {
+      this.geocodeSub.unsubscribe();
+    }
+    this.isGeocoding = true;
+    this.address = 'Mencari alamat...';
     const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${this.lat}&lon=${this.lng}`;
-    this.http.get<any>(url, { headers: { 'Accept-Language': 'id' } }).subscribe({
+    this.geocodeSub = this.http.get<any>(url, { headers: { 'Accept-Language': 'id' } }).subscribe({
       next: (res) => {
         this.address = res?.display_name || `${this.lat.toFixed(6)}, ${this.lng.toFixed(6)}`;
+        this.isGeocoding = false;
       },
       error: () => {
         this.address = `${this.lat.toFixed(6)}, ${this.lng.toFixed(6)}`;
+        this.isGeocoding = false;
       }
     });
   }
@@ -199,7 +240,7 @@ export class SetOfficePage implements OnInit {
     const loading = await this.loadingCtrl.create({ message: 'Menyimpan lokasi kantor...' });
     await loading.present();
 
-    this.attendanceService.setOfficeLocation(this.lat, this.lng, this.radius, this.officeName?.trim() || 'Kantor').subscribe({
+    this.attendanceService.setOfficeLocation(this.lat, this.lng, this.radius, this.officeName?.trim() || 'Kantor', this.workStart, this.workEnd).subscribe({
       next: async () => {
         loading.dismiss();
         this.isSaving = false;

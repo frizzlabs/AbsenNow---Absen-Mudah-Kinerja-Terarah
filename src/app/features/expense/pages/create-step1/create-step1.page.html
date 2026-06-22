@@ -1,10 +1,10 @@
 <ion-content color="light">
-  <app-page-header title="Create Request"></app-page-header>
-  <app-expense-stepper [currentStep]="1" [totalSteps]="5" title="Expense Request"></app-expense-stepper>
+  <app-page-header [title]="'Create Request' | translate"></app-page-header>
+  <app-expense-stepper [currentStep]="1" [totalSteps]="5" title="Pengajuan Pengeluaran"></app-expense-stepper>
 
   <div class="content-wrapper">
-    <h1 class="page-title">What type of expense is this?</h1>
-    <div class="section-subtitle">SELECT CATEGORY</div>
+    <h1 class="page-title">Kategori pengeluaran apa ini?</h1>
+    <div class="section-subtitle">PILIH KATEGORI</div>
 
     <div class="category-list">
       <label class="category-card" 
@@ -27,7 +27,7 @@
 <ion-footer class="ion-no-border">
   <div class="footer-pad">
     <ion-button expand="block" shape="round" color="primary" class="continue-btn" (click)="next()">
-      Continue
+      Lanjutkan
     </ion-button>
   </div>
 </ion-footer>

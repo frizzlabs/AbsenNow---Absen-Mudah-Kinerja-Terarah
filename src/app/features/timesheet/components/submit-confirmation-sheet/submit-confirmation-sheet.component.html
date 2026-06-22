@@ -6,8 +6,8 @@
   <div class="sheet-header">
     <div class="progress-container">
       <div class="progress-labels">
-        <span class="step-label">Step 1 of 2</span>
-        <span class="title-label">Submit Timesheet</span>
+        <span class="step-label">Langkah 1 dari 2</span>
+        <span class="title-label">Kirim Timesheet</span>
       </div>
       <div class="progress-bar-bg">
         <div class="progress-bar-fill" style="width: 50%"></div>
@@ -16,14 +16,14 @@
   </div>
 
   <div class="sheet-content">
-    <h2 class="title">Ready to submit?</h2>
-    <p class="subtitle">Please review your summary for {{ rangeLabel }}. Once submitted, changes require approval.</p>
+    <h2 class="title">Siap dikirim?</h2>
+    <p class="subtitle">Mohon tinjau ringkasan Anda untuk {{ rangeLabel }}. Setelah dikirim, perubahan memerlukan persetujuan.</p>
 
     <!-- Total Hours Card -->
     <div class="info-card">
       <div class="flex-between">
         <div>
-          <div class="card-label">Total Hours</div>
+          <div class="card-label">Total Jam</div>
           <div class="card-value large primary">{{ totalLabel }}</div>
         </div>
         <div class="icon-circle primary-light">
@@ -37,14 +37,14 @@
       <div class="stat-card">
         <div class="stat-header">
           <ion-icon name="list-outline" color="primary"></ion-icon>
-          <span>Activities</span>
+          <span>Aktivitas</span>
         </div>
         <div class="stat-val">{{ activitiesCount }}</div>
       </div>
       <div class="stat-card">
         <div class="stat-header">
           <ion-icon name="calendar-outline" color="primary"></ion-icon>
-          <span>Date Range</span>
+          <span>Rentang Tanggal</span>
         </div>
         <div class="stat-val text-sm">{{ rangeLabel }}</div>
       </div>
@@ -57,7 +57,7 @@
           <div class="icon-box primary-light">
             <ion-icon name="reader-outline" color="primary"></ion-icon>
           </div>
-          <span class="breakdown-title">View Activity Breakdown</span>
+          <span class="breakdown-title">Lihat Rincian Aktivitas</span>
         </div>
         <ion-icon name="chevron-down-outline" color="medium"></ion-icon>
       </div>
@@ -65,19 +65,19 @@
       <div class="breakdown-content">
         <div class="breakdown-row">
           <span class="breakdown-label">Frontend Development</span>
-          <span class="breakdown-val">3h 15m</span>
+          <span class="breakdown-val">3 jam 15 mnt</span>
         </div>
         <div class="breakdown-row">
           <span class="breakdown-label">Sprint Planning</span>
-          <span class="breakdown-val">3h 15m</span>
+          <span class="breakdown-val">3 jam 15 mnt</span>
         </div>
         <div class="breakdown-row">
           <span class="breakdown-label">Design System Update</span>
-          <span class="breakdown-val">3h 15m</span>
+          <span class="breakdown-val">3 jam 15 mnt</span>
         </div>
         <div class="breakdown-row">
           <span class="breakdown-label">Code Review & Merge</span>
-          <span class="breakdown-val">3h 15m</span>
+          <span class="breakdown-val">3 jam 15 mnt</span>
         </div>
       </div>
     </div>
@@ -86,11 +86,11 @@
   <div class="sheet-footer">
     <div class="checkbox-container">
       <ion-checkbox [(ngModel)]="isConfirmed"></ion-checkbox>
-      <div class="checkbox-label">I confirm these entries are accurate and comply with company policy.</div>
+      <div class="checkbox-label">Saya konfirmasi bahwa entri ini akurat dan sesuai dengan kebijakan perusahaan.</div>
     </div>
     <ion-button expand="block" shape="round" color="primary" [disabled]="!isConfirmed" (click)="submit()">
       <ion-icon name="send-outline" slot="start"></ion-icon>
-      Submit Timesheet
+      Kirim Timesheet
     </ion-button>
   </div>
 </div>

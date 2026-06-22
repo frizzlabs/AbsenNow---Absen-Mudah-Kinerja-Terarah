@@ -1,9 +1,9 @@
 <ion-content color="light">
-  <app-page-header title="When do you want to take leave?"></app-page-header>
-  <app-leave-stepper [currentStep]="2" [totalSteps]="6" rightText="Request Leave"></app-leave-stepper>
+  <app-page-header [title]="'When do you want to take leave?' | translate"></app-page-header>
+  <app-leave-stepper [currentStep]="1" [totalSteps]="6" [rightText]="'leave.requestLeaveTitle' | translate"></app-leave-stepper>
 
   <div class="content-wrapper">
-    <h1 class="page-title">When do you want to take<br/>leave?</h1>
+    <h1 class="page-title">{{ 'When do you want to take leave?' | translate }}</h1>
 
     <div class="calendar-card">
       <div class="calendar-header">
@@ -19,6 +19,7 @@
              [class.not-current]="!d.isCurrentMonth"
              [class.selected]="d.isSelected"
              [class.range]="d.isRange"
+             [class.past]="d.isPast"
              (click)="selectDay(d)">
           <div class="day-inner">{{ d.date }}</div>
         </div>
@@ -30,7 +31,7 @@
         <ion-icon name="calendar-outline"></ion-icon>
       </div>
       <div class="range-content">
-        <div class="range-label">Selected Range</div>
+        <div class="range-label">{{ 'leave.selectedRange' | translate }}</div>
         <div class="range-value">{{ getSelectedRangeText() }}</div>
       </div>
     </div>
@@ -42,16 +43,16 @@
    <div class="footer-pad">
      <div class="footer-info">
        <div class="info-col">
-         <div class="info-label">Total Requested</div>
-         <div class="info-value">{{ getTotalRequestedDays() }} Day{{ getTotalRequestedDays() !== 1 ? 's' : '' }}</div>
+         <div class="info-label">{{ 'leave.totalRequested' | translate }}</div>
+         <div class="info-value">{{ getTotalRequestedDays() }} {{ 'leave.days' | translate }}</div>
        </div>
        <div class="info-col right">
-         <div class="info-label">Balance After</div>
+         <div class="info-label">{{ 'leave.balanceAfter' | translate }}</div>
          <div class="info-value">{{ getLeaveBalanceText(true) }}</div>
        </div>
      </div>
      <ion-button expand="block" shape="round" color="primary" class="continue-btn" [disabled]="!startDate" (click)="continue()">
-       Continue
+       {{ 'leave.continue' | translate }}
      </ion-button>
   </div>
 </ion-footer>

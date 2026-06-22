@@ -1,6 +1,11 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
 .home-content {
   --background: #f8f9fa;
-  height: calc(100% - 80px);
+  height: 100%;
 }
 
 .header-bg {
@@ -19,6 +24,7 @@
   position: relative;
   z-index: 1;
   padding: 16px;
+  padding-bottom: 100px;
 }
 
 /* Header Section */
@@ -121,6 +127,28 @@
   font-weight: 600;
   color: #64748b;
   margin-left: 8px;
+}
+
+.schedule-display {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  margin-top: 8px;
+  
+  .schedule-icon {
+    color: var(--ion-color-primary);
+    margin-right: 4px;
+  }
+  
+  .schedule-time {
+    color: var(--ion-color-primary);
+    font-weight: 600;
+    margin-right: 6px;
+  }
+  
+  .schedule-label {
+    color: #94a3b8;
+  }
 }
 
 .status-badge-gray {

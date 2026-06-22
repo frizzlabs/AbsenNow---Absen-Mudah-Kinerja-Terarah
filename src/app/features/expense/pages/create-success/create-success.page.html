@@ -8,18 +8,18 @@
       </div>
     </div>
 
-    <h1 class="page-title">Request Submitted!</h1>
-    <p class="page-desc">Your expense request has been sent to your manager for approval. You can track the status in the Expense History tab.</p>
+    <h1 class="page-title">Pengajuan Dikirim!</h1>
+    <p class="page-desc">Pengajuan pengeluaran Anda telah dikirim ke manajer untuk disetujui. Anda dapat melacak statusnya di tab Riwayat Pengeluaran.</p>
 
     <div class="recap-card">
       <div class="recap-row">
-        <div class="label">Expense ID</div>
+        <div class="label">ID Pengeluaran</div>
         <div class="value">#EXP-{{ expenseId.toString().padStart(3, '0') }}</div>
       </div>
       <div class="recap-divider"></div>
       <div class="recap-row">
-        <div class="label">Amount</div>
-        <div class="value amount">{{ amount | currency:'USD':'symbol':'1.2-2' }}</div>
+        <div class="label">Jumlah</div>
+        <div class="value amount">{{ amount | currency:'IDR':'symbol':'1.0-0' }}</div>
       </div>
     </div>
   </div>
@@ -28,10 +28,10 @@
 <ion-footer class="ion-no-border">
   <div class="footer-pad">
     <ion-button expand="block" shape="round" color="primary" class="primary-btn" (click)="trackRequest()">
-      Track Request
+      Lacak Pengajuan
     </ion-button>
     <ion-button expand="block" fill="clear" color="primary" class="secondary-btn" (click)="backToOverview()">
-      Back to Overview
+      Kembali ke Ringkasan
     </ion-button>
   </div>
 </ion-footer>

@@ -1,10 +1,10 @@
 <ion-content>
-  <app-page-header title="Request Permission"></app-page-header>
+  <app-page-header title="Ajukan Izin"></app-page-header>
 
   <div class="progress-container">
     <div class="progress-labels">
-      <span class="step-label">Step 2 of 2</span>
-      <span class="title-label">Review Request</span>
+      <span class="step-label">Langkah 2 dari 2</span>
+      <span class="title-label">Tinjau Pengajuan</span>
     </div>
     <div class="progress-bar-bg">
       <div class="progress-bar-fill" style="width: 100%"></div>
@@ -13,31 +13,31 @@
 
   <div class="content-wrapper">
     <h2 class="page-heading">{{ formatDate(draft?.permission_date) }}</h2>
-    <p class="summary-text">Review the details of your request.</p>
+    <p class="summary-text">Tinjau detail pengajuan Anda.</p>
 
     <div class="info-card outline">
-      <div class="card-header">TIME WINDOW</div>
+      <div class="card-header">JENDELA WAKTU</div>
       <div class="time-content">
         <div class="time-block">
-          <div class="time-label">Start</div>
+          <div class="time-label">Mulai</div>
           <div class="time-value">{{ draft?.start_time }}</div>
         </div>
         <div class="time-divider"></div>
         <div class="time-block end">
-          <div class="time-label">End</div>
+          <div class="time-label">Selesai</div>
           <div class="time-value">{{ draft?.end_time }}</div>
         </div>
       </div>
     </div>
 
-    <div class="section-title">CATEGORY</div>
+    <div class="section-title">KATEGORI</div>
     <p class="reason-text">{{ formatCategory(draft?.category) }}</p>
 
-    <div class="section-title">REASON</div>
+    <div class="section-title">ALASAN</div>
     <p class="reason-text">{{ draft?.notes || '-' }}</p>
 
     <ng-container *ngIf="draft?.attachment_name">
-      <div class="section-title">ATTACHMENTS</div>
+      <div class="section-title">LAMPIRAN</div>
       <div class="attachment-card">
         <div class="icon-circle danger-light">
           <ion-icon name="document-text-outline" color="danger"></ion-icon>
@@ -55,11 +55,11 @@
   <div class="footer-wrapper">
     <div class="checkbox-container">
       <ion-checkbox [(ngModel)]="isChecked"></ion-checkbox>
-      <div class="checkbox-label">I confirm these entries are accurate and comply with company policy.</div>
+      <div class="checkbox-label">Saya konfirmasi bahwa data ini akurat dan sesuai dengan kebijakan perusahaan.</div>
     </div>
     <ion-button expand="block" shape="round" color="primary" [disabled]="isSubmitting" (click)="submitRequest()">
       <ion-icon name="send-outline" slot="start"></ion-icon>
-      {{ isSubmitting ? 'Submitting...' : 'Submit request' }}
+      {{ isSubmitting ? 'Mengirim...' : 'Kirim Pengajuan' }}
     </ion-button>
   </div>
 </ion-footer>
