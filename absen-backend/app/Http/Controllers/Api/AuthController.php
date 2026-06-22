@@ -33,7 +33,7 @@ class AuthController extends Controller
             'message' => 'User registered successfully',
             'access_token' => $token,
             'token_type' => 'Bearer',
-            'user' => $user,
+            'user' => $user->load('organization'),
         ], 201);
     }
 
@@ -73,6 +73,15 @@ class AuthController extends Controller
 
         if (!$sent) {
             Log::error("Gagal kirim OTP via Resend ke {$user->email}");
+            if (config('app.env') === 'local') {
+                $user->otp = '123456';
+                $user->save();
+                return response()->json([
+                    'message' => 'OTP sent successfully (Bypass Mode)',
+                    'email'   => $user->email,
+                    'has_pin' => false,
+                ]);
+            }
             return response()->json([
                 'message' => 'Gagal mengirim OTP. Coba lagi.'
             ], 500);
@@ -106,7 +115,8 @@ class AuthController extends Controller
             return response()->json(['message' => 'Terlalu banyak percobaan. Silakan login ulang untuk mendapatkan OTP baru.'], 429);
         }
 
-        if ($user->otp !== $validatedData['otp']) {
+        // For local development, allow '123456' as bypass code
+        if ($user->otp !== $validatedData['otp'] && !(config('app.env') === 'local' && $validatedData['otp'] === '123456')) {
             $user->increment('otp_attempts');
             $remaining = 5 - $user->otp_attempts;
             return response()->json(['message' => "Kode OTP salah. Sisa percobaan: {$remaining}."], 400);
@@ -125,7 +135,7 @@ class AuthController extends Controller
             'message' => 'OTP verified successfully',
             'access_token' => $token,
             'token_type' => 'Bearer',
-            'user' => $user,
+            'user' => $user->load('organization'),
         ]);
     }
 
@@ -302,7 +312,7 @@ class AuthController extends Controller
             'message' => 'PIN verified successfully',
             'access_token' => $token,
             'token_type' => 'Bearer',
-            'user' => $user,
+            'user' => $user->load('organization'),
         ]);
     }
 }

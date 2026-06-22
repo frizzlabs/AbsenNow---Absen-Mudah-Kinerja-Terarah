@@ -148,7 +148,7 @@ class AdminUserController extends Controller
      */
     public function me(Request $request)
     {
-        $user = $request->user()->load('role');
+        $user = $request->user()->load('role', 'organization');
         return response()->json([
             'role' => $user->role ? [
                 'id' => $user->role->id,
@@ -157,6 +157,12 @@ class AdminUserController extends Controller
             ] : null,
             'position' => $user->position,
             'permissions' => $user->permissionNames(),
+            'organization' => $user->organization ? [
+                'id' => $user->organization->id,
+                'name' => $user->organization->name,
+                'code' => $user->organization->code,
+                'logo_url' => $user->organization->logo_url,
+            ] : null,
         ]);
     }
 }
