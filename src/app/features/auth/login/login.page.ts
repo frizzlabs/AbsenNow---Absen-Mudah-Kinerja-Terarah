@@ -6,6 +6,7 @@ import { Router, RouterModule } from '@angular/router';
 import { InputComponent } from '../../../shared/components/input/input.component';
 import { ButtonComponent } from '../../../shared/components/button/button.component';
 import { AuthService } from '../../../core/services/auth.service';
+import { TenantService, TenantBranding } from '../../../core/services/tenant.service';
 
 @Component({
   selector: 'app-login',
@@ -18,14 +19,18 @@ export class LoginPage implements OnInit {
   email: string = '';
   password: string = '';
   isLoading: boolean = false;
+  branding: TenantBranding | null = null;
 
   constructor(
     private router: Router,
     private authService: AuthService,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private tenant: TenantService
   ) { }
 
   ngOnInit() {
+    this.tenant.load();
+    this.tenant.branding$.subscribe((b) => (this.branding = b));
   }
 
   async signIn() {
