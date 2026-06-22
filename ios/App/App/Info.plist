@@ -7,7 +7,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-        <string>karajo-hr</string>
+        <string>AbsenNow</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -48,8 +48,14 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>Diperlukan untuk mengambil selfie bukti kehadiran dinas luar</string>
+	<string>Diperlukan untuk mengambil selfie bukti kehadiran</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Diperlukan untuk mengakses foto dari galeri</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Diperlukan untuk menyimpan foto absen</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Diperlukan untuk memverifikasi lokasi absensi Anda</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Diperlukan untuk memverifikasi lokasi absensi Anda</string>
 </dict>
 </plist>
