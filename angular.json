@@ -38,6 +38,11 @@
                 "glob": "manifest.webmanifest",
                 "input": "src",
                 "output": "/"
+              },
+              {
+                "glob": "**/*.svg",
+                "input": "node_modules/ionicons/dist/svg",
+                "output": "svg"
               }
             ],
             "styles": [
