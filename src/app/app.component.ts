@@ -11,7 +11,14 @@ import { LanguageService } from './shared/services/language.service';
 })
 export class AppComponent {
   constructor(private languageService: LanguageService) {
-    addIcons(allIcons);
+    // Map all camelCase icon names to kebab-case to ensure string names match in templates
+    const kebabIcons: any = {};
+    Object.keys(allIcons).forEach(key => {
+      const kebabKey = key.replace(/([A-Z])/g, '-$1').toLowerCase();
+      kebabIcons[kebabKey] = (allIcons as any)[key];
+    });
+    addIcons({ ...allIcons, ...kebabIcons });
+    
     this.setupDevUtilities();
   }
 
