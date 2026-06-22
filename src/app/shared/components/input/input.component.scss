@@ -58,12 +58,24 @@
   left: 14px;
   color: #98A2B3;
   font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  pointer-events: none;
+  flex-shrink: 0;
 }
 .input-icon-right {
   position: absolute;
   right: 14px;
   color: #98A2B3;
   font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  pointer-events: none;
+  flex-shrink: 0;
 }
 .icon-btn-right {
   position: absolute;

@@ -1,9 +1,10 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 
 @Component({
   selector: 'app-input',
+  encapsulation: ViewEncapsulation.None,
   template: `
     <div class="input-group">
       <label class="text-body-small-medium" *ngIf="label">{{ label }}</label>
