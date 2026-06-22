@@ -21,22 +21,32 @@ class AttendanceController extends Controller
             ->where('date', $today)
             ->first();
 
+        // Ambil jadwal kerja dari office
+        $office = Office::first();
+        $workSchedule = [
+            'work_start' => $office ? Carbon::parse($office->work_start)->format('H:i') : '09:00',
+            'work_end'   => $office ? Carbon::parse($office->work_end)->format('H:i') : '17:00',
+        ];
+
         if (!$attendance) {
             return response()->json([
-                'state' => 'default'
+                'state' => 'default',
+                'work_schedule' => $workSchedule,
             ]);
         }
 
         if ($attendance->check_in && !$attendance->check_out) {
             return response()->json([
                 'state' => 'checked_in',
-                'attendance' => $attendance
+                'attendance' => $attendance,
+                'work_schedule' => $workSchedule,
             ]);
         }
 
         return response()->json([
             'state' => 'completed',
-            'attendance' => $attendance
+            'attendance' => $attendance,
+            'work_schedule' => $workSchedule,
         ]);
     }
 
@@ -173,6 +183,24 @@ class AttendanceController extends Controller
         return response()->json($attendances);
     }
 
+    public function show(Request $request, $id)
+    {
+        $user = $request->user();
+
+        $attendance = Attendance::where('id', $id)->first();
+
+        if (!$attendance) {
+            return response()->json(['message' => 'Data tidak ditemukan.'], 404);
+        }
+
+        // Staff hanya bisa lihat miliknya; supervisor/admin bisa lihat semua
+        if ($attendance->user_id !== $user->id && !$user->hasPermission('attendance.approve')) {
+            return response()->json(['message' => 'Forbidden'], 403);
+        }
+
+        return response()->json($attendance);
+    }
+
     public function updateOfficeCoordinates(Request $request)
     {
         $request->validate([
@@ -180,7 +208,16 @@ class AttendanceController extends Controller
             'longitude' => 'required|numeric',
             'radius_meters' => 'nullable|integer|min:10|max:5000',
             'name' => 'nullable|string|max:255',
+            'work_start' => 'nullable|date_format:H:i',
+            'work_end' => 'nullable|date_format:H:i',
         ]);
+
+        // Validasi: work_start harus sebelum work_end
+        if ($request->filled('work_start') && $request->filled('work_end') && $request->work_start >= $request->work_end) {
+            return response()->json([
+                'message' => 'Jam masuk harus lebih awal dari jam keluar.'
+            ], 422);
+        }
 
         $office = Office::first();
         if (!$office) {
@@ -195,6 +232,12 @@ class AttendanceController extends Controller
         $office->longitude = $request->longitude;
         if ($request->filled('radius_meters')) {
             $office->radius_meters = $request->radius_meters;
+        }
+        if ($request->filled('work_start')) {
+            $office->work_start = $request->work_start;
+        }
+        if ($request->filled('work_end')) {
+            $office->work_end = $request->work_end;
         }
         $office->save();
 
@@ -235,9 +278,14 @@ class AttendanceController extends Controller
                 'job_title'   => $u->job_title,
                 'role'        => $u->role?->name,
                 'attendance'  => $att ? [
-                    'check_in'  => $att->check_in,
-                    'check_out' => $att->check_out,
-                    'status'    => $attStatus,
+                    'id'         => $att->id,
+                    'check_in'   => $att->check_in,
+                    'check_out'  => $att->check_out,
+                    'image_in'   => $att->image_in,
+                    'image_out'  => $att->image_out,
+                    'latitude_in'  => $att->latitude_in,
+                    'longitude_in' => $att->longitude_in,
+                    'status'     => $attStatus,
                 ] : null,
                 'status'      => $attStatus,
             ];

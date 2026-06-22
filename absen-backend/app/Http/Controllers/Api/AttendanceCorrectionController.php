@@ -72,6 +72,16 @@ class AttendanceCorrectionController extends Controller
         $originalCheckin  = $attendance?->check_in  ? Carbon::parse($attendance->check_in)->format('H:i')  : null;
         $originalCheckout = $attendance?->check_out ? Carbon::parse($attendance->check_out)->format('H:i') : null;
 
+        // Validasi kronologis: jam masuk harus sebelum jam keluar
+        $finalCheckin  = $request->proposed_checkin  ?? $originalCheckin;
+        $finalCheckout = $request->proposed_checkout ?? $originalCheckout;
+
+        if ($finalCheckin && $finalCheckout && $finalCheckin >= $finalCheckout) {
+            return response()->json([
+                'message' => 'Jam masuk yang diusulkan (' . $finalCheckin . ') harus lebih awal dari jam keluar (' . $finalCheckout . ').'
+            ], 422);
+        }
+
         // Upload bukti
         $evidencePath = null;
         if ($request->hasFile('evidence')) {
@@ -138,6 +148,23 @@ class AttendanceCorrectionController extends Controller
             if (!$attendance->office_id) {
                 $attendance->office_id = 1; // default office
             }
+
+            // Validasi kronologis sebelum menyimpan: jam masuk harus sebelum jam keluar
+            $ciStr = $attendance->check_in ? Carbon::parse($attendance->check_in)->format('H:i') : null;
+            $coStr = $attendance->check_out ? Carbon::parse($attendance->check_out)->format('H:i') : null;
+            if ($ciStr && $coStr && $ciStr >= $coStr) {
+                // Batalkan approval, kembalikan status ke pending
+                $correction->update([
+                    'status'      => 'pending',
+                    'reviewed_by' => null,
+                    'reviewed_at' => null,
+                    'review_note' => null,
+                ]);
+                return response()->json([
+                    'message' => 'Tidak dapat menyetujui: jam masuk (' . $ciStr . ') harus lebih awal dari jam keluar (' . $coStr . '). Minta pegawai untuk mengajukan koreksi ulang.'
+                ], 422);
+            }
+
             $attendance->save();
         }
 
