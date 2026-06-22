@@ -65,11 +65,135 @@
   justify-content: center;
   align-items: center;
   box-shadow: 0 4px 10px rgba(27, 89, 248, 0.3);
-  
+
   .fab-k {
     color: white;
     font-size: 20px;
     font-weight: 800;
     font-family: var(--font-family-base);
+  }
+}
+
+// Elemen khusus desktop — disembunyikan di mobile
+.nav-brand,
+.nav-profile,
+.fab-label {
+  display: none;
+}
+
+// ── Desktop (≥1024px): bottom-nav menjadi sidebar kiri ──────────────
+@media (min-width: 1024px) {
+  .bottom-nav {
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    top: 0;
+    bottom: 0;
+    width: 240px;
+    height: 100vh;
+    padding: 16px 12px;
+    gap: 4px;
+    border-top: none;
+    border-right: 1px solid #EAECF0;
+    box-shadow: 2px 0 12px rgba(0, 0, 0, 0.03);
+  }
+
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px 16px;
+
+    .nav-brand-logo {
+      width: 34px;
+      height: 34px;
+      border-radius: 9px;
+      background: var(--ion-color-primary);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: 800;
+      overflow: hidden;
+
+      img { width: 100%; height: 100%; object-fit: contain; border-radius: 9px; }
+    }
+
+    .nav-brand-name {
+      font-size: 17px;
+      font-weight: 800;
+      color: #1E293B;
+      letter-spacing: -0.3px;
+    }
+  }
+
+  .nav-item {
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 12px;
+    width: auto;
+    padding: 12px 14px;
+    border-radius: 12px;
+    color: #475569;
+
+    ion-icon { font-size: 22px; }
+    span { font-size: 14px; font-weight: 600; }
+
+    &:hover { background: #f1f5f9; }
+    &.active {
+      background: rgba(27, 89, 248, 0.10);
+      color: var(--ion-color-primary);
+    }
+  }
+
+  // FAB "K" jadi item nav biasa di desktop
+  .fab-wrapper {
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 12px;
+    width: auto;
+    height: auto;
+    margin-top: 0;
+    padding: 12px 14px;
+    border-radius: 12px;
+
+    &:hover { background: #f1f5f9; }
+
+    .fab-bg { display: none; }
+
+    .fab {
+      position: static;
+      width: 30px;
+      height: 30px;
+      box-shadow: none;
+      .fab-k { font-size: 14px; }
+    }
+
+    .fab-label {
+      display: inline;
+      font-size: 14px;
+      font-weight: 600;
+      color: #475569;
+    }
+  }
+
+  // Profil dipin ke kaki sidebar
+  .nav-profile {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    margin-top: auto;
+    padding: 12px 14px;
+    border-radius: 12px;
+    color: #475569;
+    cursor: pointer;
+
+    ion-icon { font-size: 24px; }
+    span { font-size: 14px; font-weight: 600; }
+
+    &:hover { background: #f1f5f9; }
   }
 }

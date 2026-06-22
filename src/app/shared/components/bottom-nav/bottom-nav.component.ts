@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Router, NavigationEnd } from '@angular/router';
 import { filter, Subscription } from 'rxjs';
 import { TranslatePipe } from '@ngx-translate/core';
+import { RoleService } from '../../../core/services/role.service';
 
 @Component({
   selector: 'app-bottom-nav',
@@ -16,7 +17,9 @@ export class BottomNavComponent implements OnInit, OnDestroy {
   @Input() activeTab: string = '';
   private routerSub!: Subscription;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, public roleService: RoleService) {}
+
+  get org(): any { return this.roleService.organization; }
 
   ngOnInit() {
     this.updateActiveTab(this.router.url);

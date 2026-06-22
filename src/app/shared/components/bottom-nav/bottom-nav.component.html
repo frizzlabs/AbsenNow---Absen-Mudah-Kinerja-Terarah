@@ -1,4 +1,13 @@
 <div class="bottom-nav">
+  <!-- Brand (desktop sidebar only) -->
+  <div class="nav-brand">
+    <div class="nav-brand-logo">
+      <img *ngIf="org?.logo_url" [src]="org.logo_url" alt="logo" />
+      <span *ngIf="!org?.logo_url">{{ (org?.name || 'AbsenNow').charAt(0) }}</span>
+    </div>
+    <span class="nav-brand-name">{{ org?.name || 'AbsenNow' }}</span>
+  </div>
+
   <div class="nav-item" [class.active]="activeTab === 'home'" routerLink="/home">
     <ion-icon name="home-outline"></ion-icon>
     <span>{{ 'bottomNav.home' | translate }}</span>
@@ -12,13 +21,20 @@
     <div class="fab">
       <span class="fab-k">K</span>
     </div>
+    <span class="fab-label">{{ 'bottomNav.karaja' | translate }}</span>
   </div>
-  <div class="nav-item" [class.active]="activeTab === 'finance'" routerLink="/expense">
+  <div class="nav-item" [class.active]="activeTab === 'finance'" routerLink="/expense/overview">
     <ion-icon name="wallet-outline"></ion-icon>
     <span>{{ 'bottomNav.finance' | translate }}</span>
   </div>
   <div class="nav-item" [class.active]="activeTab === 'notification'" routerLink="/notification">
     <ion-icon name="notifications-outline"></ion-icon>
     <span>{{ 'bottomNav.notification' | translate }}</span>
+  </div>
+
+  <!-- Profile (desktop sidebar only, pinned to bottom) -->
+  <div class="nav-profile" routerLink="/profile">
+    <ion-icon name="person-circle-outline"></ion-icon>
+    <span>{{ 'bottomNav.profile' | translate }}</span>
   </div>
 </div>

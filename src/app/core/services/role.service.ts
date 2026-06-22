@@ -64,6 +64,7 @@ export class RoleService {
         this.loaded = true;
         localStorage.setItem('my_permissions', JSON.stringify(this.myPermissions));
         localStorage.setItem('my_role', JSON.stringify(this.myRole));
+        localStorage.setItem('my_org', JSON.stringify(res?.organization || null));
       })
     );
   }
@@ -74,6 +75,11 @@ export class RoleService {
     this.loaded = false;
     localStorage.removeItem('my_permissions');
     localStorage.removeItem('my_role');
+    localStorage.removeItem('my_org');
+  }
+
+  get organization(): any {
+    try { return JSON.parse(localStorage.getItem('my_org') || 'null'); } catch (e) { return null; }
   }
 
   private ensureCache() {
