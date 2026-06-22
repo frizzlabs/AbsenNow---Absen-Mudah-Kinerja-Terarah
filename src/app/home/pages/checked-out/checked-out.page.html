@@ -119,6 +119,60 @@
         <p style="margin: 0; font-size: 14px;">Belum ada pembaruan terbaru.</p>
       </div>
     </div>
+
+    <!-- Berita & Kegiatan Pemda (Instagram Feed) -->
+    <div class="section-title flex-between" style="margin-top: 24px; margin-bottom: 12px;">
+      <h2 class="text-h6" style="font-weight: 700; color: var(--ion-color-tertiary);">Berita & Kegiatan Pemda</h2>
+    </div>
+
+    <div class="text-center" *ngIf="isLoadingNews" style="padding: 20px;">
+      <ion-spinner name="crescent" color="primary"></ion-spinner>
+    </div>
+
+    <div class="instagram-feed-scroll" *ngIf="!isLoadingNews && newsFeed.length > 0">
+      <div class="instagram-card" *ngFor="let post of newsFeed" (click)="openNewsUrl(post.post_url)">
+        <div class="instagram-card-header">
+          <div class="ig-profile-logo">
+            <img [src]="post.profile_pic || 'assets/images/avatar.png'" alt="profile" />
+          </div>
+          <div class="ig-header-info">
+            <h4 class="ig-profile-name">{{ post.profile_name }}</h4>
+            <div class="ig-meta-row">
+              <span class="ig-username">@{{ post.username }}</span>
+              <span class="ig-bullet">•</span>
+              <span class="ig-type-badge">{{ post.type === 'reels' ? 'Reels' : 'Post' }}</span>
+            </div>
+          </div>
+          <div class="ig-icon-right">
+            <ion-icon name="logo-instagram"></ion-icon>
+          </div>
+        </div>
+        <div class="instagram-card-media">
+          <img [src]="post.thumbnail_url" alt="media" />
+          <div class="reels-play-overlay" *ngIf="post.type === 'reels'">
+            <ion-icon name="play-circle"></ion-icon>
+          </div>
+        </div>
+        <div class="instagram-card-content">
+          <p class="ig-caption">{{ post.caption }}</p>
+          <div class="ig-actions-row">
+            <span class="ig-action-item text-red">
+              <ion-icon name="heart"></ion-icon>
+              {{ post.likes_count | number:'1.0-0' }}
+            </span>
+            <span class="ig-action-item text-blue">
+              <ion-icon name="chatbubble"></ion-icon>
+              {{ post.comments_count | number:'1.0-0' }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center" *ngIf="!isLoadingNews && newsFeed.length === 0" style="padding: 20px; color: var(--ion-color-medium);">
+      <p style="margin: 0; font-size: 14px;">Belum ada berita terbaru.</p>
+    </div>
+
   </div>
 </ion-content>
 <app-bottom-nav></app-bottom-nav>

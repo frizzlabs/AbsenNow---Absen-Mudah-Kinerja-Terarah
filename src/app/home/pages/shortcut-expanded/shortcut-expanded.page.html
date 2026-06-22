@@ -18,25 +18,25 @@
     <!-- TIME MANAGEMENT -->
     <div class="section-label">TIME MANAGEMENT</div>
     <div class="grid-row">
-      <div class="grid-item">
+      <div class="grid-item" routerLink="/attendance/history" (click)="close()" style="cursor: pointer;">
         <div class="icon-box" style="background: rgba(59, 130, 246, 0.1);">
           <ion-icon name="calendar-outline" style="color: #3b82f6;"></ion-icon>
         </div>
         <span>Attendance</span>
       </div>
-      <div class="grid-item">
+      <div class="grid-item" routerLink="/leave" (click)="close()" style="cursor: pointer;">
         <div class="icon-box" style="background: rgba(249, 115, 22, 0.1);">
           <ion-icon name="umbrella-outline" style="color: #f97316;"></ion-icon>
         </div>
         <span>Leave</span>
       </div>
-      <div class="grid-item">
+      <div class="grid-item" routerLink="/overtime" (click)="close()" style="cursor: pointer;">
         <div class="icon-box" style="background: rgba(168, 85, 247, 0.1);">
           <ion-icon name="time-outline" style="color: #a855f7;"></ion-icon>
         </div>
         <span>Overtime</span>
       </div>
-      <div class="grid-item">
+      <div class="grid-item" routerLink="/timesheet" (click)="close()" style="cursor: pointer;">
         <div class="icon-box" style="background: rgba(59, 130, 246, 0.1);">
           <ion-icon name="timer-outline" style="color: #3b82f6;"></ion-icon>
         </div>
@@ -47,25 +47,25 @@
     <!-- FINANCE -->
     <div class="section-label mt-24">FINANCE</div>
     <div class="grid-row">
-      <div class="grid-item">
+      <div class="grid-item" routerLink="/payslip" (click)="close()" style="cursor: pointer;">
         <div class="icon-box" style="background: rgba(34, 197, 94, 0.1);">
           <ion-icon name="receipt-outline" style="color: #22c55e;"></ion-icon>
         </div>
         <span>Payslip</span>
       </div>
-      <div class="grid-item">
+      <div class="grid-item" routerLink="/expense/overview" (click)="close()" style="cursor: pointer;">
         <div class="icon-box" style="background: rgba(6, 182, 212, 0.1);">
           <ion-icon name="wallet-outline" style="color: #06b6d4;"></ion-icon>
         </div>
         <span>Reimburse</span>
       </div>
-      <div class="grid-item">
+      <div class="grid-item" style="opacity: 0.5;">
         <div class="icon-box" style="background: rgba(99, 102, 241, 0.1);">
           <ion-icon name="cash-outline" style="color: #6366f1;"></ion-icon>
         </div>
         <span>Loan</span>
       </div>
-      <div class="grid-item">
+      <div class="grid-item" style="opacity: 0.5;">
         <div class="icon-box" style="background: rgba(16, 185, 129, 0.1);">
           <ion-icon name="cash-outline" style="color: #10b981;"></ion-icon>
         </div>
@@ -76,31 +76,80 @@
     <!-- REQUESTS & GENERAL -->
     <div class="section-label mt-24">REQUESTS & GENERAL</div>
     <div class="grid-row">
-      <div class="grid-item">
+      <div class="grid-item" style="opacity: 0.5;">
         <div class="icon-box" style="background: rgba(236, 72, 153, 0.1);">
           <ion-icon name="people-outline" style="color: #ec4899;"></ion-icon>
         </div>
         <span>Team</span>
       </div>
-      <div class="grid-item">
+      <div class="grid-item" style="opacity: 0.5;">
         <div class="icon-box" style="background: rgba(234, 179, 8, 0.1);">
           <ion-icon name="briefcase-outline" style="color: #eab308;"></ion-icon>
         </div>
         <span>Assets</span>
       </div>
-      <div class="grid-item">
+      <div class="grid-item" style="opacity: 0.5;">
         <div class="icon-box" style="background: rgba(14, 165, 233, 0.1);">
           <ion-icon name="folder-outline" style="color: #0ea5e9;"></ion-icon>
         </div>
         <span>Docs</span>
       </div>
-      <div class="grid-item">
+      <div class="grid-item" [routerLink]="canManageUsers ? '/admin/roles' : null" [style.opacity]="canManageUsers ? '1' : '0.4'" (click)="canManageUsers && close()" style="cursor: pointer;">
         <div class="icon-box" style="background: rgba(100, 116, 139, 0.1);">
           <ion-icon name="options-outline" style="color: #64748b;"></ion-icon>
         </div>
         <span>Manage</span>
       </div>
     </div>
+
+    <!-- ADMIN -->
+    <ng-container *ngIf="canManageUsers || canManageOffice || canApproveAttendance">
+      <div class="section-label mt-24">ADMIN</div>
+      <div class="grid-row">
+        <div class="grid-item" *ngIf="canApproveAttendance" routerLink="/admin/corrections" (click)="close()" style="cursor: pointer;">
+          <div class="icon-box" style="background: rgba(239, 68, 68, 0.1);">
+            <ion-icon name="document-text-outline" style="color: #ef4444;"></ion-icon>
+          </div>
+          <span>Review Koreksi</span>
+        </div>
+        <div class="grid-item" *ngIf="canApproveAttendance" routerLink="/dinas-luar/review" (click)="close()" style="cursor: pointer;">
+          <div class="icon-box" style="background: rgba(16, 185, 129, 0.1);">
+            <ion-icon name="briefcase-outline" style="color: #10b981;"></ion-icon>
+          </div>
+          <span>Review Dinas</span>
+        </div>
+        <div class="grid-item" *ngIf="canApproveAttendance" routerLink="/attendance/team-dashboard" (click)="close()" style="cursor: pointer;">
+          <div class="icon-box" style="background: rgba(99, 102, 241, 0.1);">
+            <ion-icon name="stats-chart-outline" style="color: #6366f1;"></ion-icon>
+          </div>
+          <span>Dashboard Absensi</span>
+        </div>
+        <div class="grid-item" *ngIf="canApproveAttendance" routerLink="/attendance/team-list" (click)="close()" style="cursor: pointer;">
+          <div class="icon-box" style="background: rgba(14, 165, 233, 0.1);">
+            <ion-icon name="people-outline" style="color: #0ea5e9;"></ion-icon>
+          </div>
+          <span>List Absensi</span>
+        </div>
+        <div class="grid-item" *ngIf="canManageUsers" routerLink="/admin/roles" (click)="close()" style="cursor: pointer;">
+          <div class="icon-box" style="background: rgba(245, 158, 11, 0.1);">
+            <ion-icon name="shield-outline" style="color: #f59e0b;"></ion-icon>
+          </div>
+          <span>Role & Hak</span>
+        </div>
+        <div class="grid-item" *ngIf="canManageUsers" routerLink="/admin/users" (click)="close()" style="cursor: pointer;">
+          <div class="icon-box" style="background: rgba(139, 92, 246, 0.1);">
+            <ion-icon name="people-outline" style="color: #8b5cf6;"></ion-icon>
+          </div>
+          <span>Pengguna</span>
+        </div>
+        <div class="grid-item" *ngIf="canManageOffice" routerLink="/attendance/set-office" (click)="close()" style="cursor: pointer;">
+          <div class="icon-box" style="background: rgba(16, 185, 129, 0.1);">
+            <ion-icon name="location-outline" style="color: #10b981;"></ion-icon>
+          </div>
+          <span>Lokasi Kantor</span>
+        </div>
+      </div>
+    </ng-container>
 
   </div>
 </div>

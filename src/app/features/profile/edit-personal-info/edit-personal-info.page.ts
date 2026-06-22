@@ -33,6 +33,17 @@ export class EditPersonalInfoPage {
 
   relationshipOptions = ['Pasangan', 'Orang Tua', 'Saudara', 'Anak', 'Teman', 'Lainnya'];
 
+  showRelationshipDropdown = false;
+
+  get relationshipLabel(): string {
+    return this.model.emergency_contact_relationship || 'Pilih hubungan...';
+  }
+
+  selectRelationship(value: string) {
+    this.model.emergency_contact_relationship = value;
+    this.showRelationshipDropdown = false;
+  }
+
   constructor(
     private router: Router,
     private profileService: ProfileService,

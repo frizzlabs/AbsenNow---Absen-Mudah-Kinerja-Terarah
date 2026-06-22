@@ -75,37 +75,59 @@ class AttendanceController extends Controller
 
         $office = Office::findOrFail($request->office_id);
 
-        // Calculate distance
-        $distance = $this->calculateDistance(
-            $request->latitude,
-            $request->longitude,
-            $office->latitude,
-            $office->longitude
-        );
+        // Check geofence
+        $hasPolygon = !empty($office->polygon_coordinates) && is_array($office->polygon_coordinates) && count($office->polygon_coordinates) >= 3;
 
-        if ($distance > $office->radius_meters) {
-            return response()->json([
-                'message' => 'Gagal check-in. Anda berada di luar radius kantor (' . round($distance) . ' meter dari kantor).'
-            ], 422);
+        if ($hasPolygon) {
+            if (!$this->isPointInPolygon($request->latitude, $request->longitude, $office->polygon_coordinates)) {
+                return response()->json([
+                    'message' => 'Gagal check-in. Anda berada di luar area batas kantor (Polygon Geofencing).'
+                ], 422);
+            }
+        } else {
+            // Calculate distance
+            $distance = $this->calculateDistance(
+                $request->latitude,
+                $request->longitude,
+                $office->latitude,
+                $office->longitude
+            );
+
+            if ($distance > $office->radius_meters) {
+                return response()->json([
+                    'message' => 'Gagal check-in. Anda berada di luar radius kantor (' . round($distance) . ' meter dari kantor).'
+                ], 422);
+            }
         }
+
+        // Determine on-time vs late status using the office's work_start
+        $checkInTime     = Carbon::now()->toTimeString(); // e.g. "07:32:15"
+        $workStart       = $office->work_start ?? '09:00:00';
+        $workStartPadded = strlen($workStart) === 5 ? $workStart . ':00' : $workStart;
+        $attendanceStatus = ($checkInTime > $workStartPadded) ? 'late' : 'present';
 
         // Record attendance
         $imagePath = $this->saveBase64Image($request->image, 'in');
 
         $attendance = Attendance::create([
-            'user_id' => $user->id,
-            'office_id' => $office->id,
-            'date' => $today,
-            'check_in' => Carbon::now()->toTimeString(),
-            'latitude_in' => $request->latitude,
+            'user_id'      => $user->id,
+            'office_id'    => $office->id,
+            'date'         => $today,
+            'check_in'     => $checkInTime,
+            'latitude_in'  => $request->latitude,
             'longitude_in' => $request->longitude,
-            'image_in' => $imagePath,
-            'status' => 'present',
+            'image_in'     => $imagePath,
+            'status'       => $attendanceStatus,
         ]);
 
         return response()->json([
-            'message' => 'Check-in berhasil.',
-            'attendance' => $attendance
+            'message'       => 'Check-in berhasil.',
+            'attendance'    => $attendance,
+            'is_late'       => $attendanceStatus === 'late',
+            'work_schedule' => [
+                'work_start' => Carbon::parse($office->work_start)->format('H:i'),
+                'work_end'   => Carbon::parse($office->work_end)->format('H:i'),
+            ],
         ]);
     }
 
@@ -138,18 +160,29 @@ class AttendanceController extends Controller
 
         $office = Office::findOrFail($attendance->office_id);
 
-        // Calculate distance
-        $distance = $this->calculateDistance(
-            $request->latitude,
-            $request->longitude,
-            $office->latitude,
-            $office->longitude
-        );
+        // Check geofence
+        $hasPolygon = !empty($office->polygon_coordinates) && is_array($office->polygon_coordinates) && count($office->polygon_coordinates) >= 3;
 
-        if ($distance > $office->radius_meters) {
-            return response()->json([
-                'message' => 'Gagal check-out. Anda berada di luar radius kantor (' . round($distance) . ' meter dari kantor).'
-            ], 422);
+        if ($hasPolygon) {
+            if (!$this->isPointInPolygon($request->latitude, $request->longitude, $office->polygon_coordinates)) {
+                return response()->json([
+                    'message' => 'Gagal check-out. Anda berada di luar area batas kantor (Polygon Geofencing).'
+                ], 422);
+            }
+        } else {
+            // Calculate distance
+            $distance = $this->calculateDistance(
+                $request->latitude,
+                $request->longitude,
+                $office->latitude,
+                $office->longitude
+            );
+
+            if ($distance > $office->radius_meters) {
+                return response()->json([
+                    'message' => 'Gagal check-out. Anda berada di luar radius kantor (' . round($distance) . ' meter dari kantor).'
+                ], 422);
+            }
         }
 
         // Update record
@@ -254,12 +287,17 @@ class AttendanceController extends Controller
             return response()->json(['message' => 'Forbidden'], 403);
         }
 
-        $date = $request->query('date', Carbon::today()->toDateString());
-        $lateThreshold = '08:00:00';
+        $date   = $request->query('date', Carbon::today()->toDateString());
+        $office = Office::first();
+        $rawThreshold   = $office->work_start ?? '08:00:00';
+        $lateThreshold  = strlen($rawThreshold) === 5 ? $rawThreshold . ':00' : $rawThreshold;
+
+        $orgId = app(\App\Support\TenantContext::class)->id();
 
         $users = User::with(['role', 'attendances' => function ($q) use ($date) {
             $q->where('date', $date);
-        }])->whereHas('role', fn($q) => $q->where('name', '!=', 'superadmin'))
+        }])->when($orgId, fn ($q) => $q->where('organization_id', $orgId))
+          ->whereHas('role', fn($q) => $q->whereNotIn('name', ['superadmin', 'org_admin', 'platform_superadmin']))
           ->orderBy('name')
           ->get();
 
@@ -318,7 +356,9 @@ class AttendanceController extends Controller
 
         $date   = $request->query('date', Carbon::today()->toDateString());
         $search = $request->query('search', '');
-        $lateThreshold = '08:00:00';
+        $office = Office::first();
+        $rawThreshold  = $office->work_start ?? '08:00:00';
+        $lateThreshold = strlen($rawThreshold) === 5 ? $rawThreshold . ':00' : $rawThreshold;
 
         $query = Attendance::with('user:id,name,employee_id,department,job_title')
             ->where('date', $date)
@@ -344,6 +384,53 @@ class AttendanceController extends Controller
         });
 
         return response()->json(['date' => $date, 'records' => $records]);
+    }
+
+    private function isPointInPolygon($latitude, $longitude, $polygon)
+    {
+        if (empty($polygon) || !is_array($polygon)) {
+            return false;
+        }
+
+        $inside = false;
+        $numVertices = count($polygon);
+        $x = (float) $longitude;
+        $y = (float) $latitude;
+
+        for ($i = 0, $j = $numVertices - 1; $i < $numVertices; $j = $i++) {
+            $vertexI = $polygon[$i];
+            $vertexJ = $polygon[$j];
+
+            $xi = 0.0;
+            $yi = 0.0;
+            $xj = 0.0;
+            $yj = 0.0;
+
+            if (is_array($vertexI)) {
+                $xi = (float) (isset($vertexI['lng']) ? $vertexI['lng'] : (isset($vertexI['longitude']) ? $vertexI['longitude'] : 0));
+                $yi = (float) (isset($vertexI['lat']) ? $vertexI['lat'] : (isset($vertexI['latitude']) ? $vertexI['latitude'] : 0));
+            } elseif (is_object($vertexI)) {
+                $xi = (float) (isset($vertexI->lng) ? $vertexI->lng : (isset($vertexI->longitude) ? $vertexI->longitude : 0));
+                $yi = (float) (isset($vertexI->lat) ? $vertexI->lat : (isset($vertexI->latitude) ? $vertexI->latitude : 0));
+            }
+
+            if (is_array($vertexJ)) {
+                $xj = (float) (isset($vertexJ['lng']) ? $vertexJ['lng'] : (isset($vertexJ['longitude']) ? $vertexJ['longitude'] : 0));
+                $yj = (float) (isset($vertexJ['lat']) ? $vertexJ['lat'] : (isset($vertexJ['latitude']) ? $vertexJ['latitude'] : 0));
+            } elseif (is_object($vertexJ)) {
+                $xj = (float) (isset($vertexJ->lng) ? $vertexJ->lng : (isset($vertexJ->longitude) ? $vertexJ->longitude : 0));
+                $yj = (float) (isset($vertexJ->lat) ? $vertexJ->lat : (isset($vertexJ->latitude) ? $vertexJ->latitude : 0));
+            }
+
+            $intersect = (($yi > $y) != ($yj > $y))
+                && ($x < ($xj - $xi) * ($y - $yi) / ($yj - $yi + 0.000000001) + $xi);
+            
+            if ($intersect) {
+                $inside = !$inside;
+            }
+        }
+
+        return $inside;
     }
 
     private function calculateDistance($lat1, $lon1, $lat2, $lon2)

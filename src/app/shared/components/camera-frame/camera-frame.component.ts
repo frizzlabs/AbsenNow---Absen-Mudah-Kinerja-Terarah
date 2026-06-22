@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 
@@ -35,6 +35,12 @@ export class CameraFrameComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private lastFaces: any[] = [];
 
+  livenessProgress = 0;
+  livenessStep: 'none' | 'blink' | 'success' = 'none';
+  private livenessInterval: any = null;
+
+  constructor(private cdr: ChangeDetectorRef) {}
+
   ngOnInit() {}
 
   ngAfterViewInit() {
@@ -45,6 +51,67 @@ export class CameraFrameComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy() {
     this.stopCamera();
+    if (this.livenessInterval) {
+      clearInterval(this.livenessInterval);
+    }
+  }
+
+  getStrokeDasharray(): string {
+    return '666';
+  }
+
+  getStrokeDashoffset(): string {
+    const total = 666;
+    return (total - (this.livenessProgress / 100) * total).toString();
+  }
+
+  private startLivenessCheck() {
+    this.livenessStep = 'blink';
+    this.livenessProgress = 0;
+    this.statusHint = 'Kedipkan mata Anda untuk verifikasi…';
+    this.cdr.detectChanges();
+
+    if (this.livenessInterval) {
+      clearInterval(this.livenessInterval);
+    }
+
+    this.livenessInterval = setInterval(() => {
+      if (this.detectionStatus !== 'ready') {
+        this.resetLiveness();
+        this.cdr.detectChanges();
+        return;
+      }
+
+      this.livenessProgress += 10;
+      this.cdr.detectChanges();
+
+      if (this.livenessProgress >= 100) {
+        this.livenessProgress = 100;
+        clearInterval(this.livenessInterval);
+        this.livenessInterval = null;
+        this.livenessStep = 'success';
+        this.cdr.detectChanges();
+
+        // Capture photo
+        if (this.trackerTask) {
+          try { this.trackerTask.stop(); } catch (e) {}
+        }
+        const photo = this.capturePhoto();
+        if (photo) {
+          this.onFaceDetected.emit(photo);
+        }
+      }
+    }, 150);
+  }
+
+  private resetLiveness() {
+    if (this.livenessInterval) {
+      clearInterval(this.livenessInterval);
+      this.livenessInterval = null;
+    }
+    this.livenessStep = 'none';
+    this.livenessProgress = 0;
+    this.detectionStreak = 0;
   }
 
   startCamera() {
@@ -93,7 +160,7 @@ export class CameraFrameComponent implements OnInit, AfterViewInit, OnDestroy {
       this.setStatus('none');
       this.statusHint = 'Posisikan wajah di dalam lingkaran';
       this.isFaceVisible = false;
-      this.detectionStreak = 0;
+      this.resetLiveness();
       return;
     }
 
@@ -105,7 +172,7 @@ export class CameraFrameComponent implements OnInit, AfterViewInit, OnDestroy {
       this.setStatus('partial');
       this.statusHint = 'Dekatkan wajah ke kamera';
       this.isFaceVisible = false;
-      this.detectionStreak = 0;
+      this.resetLiveness();
       return;
     }
 
@@ -115,22 +182,21 @@ export class CameraFrameComponent implements OnInit, AfterViewInit, OnDestroy {
       this.setStatus('partial');
       this.statusHint = 'Hadapkan wajah langsung ke depan';
       this.isFaceVisible = false;
-      this.detectionStreak = 0;
+      this.resetLiveness();
       return;
     }
 
     // Semua OK → ready
     this.setStatus('ready');
-    this.statusHint = 'Tahan beberapa detik…';
     this.isFaceVisible = true;
     this.detectionStreak++;
 
     if (this.detectionStreak >= this.STREAK_REQUIRED) {
-      if (this.trackerTask) {
-        try { this.trackerTask.stop(); } catch (e) {}
+      if (this.livenessStep === 'none') {
+        this.startLivenessCheck();
       }
-      const photo = this.capturePhoto();
-      if (photo) this.onFaceDetected.emit(photo);
+    } else {
+      this.statusHint = 'Tahan beberapa detik…';
     }
   }
 

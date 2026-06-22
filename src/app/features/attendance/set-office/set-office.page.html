@@ -10,6 +10,24 @@
         <span>Lokasi Kantor</span>
       </div>
 
+      <!-- OFFICE SELECTOR -->
+      <div class="field-group" style="margin-bottom: var(--spacing-4); position: relative;">
+        <label class="field-label">Pilih Kantor untuk Diedit</label>
+        <div (click)="showOfficeDropdown = !showOfficeDropdown" style="border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px; background: white; display: flex; justify-content: space-between; align-items: center; width: 100%; cursor: pointer;">
+          <span style="font-size: 14px; color: var(--ion-color-dark);">{{ selectedOfficeLabel }}</span>
+          <ion-icon name="chevron-down-outline" style="color: #98A2B3; font-size: 18px;"></ion-icon>
+        </div>
+
+        <div *ngIf="showOfficeDropdown" style="position: absolute; top: 100%; left: 0; right: 0; background: white; border: 1px solid #cbd5e1; border-radius: 12px; box-shadow: 0 10px 20px rgba(0,0,0,0.08); z-index: 9999; margin-top: 4px; overflow: hidden; padding: 4px 0;">
+          <div class="dropdown-item" *ngFor="let o of offices" (click)="selectOfficeCustom(o.id)">
+            {{ o.name }}
+          </div>
+          <div class="dropdown-item" (click)="selectOfficeCustom(null)" style="color: var(--ion-color-primary); font-weight: 500;">
+            + Tambah Kantor Baru
+          </div>
+        </div>
+      </div>
+
       <!-- SEARCH BOX -->
       <div class="search-wrap">
         <div class="search-box">
@@ -51,13 +69,50 @@
                [(ngModel)]="officeName" />
       </div>
 
+      <!-- GEOFENCE TYPE SELECTOR -->
       <div class="field-group">
+        <label class="field-label">Tipe Geofence</label>
+        <div class="geofence-type-tabs">
+          <button class="tab-btn" [class.active]="geofenceType === 'circle'" (click)="setGeofenceType('circle')">
+            <ion-icon name="radio-button-on-outline"></ion-icon>
+            <span>Radius Lingkaran</span>
+          </button>
+          <button class="tab-btn" [class.active]="geofenceType === 'polygon'" (click)="setGeofenceType('polygon')">
+            <ion-icon name="shapes-outline"></ion-icon>
+            <span>Polygon Fleksibel</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- RADIUS GEOFENCE (Only for Circle) -->
+      <div class="field-group" *ngIf="geofenceType === 'circle'">
         <label class="field-label">Radius Geofence</label>
         <div class="radius-chips">
           <button *ngFor="let r of radiusOptions"
                   class="chip"
                   [class.active]="radius === r"
                   (click)="selectRadius(r)">{{ r }}m</button>
+        </div>
+      </div>
+
+      <!-- POLYGON CONTROLS (Only for Polygon) -->
+      <div class="polygon-controls-box" *ngIf="geofenceType === 'polygon'">
+        <div class="polygon-info">
+          <ion-icon name="information-circle-outline"></ion-icon>
+          <span>Klik pada peta untuk menggambar area batas kantor (minimal 3 titik).</span>
+        </div>
+        <div class="polygon-stats">
+          <span>Jumlah titik: <strong>{{ polygonCoordinates.length }}</strong></span>
+        </div>
+        <div class="polygon-actions-row">
+          <button class="polygon-action-btn undo" [disabled]="polygonCoordinates.length === 0" (click)="undoLastPoint()">
+            <ion-icon name="arrow-undo-outline"></ion-icon>
+            <span>Undo Titik</span>
+          </button>
+          <button class="polygon-action-btn reset" [disabled]="polygonCoordinates.length === 0" (click)="resetPolygon()">
+            <ion-icon name="trash-outline"></ion-icon>
+            <span>Reset Area</span>
+          </button>
         </div>
       </div>
     </div>

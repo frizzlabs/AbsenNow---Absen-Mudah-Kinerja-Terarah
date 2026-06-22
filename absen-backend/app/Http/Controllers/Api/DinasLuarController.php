@@ -152,12 +152,27 @@ class DinasLuarController extends Controller
     // Atasan: pending dinas untuk review
     public function pendingReview(Request $request)
     {
-        if (!$request->user()->hasPermission('attendance.approve')) {
+        $reviewer = $request->user();
+        if (!$reviewer->hasPermission('attendance.approve')) {
             return response()->json(['message' => 'Forbidden'], 403);
         }
 
-        $items = DinasLuar::with('user:id,name,employee_id,department')
+        $reviewerRole = $reviewer->role?->name;
+        $targetRoles = [];
+
+        if ($reviewerRole === 'supervisor') {
+            $targetRoles = ['staff'];
+        } elseif ($reviewerRole === 'manager') {
+            $targetRoles = ['supervisor'];
+        } elseif ($reviewerRole === 'org_admin' || $reviewerRole === 'superadmin') {
+            $targetRoles = ['manager', 'supervisor', 'staff']; // Admin can see all to prevent deadlocks
+        } else {
+            $targetRoles = ['staff', 'supervisor', 'manager'];
+        }
+
+        $items = DinasLuar::with(['user.role', 'user:id,name,employee_id,department'])
             ->where('status', 'pending')
+            ->whereHas('user.role', fn($q) => $q->whereIn('name', $targetRoles))
             ->orderByDesc('created_at')
             ->get()
             ->map(fn($d) => $this->format($d));
@@ -168,7 +183,8 @@ class DinasLuarController extends Controller
     // Atasan: review approve/reject
     public function review(Request $request, $id)
     {
-        if (!$request->user()->hasPermission('attendance.approve')) {
+        $reviewer = $request->user();
+        if (!$reviewer->hasPermission('attendance.approve')) {
             return response()->json(['message' => 'Forbidden'], 403);
         }
 
@@ -177,10 +193,30 @@ class DinasLuarController extends Controller
             'review_note' => 'nullable|string|max:500',
         ]);
 
-        $dinas = DinasLuar::where('status', 'pending')->findOrFail($id);
+        $dinas = DinasLuar::where('status', 'pending')->with(['user.role'])->findOrFail($id);
+
+        // Validasi Hirarki Persetujuan
+        $reviewerRole = $reviewer->role?->name;
+        $applicantRole = $dinas->user->role?->name;
+
+        $canApprove = false;
+        if ($reviewerRole === 'supervisor' && $applicantRole === 'staff') {
+            $canApprove = true;
+        } elseif ($reviewerRole === 'manager' && $applicantRole === 'supervisor') {
+            $canApprove = true;
+        } elseif (($reviewerRole === 'org_admin' || $reviewerRole === 'superadmin') && in_array($applicantRole, ['manager', 'supervisor', 'staff'])) {
+            $canApprove = true; // Admin Instansi/Superadmin can approve anyone
+        } elseif (!in_array($reviewerRole, ['supervisor', 'manager', 'org_admin', 'superadmin'])) {
+            $canApprove = true; // Custom roles fallback
+        }
+
+        if (!$canApprove) {
+            return response()->json(['message' => 'Anda tidak memiliki wewenang untuk memproses pengajuan dari role ini.'], 403);
+        }
+
         $dinas->update([
             'status'      => $request->status,
-            'reviewed_by' => $request->user()->id,
+            'reviewed_by' => $reviewer->id,
             'reviewed_at' => now(),
             'review_note' => $request->review_note,
         ]);

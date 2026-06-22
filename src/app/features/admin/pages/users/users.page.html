@@ -6,6 +6,19 @@
   </div>
 
   <div class="wrap" *ngIf="!isLoading">
+    <div style="display: flex; gap: 8px; margin-bottom: var(--spacing-4);">
+      <div style="flex: 1;">
+        <app-button variant="primary" icon="add-outline" (onClick)="showAddModal = true">
+          Tambah Pengguna
+        </app-button>
+      </div>
+      <div style="flex: 1;">
+        <app-button variant="outline" icon="document-text-outline" (onClick)="showImportModal = true">
+          Impor CSV
+        </app-button>
+      </div>
+    </div>
+
     <p class="hint">Atur role & posisi tiap pengguna.</p>
 
     <div class="user-card" *ngFor="let u of users">
@@ -14,31 +27,145 @@
         <div class="user-info">
           <div class="user-name">{{ u.name }}</div>
           <div class="user-email">{{ u.email }}</div>
+          <div class="user-meta" *ngIf="u.position">
+            <span class="position-text">{{ u.position }}</span>
+          </div>
         </div>
         <div class="role-badge" *ngIf="u.role">{{ u.role.label }}</div>
+        <ion-button fill="clear" color="primary" size="small" class="edit-btn" (click)="openEditUser(u)">
+          <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+        </ion-button>
       </div>
-
-      <div class="form-row">
-        <label>Role</label>
-        <div class="select-box">
-          <select [(ngModel)]="edit[u.id].roleId">
-            <option [ngValue]="null">— Pilih role —</option>
-            <option *ngFor="let r of roles" [ngValue]="r.id">{{ r.label }}</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="form-row">
-        <label>Posisi (mis. Office Boy, Admin Gudang)</label>
-        <div class="input-box">
-          <input type="text" [(ngModel)]="edit[u.id].position" placeholder="Posisi pekerjaan">
-        </div>
-      </div>
-
-      <ion-button expand="block" fill="outline" size="small" [disabled]="savingId === u.id" (click)="save(u)">
-        <ion-icon name="save-outline" slot="start"></ion-icon>
-        Simpan
-      </ion-button>
     </div>
   </div>
+
+  <!-- Modal: Tambah Pengguna -->
+  <ion-modal [isOpen]="showAddModal" (didDismiss)="showAddModal = false">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Tambah Pengguna Baru</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="showAddModal = false">Tutup</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding bg-light">
+        <div class="modal-form-container">
+          <app-input label="Nama Lengkap" placeholder="cth. Budi Setiawan" [(value)]="newUserName"></app-input>
+          
+          <app-input label="Email" type="email" placeholder="cth. budi@demo.absennow.id" [(value)]="newUserEmail"></app-input>
+          
+          <app-input label="Password" type="password" placeholder="Min. 8 karakter" [(value)]="newUserPassword"></app-input>
+
+          <div class="form-field-group" style="margin-bottom: var(--spacing-5); position: relative;">
+            <label class="form-field-label" style="font-weight: 500; font-size: 13px; color: var(--ion-color-tertiary); margin-bottom: var(--spacing-2);">Role</label>
+            <div (click)="showNewUserRoleDropdown = !showNewUserRoleDropdown" style="height: 48px; border: 1px solid #D0D5DD; border-radius: var(--radius-md); padding: 0 16px; background: white; display: flex; align-items: center; justify-content: space-between; width: 100%; cursor: pointer;">
+              <span style="font-size: 16px; color: var(--ion-color-tertiary);">{{ newUserRoleLabel }}</span>
+              <ion-icon name="chevron-down-outline" style="color: #98A2B3; font-size: 18px;"></ion-icon>
+            </div>
+            
+            <div *ngIf="showNewUserRoleDropdown" style="position: absolute; top: 100%; left: 0; right: 0; background: white; border: 1px solid #D0D5DD; border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); z-index: 9999; margin-top: 4px; overflow: hidden; padding: 4px 0;">
+              <div class="dropdown-item" (click)="selectNewUserRole(null)">— Pilih role —</div>
+              <div class="dropdown-item" *ngFor="let r of roles" (click)="selectNewUserRole(r)">
+                {{ r.label }}
+              </div>
+            </div>
+          </div>
+
+          <app-input label="Departemen / Dinas" placeholder="cth. Dinas Kesehatan" [(value)]="newUserDept"></app-input>
+          
+          <app-input label="Posisi / Jabatan" placeholder="cth. Staff IT" [(value)]="newUserPos"></app-input>
+          
+          <app-input label="NIP / ID Karyawan" placeholder="cth. 19920822192931" [(value)]="newUserEmpId"></app-input>
+
+          <div style="margin-top: 10px;">
+            <app-button variant="primary" icon="save-outline" (onClick)="createUser()">
+              Simpan Pengguna
+            </app-button>
+          </div>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <!-- Modal: Edit Pengguna -->
+  <ion-modal [isOpen]="showEditModal" (didDismiss)="showEditModal = false">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Edit Pengguna</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="showEditModal = false">Tutup</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding bg-light">
+        <div class="modal-form-container" *ngIf="editingUser">
+          <app-input label="Nama Pengguna" [value]="editingUser.name" [disabled]="true"></app-input>
+          
+          <app-input label="Email" [value]="editingUser.email" [disabled]="true"></app-input>
+
+          <div class="form-field-group" style="margin-bottom: var(--spacing-5); position: relative;">
+            <label class="form-field-label" style="font-weight: 500; font-size: 13px; color: var(--ion-color-tertiary); margin-bottom: var(--spacing-2);">Role</label>
+            <div (click)="showEditUserRoleDropdown = !showEditUserRoleDropdown" style="height: 48px; border: 1px solid #D0D5DD; border-radius: var(--radius-md); padding: 0 16px; background: white; display: flex; align-items: center; justify-content: space-between; width: 100%; cursor: pointer;">
+              <span style="font-size: 16px; color: var(--ion-color-tertiary);">{{ editUserRoleLabel }}</span>
+              <ion-icon name="chevron-down-outline" style="color: #98A2B3; font-size: 18px;"></ion-icon>
+            </div>
+            
+            <div *ngIf="showEditUserRoleDropdown" style="position: absolute; top: 100%; left: 0; right: 0; background: white; border: 1px solid #D0D5DD; border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); z-index: 9999; margin-top: 4px; overflow: hidden; padding: 4px 0;">
+              <div class="dropdown-item" (click)="selectEditUserRole(null)">— Pilih role —</div>
+              <div class="dropdown-item" *ngFor="let r of roles" (click)="selectEditUserRole(r)">
+                {{ r.label }}
+              </div>
+            </div>
+          </div>
+
+          <app-input label="Posisi (mis. Office Boy, Admin Gudang)" placeholder="Posisi pekerjaan" [(value)]="editUserPos"></app-input>
+
+          <div style="margin-top: 10px;">
+            <app-button variant="primary" icon="save-outline" [disabled]="savingId !== null" (onClick)="saveEditUser()">
+              {{ savingId !== null ? 'Menyimpan...' : 'Simpan Perubahan' }}
+            </app-button>
+          </div>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <!-- Modal: Impor CSV -->
+  <ion-modal [isOpen]="showImportModal" (didDismiss)="showImportModal = false">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Impor Pengguna via CSV</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="showImportModal = false">Tutup</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding bg-light">
+        <div class="modal-form-container">
+          <p style="font-size: 13px; color: #64748b; margin-top: 0; margin-bottom: var(--spacing-3); line-height: 1.5;">
+            Pilih file CSV yang berisi daftar karyawan. Format kolom header wajib: <br/>
+            <strong><code>name,email,department,position,role</code></strong>
+          </p>
+
+          <div style="position: relative; cursor: pointer; margin-bottom: var(--spacing-4);">
+            <app-upload-box
+              [status]="selectedCsvFile ? 'filled' : 'empty'"
+              [fileName]="selectedCsvFile?.name"
+              [fileSize]="selectedCsvFile ? csvSizeText : ''"
+              helperText="Format file harus berupa .csv">
+            </app-upload-box>
+            <input type="file" accept=".csv" (change)="onFileSelected($event)" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer;" />
+          </div>
+
+          <app-button variant="primary" [disabled]="isUploading || !selectedCsvFile" (onClick)="uploadCsv()">
+            {{ isUploading ? 'Mengunggah...' : 'Unggah & Proses Impor' }}
+          </app-button>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
 </ion-content>

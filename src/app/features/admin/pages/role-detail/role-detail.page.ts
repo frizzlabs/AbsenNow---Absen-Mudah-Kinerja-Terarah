@@ -41,7 +41,7 @@ export class RoleDetailPage {
       next: (res) => {
         this.role = res.role;
         this.modules = res.modules;
-        this.isSuperadmin = res.role.name === 'superadmin';
+        this.isSuperadmin = res.role.name === 'superadmin' || res.role.name === 'org_admin';
         this.selected = {};
         // superadmin selalu semua tercentang
         res.modules.forEach(m => m.permissions.forEach(p => {

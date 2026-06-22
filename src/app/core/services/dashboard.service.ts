@@ -13,6 +13,20 @@ export interface RecentUpdate {
   link: string;
 }
 
+export interface InstagramPost {
+  id: number;
+  type: 'post' | 'reels';
+  username: string;
+  profile_name: string;
+  profile_pic: string;
+  thumbnail_url: string;
+  caption: string;
+  likes_count: number;
+  comments_count: number;
+  post_url: string;
+  published_at: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -31,6 +45,12 @@ export class DashboardService {
     return this.http.get<RecentUpdate[]>(`${this.apiUrl}/dashboard/recent-updates`, {
       headers: this.getHeaders(),
       params
+    });
+  }
+
+  getNewsFeed(): Observable<InstagramPost[]> {
+    return this.http.get<InstagramPost[]>(`${this.apiUrl}/dashboard/news`, {
+      headers: this.getHeaders()
     });
   }
 }

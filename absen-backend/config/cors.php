@@ -18,6 +18,8 @@ return [
     'allowed_origins_patterns' => [
         '/^https?:\/\/localhost(:\d+)?$/',
         '/^https?:\/\/192\.168\.\d+\.\d+(:\d+)?$/',
+        '/^https?:\/\/([a-z0-9-]+\.)?absennow\.id(:\d+)?$/',
+        '/^https?:\/\/([a-z0-9-]+\.)?absennow\.jaritechnology\.com(:\d+)?$/',
     ],
 
     'allowed_headers' => ['*'],

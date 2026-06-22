@@ -6,6 +6,14 @@
            [class.status-none]="!success && detectionStatus === 'none'"
            [class.status-partial]="!success && detectionStatus === 'partial'"
            [class.status-ready]="!success && detectionStatus === 'ready'">
+        <!-- Circular Progress Ring for Liveness -->
+        <svg class="liveness-ring" width="220" height="220" viewBox="0 0 220 220" *ngIf="livenessStep === 'blink' && !success">
+          <circle class="ring-bg" cx="110" cy="110" r="106" stroke="#f1f5f9" stroke-width="4" fill="transparent"></circle>
+          <circle class="ring-progress" cx="110" cy="110" r="106" stroke="var(--ion-color-success)" stroke-width="4" fill="transparent"
+                  stroke-linecap="round"
+                  [style.strokeDasharray]="getStrokeDasharray()"
+                  [style.strokeDashoffset]="getStrokeDashoffset()"></circle>
+        </svg>
         <div class="face-frame">
           <video #videoElement autoplay playsinline muted *ngIf="hasCamera" style="width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1);"></video>
           <div class="no-camera-placeholder" *ngIf="!hasCamera">

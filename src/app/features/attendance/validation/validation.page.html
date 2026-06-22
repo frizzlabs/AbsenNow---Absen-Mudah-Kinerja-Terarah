@@ -19,18 +19,23 @@
          (pointermove)="onPointerMove($event)"
          (pointerup)="onPointerUp($event)"
          (click)="toggleHeaderClick($event)">
-      <div class="success-icon" [ngClass]="isWithinRadius ? 'bg-green-light text-green' : 'bg-red-light text-red'">
-        <ion-icon [name]="isWithinRadius ? 'checkmark-outline' : 'close-outline'"></ion-icon>
+      <div class="success-icon" [ngClass]="isFakeGpsAttempt ? 'bg-red text-white' : (isWithinRadius ? 'bg-green-light text-green' : 'bg-red-light text-red')">
+        <ion-icon [name]="isFakeGpsAttempt ? 'alert-circle-outline' : (isWithinRadius ? 'checkmark-outline' : 'close-outline')"></ion-icon>
       </div>
       <div class="status-text">
-        <h3 class="text-h4">{{ isWithinRadius ? 'Location Verified' : 'Location Not Verified' }}</h3>
+        <h3 class="text-h4">{{ isFakeGpsAttempt ? 'Fake GPS Terdeteksi' : (isWithinRadius ? 'Location Verified' : 'Location Not Verified') }}</h3>
         <p class="text-body-medium-regular text-medium">
-          {{ isWithinRadius ? 'You are within the office radius' : 'You are outside the office radius (' + roundDistance(distance) + 'm)' }}
+          {{ isFakeGpsAttempt ? 'Matikan aplikasi lokasi palsu Anda untuk melanjutkan.' : (isWithinRadius ? (officePolygonCoordinates ? 'You are inside the office boundary' : 'You are within the office radius') : (officePolygonCoordinates ? 'You are outside the office boundary' : 'You are outside the office radius (' + roundDistance(distance) + 'm)')) }}
         </p>
       </div>
     </div>
 
     <div class="divider"></div>
+
+    <div class="fake-gps-banner" *ngIf="isFakeGpsAttempt">
+      <ion-icon name="warning-outline"></ion-icon>
+      <span>Tindakan manipulasi lokasi palsu (GPS spoofing) terdeteksi dan akan dilaporkan ke sistem.</span>
+    </div>
 
     <div class="info-list">
       <div class="info-item">
@@ -49,12 +54,12 @@
         </div>
         <div class="info-content">
           <h4 class="text-body-medium-semibold">{{ currentTime }}</h4>
-          <p class="text-body-small-regular text-medium">On Time • Shift starts at 09:00 AM</p>
+          <p class="text-body-small-regular text-medium">On Time • Shift starts at 09:00 WIB</p>
         </div>
       </div>
     </div>
 
-    <app-button variant="primary" icon="arrow-forward-outline" iconPosition="right" class="check-in-btn" (onClick)="proceedToFaceValidation()" [disabled]="!isWithinRadius">
+    <app-button variant="primary" icon="arrow-forward-outline" iconPosition="right" class="check-in-btn" (onClick)="proceedToFaceValidation()" [disabled]="!isWithinRadius || isFakeGpsAttempt">
       {{ isCheckingOut ? 'Check Out Now' : 'Check In Now' }}
     </app-button>
 
@@ -65,8 +70,8 @@
       </a>
     </p>
     <p class="text-center text-body-small-regular text-medium gps-text">
-      GPS accuracy: <span [class.text-green]="isWithinRadius" [class.text-red]="!isWithinRadius">
-        {{ isWithinRadius ? (isMockGpsUsed ? 'Mocked (0m)' : 'High (5m)') : 'Low (>50m)' }}
+      GPS accuracy: <span [class.text-green]="isWithinRadius && !isFakeGpsAttempt" [class.text-red]="!isWithinRadius || isFakeGpsAttempt">
+        {{ isFakeGpsAttempt ? 'Mocked / Spoofed (0m)' : (isWithinRadius ? (isMockGpsUsed ? 'Mocked (0m)' : 'High (5m)') : 'Low (>50m)') }}
       </span>
     </p>
   </div>

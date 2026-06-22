@@ -20,15 +20,17 @@
       </div>
     </div>
 
-    <div class="input-group mt-16" style="margin-top: 16px;">
+    <div class="input-group mt-16" style="margin-top: 16px; position: relative;">
       <label>Kategori</label>
-      <div class="input-box">
-        <select [(ngModel)]="category" style="width: 100%; border: none; outline: none; background: transparent; font-size: 14px; color: var(--ion-color-dark);">
-          <option value="personal">Izin Pribadi</option>
-          <option value="family">Darurat Keluarga</option>
-          <option value="emergency">Darurat Rumah</option>
-          <option value="other">Lainnya</option>
-        </select>
+      <div (click)="showCategoryDropdown = !showCategoryDropdown" class="input-box" style="cursor: pointer; display: flex; justify-content: space-between; align-items: center; background: white;">
+        <span style="font-size: 14px; color: var(--ion-color-dark);">{{ categoryLabel }}</span>
+        <ion-icon name="chevron-down-outline" style="color: var(--ion-color-medium); font-size: 18px;"></ion-icon>
+      </div>
+
+      <div *ngIf="showCategoryDropdown" style="position: absolute; top: 100%; left: 0; right: 0; background: white; border: 1px solid #e0e0e0; border-radius: 12px; box-shadow: 0 10px 20px rgba(0,0,0,0.08); z-index: 9999; margin-top: 4px; overflow: hidden; padding: 4px 0;">
+        <div class="dropdown-item" *ngFor="let item of categories" (click)="selectCategory(item)">
+          {{ item.label }}
+        </div>
       </div>
     </div>
 

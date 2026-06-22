@@ -19,7 +19,8 @@ export const nonAdminGuard: CanActivateFn = () => {
   const roleService = inject(RoleService);
   const router = inject(Router);
 
-  if (roleService.role?.name === 'superadmin') {
+  const name = roleService.role?.name;
+  if (name === 'superadmin' || name === 'org_admin' || name === 'platform_superadmin') {
     return router.createUrlTree(['/home']);
   }
   return true;

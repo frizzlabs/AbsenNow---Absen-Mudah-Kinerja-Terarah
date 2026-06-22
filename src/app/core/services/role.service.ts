@@ -54,6 +54,14 @@ export class RoleService {
   updateUserRole(id: number | string, roleId: number, position?: string): Observable<any> {
     return this.http.put<any>(`${this.apiUrl}/admin/users/${id}/role`, { role_id: roleId, position: position ?? null }, { headers: this.getHeaders() });
   }
+  createUser(data: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/admin/users`, data, { headers: this.getHeaders() });
+  }
+  importUsersCsv(file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.http.post<any>(`${this.apiUrl}/admin/users/import`, formData, { headers: this.getHeaders() });
+  }
 
   // ---- Current user permissions (gating UI) ----
   loadMyPermissions(): Observable<any> {
@@ -93,7 +101,8 @@ export class RoleService {
 
   can(permission: string): boolean {
     this.ensureCache();
-    if (this.myRole?.name === 'superadmin') return true;
+    const name = this.myRole?.name;
+    if (name === 'superadmin' || name === 'org_admin' || name === 'platform_superadmin') return true;
     return this.myPermissions.includes(permission);
   }
 

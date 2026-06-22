@@ -86,8 +86,8 @@ class RoleController extends Controller
             return response()->json(['message' => 'Role tidak ditemukan.'], 404);
         }
 
-        if ($role->name === 'superadmin') {
-            return response()->json(['message' => 'Super Admin selalu memiliki akses penuh dan tidak dapat diubah.'], 422);
+        if ($role->name === 'superadmin' || $role->name === 'org_admin') {
+            return response()->json(['message' => 'Admin Instansi selalu memiliki akses penuh dan tidak dapat diubah.'], 422);
         }
 
         $role->permissions()->sync($request->permission_ids);

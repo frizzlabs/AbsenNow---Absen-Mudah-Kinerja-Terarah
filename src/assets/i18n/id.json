@@ -102,7 +102,9 @@
     "finance": "Keuangan",
     "notification": "Notifikasi",
     "karaja": "Karaja",
-    "profile": "Profil"
+    "profile": "Profil",
+    "approvals": "Persetujuan",
+    "stats": "Statistik"
   },
   "activity": {
     "title": "Aktivitas",

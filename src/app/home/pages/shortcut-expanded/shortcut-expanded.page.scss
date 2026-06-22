@@ -84,14 +84,15 @@
   }
 
   .grid-row {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px 8px;
 
     .grid-item {
       display: flex;
       flex-direction: column;
       align-items: center;
-      width: 25%;
+      width: 100%;
       
       .icon-box {
         width: 56px;

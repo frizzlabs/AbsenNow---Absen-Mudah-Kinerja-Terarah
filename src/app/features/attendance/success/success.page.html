@@ -27,8 +27,11 @@
       <div class="time-section text-center">
         <span class="label">TIME RECORDED</span>
         <h1 class="time-value">{{ recordedTime }}</h1>
-        <div class="status-badge success">
-          On time
+        <div *ngIf="!isCheckingOut" class="status-badge" [ngClass]="isLate ? 'late' : 'success'">
+          {{ isLate ? 'Terlambat' : 'Tepat Waktu' }}
+        </div>
+        <div *ngIf="isCheckingOut" class="status-badge gray">
+          Check-Out
         </div>
       </div>
 

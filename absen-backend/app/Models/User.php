@@ -83,7 +83,7 @@ class User extends Authenticatable
 
     public function isSuperadmin(): bool
     {
-        return $this->role && $this->role->name === 'superadmin';
+        return $this->role && ($this->role->name === 'superadmin' || $this->role->name === 'org_admin');
     }
 
     public function hasPermission(string $name): bool
@@ -100,7 +100,7 @@ class User extends Authenticatable
         if (!$this->role) {
             return [];
         }
-        if ($this->role->name === 'superadmin') {
+        if ($this->role->name === 'superadmin' || $this->role->name === 'org_admin') {
             return RolePermission::pluck('name')->all();
         }
         return $this->role->permissions->pluck('name')->all();

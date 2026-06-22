@@ -1,6 +1,16 @@
 ion-content { --background: #f8f9fa; }
 
-.wrap { padding: 16px; }
+.wrap {
+  padding: 16px;
+
+  app-button {
+    ::ng-deep button {
+      font-size: 13px !important;
+      padding: 0 10px !important;
+      height: 42px !important;
+    }
+  }
+}
 .hint { font-size: 13px; color: var(--ion-color-medium); margin: 0 4px 16px; }
 
 .user-card {
@@ -8,59 +18,150 @@ ion-content { --background: #f8f9fa; }
   border-radius: 14px;
   padding: 16px;
   margin-bottom: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+  border: 1px solid #f4f5f8;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.02);
 
   .user-head {
     display: flex;
     align-items: center;
     gap: 12px;
-    margin-bottom: 14px;
 
     .avatar {
       width: 42px;
       height: 42px;
       border-radius: 50%;
-      background: var(--ion-color-primary);
-      color: #fff;
+      background: rgba(27, 89, 248, 0.1);
+      color: var(--ion-color-primary);
       font-weight: 700;
       display: flex;
       align-items: center;
       justify-content: center;
       text-transform: uppercase;
+      flex-shrink: 0;
     }
-    .user-info { flex: 1; min-width: 0; }
-    .user-name { font-size: 15px; font-weight: 600; color: var(--ion-color-tertiary); }
-    .user-email { font-size: 12px; color: var(--ion-color-medium); }
+    
+    .user-info {
+      flex: 1;
+      min-width: 0;
+    }
+    
+    .user-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--ion-color-tertiary);
+    }
+    
+    .user-email {
+      font-size: 12px;
+      color: var(--ion-color-medium);
+      margin-top: 1px;
+    }
+
+    .user-meta {
+      margin-top: 3px;
+      
+      .position-text {
+        font-size: 12px;
+        font-weight: 500;
+        color: #64748b;
+        background: #f1f5f9;
+        padding: 1px 6px;
+        border-radius: 4px;
+      }
+    }
+    
     .role-badge {
       font-size: 11px;
       font-weight: 600;
       padding: 4px 10px;
       border-radius: 100px;
-      background: rgba(27, 89, 248, 0.1);
+      background: rgba(27, 89, 248, 0.08);
       color: var(--ion-color-primary);
+      flex-shrink: 0;
+    }
+
+    .edit-btn {
+      margin: 0;
+      flex-shrink: 0;
+    }
+  }
+}
+
+/* Modal Form Styles */
+.bg-light {
+  --background: #f1f5f9;
+}
+
+.modal-form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-top: 10px;
+
+  app-input {
+    ::ng-deep .input-group {
+      margin-bottom: 12px !important;
     }
   }
 
-  .form-row {
-    margin-bottom: 12px;
-    label { display: block; font-size: 12px; font-weight: 600; color: var(--ion-color-tertiary); margin-bottom: 6px; }
-
-    .select-box, .input-box {
-      border: 1px solid #e0e0e0;
-      border-radius: 10px;
-      padding: 10px 12px;
-      background: #fff;
-
-      select, input {
-        width: 100%;
-        border: none;
-        outline: none;
-        background: transparent;
-        font-size: 14px;
-        color: var(--ion-color-tertiary);
-      }
-    }
+  .form-field-group {
+    margin-bottom: 12px !important;
   }
+}
 
-  ion-button { margin-top: 4px; --border-radius: 10px; font-weight: 600; }
+.form-field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-field-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #475569;
+}
+
+.form-field-input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  background: white;
+  font-size: 14px;
+  color: #1e293b;
+  outline: none;
+  box-sizing: border-box;
+
+  &:focus {
+    border-color: var(--ion-color-primary);
+  }
+}
+
+.form-divider-title {
+  margin: 10px 0 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: #1e293b;
+  border-top: 1px solid #e2e8f0;
+  padding-top: 16px;
+}
+
+.form-submit-btn {
+  margin-top: 10px;
+  --border-radius: 12px;
+  height: 48px;
+  font-weight: 600;
+}
+
+.dropdown-item {
+  padding: 12px 16px;
+  font-size: 15px;
+  color: var(--ion-color-tertiary);
+  cursor: pointer;
+  background: white;
+  transition: background 0.1s ease;
+
+  &:hover, &:active {
+    background: #F2F4F7;
+  }
 }

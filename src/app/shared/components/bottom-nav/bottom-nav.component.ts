@@ -21,6 +21,11 @@ export class BottomNavComponent implements OnInit, OnDestroy {
 
   get org(): any { return this.roleService.organization; }
 
+  get isAdmin(): boolean {
+    const name = this.roleService.role?.name;
+    return name === 'org_admin' || name === 'superadmin' || name === 'platform_superadmin';
+  }
+
   ngOnInit() {
     this.updateActiveTab(this.router.url);
     this.routerSub = this.router.events.pipe(
@@ -39,9 +44,9 @@ export class BottomNavComponent implements OnInit, OnDestroy {
   private updateActiveTab(url: string) {
     if (url.includes('/home')) {
       this.activeTab = 'home';
-    } else if (url.includes('/activity') || url.includes('/timesheet')) {
+    } else if (url.includes('/activity') || url.includes('/timesheet') || url.includes('/admin/corrections') || url.includes('/dinas-luar/review')) {
       this.activeTab = 'activity';
-    } else if (url.includes('/expense') || url.includes('/payslip')) {
+    } else if (url.includes('/expense') || url.includes('/payslip') || url.includes('/attendance/team-dashboard')) {
       this.activeTab = 'finance';
     } else if (url.includes('/notification')) {
       this.activeTab = 'notification';

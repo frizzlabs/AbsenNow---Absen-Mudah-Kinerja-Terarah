@@ -92,11 +92,20 @@ export class FaceValidationPage implements OnInit {
         this.isProcessing = false;
         
         const now = new Date();
-        const formattedTime = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+        const hour = now.getHours().toString().padStart(2, '0');
+        const minute = now.getMinutes().toString().padStart(2, '0');
+        const formattedTime = `${hour}:${minute} WIB`;
         const formattedDate = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
         
         localStorage.setItem('success_time', formattedTime);
         localStorage.setItem('success_date', formattedDate);
+        // Simpan status terlambat dari response API (hanya untuk check-in)
+        const isCheckingOut = this.attendanceStateService.state === 'checked_in';
+        if (!isCheckingOut) {
+          localStorage.setItem('success_status', res.is_late ? 'late' : 'on_time');
+        } else {
+          localStorage.removeItem('success_status'); // check-out tidak perlu status ini
+        }
         
         const officeName = localStorage.getItem('temp_office_name') || 'Headquarters';
         const officeAddress = localStorage.getItem('temp_office_address') || 'Jakarta';

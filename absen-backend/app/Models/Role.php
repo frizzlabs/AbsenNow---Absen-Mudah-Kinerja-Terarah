@@ -26,7 +26,7 @@ class Role extends Model
 
     public function hasPermission(string $name): bool
     {
-        if ($this->name === 'superadmin') {
+        if ($this->name === 'superadmin' || $this->name === 'org_admin') {
             return true;
         }
         return $this->permissions->contains('name', $name);

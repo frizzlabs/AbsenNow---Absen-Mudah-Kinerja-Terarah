@@ -120,10 +120,29 @@ class AttendanceCorrectionController extends Controller
             'review_note' => 'nullable|string|max:500',
         ]);
 
-        $correction = AttendanceCorrection::with('user')->findOrFail($id);
+        $correction = AttendanceCorrection::with(['user.role'])->findOrFail($id);
 
         if ($correction->status !== 'pending') {
             return response()->json(['message' => 'Koreksi ini sudah diproses sebelumnya.'], 422);
+        }
+
+        // Validasi Hirarki Persetujuan
+        $reviewerRole = $reviewer->role?->name;
+        $applicantRole = $correction->user->role?->name;
+
+        $canApprove = false;
+        if ($reviewerRole === 'supervisor' && $applicantRole === 'staff') {
+            $canApprove = true;
+        } elseif ($reviewerRole === 'manager' && $applicantRole === 'supervisor') {
+            $canApprove = true;
+        } elseif (($reviewerRole === 'org_admin' || $reviewerRole === 'superadmin') && in_array($applicantRole, ['manager', 'supervisor', 'staff'])) {
+            $canApprove = true; // Admin Instansi/Superadmin can approve anyone
+        } elseif (!in_array($reviewerRole, ['supervisor', 'manager', 'org_admin', 'superadmin'])) {
+            $canApprove = true; // Custom roles fallback
+        }
+
+        if (!$canApprove) {
+            return response()->json(['message' => 'Anda tidak memiliki wewenang untuk memproses pengajuan dari role ini.'], 403);
         }
 
         $correction->update([
@@ -222,8 +241,22 @@ class AttendanceCorrectionController extends Controller
             return response()->json(['message' => 'Forbidden'], 403);
         }
 
+        $reviewerRole = $reviewer->role?->name;
+        $targetRoles = [];
+
+        if ($reviewerRole === 'supervisor') {
+            $targetRoles = ['staff'];
+        } elseif ($reviewerRole === 'manager') {
+            $targetRoles = ['supervisor'];
+        } elseif ($reviewerRole === 'org_admin' || $reviewerRole === 'superadmin') {
+            $targetRoles = ['manager', 'supervisor', 'staff']; // Admin can see all to prevent deadlocks
+        } else {
+            $targetRoles = ['staff', 'supervisor', 'manager'];
+        }
+
         $corrections = AttendanceCorrection::with(['user:id,name,employee_id,department'])
             ->where('status', 'pending')
+            ->whereHas('user.role', fn($q) => $q->whereIn('name', $targetRoles))
             ->orderByDesc('created_at')
             ->get()
             ->map(fn($c) => $this->format($c));

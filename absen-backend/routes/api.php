@@ -140,6 +140,7 @@ Route::middleware(['auth:sanctum', 'tenant'])->group(function () {
 
     // Dashboard Endpoints
     Route::get('/dashboard/recent-updates', [DashboardController::class, 'recentUpdates']);
+    Route::get('/dashboard/news', [DashboardController::class, 'news']);
 
     // Performance Endpoints
     Route::get('/performance/overview', [PerformanceController::class, 'overview']);

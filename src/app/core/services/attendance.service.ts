@@ -72,6 +72,14 @@ export class AttendanceService {
     });
   }
 
+  createOffice(data: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/offices`, data, { headers: this.getHeaders() });
+  }
+
+  updateOffice(id: number, data: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/offices/${id}`, data, { headers: this.getHeaders() });
+  }
+
   getHistory(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/attendance/history`, {
       headers: this.getHeaders()

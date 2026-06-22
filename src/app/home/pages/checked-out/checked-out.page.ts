@@ -24,12 +24,20 @@ export class CheckedOutPage {
   @Input() userName = 'Sarah';
   @Input() userAvatar = '';
   @Input() updates: any[] = [];
+  @Input() newsFeed: any[] = [];
+  @Input() isLoadingNews = false;
   @Output() onMoreClick = new EventEmitter<void>();
 
   constructor(
     private router: Router,
     public attendanceStateService: AttendanceStateService
   ) {}
+
+  openNewsUrl(url: string) {
+    if (url) {
+      window.open(url, '_blank');
+    }
+  }
 
   openUpdate(link: string) {
     if (!link) return;

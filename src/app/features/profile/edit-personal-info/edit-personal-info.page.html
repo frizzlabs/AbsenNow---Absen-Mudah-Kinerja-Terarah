@@ -66,13 +66,18 @@
         <label>Contact Name</label>
         <app-input placeholder="Contact Name" [(value)]="model.emergency_contact_name"></app-input>
       </div>
-      <div class="form-group">
+      <div class="form-group" style="position: relative;">
         <label>Relationship</label>
-        <div class="select-box">
-          <select [(ngModel)]="model.emergency_contact_relationship">
-            <option value="">Pilih hubungan...</option>
-            <option *ngFor="let r of relationshipOptions" [value]="r">{{ r }}</option>
-          </select>
+        <div (click)="showRelationshipDropdown = !showRelationshipDropdown" class="select-box" style="cursor: pointer; display: flex; justify-content: space-between; align-items: center; background: white;">
+          <span style="font-size: 14px; color: var(--ion-color-dark);">{{ relationshipLabel }}</span>
+          <ion-icon name="chevron-down-outline" style="color: #98A2B3; font-size: 18px;"></ion-icon>
+        </div>
+
+        <div *ngIf="showRelationshipDropdown" style="position: absolute; top: 100%; left: 0; right: 0; background: white; border: 1px solid #D0D5DD; border-radius: 12px; box-shadow: 0 10px 20px rgba(0,0,0,0.08); z-index: 9999; margin-top: 4px; overflow: hidden; padding: 4px 0;">
+          <div class="dropdown-item" (click)="selectRelationship('')">Pilih hubungan...</div>
+          <div class="dropdown-item" *ngFor="let r of relationshipOptions" (click)="selectRelationship(r)">
+            {{ r }}
+          </div>
         </div>
       </div>
       <div class="form-group">

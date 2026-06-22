@@ -12,9 +12,13 @@
     <ion-icon name="home-outline"></ion-icon>
     <span>{{ 'bottomNav.home' | translate }}</span>
   </div>
-  <div class="nav-item" [class.active]="activeTab === 'activity'" routerLink="/activity">
+  <div class="nav-item" *ngIf="!isAdmin" [class.active]="activeTab === 'activity'" routerLink="/activity">
     <ion-icon name="time-outline"></ion-icon>
     <span>{{ 'bottomNav.activity' | translate }}</span>
+  </div>
+  <div class="nav-item" *ngIf="isAdmin" [class.active]="activeTab === 'activity'" routerLink="/admin/corrections">
+    <ion-icon name="checkbox-outline"></ion-icon>
+    <span>{{ 'bottomNav.approvals' | translate }}</span>
   </div>
   <div class="fab-wrapper" routerLink="/ai-chat">
     <div class="fab-bg"></div>
@@ -23,9 +27,13 @@
     </div>
     <span class="fab-label">{{ 'bottomNav.karaja' | translate }}</span>
   </div>
-  <div class="nav-item" [class.active]="activeTab === 'finance'" routerLink="/expense/overview">
+  <div class="nav-item" *ngIf="!isAdmin" [class.active]="activeTab === 'finance'" routerLink="/expense/overview">
     <ion-icon name="wallet-outline"></ion-icon>
     <span>{{ 'bottomNav.finance' | translate }}</span>
+  </div>
+  <div class="nav-item" *ngIf="isAdmin" [class.active]="activeTab === 'finance'" routerLink="/attendance/team-dashboard">
+    <ion-icon name="stats-chart-outline"></ion-icon>
+    <span>{{ 'bottomNav.stats' | translate }}</span>
   </div>
   <div class="nav-item" [class.active]="activeTab === 'notification'" routerLink="/notification">
     <ion-icon name="notifications-outline"></ion-icon>

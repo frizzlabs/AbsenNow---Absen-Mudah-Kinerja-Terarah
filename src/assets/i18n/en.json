@@ -102,7 +102,9 @@
     "finance": "Finance",
     "notification": "Notification",
     "karaja": "Karaja",
-    "profile": "Profile"
+    "profile": "Profile",
+    "approvals": "Approvals",
+    "stats": "Stats"
   },
   "activity": {
     "title": "Activity",

@@ -271,3 +271,191 @@ ion-alert.app-confirm--reject .alert-head::before {
   }
 }
 
+/* --- Instagram Feed / Berita Pemda Styles --- */
+.instagram-feed-scroll {
+  display: flex;
+  overflow-x: auto;
+  gap: 16px;
+  padding: 4px 4px 16px 4px;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  margin-bottom: 24px;
+
+  &::-webkit-scrollbar {
+    display: none; /* Sembunyikan scrollbar agar clean */
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.instagram-card {
+  flex: 0 0 280px; /* Lebar card tetap agar pas di screen handphone */
+  scroll-snap-align: start;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  border: 1px solid #f1f5f9;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:active {
+    transform: scale(0.98);
+  }
+
+  .instagram-card-header {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    border-bottom: 1px solid #f8fafc;
+
+    .ig-profile-logo {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      overflow: hidden;
+      margin-right: 10px;
+      border: 1.5px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f1f5f9;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    .ig-header-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+
+      .ig-profile-name {
+        margin: 0;
+        font-size: 13px;
+        font-weight: 700;
+        color: #1e293b;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-align: left;
+      }
+
+      .ig-meta-row {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+
+        .ig-username {
+          font-size: 11px;
+          color: #64748b;
+          white-space: nowrap;
+        }
+
+        .ig-bullet {
+          font-size: 9px;
+          color: #94a3b8;
+        }
+
+        .ig-type-badge {
+          font-size: 10px;
+          font-weight: 600;
+          color: #3b82f6;
+          background: rgba(59, 130, 246, 0.08);
+          padding: 1px 6px;
+          border-radius: 100px;
+        }
+      }
+    }
+
+    .ig-icon-right {
+      color: #e1306c; /* Warna Instagram Pink/Red */
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  .instagram-card-media {
+    position: relative;
+    width: 100%;
+    height: 160px;
+    background: #f8fafc;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .reels-play-overlay {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-size: 40px;
+      opacity: 0.85;
+      text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      pointer-events: none;
+    }
+  }
+
+  .instagram-card-content {
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+
+    .ig-caption {
+      margin: 0 0 10px 0;
+      font-size: 12.5px;
+      color: #334155;
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-align: left;
+    }
+
+    .ig-actions-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: auto;
+      border-top: 1px solid #f8fafc;
+      padding-top: 8px;
+
+      .ig-action-item {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 11px;
+        font-weight: 600;
+
+        ion-icon {
+          font-size: 13px;
+        }
+        
+        &.text-red {
+          color: #ef4444;
+        }
+
+        &.text-blue {
+          color: #3b82f6;
+        }
+      }
+    }
+  }
+}
+

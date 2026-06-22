@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
         $this->call(RolePermissionSeeder::class);
 
         // Platform super-admin (organization-less, manages all Pemda).
-        $platformRole = Role::whereNull('organization_id')->where('name', 'platform_superadmin')->first();
+        $platformRole = Role::whereNull('organization_id')->where(['name' => 'platform_superadmin'])->first();
         User::updateOrCreate(
             ['email' => 'vendor@absennow.id'],
             [
@@ -35,11 +35,15 @@ class DatabaseSeeder extends Seeder
         // Demo Pemda + its default roles + one org-admin (for testing onboarding).
         $demo = Organization::updateOrCreate(
             ['code' => 'demo'],
-            ['name' => 'Pemda Demo', 'is_active' => true],
+            [
+                'name' => 'Pemda Demo',
+                'is_active' => true,
+                'settings' => ['instagram_username' => 'pemkot_demo']
+            ],
         );
         (new OrganizationRoleTemplateSeeder())->forOrganization($demo->id);
 
-        $orgAdminRole = Role::where('organization_id', $demo->id)->where('name', 'org_admin')->first();
+        $orgAdminRole = Role::where(['organization_id' => $demo->id, 'name' => 'org_admin'])->first();
         User::updateOrCreate(
             ['email' => 'admin@demo.absennow.id'],
             [

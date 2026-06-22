@@ -61,10 +61,12 @@ export class DetailPage implements OnInit {
 
   toAmPm(timeStr: string): string {
     if (!timeStr) return '';
-    const [h, m] = timeStr.split(':').map(Number);
-    const period = h >= 12 ? 'PM' : 'AM';
-    const hour12 = h % 12 === 0 ? 12 : h % 12;
-    return `${hour12.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')} ${period}`;
+    try {
+      const [h, m] = timeStr.split(':').map(Number);
+      return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')} WIB`;
+    } catch {
+      return timeStr;
+    }
   }
 
   goBack() {

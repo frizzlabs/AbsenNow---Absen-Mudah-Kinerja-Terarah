@@ -15,19 +15,23 @@ import { AttendanceStateService } from '../../../core/services/attendance-state.
 })
 export class SuccessPage implements OnInit {
   isCheckingOut = false;
-  recordedTime = '08:58 AM';
+  recordedTime = '08:58 WIB';
   recordedDate = 'Feb 18, 2025';
   recordedLocation = 'Headquarters, Jakarta';
+  isLate = false;
 
   constructor(private navCtrl: NavController, private attendanceService: AttendanceStateService) {
     this.isCheckingOut = this.attendanceService.state === 'checked_in';
   }
 
   ngOnInit() {
-    this.recordedTime = localStorage.getItem('success_time') || '08:58 AM';
+    this.recordedTime = localStorage.getItem('success_time') || '08:58 WIB';
     this.recordedDate = localStorage.getItem('success_date') || 'Feb 18, 2025';
     const address = localStorage.getItem('success_office_address') || 'Headquarters, Jakarta';
     this.recordedLocation = address.length > 28 ? address.substring(0, 25) + '...' : address;
+    // Baca status check-in dari localStorage (hanya relevan untuk check-in)
+    const savedStatus = localStorage.getItem('success_status');
+    this.isLate = savedStatus === 'late';
   }
 
   goToHome() {

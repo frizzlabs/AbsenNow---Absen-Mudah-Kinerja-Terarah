@@ -21,6 +21,15 @@ export class RequestPage implements OnInit {
   endTime: string = '10:30';
   notes: string = '';
 
+  categories = [
+    { value: 'personal', label: 'Izin Pribadi' },
+    { value: 'family', label: 'Darurat Keluarga' },
+    { value: 'emergency', label: 'Darurat Rumah' },
+    { value: 'other', label: 'Lainnya' }
+  ];
+  showCategoryDropdown = false;
+  categoryLabel = 'Izin Pribadi';
+
   fileName: string | null = null;
   fileSizeText: string | null = null;
   base64File: string | null = null;
@@ -35,7 +44,7 @@ export class RequestPage implements OnInit {
   ngOnInit() {
     const draft = this.permissionService.draftRequest;
     this.title = draft.title;
-    this.category = draft.category;
+    this.category = draft.category || 'personal';
     this.permissionDate = draft.permission_date;
     this.startTime = draft.start_time || '09:00';
     this.endTime = draft.end_time || '10:30';
@@ -44,6 +53,15 @@ export class RequestPage implements OnInit {
     this.fileSizeText = draft.attachment_size;
     this.base64File = draft.attachment;
     this.fileType = draft.attachment_type;
+
+    const selected = this.categories.find(c => c.value === this.category);
+    this.categoryLabel = selected ? selected.label : 'Izin Pribadi';
+  }
+
+  selectCategory(item: any) {
+    this.category = item.value;
+    this.categoryLabel = item.label;
+    this.showCategoryDropdown = false;
   }
 
   triggerFileInput(fileInput: HTMLInputElement) {

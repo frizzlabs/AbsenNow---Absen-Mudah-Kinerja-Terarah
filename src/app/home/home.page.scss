@@ -22,6 +22,9 @@
   padding: var(--spacing-6);
   padding-top: calc(env(safe-area-inset-top) + var(--spacing-6));
   padding-bottom: 100px;
+  box-sizing: border-box;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 .header-content {
@@ -279,13 +282,13 @@
   }
 }
 
-// Desktop: jangan disebar selebar layar — kelompokkan dengan jarak wajar
+// Desktop: Quick Actions icon grid disembunyikan — sudah digantikan oleh sidebar nav
 @media (min-width: 1024px) {
   .quick-actions {
-    justify-content: flex-start;
-    gap: 40px;
+    display: none;
   }
 }
+
 
 .updates-list {
   display: flex;
@@ -579,14 +582,15 @@
   }
 
   .grid-row {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px 8px;
 
     .grid-item {
       display: flex;
       flex-direction: column;
       align-items: center;
-      width: 25%;
+      width: 100%;
       
       .icon-box {
         width: 56px;
@@ -616,3 +620,384 @@
     }
   }
 }
+
+/* --- Platform Admin View Styles --- */
+.platform-card {
+  margin-bottom: var(--spacing-4);
+}
+
+.admin-panel-header.no-border {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.admin-panel-icon.platform-icon {
+  background: linear-gradient(135deg, #1B59F8 0%, #583DF0 100%);
+}
+
+.panel-info {
+  flex: 1;
+}
+
+.header-btn {
+  margin: 0;
+}
+
+.org-card {
+  margin-bottom: 4px;
+}
+
+.org-item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.org-logo-wrapper {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(27, 89, 248, 0.1);
+  color: #1B59F8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+
+  .org-logo-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  ion-icon {
+    font-size: 22px;
+  }
+}
+
+.org-details {
+  margin-left: 12px;
+  flex: 1;
+  min-width: 0;
+}
+
+.org-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  h4 {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 700;
+    color: #1e293b;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .org-code-badge {
+    font-size: 10px;
+    font-weight: 700;
+    background: #e2e8f0;
+    color: #475569;
+    padding: 1px 6px;
+    border-radius: 4px;
+    text-transform: uppercase;
+  }
+}
+
+.org-meta {
+  margin: 2px 0 0;
+  font-size: 12px;
+  color: #64748b;
+
+  .status-badge-text {
+    font-weight: 600;
+
+    &.active {
+      color: #10b981;
+    }
+
+    &.inactive {
+      color: #ef4444;
+    }
+  }
+}
+
+.org-edit-btn {
+  margin: 0;
+}
+
+/* Modal Form Styles */
+.bg-light {
+  --background: #f1f5f9;
+}
+
+.modal-form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 10px;
+}
+
+.form-field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-field-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #475569;
+}
+
+.form-field-input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  background: white;
+  font-size: 14px;
+  color: #1e293b;
+  outline: none;
+  box-sizing: border-box;
+
+  &:focus {
+    border-color: #1B59F8;
+  }
+}
+
+.form-divider-title {
+  margin: 10px 0 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: #1e293b;
+  border-top: 1px solid #e2e8f0;
+  padding-top: 16px;
+}
+
+.form-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+
+  .toggle-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1e293b;
+  }
+}
+
+.form-submit-btn {
+  margin-top: 10px;
+  --border-radius: 12px;
+  height: 48px;
+  font-weight: 600;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   DESKTOP LAYOUT  (≥ 1024 px)
+   ─────────────────────────────────────────────────────────────────────────── */
+
+/* Base: cap page width & centre content on very wide displays */
+@media (min-width: 1024px) {
+  .home-content {
+    --background: #f0f2f7;
+  }
+
+  .header-bg {
+    height: 320px;
+  }
+
+  .home-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 40px 80px;
+    padding-top: calc(env(safe-area-inset-top) + 40px);
+  }
+
+  /* Kartu absen versi mobile — disembunyikan di desktop (ada di sidebar) */
+  .mobile-main-card {
+    display: none;
+  }
+
+  .header-content {
+    margin-bottom: 32px;
+  }
+
+  .welcome-text {
+    font-size: 34px;
+  }
+
+  /* ─── Text colors for elements rendered over blue gradient ─────────────── */
+  /* Section titles (Recent Updates, etc.) rendered on top of the blue header */
+  .desktop-main-col > .section-title h2,
+  .desktop-main-col > .section-title .view-all {
+    color: rgba(255, 255, 255, 0.95);
+  }
+
+  /* "View All" link over blue */
+  .desktop-main-col > .section-title .view-all {
+    color: rgba(255, 255, 255, 0.75);
+  }
+
+  /* Empty-state text ("Belum ada pembaruan terbaru.") over blue */
+  .desktop-main-col > .updates-list + .text-center p,
+  .desktop-main-col .updates-list .text-center p {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  /* ─── 2-column desktop grid ────────────────────────────────────────────── */
+  .desktop-grid {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 24px;
+    align-items: start;
+  }
+
+  .desktop-main-col {
+    min-width: 0; /* prevent overflow blowout */
+    overflow: hidden;
+  }
+
+  /* Instagram feed: switch from horizontal scroll to 2-column grid on desktop */
+  .desktop-main-col .instagram-feed-scroll {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    overflow-x: visible;
+    overflow-y: visible;
+    scroll-snap-type: none;
+    padding: 4px 0 16px;
+  }
+
+  .desktop-main-col .instagram-card {
+    flex: unset;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .desktop-main-col .instagram-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  }
+
+  .desktop-sidebar-col {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  /* Sticky check-in card in the sidebar */
+  .desktop-sticky-card {
+    position: sticky;
+    top: 24px;
+  }
+
+  /* Quick-actions & section title: hidden on desktop — replaced by sidebar nav */
+  .quick-actions,
+  .desktop-main-col > .section-title:first-of-type {
+    display: none;
+  }
+
+  /* Admin grid: 3 columns on desktop for more compact / professional feel */
+  .admin-action-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   SIDEBAR QUICK-NAV COMPONENT
+   ─────────────────────────────────────────────────────────────────────────── */
+
+/* Hidden on mobile – only shows when inside the desktop-sidebar-col */
+.desktop-sidebar-nav {
+  background: white;
+  border-radius: var(--radius-xl, 20px);
+  padding: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+
+  /* On mobile this block is still rendered but hidden inside the template-
+     order logic; however the sidebar column itself is not shown on mobile,
+     so no extra display:none needed here. */
+
+  .sidebar-nav-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #94a3b8;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin: 0 0 14px;
+  }
+}
+
+.sidebar-nav-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.sidebar-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 8px;
+  border-radius: 12px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.15s ease;
+
+  &:hover {
+    background: #f8fafc;
+  }
+
+  &:active {
+    background: #f1f5f9;
+  }
+
+  span {
+    flex: 1;
+    font-size: 14px;
+    font-weight: 600;
+    color: #1e293b;
+  }
+
+  .nav-chevron {
+    font-size: 16px;
+    color: #cbd5e1;
+    flex-shrink: 0;
+  }
+}
+
+.sidebar-nav-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  ion-icon {
+    font-size: 18px;
+  }
+}
+
+/* On mobile: hide the full sidebar column (it's inside desktop-sidebar-col
+   which is invisible since the grid doesn't activate). Nothing extra needed,
+   but if the grid still renders inline on very narrow screens: */
+@media (max-width: 1023px) {
+  .desktop-sidebar-col {
+    display: none;
+  }
+
+  .desktop-grid {
+    display: block; /* fallback – just stacks normally */
+  }
+}

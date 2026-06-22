@@ -50,9 +50,10 @@ export class FeedbackDetailComponent implements OnInit {
   }
   get submittedLabel(): string {
     if (!this.feedback?.submitted_at) return '';
-    return new Date(this.feedback.submitted_at).toLocaleString('en-US', {
-      month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit'
-    });
+    const d = new Date(this.feedback.submitted_at);
+    const datePart = d.toLocaleDateString('id-ID', { month: 'short', day: 'numeric', year: 'numeric' });
+    const timePart = d.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', hour12: false });
+    return `${datePart} ${timePart} WIB`;
   }
 
   async acknowledge() {

@@ -23,6 +23,7 @@ class OfficeController extends Controller
             'radius_meters' => 'nullable|integer|min:10',
             'work_start' => 'nullable',
             'work_end' => 'nullable',
+            'polygon_coordinates' => 'nullable|array',
         ]);
 
         $office = Office::create($data); // organization_id auto-stamped by trait
@@ -43,6 +44,7 @@ class OfficeController extends Controller
             'radius_meters' => 'sometimes|integer|min:10',
             'work_start' => 'nullable',
             'work_end' => 'nullable',
+            'polygon_coordinates' => 'nullable|array',
         ]);
 
         $office->update($data);

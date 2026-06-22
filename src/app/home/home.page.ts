@@ -14,15 +14,16 @@ import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../core/services/auth.service';
 import { LanguageService } from '../shared/services/language.service';
-import { DashboardService, RecentUpdate } from '../core/services/dashboard.service';
+import { DashboardService, RecentUpdate, InstagramPost } from '../core/services/dashboard.service';
 import { RoleService } from '../core/services/role.service';
+import { OrganizationService } from '../core/services/organization.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, BottomNavComponent, StatusBadgeComponent, CardComponent, RouterModule, CheckedInPage, CheckedOutPage, SwipeButtonComponent, TranslatePipe],
+  imports: [CommonModule, IonicModule, BottomNavComponent, StatusBadgeComponent, CardComponent, RouterModule, CheckedInPage, CheckedOutPage, SwipeButtonComponent, TranslatePipe, FormsModule],
 })
 export class HomePage implements OnInit, OnDestroy {
   currentLocationName = 'Mendeteksi lokasi…';
@@ -41,6 +42,30 @@ export class HomePage implements OnInit, OnDestroy {
   displayUpdates: any[] = [];
   isLoadingUpdates = false;
   isAttendanceSyncing = true;
+  newsFeed: InstagramPost[] = [];
+  isLoadingNews = false;
+
+  // Platform admin organization management variables
+  organizations: any[] = [];
+  isLoadingOrgs = false;
+  showAddOrgModal = false;
+  showEditOrgModal = false;
+
+  // New org form
+  newOrgName = '';
+  newOrgCode = '';
+  newOrgLogo = '';
+  newOrgInstagramUsername = '';
+  newOrgAdminName = '';
+  newOrgAdminEmail = '';
+  newOrgAdminPassword = '';
+
+  // Edit org form
+  editingOrg: any = null;
+  editOrgName = '';
+  editOrgLogo = '';
+  editOrgInstagramUsername = '';
+  editOrgIsActive = true;
 
   constructor(
     public attendanceService: AttendanceStateService,
@@ -51,6 +76,7 @@ export class HomePage implements OnInit, OnDestroy {
     private translateService: TranslateService,
     private dashboardService: DashboardService,
     private roleService: RoleService,
+    private orgService: OrganizationService,
     private cdr: ChangeDetectorRef
   ) {}
 
@@ -59,6 +85,7 @@ export class HomePage implements OnInit, OnDestroy {
     if (!role) return '';
     const labels: Record<string, string> = {
       superadmin: 'Super Admin',
+      org_admin: 'Admin Instansi',
       manager: 'Manager',
       supervisor: 'Supervisor',
       staff: 'Staff',
@@ -71,6 +98,7 @@ export class HomePage implements OnInit, OnDestroy {
     if (!role) return '#64748b';
     const colors: Record<string, string> = {
       superadmin: '#f59e0b',
+      org_admin: '#f59e0b',
       manager: '#8b5cf6',
       supervisor: '#3b82f6',
       staff: '#64748b',
@@ -86,13 +114,26 @@ export class HomePage implements OnInit, OnDestroy {
     return `rgba(${r}, ${g}, ${b}, 0.12)`;
   }
 
-  get canManageUsers(): boolean { return this.roleService.can('users.manage'); }
-  get canManageOffice(): boolean { return this.roleService.can('office.manage'); }
-  get canApproveAttendance(): boolean { return this.roleService.can('attendance.approve'); }
+  get isPlatformAdmin(): boolean {
+    return this.roleService.role?.name === 'platform_superadmin';
+  }
+
+  get canManageUsers(): boolean {
+    const name = this.roleService.role?.name;
+    return name === 'superadmin' || name === 'org_admin' || this.roleService.can('users.manage');
+  }
+  get canManageOffice(): boolean {
+    const name = this.roleService.role?.name;
+    return name === 'superadmin' || name === 'org_admin' || this.roleService.can('office.manage');
+  }
+  get canApproveAttendance(): boolean {
+    const name = this.roleService.role?.name;
+    return name === 'superadmin' || name === 'org_admin' || this.roleService.can('attendance.approve');
+  }
   get canCreateAttendance(): boolean { return this.roleService.can('attendance.create'); }
 
   get isAdminOnly(): boolean {
-    return this.roleService.role?.name === 'superadmin';
+    return this.roleService.role?.name === 'superadmin' || this.roleService.role?.name === 'org_admin';
   }
 
   ngOnInit() {
@@ -105,10 +146,17 @@ export class HomePage implements OnInit, OnDestroy {
     this.cdr.detectChanges();
     try {
       this.roleService.loadMyPermissions().subscribe({
-        next: () => this.cdr.markForCheck(),
+        next: () => {
+          this.cdr.markForCheck();
+          if (this.isPlatformAdmin) {
+            this.loadOrganizations();
+          }
+        },
         error: (err) => console.error('Error loading permissions on home entry:', err)
       });
-      await this.attendanceService.syncStatus();
+      if (!this.isPlatformAdmin) {
+        await this.attendanceService.syncStatus();
+      }
     } catch (error) {
       console.error('Error syncing status on home entry:', error);
     } finally {
@@ -116,12 +164,15 @@ export class HomePage implements OnInit, OnDestroy {
       this.cdr.detectChanges();
     }
 
-    try {
-      this.getCurrentLocation();
-      this.startClock();
-      this.loadRecentUpdates();
-    } catch (error) {
-      console.error('Error during post-sync home initialization:', error);
+    if (!this.isPlatformAdmin) {
+      try {
+        this.getCurrentLocation();
+        this.startClock();
+        this.loadRecentUpdates();
+        this.loadNewsFeed();
+      } catch (error) {
+        console.error('Error during post-sync home initialization:', error);
+      }
     }
   }
 
@@ -191,6 +242,28 @@ export class HomePage implements OnInit, OnDestroy {
       this.router.navigate([path], { queryParams: params });
     } else {
       this.router.navigate([path]);
+    }
+  }
+
+  loadNewsFeed() {
+    this.isLoadingNews = true;
+    this.dashboardService.getNewsFeed().subscribe({
+      next: (data) => {
+        this.newsFeed = data;
+        this.isLoadingNews = false;
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Failed to load news feed:', err);
+        this.isLoadingNews = false;
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+  openNewsUrl(url: string) {
+    if (url) {
+      window.open(url, '_blank');
     }
   }
 
@@ -296,6 +369,7 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   get viewState() {
+    if (this.isPlatformAdmin) return 'platform_admin';
     if (this.isAdminOnly) return 'admin';
     if (this.attendanceService.state === 'checked_in') return 'checked_in';
     if (this.attendanceService.hasCompletedToday) return 'completed';
@@ -308,5 +382,82 @@ export class HomePage implements OnInit, OnDestroy {
 
   onSwipeCheckIn() {
     this.router.navigate(['/attendance/validation']);
+  }
+
+  loadOrganizations() {
+    this.isLoadingOrgs = true;
+    this.orgService.getOrganizations().subscribe({
+      next: (data) => {
+        this.organizations = data;
+        this.isLoadingOrgs = false;
+        this.cdr.detectChanges();
+      },
+      error: () => {
+        this.organizations = [];
+        this.isLoadingOrgs = false;
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+  createOrg() {
+    if (!this.newOrgName || !this.newOrgCode || !this.newOrgAdminName || !this.newOrgAdminEmail || !this.newOrgAdminPassword) {
+      return;
+    }
+    const payload = {
+      name: this.newOrgName,
+      code: this.newOrgCode,
+      logo_url: this.newOrgLogo || null,
+      instagram_username: this.newOrgInstagramUsername || null,
+      admin_name: this.newOrgAdminName,
+      admin_email: this.newOrgAdminEmail,
+      admin_password: this.newOrgAdminPassword,
+    };
+    this.orgService.createOrganization(payload).subscribe({
+      next: () => {
+        this.showAddOrgModal = false;
+        this.loadOrganizations();
+        // Reset form
+        this.newOrgName = '';
+        this.newOrgCode = '';
+        this.newOrgLogo = '';
+        this.newOrgInstagramUsername = '';
+        this.newOrgAdminName = '';
+        this.newOrgAdminEmail = '';
+        this.newOrgAdminPassword = '';
+      },
+      error: (err) => {
+        console.error('Failed to create organization', err);
+      }
+    });
+  }
+
+  openEditOrg(org: any) {
+    this.editingOrg = org;
+    this.editOrgName = org.name;
+    this.editOrgLogo = org.logo_url || '';
+    this.editOrgIsActive = org.is_active;
+    this.editOrgInstagramUsername = org.settings?.instagram_username || '';
+    this.showEditOrgModal = true;
+  }
+
+  updateOrg() {
+    if (!this.editingOrg) return;
+    const payload = {
+      name: this.editOrgName,
+      logo_url: this.editOrgLogo || null,
+      is_active: this.editOrgIsActive,
+      instagram_username: this.editOrgInstagramUsername || null,
+    };
+    this.orgService.updateOrganization(this.editingOrg.id, payload).subscribe({
+      next: () => {
+        this.showEditOrgModal = false;
+        this.editingOrg = null;
+        this.loadOrganizations();
+      },
+      error: (err) => {
+        console.error('Failed to update organization', err);
+      }
+    });
   }
 }

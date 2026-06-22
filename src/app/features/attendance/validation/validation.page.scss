@@ -77,11 +77,37 @@ ion-content {
       &.text-green { color: var(--ion-color-success); }
       &.bg-red-light { background: rgba(var(--ion-color-danger-rgb), 0.1); }
       &.text-red { color: var(--ion-color-danger); }
+      &.bg-red { background: var(--ion-color-danger); }
+      &.text-white { color: #ffffff; }
     }
     
     .status-text {
       h3 { margin: 0 0 4px 0; color: var(--ion-color-tertiary); }
       p { margin: 0; color: var(--ion-color-medium); }
+    }
+  }
+
+  .fake-gps-banner {
+    background: rgba(var(--ion-color-danger-rgb), 0.08);
+    border: 1px solid rgba(var(--ion-color-danger-rgb), 0.15);
+    border-radius: 12px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    text-align: left;
+    color: var(--ion-color-danger);
+
+    ion-icon {
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    span {
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 1.4;
     }
   }
 

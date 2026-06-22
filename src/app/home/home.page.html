@@ -3,8 +3,9 @@
   <ng-container *ngSwitchCase="'default'">
     <ion-content class="home-content" [fullscreen]="true">
   <div class="header-bg"></div>
-  
+
   <div class="home-container">
+    <!-- Header: full-width across both columns -->
     <div class="header-content">
       <div class="header-text">
         <p class="date-text">{{ currentDate }}</p>
@@ -25,7 +26,8 @@
       </div>
     </div>
 
-    <div class="main-card">
+    <!-- Check-In Card: tampil di MOBILE (hidden di desktop, karena di desktop ada di sidebar) -->
+    <div class="main-card mobile-main-card">
       <div class="card-header">
         <div>
           <p class="current-time-label">{{ 'home.currentTime' | translate }}</p>
@@ -40,11 +42,11 @@
         </div>
         <app-status-badge color="success" [text]="'home.onTime' | translate"></app-status-badge>
       </div>
-      
+
       <app-swipe-button [text]="'home.slideToCheckIn' | translate" (swipeComplete)="onSwipeCheckIn()"></app-swipe-button>
 
       <p class="current-status">{{ 'home.currentlyCheckedOut' | translate }}</p>
-      
+
       <div class="check-times">
         <div class="time-col">
           <div class="col-header text-green">
@@ -64,64 +66,206 @@
       </div>
     </div>
 
-    <div class="section-title">
-      <h2 class="text-h6">{{ 'home.quickActions' | translate }}</h2>
-    </div>
-    
-    <div class="quick-actions">
-      <div class="action-item" routerLink="/attendance/history">
-        <div class="action-icon bg-blue">
-          <ion-icon name="calendar-outline" color="primary"></ion-icon>
-        </div>
-        <span>{{ 'home.attendance' | translate }}</span>
-      </div>
-      <div class="action-item" routerLink="/leave">
-        <div class="action-icon bg-orange">
-          <ion-icon name="umbrella-outline" color="warning"></ion-icon>
-        </div>
-        <span>{{ 'home.leave' | translate }}</span>
-      </div>
-      <div class="action-item" routerLink="/payslip">
-        <div class="action-icon bg-green">
-          <ion-icon name="receipt-outline" color="success"></ion-icon>
-        </div>
-        <span>{{ 'home.payslip' | translate }}</span>
-      </div>
-      <div class="action-item" (click)="toggleShortcuts()" style="cursor: pointer;">
-        <div class="action-icon bg-grey">
-          <ion-icon name="grid-outline" color="medium"></ion-icon>
-        </div>
-        <span>{{ 'home.more' | translate }}</span>
-      </div>
-    </div>
+    <!-- Desktop 2-Column Grid -->
+    <div class="desktop-grid">
 
-    <div class="section-title flex-between">
-      <h2 class="text-h6">{{ 'home.recentUpdates' | translate }}</h2>
-      <a class="view-all" routerLink="/notification">{{ 'home.viewAll' | translate }}</a>
-    </div>
-    
-    <div class="updates-list">
-      <app-card *ngFor="let u of displayUpdates" (click)="openUpdate(u.link)" style="cursor: pointer;">
-        <div class="update-card-content">
-          <div class="update-icon" [style.color]="u.colorHex" [style.background]="u.bg">
-            <ion-icon [name]="u.icon"></ion-icon>
-          </div>
-          <div class="update-content">
-            <div class="update-header">
-              <h4>{{ u.title }}</h4>
-              <span class="time">{{ u.timeLabel }}</span>
+      <!-- LEFT COLUMN: Quick Actions + Updates + News -->
+      <div class="desktop-main-col">
+
+        <div class="section-title">
+          <h2 class="text-h6">{{ 'home.quickActions' | translate }}</h2>
+        </div>
+
+        <div class="quick-actions">
+          <div class="action-item" routerLink="/attendance/history">
+            <div class="action-icon bg-blue">
+              <ion-icon name="calendar-outline" color="primary"></ion-icon>
             </div>
-            <p>{{ u.message }}</p>
+            <span>{{ 'home.attendance' | translate }}</span>
+          </div>
+          <div class="action-item" routerLink="/leave">
+            <div class="action-icon bg-orange">
+              <ion-icon name="umbrella-outline" color="warning"></ion-icon>
+            </div>
+            <span>{{ 'home.leave' | translate }}</span>
+          </div>
+          <div class="action-item" routerLink="/payslip">
+            <div class="action-icon bg-green">
+              <ion-icon name="receipt-outline" color="success"></ion-icon>
+            </div>
+            <span>{{ 'home.payslip' | translate }}</span>
+          </div>
+          <div class="action-item" (click)="toggleShortcuts()" style="cursor: pointer;">
+            <div class="action-icon bg-grey">
+              <ion-icon name="grid-outline" color="medium"></ion-icon>
+            </div>
+            <span>{{ 'home.more' | translate }}</span>
           </div>
         </div>
-      </app-card>
 
-      <div class="text-center" *ngIf="!isLoadingUpdates && recentUpdates.length === 0" style="padding: 20px; color: var(--ion-color-medium);">
-        <p style="margin: 0; font-size: 14px;">Belum ada pembaruan terbaru.</p>
+        <div class="section-title flex-between" style="margin-top: 8px;">
+          <h2 class="text-h6">{{ 'home.recentUpdates' | translate }}</h2>
+          <a class="view-all" routerLink="/notification">{{ 'home.viewAll' | translate }}</a>
+        </div>
+
+        <div class="updates-list">
+          <app-card *ngFor="let u of displayUpdates" (click)="openUpdate(u.link)" style="cursor: pointer;">
+            <div class="update-card-content">
+              <div class="update-icon" [style.color]="u.colorHex" [style.background]="u.bg">
+                <ion-icon [name]="u.icon"></ion-icon>
+              </div>
+              <div class="update-content">
+                <div class="update-header">
+                  <h4>{{ u.title }}</h4>
+                  <span class="time">{{ u.timeLabel }}</span>
+                </div>
+                <p>{{ u.message }}</p>
+              </div>
+            </div>
+          </app-card>
+          <div class="text-center" *ngIf="!isLoadingUpdates && recentUpdates.length === 0" style="padding: 20px; color: var(--ion-color-medium);">
+            <p style="margin: 0; font-size: 14px;">Belum ada pembaruan terbaru.</p>
+          </div>
+        </div>
+
+        <!-- Berita & Kegiatan Pemda (Instagram Feed) -->
+        <div class="section-title flex-between" style="margin-top: 24px; margin-bottom: 12px;">
+          <h2 class="text-h6" style="font-weight: 700; color: var(--ion-color-tertiary);">Berita & Kegiatan Pemda</h2>
+        </div>
+        <div class="text-center" *ngIf="isLoadingNews" style="padding: 20px;">
+          <ion-spinner name="crescent" color="primary"></ion-spinner>
+        </div>
+        <div class="instagram-feed-scroll" *ngIf="!isLoadingNews && newsFeed.length > 0">
+          <div class="instagram-card" *ngFor="let post of newsFeed" (click)="openNewsUrl(post.post_url)">
+            <div class="instagram-card-header">
+              <div class="ig-profile-logo">
+                <img [src]="post.profile_pic || 'assets/images/avatar.png'" alt="profile" />
+              </div>
+              <div class="ig-header-info">
+                <h4 class="ig-profile-name">{{ post.profile_name }}</h4>
+                <div class="ig-meta-row">
+                  <span class="ig-username">@{{ post.username }}</span>
+                  <span class="ig-bullet">•</span>
+                  <span class="ig-type-badge">{{ post.type === 'reels' ? 'Reels' : 'Post' }}</span>
+                </div>
+              </div>
+              <div class="ig-icon-right">
+                <ion-icon name="logo-instagram"></ion-icon>
+              </div>
+            </div>
+            <div class="instagram-card-media">
+              <img [src]="post.thumbnail_url" alt="media" />
+              <div class="reels-play-overlay" *ngIf="post.type === 'reels'">
+                <ion-icon name="play-circle"></ion-icon>
+              </div>
+            </div>
+            <div class="instagram-card-content">
+              <p class="ig-caption">{{ post.caption }}</p>
+              <div class="ig-actions-row">
+                <span class="ig-action-item text-red">
+                  <ion-icon name="heart"></ion-icon>
+                  {{ post.likes_count | number:'1.0-0' }}
+                </span>
+                <span class="ig-action-item text-blue">
+                  <ion-icon name="chatbubble"></ion-icon>
+                  {{ post.comments_count | number:'1.0-0' }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="text-center" *ngIf="!isLoadingNews && newsFeed.length === 0" style="padding: 20px; color: var(--ion-color-medium);">
+          <p style="margin: 0; font-size: 14px;">Belum ada berita terbaru.</p>
+        </div>
+
       </div>
+      <!-- END LEFT COLUMN -->
+
+      <!-- RIGHT SIDEBAR: Attendance Check-In Card -->
+      <div class="desktop-sidebar-col">
+        <div class="main-card desktop-sticky-card">
+          <div class="card-header">
+            <div>
+              <p class="current-time-label">{{ 'home.currentTime' | translate }}</p>
+              <div class="time-display">
+                <span class="time-big">{{ currentTime }}</span>
+              </div>
+              <div class="schedule-display">
+                <ion-icon name="time" class="schedule-icon"></ion-icon>
+                <span class="schedule-time">{{ attendanceService.workScheduleLabel }}</span>
+                <span class="schedule-label">{{ 'home.workSchedule' | translate }}</span>
+              </div>
+            </div>
+            <app-status-badge color="success" [text]="'home.onTime' | translate"></app-status-badge>
+          </div>
+
+          <app-swipe-button [text]="'home.slideToCheckIn' | translate" (swipeComplete)="onSwipeCheckIn()"></app-swipe-button>
+
+          <p class="current-status">{{ 'home.currentlyCheckedOut' | translate }}</p>
+
+          <div class="check-times">
+            <div class="time-col">
+              <div class="col-header text-green">
+                <ion-icon name="enter-outline"></ion-icon>
+                <span>{{ 'home.checkIn' | translate }}</span>
+              </div>
+              <div class="col-value">-:-</div>
+            </div>
+            <div class="divider-vertical"></div>
+            <div class="time-col">
+              <div class="col-header text-red">
+                <ion-icon name="exit-outline"></ion-icon>
+                <span>{{ 'home.checkOut' | translate }}</span>
+              </div>
+              <div class="col-value">-:-</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Desktop Sidebar Quick Nav -->
+        <div class="desktop-sidebar-nav">
+          <h3 class="sidebar-nav-title">Menu Cepat</h3>
+          <div class="sidebar-nav-list">
+            <a class="sidebar-nav-item" routerLink="/attendance/history">
+              <div class="sidebar-nav-icon" style="background:#E0EAFF;"><ion-icon name="calendar-outline" style="color:#1B59F8;"></ion-icon></div>
+              <span>Absensi</span>
+              <ion-icon name="chevron-forward-outline" class="nav-chevron"></ion-icon>
+            </a>
+            <a class="sidebar-nav-item" routerLink="/leave">
+              <div class="sidebar-nav-icon" style="background:#FEF4E6;"><ion-icon name="umbrella-outline" style="color:#f97316;"></ion-icon></div>
+              <span>Cuti</span>
+              <ion-icon name="chevron-forward-outline" class="nav-chevron"></ion-icon>
+            </a>
+            <a class="sidebar-nav-item" routerLink="/overtime">
+              <div class="sidebar-nav-icon" style="background:#f5f0ff;"><ion-icon name="time-outline" style="color:#a855f7;"></ion-icon></div>
+              <span>Lembur</span>
+              <ion-icon name="chevron-forward-outline" class="nav-chevron"></ion-icon>
+            </a>
+            <a class="sidebar-nav-item" routerLink="/payslip">
+              <div class="sidebar-nav-icon" style="background:#E7F8F0;"><ion-icon name="receipt-outline" style="color:#10b981;"></ion-icon></div>
+              <span>Slip Gaji</span>
+              <ion-icon name="chevron-forward-outline" class="nav-chevron"></ion-icon>
+            </a>
+            <a class="sidebar-nav-item" routerLink="/dinas-luar/history">
+              <div class="sidebar-nav-icon" style="background:#e8f4fd;"><ion-icon name="briefcase-outline" style="color:#0ea5e9;"></ion-icon></div>
+              <span>Dinas Luar</span>
+              <ion-icon name="chevron-forward-outline" class="nav-chevron"></ion-icon>
+            </a>
+            <a class="sidebar-nav-item" routerLink="/profile">
+              <div class="sidebar-nav-icon" style="background:#f1f5f9;"><ion-icon name="person-outline" style="color:#64748b;"></ion-icon></div>
+              <span>Profil Saya</span>
+              <ion-icon name="chevron-forward-outline" class="nav-chevron"></ion-icon>
+            </a>
+          </div>
+        </div>
+      </div>
+      <!-- END RIGHT SIDEBAR -->
+
     </div>
+    <!-- END DESKTOP GRID -->
+
   </div>
-  
+
     </ion-content>
     <app-bottom-nav></app-bottom-nav>
   </ng-container>
@@ -153,77 +297,332 @@
           </div>
         </div>
 
-        <!-- Admin Panel Card -->
-        <div class="admin-panel-card">
-          <div class="admin-panel-header">
-            <div class="admin-panel-icon">
-              <ion-icon name="shield-checkmark-outline"></ion-icon>
-            </div>
-            <div>
-              <h3>Panel Admin</h3>
-              <p>Kelola sistem & konfigurasi kantor</p>
-            </div>
-          </div>
+        <!-- Desktop 2-Column Grid for Admin -->
+        <div class="desktop-grid">
 
-          <div class="admin-action-grid">
-            <div class="admin-action-item" routerLink="/admin/roles">
-              <div class="admin-action-icon" style="background: rgba(245,158,11,0.12); color: #f59e0b;">
-                <ion-icon name="shield-outline"></ion-icon>
-              </div>
-              <span>Role & Hak Akses</span>
-              <p>Atur privilege per role</p>
-            </div>
-            <div class="admin-action-item" routerLink="/admin/users">
-              <div class="admin-action-icon" style="background: rgba(139,92,246,0.12); color: #8b5cf6;">
-                <ion-icon name="people-outline"></ion-icon>
-              </div>
-              <span>Pengguna</span>
-              <p>Assign role ke karyawan</p>
-            </div>
-            <div class="admin-action-item" *ngIf="canManageOffice" routerLink="/attendance/set-office">
-              <div class="admin-action-icon" style="background: rgba(16,185,129,0.12); color: #10b981;">
-                <ion-icon name="location-outline"></ion-icon>
-              </div>
-              <span>Lokasi Kantor</span>
-              <p>Atur titik & radius geofence</p>
-            </div>
-            <div class="admin-action-item" routerLink="/admin/corrections">
-              <div class="admin-action-icon" style="background: rgba(239,68,68,0.12); color: #ef4444;">
-                <ion-icon name="document-text-outline"></ion-icon>
-              </div>
-              <span>Review Koreksi</span>
-              <p>Setujui / tolak lupa absen</p>
-            </div>
-          </div>
-        </div>
+          <!-- LEFT: Admin Panel + Updates + News -->
+          <div class="desktop-main-col">
 
-        <!-- Recent Updates -->
-        <div class="section-title flex-between" style="margin-top: 8px;">
-          <h2 class="text-h6">{{ 'home.recentUpdates' | translate }}</h2>
-          <a class="view-all" routerLink="/notification">{{ 'home.viewAll' | translate }}</a>
-        </div>
-
-        <div class="updates-list">
-          <app-card *ngFor="let u of displayUpdates" (click)="openUpdate(u.link)" style="cursor: pointer;">
-            <div class="update-card-content">
-              <div class="update-icon" [style.color]="u.colorHex" [style.background]="u.bg">
-                <ion-icon [name]="u.icon"></ion-icon>
-              </div>
-              <div class="update-content">
-                <div class="update-header">
-                  <h4>{{ u.title }}</h4>
-                  <span class="time">{{ u.timeLabel }}</span>
+            <!-- Admin Panel Card -->
+            <div class="admin-panel-card">
+              <div class="admin-panel-header">
+                <div class="admin-panel-icon">
+                  <ion-icon name="shield-checkmark-outline"></ion-icon>
                 </div>
-                <p>{{ u.message }}</p>
+                <div>
+                  <h3>Panel Admin</h3>
+                  <p>Kelola sistem & konfigurasi kantor</p>
+                </div>
               </div>
+              <div class="admin-action-grid">
+                <div class="admin-action-item" routerLink="/admin/roles">
+                  <div class="admin-action-icon" style="background: rgba(245,158,11,0.12); color: #f59e0b;"><ion-icon name="shield-outline"></ion-icon></div>
+                  <span>Role & Hak Akses</span>
+                  <p>Atur privilege per role</p>
+                </div>
+                <div class="admin-action-item" routerLink="/admin/users">
+                  <div class="admin-action-icon" style="background: rgba(139,92,246,0.12); color: #8b5cf6;"><ion-icon name="people-outline"></ion-icon></div>
+                  <span>Pengguna</span>
+                  <p>Assign role ke karyawan</p>
+                </div>
+                <div class="admin-action-item" *ngIf="canManageOffice" routerLink="/attendance/set-office">
+                  <div class="admin-action-icon" style="background: rgba(16,185,129,0.12); color: #10b981;"><ion-icon name="location-outline"></ion-icon></div>
+                  <span>Lokasi Kantor</span>
+                  <p>Atur titik & radius geofence</p>
+                </div>
+                <div class="admin-action-item" routerLink="/admin/corrections">
+                  <div class="admin-action-icon" style="background: rgba(239,68,68,0.12); color: #ef4444;"><ion-icon name="document-text-outline"></ion-icon></div>
+                  <span>Review Koreksi</span>
+                  <p>Setujui / tolak lupa absen</p>
+                </div>
+                <div class="admin-action-item" routerLink="/dinas-luar/review">
+                  <div class="admin-action-icon" style="background: rgba(16,185,129,0.12); color: #10b981;"><ion-icon name="briefcase-outline"></ion-icon></div>
+                  <span>Review Dinas</span>
+                  <p>Setujui / tolak dinas luar</p>
+                </div>
+                <div class="admin-action-item" routerLink="/attendance/team-dashboard">
+                  <div class="admin-action-icon" style="background: rgba(99,102,241,0.12); color: #6366f1;"><ion-icon name="stats-chart-outline"></ion-icon></div>
+                  <span>Dashboard Absensi</span>
+                  <p>Statistik kehadiran tim</p>
+                </div>
+                <div class="admin-action-item" routerLink="/attendance/team-list">
+                  <div class="admin-action-icon" style="background: rgba(14,165,233,0.12); color: #0ea5e9;"><ion-icon name="list-outline"></ion-icon></div>
+                  <span>List Absensi</span>
+                  <p>Daftar presensi pegawai</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Recent Updates -->
+            <div class="section-title flex-between" style="margin-top: 8px;">
+              <h2 class="text-h6">{{ 'home.recentUpdates' | translate }}</h2>
+              <a class="view-all" routerLink="/notification">{{ 'home.viewAll' | translate }}</a>
+            </div>
+            <div class="updates-list">
+              <app-card *ngFor="let u of displayUpdates" (click)="openUpdate(u.link)" style="cursor: pointer;">
+                <div class="update-card-content">
+                  <div class="update-icon" [style.color]="u.colorHex" [style.background]="u.bg"><ion-icon [name]="u.icon"></ion-icon></div>
+                  <div class="update-content">
+                    <div class="update-header"><h4>{{ u.title }}</h4><span class="time">{{ u.timeLabel }}</span></div>
+                    <p>{{ u.message }}</p>
+                  </div>
+                </div>
+              </app-card>
+              <div class="text-center" *ngIf="!isLoadingUpdates && recentUpdates.length === 0" style="padding: 20px; color: var(--ion-color-medium);">
+                <p style="margin: 0; font-size: 14px;">Belum ada pembaruan terbaru.</p>
+              </div>
+            </div>
+
+            <!-- Berita & Kegiatan Pemda -->
+            <div class="section-title flex-between" style="margin-top: 24px; margin-bottom: 12px;">
+              <h2 class="text-h6" style="font-weight: 700; color: var(--ion-color-tertiary);">Berita & Kegiatan Pemda</h2>
+            </div>
+            <div class="text-center" *ngIf="isLoadingNews" style="padding: 20px;"><ion-spinner name="crescent" color="primary"></ion-spinner></div>
+            <div class="instagram-feed-scroll" *ngIf="!isLoadingNews && newsFeed.length > 0">
+              <div class="instagram-card" *ngFor="let post of newsFeed" (click)="openNewsUrl(post.post_url)">
+                <div class="instagram-card-header">
+                  <div class="ig-profile-logo"><img [src]="post.profile_pic || 'assets/images/avatar.png'" alt="profile" /></div>
+                  <div class="ig-header-info">
+                    <h4 class="ig-profile-name">{{ post.profile_name }}</h4>
+                    <div class="ig-meta-row"><span class="ig-username">@{{ post.username }}</span><span class="ig-bullet">•</span><span class="ig-type-badge">{{ post.type === 'reels' ? 'Reels' : 'Post' }}</span></div>
+                  </div>
+                  <div class="ig-icon-right"><ion-icon name="logo-instagram"></ion-icon></div>
+                </div>
+                <div class="instagram-card-media">
+                  <img [src]="post.thumbnail_url" alt="media" />
+                  <div class="reels-play-overlay" *ngIf="post.type === 'reels'"><ion-icon name="play-circle"></ion-icon></div>
+                </div>
+                <div class="instagram-card-content">
+                  <p class="ig-caption">{{ post.caption }}</p>
+                  <div class="ig-actions-row">
+                    <span class="ig-action-item text-red"><ion-icon name="heart"></ion-icon>{{ post.likes_count | number:'1.0-0' }}</span>
+                    <span class="ig-action-item text-blue"><ion-icon name="chatbubble"></ion-icon>{{ post.comments_count | number:'1.0-0' }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="text-center" *ngIf="!isLoadingNews && newsFeed.length === 0" style="padding: 20px; color: var(--ion-color-medium);"><p style="margin: 0; font-size: 14px;">Belum ada berita terbaru.</p></div>
+
+          </div>
+          <!-- END LEFT COLUMN -->
+
+          <!-- RIGHT SIDEBAR for Admin -->
+          <div class="desktop-sidebar-col">
+            <div class="desktop-sidebar-nav">
+              <h3 class="sidebar-nav-title">Akses Cepat Admin</h3>
+              <div class="sidebar-nav-list">
+                <a class="sidebar-nav-item" routerLink="/attendance/team-dashboard">
+                  <div class="sidebar-nav-icon" style="background:rgba(99,102,241,0.1);"><ion-icon name="stats-chart-outline" style="color:#6366f1;"></ion-icon></div>
+                  <span>Dashboard Absensi</span>
+                  <ion-icon name="chevron-forward-outline" class="nav-chevron"></ion-icon>
+                </a>
+                <a class="sidebar-nav-item" routerLink="/attendance/team-list">
+                  <div class="sidebar-nav-icon" style="background:rgba(14,165,233,0.1);"><ion-icon name="people-outline" style="color:#0ea5e9;"></ion-icon></div>
+                  <span>List Absensi</span>
+                  <ion-icon name="chevron-forward-outline" class="nav-chevron"></ion-icon>
+                </a>
+                <a class="sidebar-nav-item" routerLink="/admin/corrections">
+                  <div class="sidebar-nav-icon" style="background:rgba(239,68,68,0.1);"><ion-icon name="document-text-outline" style="color:#ef4444;"></ion-icon></div>
+                  <span>Review Koreksi</span>
+                  <ion-icon name="chevron-forward-outline" class="nav-chevron"></ion-icon>
+                </a>
+                <a class="sidebar-nav-item" routerLink="/dinas-luar/review">
+                  <div class="sidebar-nav-icon" style="background:rgba(16,185,129,0.1);"><ion-icon name="briefcase-outline" style="color:#10b981;"></ion-icon></div>
+                  <span>Review Dinas</span>
+                  <ion-icon name="chevron-forward-outline" class="nav-chevron"></ion-icon>
+                </a>
+                <a class="sidebar-nav-item" routerLink="/admin/users">
+                  <div class="sidebar-nav-icon" style="background:rgba(139,92,246,0.1);"><ion-icon name="people-outline" style="color:#8b5cf6;"></ion-icon></div>
+                  <span>Pengguna</span>
+                  <ion-icon name="chevron-forward-outline" class="nav-chevron"></ion-icon>
+                </a>
+                <a class="sidebar-nav-item" routerLink="/admin/roles">
+                  <div class="sidebar-nav-icon" style="background:rgba(245,158,11,0.1);"><ion-icon name="shield-outline" style="color:#f59e0b;"></ion-icon></div>
+                  <span>Role & Hak</span>
+                  <ion-icon name="chevron-forward-outline" class="nav-chevron"></ion-icon>
+                </a>
+                <a class="sidebar-nav-item" *ngIf="canManageOffice" routerLink="/attendance/set-office">
+                  <div class="sidebar-nav-icon" style="background:rgba(16,185,129,0.1);"><ion-icon name="location-outline" style="color:#10b981;"></ion-icon></div>
+                  <span>Lokasi Kantor</span>
+                  <ion-icon name="chevron-forward-outline" class="nav-chevron"></ion-icon>
+                </a>
+              </div>
+            </div>
+          </div>
+          <!-- END RIGHT SIDEBAR -->
+
+        </div>
+        <!-- END DESKTOP GRID -->
+
+      </div>
+    </ion-content>
+    <app-bottom-nav></app-bottom-nav>
+  </ng-container>
+
+  <!-- ===== PLATFORM ADMIN HOME VIEW ===== -->
+  <ng-container *ngSwitchCase="'platform_admin'">
+    <ion-content class="home-content" [fullscreen]="true">
+      <div class="header-bg"></div>
+
+      <div class="home-container">
+        <!-- Header -->
+        <div class="header-content">
+          <div class="header-text">
+            <p class="date-text">{{ currentDate }}</p>
+            <h1 class="welcome-text">{{ greeting }}<br/><span class="text-white-opacity">{{ userName }} 👋</span></h1>
+          </div>
+          <div class="avatar-wrapper" routerLink="/profile" style="cursor: pointer;">
+            <img [src]="userAvatar || 'assets/images/avatar.png'" class="avatar-img" />
+            <div class="online-indicator"></div>
+          </div>
+        </div>
+
+        <!-- Info & Actions -->
+        <div class="admin-panel-card platform-card">
+          <div class="admin-panel-header no-border">
+            <div class="admin-panel-icon platform-icon">
+              <ion-icon name="business-outline"></ion-icon>
+            </div>
+            <div class="panel-info">
+              <h3>Daftar Instansi / Pemda</h3>
+              <p>Total: {{ organizations.length }} instansi terdaftar</p>
+            </div>
+            <ion-button size="small" shape="round" color="primary" class="header-btn" (click)="showAddOrgModal = true">
+              <ion-icon name="add-outline" slot="start"></ion-icon>
+              Tambah
+            </ion-button>
+          </div>
+        </div>
+
+        <!-- Spinner -->
+        <div class="text-center" *ngIf="isLoadingOrgs" style="padding: 40px;">
+          <ion-spinner name="crescent" color="primary"></ion-spinner>
+        </div>
+
+        <!-- Orgs List -->
+        <div class="updates-list" *ngIf="!isLoadingOrgs">
+          <app-card *ngFor="let org of organizations" class="org-card">
+            <div class="org-item">
+              <div class="org-logo-wrapper">
+                <img *ngIf="org.logo_url" [src]="org.logo_url" alt="Logo" class="org-logo-img" />
+                <ion-icon *ngIf="!org.logo_url" name="business-outline"></ion-icon>
+              </div>
+              <div class="org-details">
+                <div class="org-title-row">
+                  <h4>{{ org.name }}</h4>
+                  <span class="org-code-badge">{{ org.code }}</span>
+                </div>
+                <p class="org-meta">
+                  {{ org.users_count || 0 }} Karyawan &bull; 
+                  <span class="status-badge-text" [class.active]="org.is_active" [class.inactive]="!org.is_active">
+                    {{ org.is_active ? 'Aktif' : 'Nonaktif' }}
+                  </span>
+                </p>
+              </div>
+              <ion-button fill="clear" color="primary" size="small" class="org-edit-btn" (click)="openEditOrg(org)">
+                <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+              </ion-button>
             </div>
           </app-card>
-          <div class="text-center" *ngIf="!isLoadingUpdates && recentUpdates.length === 0" style="padding: 20px; color: var(--ion-color-medium);">
-            <p style="margin: 0; font-size: 14px;">Belum ada pembaruan terbaru.</p>
+
+          <div class="text-center" *ngIf="organizations.length === 0" style="padding: 40px; color: #64748b;">
+            <p>Belum ada instansi terdaftar.</p>
           </div>
         </div>
       </div>
     </ion-content>
+
+    <!-- Modal: Tambah Instansi -->
+    <ion-modal [isOpen]="showAddOrgModal" (didDismiss)="showAddOrgModal = false">
+      <ng-template>
+        <ion-header>
+          <ion-toolbar>
+            <ion-title>Tambah Instansi Baru</ion-title>
+            <ion-buttons slot="end">
+              <ion-button (click)="showAddOrgModal = false">Tutup</ion-button>
+            </ion-buttons>
+          </ion-toolbar>
+        </ion-header>
+        <ion-content class="ion-padding bg-light">
+          <div class="modal-form-container">
+            <div class="form-field-group">
+              <label class="form-field-label">Nama Instansi / Pemda</label>
+              <input type="text" [(ngModel)]="newOrgName" placeholder="cth. Pemda Bandung" class="form-field-input" />
+            </div>
+            <div class="form-field-group">
+              <label class="form-field-label">Subdomain / Kode Instansi</label>
+              <input type="text" [(ngModel)]="newOrgCode" placeholder="cth. bandung (huruf kecil & angka saja)" class="form-field-input" />
+            </div>
+            <div class="form-field-group">
+              <label class="form-field-label">Logo URL (opsional)</label>
+              <input type="text" [(ngModel)]="newOrgLogo" placeholder="cth. https://.../logo.png" class="form-field-input" />
+            </div>
+            <div class="form-field-group">
+              <label class="form-field-label">Username Instagram (opsional)</label>
+              <input type="text" [(ngModel)]="newOrgInstagramUsername" placeholder="cth. pemkot_bandung" class="form-field-input" />
+            </div>
+
+            <div class="form-divider-title">Akun Admin Instansi Pertama</div>
+
+            <div class="form-field-group">
+              <label class="form-field-label">Nama Lengkap Admin</label>
+              <input type="text" [(ngModel)]="newOrgAdminName" placeholder="cth. Budi Setiawan" class="form-field-input" />
+            </div>
+            <div class="form-field-group">
+              <label class="form-field-label">Email Admin</label>
+              <input type="email" [(ngModel)]="newOrgAdminEmail" placeholder="cth. admin@bandung.absennow.id" class="form-field-input" />
+            </div>
+            <div class="form-field-group">
+              <label class="form-field-label">Password Admin</label>
+              <input type="password" [(ngModel)]="newOrgAdminPassword" placeholder="Min. 8 karakter" class="form-field-input" />
+            </div>
+
+            <ion-button expand="block" shape="round" color="primary" class="form-submit-btn" (click)="createOrg()">
+              Daftarkan Instansi
+            </ion-button>
+          </div>
+        </ion-content>
+      </ng-template>
+    </ion-modal>
+
+    <!-- Modal: Edit Instansi -->
+    <ion-modal [isOpen]="showEditOrgModal" (didDismiss)="showEditOrgModal = false">
+      <ng-template>
+        <ion-header>
+          <ion-toolbar>
+            <ion-title>Edit Instansi</ion-title>
+            <ion-buttons slot="end">
+              <ion-button (click)="showEditOrgModal = false">Tutup</ion-button>
+            </ion-buttons>
+          </ion-toolbar>
+        </ion-header>
+        <ion-content class="ion-padding bg-light">
+          <div class="modal-form-container" *ngIf="editingOrg">
+            <div class="form-field-group">
+              <label class="form-field-label">Nama Instansi</label>
+              <input type="text" [(ngModel)]="editOrgName" class="form-field-input" />
+            </div>
+            <div class="form-field-group">
+              <label class="form-field-label">Logo URL</label>
+              <input type="text" [(ngModel)]="editOrgLogo" class="form-field-input" />
+            </div>
+            <div class="form-field-group">
+              <label class="form-field-label">Username Instagram (opsional)</label>
+              <input type="text" [(ngModel)]="editOrgInstagramUsername" placeholder="cth. pemkot_bandung" class="form-field-input" />
+            </div>
+            <div class="form-toggle-row">
+              <span class="toggle-label">Status Aktif Instansi</span>
+              <ion-toggle [(ngModel)]="editOrgIsActive"></ion-toggle>
+            </div>
+
+            <ion-button expand="block" shape="round" color="primary" class="form-submit-btn" (click)="updateOrg()">
+              Simpan Perubahan
+            </ion-button>
+          </div>
+        </ion-content>
+      </ng-template>
+    </ion-modal>
+
     <app-bottom-nav></app-bottom-nav>
   </ng-container>
 
@@ -236,6 +635,8 @@
     [greeting]="greeting"
     [userName]="userName"
     [updates]="displayUpdates"
+    [newsFeed]="newsFeed"
+    [isLoadingNews]="isLoadingNews"
     (onMoreClick)="toggleShortcuts()">
   </app-home-checked-in>
   <app-home-checked-out *ngSwitchCase="'completed'"
@@ -247,6 +648,8 @@
     [greeting]="greeting"
     [userName]="userName"
     [updates]="displayUpdates"
+    [newsFeed]="newsFeed"
+    [isLoadingNews]="isLoadingNews"
     (onMoreClick)="toggleShortcuts()">
   </app-home-checked-out>
 </ng-container>

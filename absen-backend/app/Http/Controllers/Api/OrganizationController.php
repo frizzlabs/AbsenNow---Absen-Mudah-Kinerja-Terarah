@@ -33,13 +33,18 @@ class OrganizationController extends Controller
             'admin_name' => 'required|string|max:255',
             'admin_email' => 'required|email|max:255',
             'admin_password' => 'required|string|min:8',
+            'instagram_username' => 'nullable|string|max:100',
         ]);
 
         $result = DB::transaction(function () use ($data) {
+            $settings = [
+                'instagram_username' => !empty($data['instagram_username']) ? $data['instagram_username'] : 'pemkot_demo'
+            ];
             $org = Organization::create([
                 'name' => $data['name'],
                 'code' => $data['code'],
                 'logo_url' => $data['logo_url'] ?? null,
+                'settings' => $settings,
             ]);
 
             (new OrganizationRoleTemplateSeeder())->forOrganization($org->id);
@@ -73,7 +78,15 @@ class OrganizationController extends Controller
             'name' => 'sometimes|string|max:255',
             'logo_url' => 'nullable|string|max:1000',
             'is_active' => 'sometimes|boolean',
+            'instagram_username' => 'nullable|string|max:100',
         ]);
+
+        if (array_key_exists('instagram_username', $data)) {
+            $settings = $org->settings ?? [];
+            $settings['instagram_username'] = $data['instagram_username'];
+            $org->settings = $settings;
+            unset($data['instagram_username']);
+        }
 
         $org->update($data);
 
