@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Download AbsenNow</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #f1f5f9;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 32px 24px;
+      max-width: 420px;
+      width: 100%;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+      text-align: center;
+    }
+    .logo {
+      width: 80px; height: 80px;
+      background: #1B59F8;
+      border-radius: 20px;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 20px;
+      font-size: 36px;
+    }
+    h1 { font-size: 24px; font-weight: 700; color: #1e293b; margin-bottom: 6px; }
+    .version { font-size: 13px; color: #94a3b8; margin-bottom: 24px; }
+    .download-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: #1B59F8;
+      color: #fff;
+      text-decoration: none;
+      padding: 16px 24px;
+      border-radius: 14px;
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 24px;
+      transition: background 0.2s;
+    }
+    .download-btn:active { background: #1447d4; }
+    .steps {
+      background: #f8fafc;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: left;
+    }
+    .steps h3 { font-size: 13px; font-weight: 600; color: #64748b; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .step {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 10px;
+    }
+    .step:last-child { margin-bottom: 0; }
+    .step-num {
+      width: 22px; height: 22px; border-radius: 50%;
+      background: #1B59F8; color: #fff;
+      font-size: 12px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; margin-top: 1px;
+    }
+    .step-text { font-size: 13px; color: #374151; line-height: 1.5; }
+    .step-text strong { color: #1e293b; }
+    .note {
+      margin-top: 16px;
+      font-size: 12px;
+      color: #94a3b8;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="logo">📋</div>
+    <h1>AbsenNow</h1>
+    <div class="version">Android · v1.0.0</div>
+
+    <a class="download-btn" href="/download/absennow.apk">
+      ⬇️ Download APK Android
+    </a>
+
+    <div class="steps">
+      <h3>Cara Install</h3>
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text">Tap tombol download di atas, tunggu hingga selesai</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text">Buka file <strong>absennow.apk</strong> dari notifikasi atau folder Downloads</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text">Jika muncul peringatan, tap <strong>"Setelan"</strong> → aktifkan <strong>"Izinkan dari sumber ini"</strong></div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-text">Tap <strong>"Install"</strong> dan tunggu selesai</div>
+      </div>
+    </div>
+
+    <p class="note">⚠️ Hanya untuk Android. iOS tidak mendukung instalasi langsung.</p>
+  </div>
+</body>
+</html>

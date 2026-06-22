@@ -68,3 +68,11 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# Secrets — never commit real env files (use the .example templates instead)
+.env
+.env.*
+!.env.example
+deploy/env.production
+deploy/*.env
+*.env.production
