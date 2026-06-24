@@ -5,6 +5,9 @@ import { RouterModule, Router, NavigationEnd } from '@angular/router';
 import { filter, Subscription } from 'rxjs';
 import { TranslatePipe } from '@ngx-translate/core';
 import { RoleService } from '../../../core/services/role.service';
+import { CorrectionService } from '../../../core/services/correction.service';
+import { DinasLuarService } from '../../../core/services/dinas-luar.service';
+import { DashboardService } from '../../../core/services/dashboard.service';
 
 @Component({
   selector: 'app-bottom-nav',
@@ -17,7 +20,18 @@ export class BottomNavComponent implements OnInit, OnDestroy {
   @Input() activeTab: string = '';
   private routerSub!: Subscription;
 
-  constructor(private router: Router, private platform: Platform, public roleService: RoleService) {}
+  pendingCorrections = 0;
+  pendingDinas = 0;
+  pendingUpdates = 0;
+
+  constructor(
+    private router: Router,
+    private platform: Platform,
+    public roleService: RoleService,
+    private correctionService: CorrectionService,
+    private dinasLuarService: DinasLuarService,
+    private dashboardService: DashboardService,
+  ) {}
 
   get isDesktop(): boolean {
     return this.platform.is('desktop') && window.innerWidth >= 1024;
@@ -25,6 +39,10 @@ export class BottomNavComponent implements OnInit, OnDestroy {
 
   get homeRoute(): string {
     return this.isDesktop ? '/desktop-home' : '/home';
+  }
+
+  get approvalBadge(): number {
+    return this.pendingCorrections + this.pendingDinas;
   }
 
   get org(): any { return this.roleService.organization; }
@@ -40,6 +58,23 @@ export class BottomNavComponent implements OnInit, OnDestroy {
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: any) => {
       this.updateActiveTab(event.urlAfterRedirects);
+    });
+    this.loadBadges();
+  }
+
+  private loadBadges() {
+    if (!this.isAdmin) return;
+    this.correctionService.getPendingReview().subscribe({
+      next: (data) => this.pendingCorrections = data?.length || 0,
+      error: () => {},
+    });
+    this.dinasLuarService.getPendingReview().subscribe({
+      next: (data) => this.pendingDinas = data?.length || 0,
+      error: () => {},
+    });
+    this.dashboardService.getRecentUpdates(99).subscribe({
+      next: (data) => this.pendingUpdates = data?.length || 0,
+      error: () => {},
     });
   }
 

@@ -19,6 +19,7 @@
   <div class="nav-item" *ngIf="isAdmin" [class.active]="activeTab === 'activity'" routerLink="/admin/corrections">
     <ion-icon name="checkbox-outline"></ion-icon>
     <span>{{ 'bottomNav.approvals' | translate }}</span>
+    <span class="nav-badge" *ngIf="approvalBadge > 0">{{ approvalBadge }}</span>
   </div>
   <div class="fab-wrapper" routerLink="/ai-chat">
     <div class="fab-bg"></div>
@@ -38,6 +39,7 @@
   <div class="nav-item" [class.active]="activeTab === 'notification'" routerLink="/notification">
     <ion-icon name="notifications-outline"></ion-icon>
     <span>{{ 'bottomNav.notification' | translate }}</span>
+    <span class="nav-badge" *ngIf="pendingUpdates > 0">{{ pendingUpdates > 9 ? '9+' : pendingUpdates }}</span>
   </div>
 
   <!-- Profile (desktop sidebar only, pinned to bottom) -->
