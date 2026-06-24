@@ -190,18 +190,20 @@ export class DesktopHomePage implements OnInit, OnDestroy {
       } else {
         this.todayAttendanceLabel = 'Belum Absen';
       }
-      this.clockInTime = att.clock_in ? new Date(att.clock_in).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) : '';
-      this.clockOutTime = att.clock_out ? new Date(att.clock_out).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) : '';
-      if (att.clock_in && att.clock_out) {
-        const diffMs = new Date(att.clock_out).getTime() - new Date(att.clock_in).getTime();
-        const h = Math.floor(diffMs / 3600000);
-        const m = Math.floor((diffMs % 3600000) / 60000);
-        this.workDuration = `${h}j ${m}m`;
-      } else if (att.clock_in) {
-        const diffMs = Date.now() - new Date(att.clock_in).getTime();
-        const h = Math.floor(diffMs / 3600000);
-        const m = Math.floor((diffMs % 3600000) / 60000);
-        this.workDuration = `${h}j ${m}m`;
+      this.clockInTime = att.check_in ? att.check_in.slice(0, 5) : '';
+      this.clockOutTime = att.check_out ? att.check_out.slice(0, 5) : '';
+      if (att.check_in && att.check_out) {
+        const [hIn, mIn] = att.check_in.split(':').map(Number);
+        const [hOut, mOut] = att.check_out.split(':').map(Number);
+        let diffMin = (hOut * 60 + mOut) - (hIn * 60 + mIn);
+        if (diffMin < 0) diffMin += 24 * 60;
+        this.workDuration = `${Math.floor(diffMin / 60)}j ${diffMin % 60}m`;
+      } else if (att.check_in) {
+        const [hIn, mIn] = att.check_in.split(':').map(Number);
+        const now = new Date();
+        let diffMin = (now.getHours() * 60 + now.getMinutes()) - (hIn * 60 + mIn);
+        if (diffMin < 0) diffMin += 24 * 60;
+        this.workDuration = `${Math.floor(diffMin / 60)}j ${diffMin % 60}m`;
       } else {
         this.workDuration = '';
       }
