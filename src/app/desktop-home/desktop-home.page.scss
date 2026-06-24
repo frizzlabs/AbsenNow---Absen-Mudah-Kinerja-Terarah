@@ -136,6 +136,25 @@ $slate-900: #0f172a;
   .dk-stat-icon { background: rgba(255,255,255,.18); color: white; }
   .dk-stat-label { color: rgba(255,255,255,.8); }
   .dk-stat-value { color: white; }
+  .dk-stat-arrow { color: rgba(255,255,255,.6); }
+}
+
+.dk-stat-clickable {
+  text-decoration: none;
+  cursor: pointer;
+  position: relative;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba($blue, .25);
+    .dk-stat-arrow { color: white; transform: translateX(2px); }
+  }
+}
+
+.dk-stat-arrow {
+  font-size: 18px;
+  flex-shrink: 0;
+  transition: all .15s;
 }
 
 .dk-stat-icon {

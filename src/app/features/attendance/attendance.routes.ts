@@ -78,5 +78,9 @@ export const routes: Routes = [
   {
     path: 'team-list',
     loadComponent: () => import('./team-list/team-list.page').then(m => m.TeamListPage)
+  },
+  {
+    path: 'desktop-checkin',
+    loadComponent: () => import('./desktop-checkin/desktop-checkin.page').then(m => m.DesktopCheckinPage)
   }
 ];
