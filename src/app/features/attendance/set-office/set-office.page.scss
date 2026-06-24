@@ -370,3 +370,16 @@
   }
 }
 
+
+// ── Desktop ─────────────────────────────────────────────────────────
+@media (min-width: 1024px) {
+  .content-wrapper, .page-container, .wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 24px 0;
+  }
+  .footer-pad, .footer-wrapper, .footer-wrap {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+}

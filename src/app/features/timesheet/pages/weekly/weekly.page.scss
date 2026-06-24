@@ -346,3 +346,12 @@ ion-content {
     }
   }
 }
+
+// ── Desktop ─────────────────────────────────────────────────────────
+@media (min-width: 1024px) {
+  .content-wrapper, .page-container, .wrap, .list-wrap {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 24px 0;
+  }
+}
