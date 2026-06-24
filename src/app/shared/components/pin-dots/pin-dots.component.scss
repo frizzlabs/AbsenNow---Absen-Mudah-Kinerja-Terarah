@@ -3,6 +3,8 @@
   justify-content: center;
   gap: 16px;
   margin: 32px 0;
+  height: 16px; /* Keep height fixed to prevent content shift */
+  align-items: center;
   
   .dot {
     width: 16px;
@@ -21,5 +23,35 @@
     &.empty {
       background: #EAECF0;
     }
+  }
+
+  &.loading {
+    gap: 8px;
+    
+    .spinner-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--ion-color-primary);
+      animation: bounce 1.2s infinite ease-in-out both;
+      
+      &:nth-child(1) {
+        animation-delay: -0.32s;
+      }
+      &:nth-child(2) {
+        animation-delay: -0.16s;
+      }
+    }
+  }
+}
+
+@keyframes bounce {
+  0%, 80%, 100% {
+    transform: scale(0.3);
+    opacity: 0.4;
+  }
+  40% {
+    transform: scale(1.0);
+    opacity: 1;
   }
 }

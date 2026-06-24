@@ -63,6 +63,18 @@
         <span>{{ isFetchingLocation ? 'Mencari Lokasi...' : 'Gunakan Lokasi Saya' }}</span>
       </button>
 
+      <!-- KOORDINAT MANUAL -->
+      <div style="display: flex; gap: 12px; margin-bottom: var(--spacing-4);">
+        <div class="field-group" style="flex: 1; margin-bottom: 0;">
+          <label class="field-label">Latitude</label>
+          <input class="field-input" type="number" step="any" [(ngModel)]="lat" (change)="onCoordinatesChange()" />
+        </div>
+        <div class="field-group" style="flex: 1; margin-bottom: 0;">
+          <label class="field-label">Longitude</label>
+          <input class="field-input" type="number" step="any" [(ngModel)]="lng" (change)="onCoordinatesChange()" />
+        </div>
+      </div>
+
       <div class="field-group">
         <label class="field-label">Nama Kantor</label>
         <input class="field-input" type="text" placeholder="cth. Kantor Pusat"
@@ -141,10 +153,9 @@
     </div>
 
     <div class="bottom-actions">
-      <ion-button expand="block" shape="round" color="primary" [disabled]="isSaving" (click)="save()">
-        <ion-icon name="save-outline" slot="start"></ion-icon>
+      <app-button variant="primary" icon="save-outline" iconPosition="left" [disabled]="isSaving" (onClick)="save()">
         {{ isSaving ? 'Menyimpan...' : 'SIMPAN PENGATURAN KANTOR' }}
-      </ion-button>
+      </app-button>
     </div>
 
   </div>

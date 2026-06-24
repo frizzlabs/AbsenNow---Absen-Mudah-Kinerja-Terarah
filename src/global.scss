@@ -459,3 +459,18 @@ ion-alert.app-confirm--reject .alert-head::before {
   }
 }
 
+/* --- Helper Tampilan Platform (Desktop vs Mobile) --- */
+// Secara default (Mobile / APK):
+.only-desktop, .desktop-only {
+  display: none !important;
+}
+
+// Di layar lebar (Desktop / Web):
+@media (min-width: 1024px) {
+  .only-desktop, .desktop-only {
+    display: revert !important; /* Mengembalikan display asli (block/flex/grid/dll) */
+  }
+  .only-mobile, .mobile-only {
+    display: none !important;
+  }
+}

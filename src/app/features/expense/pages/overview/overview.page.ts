@@ -8,13 +8,14 @@ import { ExpenseStatCardComponent } from '../../../../shared/components/expense-
 import { ExpenseCardComponent } from '../../../../shared/components/expense-card/expense-card.component';
 import { ExpenseService } from '../../../../core/services/expense.service';
 import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
+import { ButtonComponent } from '../../../../shared/components/button/button.component';
 
 @Component({
   selector: 'app-overview',
   templateUrl: './overview.page.html',
   styleUrls: ['./overview.page.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, IonicModule, RouterModule, TranslatePipe, ExpenseStatCardComponent, ExpenseCardComponent, PageHeaderComponent]
+  imports: [CommonModule, FormsModule, IonicModule, RouterModule, TranslatePipe, ExpenseStatCardComponent, ExpenseCardComponent, PageHeaderComponent, ButtonComponent]
 })
 export class OverviewPage implements OnInit {
   currentRequests: any[] = [];

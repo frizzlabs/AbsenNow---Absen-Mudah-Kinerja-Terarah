@@ -3,46 +3,53 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule, Platform } from '@ionic/angular';
 import { RouterModule, Router } from '@angular/router';
-import { Capacitor } from '@capacitor/core';
-import { BottomNavComponent } from '../shared/components/bottom-nav/bottom-nav.component';
-import { StatusBadgeComponent } from '../shared/components/status-badge/status-badge.component';
-import { CardComponent } from '../shared/components/card/card.component';
-import { AttendanceStateService } from '../core/services/attendance-state.service';
-import { CheckedInPage } from './pages/checked-in/checked-in.page';
-import { CheckedOutPage } from './pages/checked-out/checked-out.page';
-import { SwipeButtonComponent } from '../shared/components/swipe-button/swipe-button.component';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
+import { Capacitor } from '@capacitor/core';
+
 import { AuthService } from '../core/services/auth.service';
 import { LanguageService } from '../shared/services/language.service';
 import { DashboardService, RecentUpdate, InstagramPost } from '../core/services/dashboard.service';
 import { RoleService } from '../core/services/role.service';
 import { OrganizationService } from '../core/services/organization.service';
+import { AttendanceStateService } from '../core/services/attendance-state.service';
+import { CardComponent } from '../shared/components/card/card.component';
+import { BottomNavComponent } from '../shared/components/bottom-nav/bottom-nav.component';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss'],
+  selector: 'app-desktop-home',
+  templateUrl: './desktop-home.page.html',
+  styleUrls: ['./desktop-home.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, BottomNavComponent, StatusBadgeComponent, CardComponent, RouterModule, CheckedInPage, CheckedOutPage, SwipeButtonComponent, TranslatePipe, FormsModule],
+  imports: [
+    CommonModule,
+    IonicModule,
+    FormsModule,
+    RouterModule,
+    TranslatePipe,
+    CardComponent,
+    BottomNavComponent
+  ],
 })
-export class HomePage implements OnInit, OnDestroy {
-  currentLocationName = 'Mendeteksi lokasi…';
+export class DesktopHomePage implements OnInit, OnDestroy {
   showShortcuts = false;
-
   currentTime = '08:32';
   currentTimeAmPm = 'AM';
   currentDate = 'Thursday, 12 Feb';
   greeting = 'Good Morning,';
-  userName = 'Sarah';
+  userName = 'User';
   userAvatar = '';
+
+  todayAttendanceLabel = 'Belum Absen';
+  clockInTime = '';
+  clockOutTime = '';
+  workDuration = '';
 
   private clockInterval: any;
 
   recentUpdates: RecentUpdate[] = [];
   displayUpdates: any[] = [];
   isLoadingUpdates = false;
-  isAttendanceSyncing = true;
   newsFeed: InstagramPost[] = [];
   isLoadingNews = false;
 
@@ -69,7 +76,7 @@ export class HomePage implements OnInit, OnDestroy {
   editOrgIsActive = true;
 
   constructor(
-    public attendanceService: AttendanceStateService,
+    private platform: Platform,
     private router: Router,
     private http: HttpClient,
     private authService: AuthService,
@@ -78,8 +85,8 @@ export class HomePage implements OnInit, OnDestroy {
     private dashboardService: DashboardService,
     private roleService: RoleService,
     private orgService: OrganizationService,
-    private cdr: ChangeDetectorRef,
-    private platform: Platform
+    private attendanceState: AttendanceStateService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   get userRoleLabel(): string {
@@ -132,69 +139,79 @@ export class HomePage implements OnInit, OnDestroy {
     const name = this.roleService.role?.name;
     return name === 'superadmin' || name === 'org_admin' || this.roleService.can('attendance.approve');
   }
-  get canCreateAttendance(): boolean { return this.roleService.can('attendance.create'); }
 
   get isAdminOnly(): boolean {
     return this.roleService.role?.name === 'superadmin' || this.roleService.role?.name === 'org_admin';
   }
 
   ngOnInit() {
-    this.redirectIfDesktop();
-    // Initial clock update
+    this.redirectIfMobile();
     this.updateClock();
+    this.startClock();
   }
 
-  private redirectIfDesktop(): boolean {
-    // Hanya redirect ke desktop jika platform desktop DAN ukuran layar lebar (min 1024px)
-    const isDesktop = this.platform.is('desktop') && window.innerWidth >= 1024;
-    if (isDesktop) {
-      this.router.navigateByUrl('/desktop-home', { replaceUrl: true });
-      return true;
+  private redirectIfMobile() {
+    // Redirect ke /home jika ini platform mobile ATAU ukuran layar kecil (max 1023px)
+    const isMobile = !this.platform.is('desktop') || window.innerWidth < 1024;
+    if (isMobile) {
+      this.router.navigateByUrl('/home', { replaceUrl: true });
     }
-    return false;
   }
 
-  async ionViewWillEnter() {
-    if (this.redirectIfDesktop()) {
-      return;
+  ionViewWillEnter() {
+    this.roleService.loadMyPermissions().subscribe({
+      next: () => {
+        this.cdr.markForCheck();
+        if (this.isPlatformAdmin) {
+          this.loadOrganizations();
+        }
+      },
+      error: (err) => console.error('Error loading permissions on desktop home entry:', err)
+    });
+
+    this.loadRecentUpdates();
+    this.loadNewsFeed();
+    this.loadAttendanceStats();
+  }
+
+  private async loadAttendanceStats() {
+    await this.attendanceState.syncStatus();
+    const att = this.attendanceState.todayAttendance;
+    if (!att) {
+      this.todayAttendanceLabel = 'Belum Absen';
+      this.clockInTime = '';
+      this.clockOutTime = '';
+      this.workDuration = '';
+    } else {
+      if (this.attendanceState.hasCompletedToday) {
+        this.todayAttendanceLabel = 'Selesai';
+      } else if (this.attendanceState.state === 'checked_in') {
+        this.todayAttendanceLabel = 'Sudah Masuk';
+      } else {
+        this.todayAttendanceLabel = 'Belum Absen';
+      }
+      this.clockInTime = att.clock_in ? new Date(att.clock_in).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) : '';
+      this.clockOutTime = att.clock_out ? new Date(att.clock_out).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) : '';
+      if (att.clock_in && att.clock_out) {
+        const diffMs = new Date(att.clock_out).getTime() - new Date(att.clock_in).getTime();
+        const h = Math.floor(diffMs / 3600000);
+        const m = Math.floor((diffMs % 3600000) / 60000);
+        this.workDuration = `${h}j ${m}m`;
+      } else if (att.clock_in) {
+        const diffMs = Date.now() - new Date(att.clock_in).getTime();
+        const h = Math.floor(diffMs / 3600000);
+        const m = Math.floor((diffMs % 3600000) / 60000);
+        this.workDuration = `${h}j ${m}m`;
+      } else {
+        this.workDuration = '';
+      }
     }
-    this.isAttendanceSyncing = true;
     this.cdr.detectChanges();
-    try {
-      this.roleService.loadMyPermissions().subscribe({
-        next: () => {
-          this.cdr.markForCheck();
-          if (this.isPlatformAdmin) {
-            this.loadOrganizations();
-          }
-        },
-        error: (err) => console.error('Error loading permissions on home entry:', err)
-      });
-      if (!this.isPlatformAdmin) {
-        await this.attendanceService.syncStatus();
-      }
-    } catch (error) {
-      console.error('Error syncing status on home entry:', error);
-    } finally {
-      this.isAttendanceSyncing = false;
-      this.cdr.detectChanges();
-    }
-
-    if (!this.isPlatformAdmin) {
-      try {
-        this.getCurrentLocation();
-        this.startClock();
-        this.loadRecentUpdates();
-        this.loadNewsFeed();
-      } catch (error) {
-        console.error('Error during post-sync home initialization:', error);
-      }
-    }
   }
 
   loadRecentUpdates() {
     this.isLoadingUpdates = true;
-    this.dashboardService.getRecentUpdates(3).subscribe({
+    this.dashboardService.getRecentUpdates(5).subscribe({
       next: (data) => {
         this.recentUpdates = data;
         this.displayUpdates = data.map(u => ({
@@ -207,8 +224,12 @@ export class HomePage implements OnInit, OnDestroy {
           link: u.link
         }));
         this.isLoadingUpdates = false;
+        this.cdr.detectChanges();
       },
-      error: () => (this.isLoadingUpdates = false)
+      error: () => {
+        this.isLoadingUpdates = false;
+        this.cdr.detectChanges();
+      }
     });
   }
 
@@ -244,7 +265,6 @@ export class HomePage implements OnInit, OnDestroy {
     if (days < 7) return `${days} hari lalu`;
     return d.toLocaleDateString('id-ID', { day: 'numeric', month: 'short' });
   }
-
 
   openUpdate(link: string) {
     if (!link) return;
@@ -308,8 +328,6 @@ export class HomePage implements OnInit, OnDestroy {
 
   updateClock() {
     const now = new Date();
-
-    // Time Formatting
     const hours = now.getHours();
     const minutes = now.getMinutes();
     const strMinutes = minutes < 10 ? '0' + minutes : minutes;
@@ -318,14 +336,12 @@ export class HomePage implements OnInit, OnDestroy {
     this.currentTime = `${strHours}:${strMinutes}`;
     this.currentTimeAmPm = '';
 
-    // Date Formatting (e.g. "Thursday, 12 Feb")
     const lang = this.languageService.getCurrentLanguage() === 'id' ? 'id-ID' : 'en-US';
     const weekday = now.toLocaleDateString(lang, { weekday: 'long' });
     const day = now.toLocaleDateString(lang, { day: 'numeric' });
     const month = now.toLocaleDateString(lang, { month: 'short' });
     this.currentDate = `${weekday}, ${day} ${month}`;
 
-    // Greeting
     const realHours = now.getHours();
     let greetingKey = 'home.goodMorning';
     if (realHours >= 12 && realHours < 17) {
@@ -338,66 +354,19 @@ export class HomePage implements OnInit, OnDestroy {
       this.greeting = res;
     });
 
-    // Username
     const user = this.authService.getUser();
-    this.userName = user ? user.name : 'Sarah';
+    this.userName = user ? user.name : 'User';
     this.userAvatar = user?.avatar_url || '';
-  }
-
-  getCurrentLocation() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const lat = position.coords.latitude;
-          const lng = position.coords.longitude;
-          this.reverseGeocode(lat, lng);
-        },
-        (error) => {
-          console.warn('Home Geolocation failed, using default name', error);
-        },
-        { enableHighAccuracy: false, timeout: 10000 }
-      );
-    }
-  }
-
-  reverseGeocode(lat: number, lng: number) {
-    const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`;
-    this.http.get<any>(url, {
-      headers: { 'Accept-Language': 'id' }
-    }).subscribe({
-      next: (res) => {
-        if (res && res.address) {
-          const a = res.address;
-          // Ambil area paling spesifik dulu, lalu tambah kota/kabupaten sebagai konteks
-          const specific = a.quarter || a.neighbourhood || a.suburb || a.village || a.hamlet || a.city_district || a.district || '';
-          const broad = a.city || a.town || a.municipality || a.county || '';
-          if (specific && broad) {
-            this.currentLocationName = `${specific}, ${broad}`;
-          } else {
-            this.currentLocationName = specific || broad || a.state || '';
-          }
-        }
-      },
-      error: (err) => {
-        console.warn('Home reverse geocode failed', err);
-      }
-    });
   }
 
   get viewState() {
     if (this.isPlatformAdmin) return 'platform_admin';
     if (this.isAdminOnly) return 'admin';
-    if (this.attendanceService.state === 'checked_in') return 'checked_in';
-    if (this.attendanceService.hasCompletedToday) return 'completed';
     return 'default';
   }
 
   toggleShortcuts() {
     this.showShortcuts = !this.showShortcuts;
-  }
-
-  onSwipeCheckIn() {
-    this.router.navigate(['/attendance/validation']);
   }
 
   loadOrganizations() {
@@ -441,6 +410,7 @@ export class HomePage implements OnInit, OnDestroy {
         this.newOrgAdminName = '';
         this.newOrgAdminEmail = '';
         this.newOrgAdminPassword = '';
+        this.cdr.detectChanges();
       },
       error: (err) => {
         console.error('Failed to create organization', err);
@@ -470,6 +440,7 @@ export class HomePage implements OnInit, OnDestroy {
         this.showEditOrgModal = false;
         this.editingOrg = null;
         this.loadOrganizations();
+        this.cdr.detectChanges();
       },
       error: (err) => {
         console.error('Failed to update organization', err);

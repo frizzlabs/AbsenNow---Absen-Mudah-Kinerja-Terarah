@@ -12,7 +12,7 @@
         </p>
       </div>
 
-      <app-pin-dots [length]="4" [currentLength]="pinValue.length"></app-pin-dots>
+      <app-pin-dots [length]="4" [currentLength]="pinValue.length" [isLoading]="isLoading"></app-pin-dots>
 
       <div class="text-center mt-6">
         <a (click)="forgotPin()" class="text-blue font-semibold text-body-medium-semibold" style="cursor:pointer">Forgot PIN?</a>

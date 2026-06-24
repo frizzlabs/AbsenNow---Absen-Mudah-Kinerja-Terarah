@@ -9,13 +9,14 @@ import * as L from 'leaflet';
 import { Subscription } from 'rxjs';
 import { AttendanceService } from '../../../core/services/attendance.service';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
+import { ButtonComponent } from '../../../shared/components/button/button.component';
 
 @Component({
   selector: 'app-set-office',
   templateUrl: './set-office.page.html',
   styleUrls: ['./set-office.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, PageHeaderComponent]
+  imports: [IonicModule, CommonModule, FormsModule, PageHeaderComponent, ButtonComponent]
 })
 export class SetOfficePage implements OnInit {
   offices: any[] = [];
@@ -426,25 +427,58 @@ export class SetOfficePage implements OnInit {
       return;
     }
     this.isFetchingLocation = true;
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        this.isFetchingLocation = false;
-        const { latitude, longitude } = pos.coords;
-        this.setPoint(latitude, longitude, true);
-        if (this.map) {
-          this.map.setView([latitude, longitude], 16);
-          if (this.geofenceType === 'polygon') {
-            this.resetPolygon();
-            this.addPolygonPoint(latitude, longitude);
-          }
+
+    const optionsHigh = { enableHighAccuracy: true, timeout: 5000 };
+    const optionsLow = { enableHighAccuracy: false, timeout: 10000 };
+
+    const successCallback = (pos: any) => {
+      this.isFetchingLocation = false;
+      const { latitude, longitude } = pos.coords;
+      this.setPoint(latitude, longitude, true);
+      if (this.map) {
+        this.map.setView([latitude, longitude], 16);
+        if (this.geofenceType === 'polygon') {
+          this.resetPolygon();
+          this.addPolygonPoint(latitude, longitude);
         }
-      },
+      }
+    };
+
+    // Coba dengan akurasi tinggi terlebih dahulu
+    navigator.geolocation.getCurrentPosition(
+      successCallback,
       (err) => {
-        this.isFetchingLocation = false;
-        this.showToast('Tidak dapat mengambil lokasi GPS.', 'danger');
+        console.warn('High accuracy geolocation failed, trying low accuracy...', err);
+        // Fallback ke akurasi rendah (lebih cocok untuk PC/Desktop tanpa GPS hardware)
+        navigator.geolocation.getCurrentPosition(
+          successCallback,
+          (err2) => {
+            this.isFetchingLocation = false;
+            console.error('Low accuracy geolocation also failed:', err2);
+            let errMsg = 'Tidak dapat mengambil lokasi GPS.';
+            if (err2.code === 1) {
+              errMsg = 'Izin lokasi ditolak oleh browser. Silakan aktifkan izin lokasi di pengaturan browser.';
+            } else if (err2.code === 3) {
+              errMsg = 'Waktu pengambilan lokasi habis (timeout).';
+            }
+            this.showToast(errMsg, 'danger');
+          },
+          optionsLow
+        );
       },
-      { enableHighAccuracy: true, timeout: 10000 }
+      optionsHigh
     );
+  }
+
+  onCoordinatesChange() {
+    this.setPoint(this.lat, this.lng, true);
+    if (this.map) {
+      this.map.setView([this.lat, this.lng], 16);
+      if (this.geofenceType === 'polygon') {
+        this.resetPolygon();
+        this.addPolygonPoint(this.lat, this.lng);
+      }
+    }
   }
 
   reverseGeocode() {

@@ -23,6 +23,10 @@ export const routes: Routes = [
     loadComponent: () => import('./home/home.page').then((m) => m.HomePage),
   },
   {
+    path: 'desktop-home',
+    loadComponent: () => import('./desktop-home/desktop-home.page').then((m) => m.DesktopHomePage),
+  },
+  {
     path: 'home/default-variant',
     loadComponent: () => import('./home/pages/default-variant/default-variant.page').then( m => m.DefaultVariantPage)
   },

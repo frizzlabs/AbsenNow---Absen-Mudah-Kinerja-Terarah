@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "prod-www",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["serve", "-s", "www", "-l", "4173"],
+      "port": 4173
+    },
+    {
+      "name": "dev",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["start", "--", "--port", "4200"],
+      "port": 4200
+    }
+  ]
+}

@@ -78,12 +78,6 @@ export class VerifyPage implements OnInit {
       this.pinValue += key;
       if (this.pinValue.length === 4) {
         this.isLoading = true;
-        
-        const loading = await this.loadingController.create({
-          message: 'Memverifikasi PIN...',
-          spinner: 'crescent'
-        });
-        await loading.present();
 
         this.authService.verifyPin(this.email, this.pinValue).subscribe({
           next: () => {
@@ -95,19 +89,16 @@ export class VerifyPage implements OnInit {
             // Preload role sebelum navigasi agar home page tidak flash
             this.roleService.loadMyPermissions().subscribe({
               next: () => {
-                loading.dismiss();
                 this.isLoading = false;
                 this.router.navigateByUrl('/home', { replaceUrl: true });
               },
               error: () => {
-                loading.dismiss();
                 this.isLoading = false;
                 this.router.navigateByUrl('/home', { replaceUrl: true });
               },
             });
           },
           error: async (err) => {
-            loading.dismiss();
             this.isLoading = false;
             this.pinValue = '';
             const toast = await this.toastController.create({
