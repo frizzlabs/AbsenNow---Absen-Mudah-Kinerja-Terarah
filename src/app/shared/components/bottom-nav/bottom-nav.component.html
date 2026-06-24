@@ -8,7 +8,7 @@
     <span class="nav-brand-name">{{ org?.name || 'AbsenNow' }}</span>
   </div>
 
-  <div class="nav-item" [class.active]="activeTab === 'home'" routerLink="/home">
+  <div class="nav-item" [class.active]="activeTab === 'home'" [routerLink]="homeRoute">
     <ion-icon name="home-outline"></ion-icon>
     <span>{{ 'bottomNav.home' | translate }}</span>
   </div>

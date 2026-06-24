@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, Platform } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router, NavigationEnd } from '@angular/router';
 import { filter, Subscription } from 'rxjs';
@@ -17,7 +17,15 @@ export class BottomNavComponent implements OnInit, OnDestroy {
   @Input() activeTab: string = '';
   private routerSub!: Subscription;
 
-  constructor(private router: Router, public roleService: RoleService) {}
+  constructor(private router: Router, private platform: Platform, public roleService: RoleService) {}
+
+  get isDesktop(): boolean {
+    return this.platform.is('desktop') && window.innerWidth >= 1024;
+  }
+
+  get homeRoute(): string {
+    return this.isDesktop ? '/desktop-home' : '/home';
+  }
 
   get org(): any { return this.roleService.organization; }
 
@@ -42,7 +50,7 @@ export class BottomNavComponent implements OnInit, OnDestroy {
   }
 
   private updateActiveTab(url: string) {
-    if (url.includes('/home')) {
+    if (url.includes('/home') || url.includes('/desktop-home')) {
       this.activeTab = 'home';
     } else if (url.includes('/activity') || url.includes('/timesheet') || url.includes('/admin/corrections') || url.includes('/dinas-luar/review')) {
       this.activeTab = 'activity';
