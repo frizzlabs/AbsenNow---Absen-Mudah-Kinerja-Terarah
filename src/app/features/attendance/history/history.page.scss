@@ -190,3 +190,64 @@ ion-content {
     }
   }
 }
+
+// ── Desktop Responsive Layer ────────────────────────────────────────
+@media (min-width: 1024px) {
+  .page-container {
+    max-width: 900px;
+    margin: 0 auto;
+    border-radius: 16px;
+    margin-top: 8px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 1px 3px rgba(0,0,0,.03);
+  }
+
+  .calendar-picker {
+    .days-row {
+      gap: 8px;
+      justify-content: center;
+
+      .day {
+        min-width: 64px;
+        padding: 8px 12px;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: background .15s;
+
+        &:hover:not(.active):not(.disabled) {
+          background: #f1f5f9;
+        }
+      }
+    }
+  }
+
+  .list-section {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 24px 0;
+
+    .history-list {
+      gap: 12px;
+
+      .history-card {
+        transition: border-color .2s, box-shadow .2s;
+
+        &:hover {
+          border-color: #cbd5e1;
+          box-shadow: 0 4px 12px rgba(0,0,0,.04);
+        }
+      }
+
+      .time-logs {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+      }
+
+      .face-photo {
+        width: 80px;
+        height: 80px;
+      }
+    }
+  }
+}

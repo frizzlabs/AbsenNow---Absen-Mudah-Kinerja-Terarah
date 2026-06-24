@@ -177,3 +177,40 @@ ion-content {
     font-weight: 600;
   }
 }
+
+// ── Desktop ─────────────────────────────────────────────────────────
+@media (min-width: 1024px) {
+  .custom-segment-container {
+    max-width: 900px;
+    margin: 0 auto;
+    border-radius: 0;
+  }
+
+  .content-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 24px 0;
+  }
+
+  .stat-card {
+    max-width: 400px;
+    border-radius: 20px;
+  }
+
+  .list-item {
+    border: 1px solid #e2e8f0;
+    transition: border-color .2s, box-shadow .2s;
+    &:hover {
+      border-color: #cbd5e1;
+      box-shadow: 0 4px 12px rgba(0,0,0,.04);
+    }
+  }
+
+  .footer-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 16px 0 32px;
+
+    ion-button { max-width: 320px; }
+  }
+}

@@ -143,3 +143,32 @@ ion-content {
     }
   }
 }
+
+// ── Desktop ─────────────────────────────────────────────────────────
+@media (min-width: 1024px) {
+  .content-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 28px 0;
+  }
+
+  .latest-card {
+    max-width: 480px;
+    border-radius: 20px;
+  }
+
+  .history-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .history-card {
+    border: 1px solid #e2e8f0;
+    transition: border-color .2s, box-shadow .2s;
+    &:hover {
+      border-color: #cbd5e1;
+      box-shadow: 0 4px 12px rgba(0,0,0,.04);
+    }
+  }
+}

@@ -127,3 +127,41 @@ ion-content.bg-light {
   color: #ef4444;
   opacity: 0.5;
 }
+
+// ── Desktop ─────────────────────────────────────────────────────────
+@media (min-width: 1024px) {
+  .profile-header {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .page-container {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 24px 0 80px;
+  }
+
+  .avatar-section {
+    .avatar {
+      width: 100px;
+      height: 100px;
+    }
+  }
+
+  .menu-list {
+    background: white;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+    overflow: hidden;
+  }
+
+  .logout-btn {
+    max-width: 320px;
+    margin: 0 auto;
+    border: 1px solid rgba(239, 68, 68, .15);
+    transition: box-shadow .2s;
+    &:hover {
+      box-shadow: 0 4px 12px rgba(239, 68, 68, .08);
+    }
+  }
+}

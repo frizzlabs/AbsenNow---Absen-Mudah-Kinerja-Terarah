@@ -31,3 +31,11 @@
     flex: 1;
   }
 }
+
+@media (min-width: 1024px) {
+  .header {
+    max-width: 900px;
+    margin: 0 auto;
+    padding-top: 24px;
+  }
+}

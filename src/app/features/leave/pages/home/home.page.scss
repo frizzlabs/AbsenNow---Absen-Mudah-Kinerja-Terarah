@@ -139,3 +139,40 @@ ion-content {
     --border-radius: 12px;
   }
 }
+
+// ── Desktop ─────────────────────────────────────────────────────────
+@media (min-width: 1024px) {
+  .content-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 28px 0;
+  }
+
+  .balance-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .full-card, .stat-row .stat-card {
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    transition: border-color .2s, box-shadow .2s;
+    &:hover {
+      border-color: #cbd5e1;
+      box-shadow: 0 4px 12px rgba(0,0,0,.04);
+    }
+  }
+
+  .footer-pad {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 16px 0 32px;
+
+    .request-btn { max-width: 320px; }
+  }
+}
