@@ -56,6 +56,7 @@ export class DesktopCheckinPage implements OnInit, OnDestroy {
     this.step = 'loading';
     try {
       await Promise.all([this.initGeolocation(), this.loadOffice()]);
+      this.checkRadius();
       await this.initCamera();
       this.step = 'ready';
     } catch (e: any) {
