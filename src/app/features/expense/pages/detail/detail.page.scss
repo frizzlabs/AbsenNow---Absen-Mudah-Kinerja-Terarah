@@ -97,3 +97,12 @@ ion-content {
     box-shadow: 0 2px 8px rgba(0,0,0,0.05);
   }
 }
+
+// ── Desktop ─────────────────────────────────────────────────────────
+@media (min-width: 1024px) {
+  .content-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 24px 0;
+  }
+}

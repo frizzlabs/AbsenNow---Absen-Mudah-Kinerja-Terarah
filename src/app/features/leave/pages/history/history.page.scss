@@ -14,3 +14,12 @@ ion-content {
   letter-spacing: 0.5px;
   margin: 16px 0 12px 4px;
 }
+
+// ── Desktop ─────────────────────────────────────────────────────────
+@media (min-width: 1024px) {
+  .content-wrapper, .page-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 24px 0;
+  }
+}

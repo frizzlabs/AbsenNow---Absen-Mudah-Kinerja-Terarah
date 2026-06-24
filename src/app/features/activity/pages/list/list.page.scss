@@ -365,3 +365,16 @@ ion-content {
 .text-h3 { font-size: 16px; font-weight: 600; margin: 0; color: $text-primary; }
 .text-body-small-regular { font-size: 13px; font-weight: 400; color: $text-secondary; }
 .text-body-small-semibold { font-size: 13px; font-weight: 600; color: $text-secondary; }
+
+// ── Desktop ─────────────────────────────────────────────────────────
+@media (min-width: 1024px) {
+  .content-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 24px 0;
+  }
+  .segment-container {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+}

@@ -368,3 +368,12 @@ ion-content.bg-gray {
     display: block;
   }
 }
+
+// ── Desktop ─────────────────────────────────────────────────────────
+@media (min-width: 1024px) {
+  .content-wrapper, .page-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 24px 0;
+  }
+}

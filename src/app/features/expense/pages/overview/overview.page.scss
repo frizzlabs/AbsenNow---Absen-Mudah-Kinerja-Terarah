@@ -38,3 +38,12 @@
     --border-radius: 12px;
   }
 }
+
+// ── Desktop ─────────────────────────────────────────────────────────
+@media (min-width: 1024px) {
+  .content-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 24px 0;
+  }
+}

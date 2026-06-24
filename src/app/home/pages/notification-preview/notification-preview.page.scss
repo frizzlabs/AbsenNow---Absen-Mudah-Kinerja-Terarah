@@ -125,3 +125,12 @@ ion-toolbar {
 
 .text-dark { color: var(--ion-color-tertiary); }
 .text-medium { color: var(--ion-color-medium); }
+
+// ── Desktop ─────────────────────────────────────────────────────────
+@media (min-width: 1024px) {
+  .notification-list, .content-wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 24px 0;
+  }
+}

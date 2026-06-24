@@ -48,3 +48,16 @@ ion-content {
     --border-radius: 12px;
   }
 }
+
+// ── Desktop ─────────────────────────────────────────────────────────
+@media (min-width: 1024px) {
+  .content-wrapper, .page-container {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 24px 0;
+  }
+  .footer-pad {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+}
