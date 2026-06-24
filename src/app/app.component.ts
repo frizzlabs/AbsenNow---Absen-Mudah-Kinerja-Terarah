@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
+import { IonicModule } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import * as allIcons from 'ionicons/icons';
 import { LanguageService } from './shared/services/language.service';
@@ -7,7 +7,7 @@ import { LanguageService } from './shared/services/language.service';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
-  imports: [IonApp, IonRouterOutlet],
+  imports: [IonicModule],
 })
 export class AppComponent {
   constructor(private languageService: LanguageService) {
