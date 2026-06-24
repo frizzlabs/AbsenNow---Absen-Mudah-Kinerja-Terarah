@@ -81,3 +81,24 @@ ion-content { --background: #f8f9fa; }
   border-top: 1px solid #f0f0f0;
   ion-button { margin: 0; height: 50px; --border-radius: 12px; font-weight: 600; }
 }
+
+// ── Desktop ─────────────────────────────────────────────────────────
+@media (min-width: 1024px) {
+  .wrap {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 24px 0;
+  }
+
+  .module-card {
+    border: 1px solid #e2e8f0;
+    transition: border-color .2s, box-shadow .2s;
+    &:hover { border-color: #cbd5e1; box-shadow: 0 4px 12px rgba(0,0,0,.04); }
+  }
+
+  .footer-wrap {
+    max-width: 800px;
+    margin: 0 auto;
+    ion-button { max-width: 320px; }
+  }
+}

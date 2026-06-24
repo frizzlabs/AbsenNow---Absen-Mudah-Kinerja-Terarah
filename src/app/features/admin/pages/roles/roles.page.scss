@@ -62,3 +62,26 @@ ion-content { --background: #f8f9fa; }
   span { flex: 1; }
   .chev { color: var(--ion-color-medium); font-size: 18px; }
 }
+
+// ── Desktop ─────────────────────────────────────────────────────────
+@media (min-width: 1024px) {
+  .wrap {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 24px 0;
+  }
+
+  .role-card {
+    border: 1px solid #e2e8f0;
+    transition: border-color .2s, box-shadow .2s;
+    cursor: pointer;
+    &:hover { border-color: #cbd5e1; box-shadow: 0 4px 12px rgba(0,0,0,.04); }
+  }
+
+  .users-link {
+    border: 1px solid #e2e8f0;
+    transition: border-color .2s, box-shadow .2s;
+    cursor: pointer;
+    &:hover { border-color: #cbd5e1; box-shadow: 0 4px 12px rgba(0,0,0,.04); }
+  }
+}

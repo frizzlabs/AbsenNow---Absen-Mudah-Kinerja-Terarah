@@ -247,3 +247,22 @@
     --border-radius: 10px;
   }
 }
+
+// ── Desktop ─────────────────────────────────────────────────────────
+@media (min-width: 1024px) {
+  .tab-bar {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .list-wrap {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 16px 0 32px;
+  }
+
+  .correction-card {
+    transition: border-color .2s, box-shadow .2s;
+    &:hover { border-color: #cbd5e1; box-shadow: 0 4px 12px rgba(0,0,0,.04); }
+  }
+}

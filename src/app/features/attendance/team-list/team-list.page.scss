@@ -163,3 +163,18 @@ ion-content {
 
 .text-success { color: var(--ion-color-success); }
 .text-primary { color: var(--ion-color-primary); }
+
+// ── Desktop ─────────────────────────────────────────────────────────
+@media (min-width: 1024px) {
+  .content-wrapper {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 24px 0;
+  }
+
+  .list-item {
+    border: 1px solid #e2e8f0;
+    transition: border-color .2s, box-shadow .2s;
+    &:hover { border-color: #cbd5e1; box-shadow: 0 4px 12px rgba(0,0,0,.04); }
+  }
+}

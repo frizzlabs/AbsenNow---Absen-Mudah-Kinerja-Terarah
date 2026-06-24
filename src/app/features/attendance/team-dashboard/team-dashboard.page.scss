@@ -236,3 +236,38 @@ ion-content {
 .text-success { color: var(--ion-color-success); }
 .text-warning { color: #f59e0b; }
 .text-danger  { color: var(--ion-color-danger); }
+
+// ── Desktop ─────────────────────────────────────────────────────────
+@media (min-width: 1024px) {
+  .content-wrapper {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 24px 0;
+  }
+
+  .stat-card-primary { max-width: 420px; border-radius: 20px; }
+
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .stat-mini {
+    border: 1px solid #e2e8f0;
+    transition: border-color .2s, box-shadow .2s;
+    &:hover { border-color: #cbd5e1; box-shadow: 0 4px 12px rgba(0,0,0,.04); }
+  }
+
+  .list-item {
+    border: 1px solid #e2e8f0;
+    transition: border-color .2s, box-shadow .2s;
+    &:hover { border-color: #cbd5e1; box-shadow: 0 4px 12px rgba(0,0,0,.04); }
+  }
+
+  .footer-wrapper {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 16px 0 32px;
+    ion-button { max-width: 320px; }
+  }
+}
