@@ -44,6 +44,7 @@ export class DesktopHomePage implements OnInit, OnDestroy {
   clockInTime = '';
   clockOutTime = '';
   workDuration = '';
+  attendanceCompleted = false;
 
   private clockInterval: any;
 
@@ -185,10 +186,13 @@ export class DesktopHomePage implements OnInit, OnDestroy {
     } else {
       if (this.attendanceState.hasCompletedToday) {
         this.todayAttendanceLabel = 'Selesai';
+        this.attendanceCompleted = true;
       } else if (this.attendanceState.state === 'checked_in') {
         this.todayAttendanceLabel = 'Sudah Masuk';
+        this.attendanceCompleted = false;
       } else {
         this.todayAttendanceLabel = 'Belum Absen';
+        this.attendanceCompleted = false;
       }
       this.clockInTime = att.check_in ? att.check_in.slice(0, 5) : '';
       this.clockOutTime = att.check_out ? att.check_out.slice(0, 5) : '';

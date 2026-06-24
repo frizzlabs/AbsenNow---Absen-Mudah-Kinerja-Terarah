@@ -31,13 +31,16 @@
 
         <!-- ── Stat Cards Row ──────────────────────────── -->
         <section class="dk-stats-row">
-          <a class="dk-stat-card dk-stat-primary dk-stat-clickable" routerLink="/attendance/desktop-checkin">
+          <a class="dk-stat-card dk-stat-primary"
+            [class.dk-stat-clickable]="!attendanceCompleted"
+            [routerLink]="attendanceCompleted ? null : '/attendance/desktop-checkin'">
             <div class="dk-stat-icon"><ion-icon name="calendar-outline"></ion-icon></div>
             <div class="dk-stat-info">
               <span class="dk-stat-label">Absensi Hari Ini</span>
               <span class="dk-stat-value">{{ todayAttendanceLabel }}</span>
             </div>
-            <ion-icon name="chevron-forward-outline" class="dk-stat-arrow"></ion-icon>
+            <ion-icon *ngIf="!attendanceCompleted" name="chevron-forward-outline" class="dk-stat-arrow"></ion-icon>
+            <ion-icon *ngIf="attendanceCompleted" name="checkmark-circle" class="dk-stat-arrow" style="color:rgba(255,255,255,.7);"></ion-icon>
           </a>
           <div class="dk-stat-card">
             <div class="dk-stat-icon dk-stat-icon--orange"><ion-icon name="time-outline"></ion-icon></div>

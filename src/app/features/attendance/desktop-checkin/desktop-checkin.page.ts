@@ -43,7 +43,12 @@ export class DesktopCheckinPage implements OnInit, OnDestroy {
     private attendanceState: AttendanceStateService,
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
+    await this.attendanceState.syncStatus();
+    if (this.attendanceState.hasCompletedToday) {
+      this.router.navigateByUrl('/desktop-home', { replaceUrl: true });
+      return;
+    }
     this.isCheckingOut = this.attendanceState.state === 'checked_in';
     this.initAll();
   }
