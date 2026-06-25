@@ -131,8 +131,8 @@
             </div>
           </div>
 
-          <!-- Updates -->
-          <section class="dk-bento-item dk-bento-full">
+          <!-- Updates (left half) -->
+          <section class="dk-bento-item dk-bento-half">
             <div class="dk-section-head dk-section-head--flat">
               <h2>{{ 'home.recentUpdates' | translate }}</h2>
               <a class="dk-link" routerLink="/notification">{{ 'home.viewAll' | translate }}</a>
@@ -155,8 +155,8 @@
             </div>
           </section>
 
-          <!-- News -->
-          <section class="dk-bento-item dk-bento-full" *ngIf="newsFeed.length > 0 || isLoadingNews">
+          <!-- News (right half) -->
+          <section class="dk-bento-item dk-bento-half" *ngIf="newsFeed.length > 0 || isLoadingNews">
             <div class="dk-section-head dk-section-head--flat">
               <h2>Berita & Kegiatan Pemda</h2>
             </div>

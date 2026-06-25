@@ -129,6 +129,10 @@ $slate-900: #0f172a;
   grid-column: 1 / -1;
 }
 
+.dk-bento-half {
+  grid-column: span 2;
+}
+
 .dk-bento-side {
   grid-column: 4 / 5;
 }
@@ -483,8 +487,8 @@ $slate-900: #0f172a;
 .dk-popup {
   background: white;
   border-radius: 22px;
-  width: 480px;
-  max-height: 80vh;
+  width: 640px;
+  max-height: 85vh;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -583,10 +587,10 @@ $slate-900: #0f172a;
 
 // ── News Grid ───────────────────────────────────────────────────────
 .dk-news-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-  padding: 16px 18px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px 18px 18px;
 }
 
 .dk-news-card {
@@ -595,19 +599,21 @@ $slate-900: #0f172a;
   overflow: hidden;
   cursor: pointer;
   text-decoration: none;
+  display: flex;
   transition: all .25s cubic-bezier(.4,0,.2,1);
 
   &:hover {
     border-color: $slate-300;
-    transform: translateY(-2px);
-    box-shadow: 0 10px 24px -8px rgba(0,0,0,.1);
+    box-shadow: 0 4px 12px -4px rgba(0,0,0,.08);
     .dk-news-img img { transform: scale(1.05); }
   }
 }
 
 .dk-news-img {
   position: relative;
-  height: 140px;
+  width: 110px;
+  min-height: 90px;
+  flex-shrink: 0;
   background: $slate-100;
   overflow: hidden;
 
