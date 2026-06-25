@@ -130,55 +130,65 @@ ion-content.bg-light {
 
 // ── Desktop ─────────────────────────────────────────────────────────
 @media (min-width: 1024px) {
+  $dk-blue: #1B59F8;
+
   ion-content.bg-light { --background: #f0f2f5; }
 
   .profile-header {
-    max-width: 960px;
+    max-width: 880px;
     margin: 0 auto;
     padding: 24px 0 16px;
-
     .back-btn { cursor: pointer; }
   }
 
   .page-container {
-    max-width: 960px;
+    max-width: 880px;
     margin: 0 auto;
     padding: 0 0 80px;
     display: grid;
-    grid-template-columns: 300px 1fr;
-    gap: 20px;
+    grid-template-columns: 280px 1fr;
+    gap: 16px;
     align-items: start;
   }
 
   .avatar-section {
-    background: white;
+    background: linear-gradient(160deg, $dk-blue 0%, #4F46E5 100%);
     border-radius: 20px;
-    border: 1px solid rgba(0,0,0,.06);
-    box-shadow: 0 1px 3px rgba(0,0,0,.03);
-    padding: 32px 24px;
+    border: none;
+    padding: 36px 24px 28px;
     margin-bottom: 0;
     position: sticky;
     top: 20px;
 
     .avatar {
-      width: 88px;
-      height: 88px;
-      border: 3px solid white;
-      box-shadow: 0 4px 16px rgba(0,0,0,.1);
+      width: 80px;
+      height: 80px;
+      border: 3px solid rgba(255,255,255,.3);
+      box-shadow: 0 8px 24px rgba(0,0,0,.2);
     }
 
     .name {
-      font-size: 20px;
+      font-size: 18px;
       font-weight: 800;
       letter-spacing: -0.3px;
+      color: white;
     }
 
     .role {
-      font-size: 13px;
+      font-size: 12px;
+      color: rgba(255,255,255,.7);
+      margin-bottom: 14px;
+    }
+
+    .id-badge {
+      background: rgba(255,255,255,.15);
+      border-color: rgba(255,255,255,.1);
+      color: rgba(255,255,255,.9);
+      font-size: 11px;
+      backdrop-filter: blur(4px);
     }
   }
 
-  // Menu + logout grouped in right column
   .menu-list {
     background: white;
     border-radius: 20px;
@@ -188,20 +198,24 @@ ion-content.bg-light {
   }
 
   .logout-section {
-    grid-column: 2;
+    grid-column: 1 / -1;
     margin-top: 0;
+    display: flex;
+    justify-content: center;
   }
 
   .logout-btn {
     background: white;
-    border-radius: 20px;
-    border: 1px solid rgba(0,0,0,.06);
+    border-radius: 16px;
+    border: 1px solid rgba(239, 68, 68, .12);
     box-shadow: 0 1px 3px rgba(0,0,0,.03);
+    max-width: 280px;
     transition: all .2s;
 
     &:hover {
-      border-color: rgba(239, 68, 68, .2);
-      box-shadow: 0 4px 12px rgba(239, 68, 68, .08);
+      border-color: rgba(239, 68, 68, .25);
+      box-shadow: 0 4px 12px rgba(239, 68, 68, .1);
+      transform: translateY(-1px);
     }
   }
 }
