@@ -286,71 +286,70 @@
         </div>
       </div>
 
-      <!-- Profile Drawer -->
+      <!-- Profile Drawer (mobile-style) -->
       <div class="dk-drawer-overlay" *ngIf="showProfileDrawer" (click)="closeProfileDrawer()"></div>
       <div class="dk-drawer" [class.dk-drawer--open]="showProfileDrawer">
-        <div class="dk-drawer-header">
-          <h2>Profil</h2>
+
+        <!-- Avatar Section — same as mobile -->
+        <div class="dk-drawer-avatar-section">
           <button class="dk-drawer-close" (click)="closeProfileDrawer()">
             <ion-icon name="close-outline"></ion-icon>
           </button>
-        </div>
-
-        <!-- Avatar + Info -->
-        <div class="dk-drawer-profile">
           <div class="dk-drawer-avatar">
-            <img *ngIf="profileUser?.avatar_url" [src]="profileUser.avatar_url" alt="" />
-            <span *ngIf="!profileUser?.avatar_url" class="dk-drawer-initials">{{ profileInitials }}</span>
+            <img [src]="(profileUser?.avatar_url || userAvatar) || 'assets/images/avatar-placeholder.png'" alt="Profile" />
           </div>
-          <h3>{{ profileUser?.name || userName }}</h3>
+          <h3 class="dk-drawer-name">{{ profileUser?.name || userName }}</h3>
           <p class="dk-drawer-role">{{ profileRoleLine || userRoleLabel }}</p>
-          <div class="dk-drawer-chips">
-            <span *ngIf="profileUser?.employee_id"><ion-icon name="id-card-outline"></ion-icon> {{ profileUser.employee_id }}</span>
-            <span *ngIf="profileUser?.email"><ion-icon name="mail-outline"></ion-icon> {{ profileUser.email }}</span>
+          <div class="dk-drawer-id" *ngIf="profileUser?.employee_id">
+            ID: {{ profileUser.employee_id }}
           </div>
         </div>
 
-        <!-- Quick Info -->
-        <div class="dk-drawer-info">
-          <div class="dk-drawer-info-item">
-            <ion-icon name="briefcase-outline" style="color:#3b82f6;"></ion-icon>
-            <div><small>Jabatan</small><strong>{{ profileUser?.job_title || '—' }}</strong></div>
-          </div>
-          <div class="dk-drawer-info-item">
-            <ion-icon name="business-outline" style="color:#8b5cf6;"></ion-icon>
-            <div><small>Departemen</small><strong>{{ profileUser?.department || '—' }}</strong></div>
-          </div>
-        </div>
-
-        <!-- Menu -->
-        <nav class="dk-drawer-menu">
+        <!-- Menu List — same style as mobile -->
+        <div class="dk-drawer-menu-list">
           <a class="dk-drawer-menu-item" routerLink="/profile/personal-info" (click)="closeProfileDrawer()">
-            <ion-icon name="person-outline" style="color:#3b82f6;"></ion-icon>
-            <span>Informasi Pribadi</span>
-            <ion-icon name="chevron-forward-outline" class="dk-drawer-arrow"></ion-icon>
+            <div class="dk-drawer-mi-icon" style="background:rgba(59,130,246,.1);"><ion-icon name="person-outline" style="color:#3b82f6;"></ion-icon></div>
+            <div class="dk-drawer-mi-text">
+              <span>Informasi Pribadi</span>
+              <small>Detail kontak, alamat, dan darurat</small>
+            </div>
+            <ion-icon name="chevron-forward-outline" class="dk-drawer-mi-arrow"></ion-icon>
           </a>
           <a class="dk-drawer-menu-item" routerLink="/profile/identity" (click)="closeProfileDrawer()">
-            <ion-icon name="shield-checkmark-outline" style="color:#10b981;"></ion-icon>
-            <span>Verifikasi Identitas</span>
-            <ion-icon name="chevron-forward-outline" class="dk-drawer-arrow"></ion-icon>
+            <div class="dk-drawer-mi-icon" style="background:rgba(16,185,129,.1);"><ion-icon name="shield-checkmark-outline" style="color:#10b981;"></ion-icon></div>
+            <div class="dk-drawer-mi-text">
+              <span>Verifikasi Identitas</span>
+              <small>Paspor, KTP, informasi pajak</small>
+            </div>
+            <ion-icon name="chevron-forward-outline" class="dk-drawer-mi-arrow"></ion-icon>
           </a>
           <a class="dk-drawer-menu-item" routerLink="/profile/job-history" (click)="closeProfileDrawer()">
-            <ion-icon name="briefcase-outline" style="color:#f97316;"></ion-icon>
-            <span>Informasi Pekerjaan</span>
-            <ion-icon name="chevron-forward-outline" class="dk-drawer-arrow"></ion-icon>
+            <div class="dk-drawer-mi-icon" style="background:rgba(249,115,22,.1);"><ion-icon name="briefcase-outline" style="color:#f97316;"></ion-icon></div>
+            <div class="dk-drawer-mi-text">
+              <span>Informasi Pekerjaan</span>
+              <small>Posisi, departemen, detail pekerjaan</small>
+            </div>
+            <ion-icon name="chevron-forward-outline" class="dk-drawer-mi-arrow"></ion-icon>
           </a>
           <a class="dk-drawer-menu-item" routerLink="/profile/language" (click)="closeProfileDrawer()">
-            <ion-icon name="globe-outline" style="color:#6366f1;"></ion-icon>
-            <span>Pengaturan Bahasa</span>
-            <ion-icon name="chevron-forward-outline" class="dk-drawer-arrow"></ion-icon>
+            <div class="dk-drawer-mi-icon" style="background:rgba(99,102,241,.1);"><ion-icon name="globe-outline" style="color:#6366f1;"></ion-icon></div>
+            <div class="dk-drawer-mi-text">
+              <span>Pengaturan Bahasa</span>
+              <small>Ubah bahasa aplikasi</small>
+            </div>
+            <ion-icon name="chevron-forward-outline" class="dk-drawer-mi-arrow"></ion-icon>
           </a>
-        </nav>
+        </div>
 
         <!-- Logout -->
-        <button class="dk-drawer-logout" (click)="logout()">
-          <ion-icon name="log-out-outline"></ion-icon>
-          <span>Keluar</span>
-        </button>
+        <div class="dk-drawer-logout-section">
+          <button class="dk-drawer-logout" (click)="logout()">
+            <div class="dk-drawer-mi-icon" style="background:rgba(239,68,68,.1);"><ion-icon name="log-out-outline" style="color:#ef4444;"></ion-icon></div>
+            <span>Keluar</span>
+            <ion-icon name="chevron-forward-outline" class="dk-drawer-mi-arrow" style="color:#ef4444;opacity:.5;"></ion-icon>
+          </button>
+        </div>
+
       </div>
 
     </ion-content>
