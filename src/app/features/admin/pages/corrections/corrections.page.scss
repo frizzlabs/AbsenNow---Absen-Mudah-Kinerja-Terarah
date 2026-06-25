@@ -250,19 +250,75 @@
 
 // ── Desktop ─────────────────────────────────────────────────────────
 @media (min-width: 1024px) {
+  ion-content { --background: #f0f2f5; }
+
+  // Hide default page-header, use tab bar as main nav
+  ::ng-deep app-page-header .header {
+    max-width: 100%;
+    padding: 20px 28px 12px;
+    margin: 0;
+  }
+
   .tab-bar {
-    max-width: 900px;
-    margin: 0 auto;
+    padding: 0 28px;
+    background: white;
+    border-bottom: 1px solid #e2e8f0;
+    gap: 0;
+  }
+
+  .tab-btn {
+    flex: none;
+    padding: 12px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    transition: color .15s;
+
+    &:hover:not(.active) { color: #64748b; }
+  }
+
+  .empty-state {
+    padding: 100px 24px;
+    ion-icon { font-size: 48px; color: #cbd5e1; }
+    p { font-size: 14px; color: #94a3b8; }
   }
 
   .list-wrap {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 16px 0 32px;
+    padding: 20px 28px 40px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
   }
 
   .correction-card {
-    transition: border-color .2s, box-shadow .2s;
-    &:hover { border-color: #cbd5e1; box-shadow: 0 4px 12px rgba(0,0,0,.04); }
+    border-radius: 16px;
+    border: 1px solid rgba(0,0,0,.06);
+    box-shadow: 0 1px 3px rgba(0,0,0,.03);
+    transition: all .25s cubic-bezier(.4,0,.2,1);
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px -6px rgba(0,0,0,.08);
+      border-color: rgba(0,0,0,.1);
+    }
+
+    &.expanded {
+      grid-column: 1 / -1;
+    }
+  }
+
+  .card-head {
+    padding: 18px 20px;
+  }
+
+  .card-body {
+    padding: 0 20px 20px;
+  }
+
+  .time-row {
+    gap: 32px;
+  }
+
+  .action-row {
+    max-width: 400px;
   }
 }
