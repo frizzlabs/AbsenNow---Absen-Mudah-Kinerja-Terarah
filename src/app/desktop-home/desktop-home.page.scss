@@ -443,6 +443,125 @@ $slate-900: #0f172a;
   pointer-events: none;
 }
 
+.dk-menu-more {
+  cursor: pointer;
+  &:hover {
+    background: $slate-50;
+    .dk-menu-icon { background: rgba(100,116,139,.14) !important; }
+  }
+}
+
+// ── Shortcuts Popup ─────────────────────────────────────────────────
+.dk-popup-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0,0,0,.4);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: dk-fade-in .15s ease;
+}
+
+@keyframes dk-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes dk-slide-up {
+  from { opacity: 0; transform: translateY(16px) scale(.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.dk-popup {
+  background: white;
+  border-radius: 22px;
+  width: 480px;
+  max-height: 80vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 24px 48px -12px rgba(0,0,0,.2);
+  animation: dk-slide-up .2s ease;
+}
+
+.dk-popup-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  border-bottom: 1px solid $slate-100;
+
+  h2 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 800;
+    color: $slate-900;
+  }
+}
+
+.dk-popup-close {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: none;
+  background: $slate-50;
+  color: $slate-500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background .15s;
+
+  &:hover { background: $slate-200; }
+  ion-icon { font-size: 20px; }
+}
+
+.dk-popup-body {
+  padding: 20px 24px 28px;
+  overflow-y: auto;
+}
+
+.dk-popup-section {
+  margin: 0 0 10px;
+  font-size: 10px;
+  font-weight: 800;
+  color: $slate-400;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+
+  &:not(:first-child) { margin-top: 20px; }
+}
+
+.dk-popup-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+
+.dk-popup-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 14px 4px 10px;
+  border-radius: 14px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background .15s;
+  text-align: center;
+
+  &:hover { background: $slate-50; }
+
+  span {
+    font-size: 11px;
+    font-weight: 600;
+    color: $slate-600;
+    line-height: 1.3;
+  }
+}
+
 .dk-menu-icon {
   width: 34px;
   height: 34px;

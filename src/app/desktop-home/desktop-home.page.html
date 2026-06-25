@@ -132,10 +132,8 @@
             </div>
           </section>
 
-          <!-- Quick Menu (sidebar) — matches mobile shortcuts -->
+          <!-- Quick Menu (sidebar) — 4 icons + View More -->
           <div class="dk-bento-item dk-bento-side dk-quick-menu">
-
-            <!-- PINTASAN -->
             <h3 class="dk-menu-title">Pintasan</h3>
             <div class="dk-menu-grid">
               <a class="dk-menu-grid-item" routerLink="/attendance/history">
@@ -146,85 +144,15 @@
                 <div class="dk-menu-icon" style="--c:#f97316; --bg:rgba(249,115,22,.1)"><ion-icon name="umbrella-outline"></ion-icon></div>
                 <span>Cuti</span>
               </a>
-              <a class="dk-menu-grid-item" routerLink="/overtime">
-                <div class="dk-menu-icon" style="--c:#a855f7; --bg:rgba(168,85,247,.1)"><ion-icon name="time-outline"></ion-icon></div>
-                <span>Lembur</span>
-              </a>
-              <a class="dk-menu-grid-item" routerLink="/timesheet">
-                <div class="dk-menu-icon" style="--c:#3b82f6; --bg:rgba(59,130,246,.1)"><ion-icon name="timer-outline"></ion-icon></div>
-                <span>Shift</span>
-              </a>
-            </div>
-
-            <!-- KEUANGAN -->
-            <h3 class="dk-menu-title" style="margin-top:16px;">Keuangan</h3>
-            <div class="dk-menu-grid">
               <a class="dk-menu-grid-item" routerLink="/payslip">
                 <div class="dk-menu-icon" style="--c:#22c55e; --bg:rgba(34,197,94,.1)"><ion-icon name="receipt-outline"></ion-icon></div>
                 <span>Slip Gaji</span>
               </a>
-              <a class="dk-menu-grid-item" routerLink="/expense/overview">
-                <div class="dk-menu-icon" style="--c:#06b6d4; --bg:rgba(6,182,212,.1)"><ion-icon name="wallet-outline"></ion-icon></div>
-                <span>Reimburse</span>
-              </a>
-              <div class="dk-menu-grid-item dk-menu-disabled">
-                <div class="dk-menu-icon" style="--c:#6366f1; --bg:rgba(99,102,241,.1)"><ion-icon name="cash-outline"></ion-icon></div>
-                <span>Pinjaman</span>
-              </div>
-              <div class="dk-menu-grid-item dk-menu-disabled">
-                <div class="dk-menu-icon" style="--c:#10b981; --bg:rgba(16,185,129,.1)"><ion-icon name="cash-outline"></ion-icon></div>
-                <span>Pajak</span>
+              <div class="dk-menu-grid-item dk-menu-more" (click)="showShortcuts = true">
+                <div class="dk-menu-icon" style="--c:#64748b; --bg:rgba(100,116,139,.08)"><ion-icon name="grid-outline"></ion-icon></div>
+                <span>Lainnya</span>
               </div>
             </div>
-
-            <!-- PERMINTAAN & UMUM -->
-            <h3 class="dk-menu-title" style="margin-top:16px;">Permintaan & Umum</h3>
-            <div class="dk-menu-grid">
-              <a class="dk-menu-grid-item" routerLink="/attendance/team-list" *ngIf="canApproveAttendance">
-                <div class="dk-menu-icon" style="--c:#ec4899; --bg:rgba(236,72,153,.1)"><ion-icon name="people-outline"></ion-icon></div>
-                <span>Tim</span>
-              </a>
-              <a class="dk-menu-grid-item" routerLink="/attendance/correction/history" *ngIf="!isAdminOnly">
-                <div class="dk-menu-icon" style="--c:#eab308; --bg:rgba(234,179,8,.1)"><ion-icon name="time-outline"></ion-icon></div>
-                <span>Riwayat Koreksi</span>
-              </a>
-              <a class="dk-menu-grid-item" routerLink="/attendance/correction/reason" *ngIf="!isAdminOnly">
-                <div class="dk-menu-icon" style="--c:#ef4444; --bg:rgba(239,68,68,.1)"><ion-icon name="alert-circle-outline"></ion-icon></div>
-                <span>Lupa Absen</span>
-              </a>
-              <a class="dk-menu-grid-item" routerLink="/dinas-luar/history">
-                <div class="dk-menu-icon" style="--c:#10b981; --bg:rgba(16,185,129,.1)"><ion-icon name="briefcase-outline"></ion-icon></div>
-                <span>Dinas Luar</span>
-              </a>
-            </div>
-
-            <!-- ADMIN -->
-            <ng-container *ngIf="canManageUsers || canManageOffice || canApproveAttendance">
-              <h3 class="dk-menu-title" style="margin-top:16px;">Admin</h3>
-              <div class="dk-menu-grid">
-                <a class="dk-menu-grid-item" *ngIf="canApproveAttendance" routerLink="/admin/corrections">
-                  <div class="dk-menu-icon" style="--c:#ef4444; --bg:rgba(239,68,68,.1)"><ion-icon name="document-text-outline"></ion-icon></div>
-                  <span>Review Koreksi</span>
-                </a>
-                <a class="dk-menu-grid-item" *ngIf="canApproveAttendance" routerLink="/dinas-luar/review">
-                  <div class="dk-menu-icon" style="--c:#10b981; --bg:rgba(16,185,129,.1)"><ion-icon name="briefcase-outline"></ion-icon></div>
-                  <span>Review Dinas</span>
-                </a>
-                <a class="dk-menu-grid-item" *ngIf="canApproveAttendance" routerLink="/attendance/team-dashboard">
-                  <div class="dk-menu-icon" style="--c:#6366f1; --bg:rgba(99,102,241,.1)"><ion-icon name="stats-chart-outline"></ion-icon></div>
-                  <span>Dashboard Absensi</span>
-                </a>
-                <a class="dk-menu-grid-item" *ngIf="canApproveAttendance" routerLink="/attendance/team-list">
-                  <div class="dk-menu-icon" style="--c:#0ea5e9; --bg:rgba(14,165,233,.1)"><ion-icon name="people-outline"></ion-icon></div>
-                  <span>List Absensi</span>
-                </a>
-                <a class="dk-menu-grid-item" *ngIf="canManageOffice" routerLink="/attendance/set-office">
-                  <div class="dk-menu-icon" style="--c:#10b981; --bg:rgba(16,185,129,.1)"><ion-icon name="location-outline"></ion-icon></div>
-                  <span>Lokasi Kantor</span>
-                </a>
-              </div>
-            </ng-container>
-
           </div>
 
           <!-- News -->
@@ -256,6 +184,108 @@
 
         </div>
       </div>
+
+      <!-- Shortcuts Popup -->
+      <div class="dk-popup-overlay" *ngIf="showShortcuts" (click)="showShortcuts = false">
+        <div class="dk-popup" (click)="$event.stopPropagation()">
+          <div class="dk-popup-header">
+            <h2>Semua Menu</h2>
+            <button class="dk-popup-close" (click)="showShortcuts = false">
+              <ion-icon name="close-outline"></ion-icon>
+            </button>
+          </div>
+          <div class="dk-popup-body">
+
+            <h4 class="dk-popup-section">Pintasan</h4>
+            <div class="dk-popup-grid">
+              <a class="dk-popup-item" routerLink="/attendance/history" (click)="showShortcuts = false">
+                <div class="dk-menu-icon" style="--c:#3b82f6; --bg:rgba(59,130,246,.1)"><ion-icon name="calendar-outline"></ion-icon></div>
+                <span>Absensi</span>
+              </a>
+              <a class="dk-popup-item" routerLink="/leave" (click)="showShortcuts = false">
+                <div class="dk-menu-icon" style="--c:#f97316; --bg:rgba(249,115,22,.1)"><ion-icon name="umbrella-outline"></ion-icon></div>
+                <span>Cuti</span>
+              </a>
+              <a class="dk-popup-item" routerLink="/overtime" (click)="showShortcuts = false">
+                <div class="dk-menu-icon" style="--c:#a855f7; --bg:rgba(168,85,247,.1)"><ion-icon name="time-outline"></ion-icon></div>
+                <span>Lembur</span>
+              </a>
+              <a class="dk-popup-item" routerLink="/timesheet" (click)="showShortcuts = false">
+                <div class="dk-menu-icon" style="--c:#3b82f6; --bg:rgba(59,130,246,.1)"><ion-icon name="timer-outline"></ion-icon></div>
+                <span>Shift</span>
+              </a>
+            </div>
+
+            <h4 class="dk-popup-section">Keuangan</h4>
+            <div class="dk-popup-grid">
+              <a class="dk-popup-item" routerLink="/payslip" (click)="showShortcuts = false">
+                <div class="dk-menu-icon" style="--c:#22c55e; --bg:rgba(34,197,94,.1)"><ion-icon name="receipt-outline"></ion-icon></div>
+                <span>Slip Gaji</span>
+              </a>
+              <a class="dk-popup-item" routerLink="/expense/overview" (click)="showShortcuts = false">
+                <div class="dk-menu-icon" style="--c:#06b6d4; --bg:rgba(6,182,212,.1)"><ion-icon name="wallet-outline"></ion-icon></div>
+                <span>Reimburse</span>
+              </a>
+              <div class="dk-popup-item dk-menu-disabled">
+                <div class="dk-menu-icon" style="--c:#6366f1; --bg:rgba(99,102,241,.1)"><ion-icon name="cash-outline"></ion-icon></div>
+                <span>Pinjaman</span>
+              </div>
+              <div class="dk-popup-item dk-menu-disabled">
+                <div class="dk-menu-icon" style="--c:#10b981; --bg:rgba(16,185,129,.1)"><ion-icon name="cash-outline"></ion-icon></div>
+                <span>Pajak</span>
+              </div>
+            </div>
+
+            <h4 class="dk-popup-section">Permintaan & Umum</h4>
+            <div class="dk-popup-grid">
+              <a class="dk-popup-item" *ngIf="canApproveAttendance" routerLink="/attendance/team-list" (click)="showShortcuts = false">
+                <div class="dk-menu-icon" style="--c:#ec4899; --bg:rgba(236,72,153,.1)"><ion-icon name="people-outline"></ion-icon></div>
+                <span>Tim</span>
+              </a>
+              <a class="dk-popup-item" *ngIf="!isAdminOnly" routerLink="/attendance/correction/history" (click)="showShortcuts = false">
+                <div class="dk-menu-icon" style="--c:#eab308; --bg:rgba(234,179,8,.1)"><ion-icon name="time-outline"></ion-icon></div>
+                <span>Riwayat Koreksi</span>
+              </a>
+              <a class="dk-popup-item" *ngIf="!isAdminOnly" routerLink="/attendance/correction/reason" (click)="showShortcuts = false">
+                <div class="dk-menu-icon" style="--c:#ef4444; --bg:rgba(239,68,68,.1)"><ion-icon name="alert-circle-outline"></ion-icon></div>
+                <span>Lupa Absen</span>
+              </a>
+              <a class="dk-popup-item" routerLink="/dinas-luar/history" (click)="showShortcuts = false">
+                <div class="dk-menu-icon" style="--c:#10b981; --bg:rgba(16,185,129,.1)"><ion-icon name="briefcase-outline"></ion-icon></div>
+                <span>Dinas Luar</span>
+              </a>
+            </div>
+
+            <ng-container *ngIf="canManageUsers || canManageOffice || canApproveAttendance">
+              <h4 class="dk-popup-section">Admin</h4>
+              <div class="dk-popup-grid">
+                <a class="dk-popup-item" *ngIf="canApproveAttendance" routerLink="/admin/corrections" (click)="showShortcuts = false">
+                  <div class="dk-menu-icon" style="--c:#ef4444; --bg:rgba(239,68,68,.1)"><ion-icon name="document-text-outline"></ion-icon></div>
+                  <span>Review Koreksi</span>
+                </a>
+                <a class="dk-popup-item" *ngIf="canApproveAttendance" routerLink="/dinas-luar/review" (click)="showShortcuts = false">
+                  <div class="dk-menu-icon" style="--c:#10b981; --bg:rgba(16,185,129,.1)"><ion-icon name="briefcase-outline"></ion-icon></div>
+                  <span>Review Dinas</span>
+                </a>
+                <a class="dk-popup-item" *ngIf="canApproveAttendance" routerLink="/attendance/team-dashboard" (click)="showShortcuts = false">
+                  <div class="dk-menu-icon" style="--c:#6366f1; --bg:rgba(99,102,241,.1)"><ion-icon name="stats-chart-outline"></ion-icon></div>
+                  <span>Dashboard Absensi</span>
+                </a>
+                <a class="dk-popup-item" *ngIf="canApproveAttendance" routerLink="/attendance/team-list" (click)="showShortcuts = false">
+                  <div class="dk-menu-icon" style="--c:#0ea5e9; --bg:rgba(14,165,233,.1)"><ion-icon name="people-outline"></ion-icon></div>
+                  <span>List Absensi</span>
+                </a>
+                <a class="dk-popup-item" *ngIf="canManageOffice" routerLink="/attendance/set-office" (click)="showShortcuts = false">
+                  <div class="dk-menu-icon" style="--c:#10b981; --bg:rgba(16,185,129,.1)"><ion-icon name="location-outline"></ion-icon></div>
+                  <span>Lokasi Kantor</span>
+                </a>
+              </div>
+            </ng-container>
+
+          </div>
+        </div>
+      </div>
+
     </ion-content>
   </ng-container>
 
