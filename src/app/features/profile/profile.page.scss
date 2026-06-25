@@ -135,40 +135,41 @@ ion-content.bg-light {
   ion-content.bg-light { --background: #f0f2f5; }
 
   .profile-header {
-    max-width: 880px;
+    max-width: 780px;
     margin: 0 auto;
-    padding: 24px 0 16px;
+    padding: 20px 0 12px;
     .back-btn { cursor: pointer; }
   }
 
   .page-container {
-    max-width: 880px;
+    max-width: 780px;
     margin: 0 auto;
     padding: 0 0 80px;
     display: grid;
-    grid-template-columns: 280px 1fr;
-    gap: 16px;
+    grid-template-columns: 240px 1fr;
+    gap: 14px;
     align-items: start;
   }
 
   .avatar-section {
     background: linear-gradient(160deg, $dk-blue 0%, #4F46E5 100%);
-    border-radius: 20px;
+    border-radius: 18px;
     border: none;
-    padding: 36px 24px 28px;
+    padding: 28px 20px 24px;
     margin-bottom: 0;
     position: sticky;
     top: 20px;
 
     .avatar {
-      width: 80px;
-      height: 80px;
+      width: 72px;
+      height: 72px;
       border: 3px solid rgba(255,255,255,.3);
       box-shadow: 0 8px 24px rgba(0,0,0,.2);
+      margin-bottom: 12px;
     }
 
     .name {
-      font-size: 18px;
+      font-size: 17px;
       font-weight: 800;
       letter-spacing: -0.3px;
       color: white;
@@ -191,25 +192,22 @@ ion-content.bg-light {
 
   .menu-list {
     background: white;
-    border-radius: 20px;
+    border-radius: 18px;
     border: 1px solid rgba(0,0,0,.06);
     box-shadow: 0 1px 3px rgba(0,0,0,.03);
     overflow: hidden;
   }
 
   .logout-section {
-    grid-column: 1 / -1;
+    grid-column: 2;
     margin-top: 0;
-    display: flex;
-    justify-content: center;
   }
 
   .logout-btn {
     background: white;
-    border-radius: 16px;
+    border-radius: 14px;
     border: 1px solid rgba(239, 68, 68, .12);
     box-shadow: 0 1px 3px rgba(0,0,0,.03);
-    max-width: 280px;
     transition: all .2s;
 
     &:hover {
