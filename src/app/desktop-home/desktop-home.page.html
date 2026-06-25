@@ -108,31 +108,7 @@
             </div>
           </section>
 
-          <!-- Updates -->
-          <section class="dk-bento-item dk-bento-wide">
-            <div class="dk-section-head dk-section-head--flat">
-              <h2>{{ 'home.recentUpdates' | translate }}</h2>
-              <a class="dk-link" routerLink="/notification">{{ 'home.viewAll' | translate }}</a>
-            </div>
-            <div class="dk-updates">
-              <a class="dk-update-row" *ngFor="let u of displayUpdates" (click)="openUpdate(u.link)">
-                <div class="dk-update-dot" [style.background]="u.colorHex"></div>
-                <div class="dk-update-body">
-                  <h4>{{ u.title }}</h4>
-                  <p>{{ u.message }}</p>
-                </div>
-                <span class="dk-update-time">{{ u.timeLabel }}</span>
-              </a>
-              <div class="dk-empty" *ngIf="!isLoadingUpdates && recentUpdates.length === 0">
-                <p>Belum ada pembaruan</p>
-              </div>
-              <div class="dk-empty" *ngIf="isLoadingUpdates">
-                <ion-spinner name="crescent" color="primary"></ion-spinner>
-              </div>
-            </div>
-          </section>
-
-          <!-- Quick Menu (sidebar) — 4 icons + View More -->
+          <!-- Quick Menu — sejajar dengan Admin Panel -->
           <div class="dk-bento-item dk-bento-side dk-quick-menu">
             <h3 class="dk-menu-title">Pintasan</h3>
             <div class="dk-menu-grid">
@@ -155,8 +131,32 @@
             </div>
           </div>
 
+          <!-- Updates -->
+          <section class="dk-bento-item dk-bento-full">
+            <div class="dk-section-head dk-section-head--flat">
+              <h2>{{ 'home.recentUpdates' | translate }}</h2>
+              <a class="dk-link" routerLink="/notification">{{ 'home.viewAll' | translate }}</a>
+            </div>
+            <div class="dk-updates">
+              <a class="dk-update-row" *ngFor="let u of displayUpdates" (click)="openUpdate(u.link)">
+                <div class="dk-update-dot" [style.background]="u.colorHex"></div>
+                <div class="dk-update-body">
+                  <h4>{{ u.title }}</h4>
+                  <p>{{ u.message }}</p>
+                </div>
+                <span class="dk-update-time">{{ u.timeLabel }}</span>
+              </a>
+              <div class="dk-empty" *ngIf="!isLoadingUpdates && recentUpdates.length === 0">
+                <p>Belum ada pembaruan</p>
+              </div>
+              <div class="dk-empty" *ngIf="isLoadingUpdates">
+                <ion-spinner name="crescent" color="primary"></ion-spinner>
+              </div>
+            </div>
+          </section>
+
           <!-- News -->
-          <section class="dk-bento-item dk-bento-wide" *ngIf="newsFeed.length > 0 || isLoadingNews">
+          <section class="dk-bento-item dk-bento-full" *ngIf="newsFeed.length > 0 || isLoadingNews">
             <div class="dk-section-head dk-section-head--flat">
               <h2>Berita & Kegiatan Pemda</h2>
             </div>
