@@ -6,10 +6,6 @@ export const routes: Routes = [
     loadComponent: () => import('./profile.page').then( m => m.ProfilePage)
   },
   {
-    path: 'desktop',
-    loadComponent: () => import('./desktop-profile/desktop-profile.page').then( m => m.DesktopProfilePage)
-  },
-  {
     path: 'personal-info',
     loadComponent: () => import('./personal-info/personal-info.page').then( m => m.PersonalInfoPage)
   },

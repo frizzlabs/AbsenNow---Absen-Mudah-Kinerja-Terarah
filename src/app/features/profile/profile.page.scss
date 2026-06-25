@@ -128,4 +128,25 @@ ion-content.bg-light {
   opacity: 0.5;
 }
 
-// Desktop: redirect to /profile/desktop, no desktop styles needed here
+// ── Desktop (fallback jika user akses /profile langsung di browser) ──
+@media (min-width: 1024px) {
+  .profile-header {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .page-container {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 24px 24px 80px;
+  }
+  .menu-list {
+    background: white;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+    overflow: hidden;
+  }
+  .logout-btn {
+    max-width: 320px;
+    margin: 0 auto;
+  }
+}

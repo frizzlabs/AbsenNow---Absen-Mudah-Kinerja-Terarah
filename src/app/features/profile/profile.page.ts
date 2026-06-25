@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonicModule, AlertController, Platform } from '@ionic/angular';
+import { IonicModule, AlertController } from '@ionic/angular';
 import { ProfileMenuItemComponent } from '../../shared/components/profile-menu-item/profile-menu-item.component';
 import { BottomNavComponent } from '../../shared/components/bottom-nav/bottom-nav.component';
 import { RouterModule, Router } from '@angular/router';
@@ -29,12 +29,6 @@ export class ProfilePage {
     private platform: Platform,
     private router: Router
   ) {}
-
-  ngOnInit() {
-    if (this.platform.is('desktop') && window.innerWidth >= 1024) {
-      this.router.navigateByUrl('/profile/desktop', { replaceUrl: true });
-    }
-  }
 
   ionViewWillEnter() {
     const cached = localStorage.getItem('user');
