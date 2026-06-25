@@ -1,7 +1,8 @@
-/* ── Desktop Check-in Page ────────────────────────────────────────── */
+/* ── Desktop Check-in — Premium UI ────────────────────────────────── */
 
 $font: 'Manrope', 'Inter', -apple-system, sans-serif;
 $blue: #1B59F8;
+$blue-dark: #1347d4;
 $slate-50: #f8fafc;
 $slate-100: #f1f5f9;
 $slate-200: #e2e8f0;
@@ -9,266 +10,370 @@ $slate-300: #cbd5e1;
 $slate-400: #94a3b8;
 $slate-500: #64748b;
 $slate-700: #334155;
+$slate-800: #1e293b;
 $slate-900: #0f172a;
 
 .dk-checkin-content {
-  --background: #{$slate-50};
+  --background: #{$slate-900};
   font-family: $font;
 }
 
-.dk-checkin-page {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 0 24px 60px;
+.dk-checkin-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-// ── Center states (loading, error, done) ────────────────────────────
-.dk-checkin-center {
+.dk-hidden { display: none !important; }
+
+// ── State cards (loading / error / success) ─────────────────────────
+.dk-state-card {
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 80px 24px;
   text-align: center;
+  padding: 60px 24px;
 
-  h3 {
+  h2 {
     margin: 0 0 8px;
-    font-size: 20px;
+    font-size: 22px;
     font-weight: 800;
-    color: $slate-900;
+    color: white;
   }
-
   p {
     margin: 0;
     font-size: 14px;
-    color: $slate-500;
-    max-width: 360px;
-  }
-
-  ion-spinner { margin-bottom: 16px; }
-  ion-button { margin-top: 20px; }
-}
-
-.dk-checkin-error-icon {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  background: rgba(#ef4444, .1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 16px;
-
-  ion-icon { font-size: 32px; color: #ef4444; }
-}
-
-.dk-checkin-success-icon {
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
-  background: rgba(#10b981, .1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 16px;
-
-  ion-icon { font-size: 40px; color: #10b981; }
-}
-
-// ── Main 2-column layout ────────────────────────────────────────────
-.dk-checkin-main {
-  display: grid;
-  grid-template-columns: 1fr 340px;
-  gap: 24px;
-  align-items: start;
-}
-
-// ── Camera Column ───────────────────────────────────────────────────
-.dk-camera-card {
-  background: white;
-  border: 1px solid $slate-200;
-  border-radius: 16px;
-  overflow: hidden;
-}
-
-.dk-camera-viewport {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 4 / 3;
-  background: #0f172a;
-  overflow: hidden;
-
-  video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transform: scaleX(-1);
-  }
-
-  .dk-captured-preview {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transform: scaleX(-1);
+    color: $slate-400;
+    max-width: 340px;
   }
 }
 
-.dk-camera-overlay {
-  position: absolute;
-  inset: 0;
+.dk-state-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  pointer-events: none;
+  margin-bottom: 20px;
+
+  ion-icon { font-size: 44px; }
+
+  &--error {
+    background: rgba(#ef4444, .15);
+    ion-icon { color: #ef4444; }
+  }
+  &--success {
+    background: rgba(#10b981, .15);
+    ion-icon { color: #10b981; }
+  }
 }
 
-.dk-face-guide {
-  width: 200px;
-  height: 260px;
-  border: 3px dashed rgba(255, 255, 255, .4);
-  border-radius: 50%;
-}
+.dk-state-anim { margin-bottom: 20px; }
 
-.dk-camera-actions {
-  padding: 16px 20px;
-}
-
-.dk-camera-actions-split {
+// ── Header bar ──────────────────────────────────────────────────────
+.dk-header-bar {
   display: flex;
-  gap: 12px;
-  padding: 16px 20px;
-
-  ion-button { flex: 1; }
-}
-
-.dk-hidden {
-  display: none !important;
-}
-
-// ── Info Column ─────────────────────────────────────────────────────
-.dk-checkin-info-col {
-  display: flex;
-  flex-direction: column;
+  align-items: center;
+  padding: 20px 32px;
   gap: 16px;
-  position: sticky;
-  top: 24px;
 }
 
-.dk-info-card {
-  background: white;
-  border: 1px solid $slate-200;
-  border-radius: 16px;
-  padding: 20px;
-}
-
-.dk-info-card-title {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin: 0 0 16px;
-  font-size: 15px;
-  font-weight: 800;
-  color: $slate-900;
-
-  ion-icon { font-size: 18px; color: $blue; }
-}
-
-.dk-info-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 0;
-  border-bottom: 1px solid $slate-100;
-
-  &:last-child { border-bottom: none; }
-}
-
-.dk-info-icon {
-  width: 38px;
-  height: 38px;
-  border-radius: 10px;
+.dk-back-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.1);
+  background: rgba(255,255,255,.06);
+  color: white;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
-  background: rgba($blue, .08);
-  color: $blue;
-
-  ion-icon { font-size: 18px; }
-
-  &--ok { background: rgba(#10b981, .08); color: #10b981; }
-  &--error { background: rgba(#ef4444, .08); color: #ef4444; }
+  cursor: pointer;
+  transition: background .15s;
+  &:hover { background: rgba(255,255,255,.12); }
+  ion-icon { font-size: 20px; }
 }
 
-.dk-info-text {
+.dk-header-center {
   flex: 1;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
 }
 
-.dk-info-label {
+.dk-header-title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 800;
+  color: white;
+  letter-spacing: -0.3px;
+}
+
+.dk-header-date {
+  margin: 2px 0 0;
   font-size: 12px;
-  font-weight: 600;
   color: $slate-400;
 }
 
-.dk-info-value {
-  font-size: 13.5px;
-  font-weight: 600;
-  color: $slate-900;
+.dk-header-clock {
+  font-size: 28px;
+  font-weight: 800;
+  color: white;
+  letter-spacing: -1px;
+  font-variant-numeric: tabular-nums;
 }
 
-.dk-text-danger { color: #ef4444 !important; }
-
-.dk-check-ok {
-  font-size: 20px;
-  color: #10b981;
-  flex-shrink: 0;
-}
-
-.dk-check-err {
-  font-size: 20px;
-  color: #ef4444;
-  flex-shrink: 0;
-}
-
-// ── Warning & Hint Cards ────────────────────────────────────────────
-.dk-warning-card {
+// ── Content grid ────────────────────────────────────────────────────
+.dk-main {
+  flex: 1;
   display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  background: #fef3c7;
-  border: 1px solid #fde68a;
-  border-radius: 12px;
-  padding: 14px 16px;
+  flex-direction: column;
+  max-width: 1100px;
+  margin: 0 auto;
+  width: 100%;
+}
 
-  ion-icon { font-size: 20px; color: #f59e0b; flex-shrink: 0; margin-top: 1px; }
+.dk-content-grid {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 20px;
+  padding: 0 32px 40px;
+  flex: 1;
+  align-items: start;
+}
 
-  p {
-    margin: 0;
-    font-size: 13px;
-    color: #92400e;
-    line-height: 1.5;
+// ── Camera card ─────────────────────────────────────────────────────
+.dk-cam-card {
+  background: $slate-800;
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.dk-cam-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background: #000;
+  overflow: hidden;
+
+  video, .dk-cam-preview {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scaleX(-1);
   }
 }
 
-.dk-hint-card {
+.dk-cam-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  pointer-events: none;
+}
+
+.dk-face-ring {
+  width: 220px;
+  height: 280px;
+  border: 3px solid rgba(255,255,255,.35);
+  border-radius: 50%;
+  box-shadow: 0 0 0 9999px rgba(0,0,0,.25);
+  transition: border-color .3s;
+}
+
+.dk-cam-hint {
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255,255,255,.7);
+  background: rgba(0,0,0,.5);
+  backdrop-filter: blur(4px);
+  padding: 6px 14px;
+  border-radius: 100px;
+
+  &--captured {
+    background: rgba($blue, .8);
+    color: white;
+  }
+}
+
+.dk-cam-gradient {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background: linear-gradient(transparent, rgba(0,0,0,.4));
+  pointer-events: none;
+}
+
+// ── Camera actions ──────────────────────────────────────────────────
+.dk-cam-actions {
+  padding: 16px 20px 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.dk-btn-row {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+}
+
+.dk-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: none;
+  border-radius: 14px;
+  padding: 14px 24px;
+  font-family: $font;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all .2s;
+
+  ion-icon { font-size: 18px; }
+
+  &--primary {
+    background: $blue;
+    color: white;
+    &:hover:not(:disabled) { background: $blue-dark; transform: translateY(-1px); box-shadow: 0 6px 20px rgba($blue, .35); }
+    &:disabled { opacity: .5; cursor: not-allowed; }
+  }
+
+  &--ghost {
+    background: rgba(255,255,255,.08);
+    color: white;
+    border: 1px solid rgba(255,255,255,.12);
+    &:hover { background: rgba(255,255,255,.14); }
+  }
+
+  &--lg {
+    width: 100%;
+    padding: 16px 24px;
+    font-size: 15px;
+    border-radius: 14px;
+  }
+
+  &--loading {
+    gap: 10px;
+  }
+}
+
+.dk-btn-row .dk-btn { flex: 1; }
+
+// ── Sidebar ─────────────────────────────────────────────────────────
+.dk-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  position: sticky;
+  top: 20px;
+}
+
+.dk-status-card {
+  background: $slate-800;
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 16px;
+  padding: 18px;
+}
+
+.dk-status-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+
+  ion-icon { font-size: 18px; color: $blue; }
+  span {
+    font-size: 13px;
+    font-weight: 800;
+    color: rgba(255,255,255,.8);
+    text-transform: uppercase;
+    letter-spacing: .5px;
+  }
+}
+
+// ── Status chips ────────────────────────────────────────────────────
+.dk-chip {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255,255,255,.04);
+
+  &:last-child { border-bottom: none; padding-bottom: 0; }
+
+  .dk-chip-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: $slate-500;
+    flex-shrink: 0;
+    transition: background .3s;
+  }
+
+  &--ok .dk-chip-dot { background: #10b981; box-shadow: 0 0 8px rgba(#10b981, .4); }
+  &--err .dk-chip-dot { background: #ef4444; box-shadow: 0 0 8px rgba(#ef4444, .4); }
+}
+
+.dk-chip-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+
+  strong {
+    font-size: 12px;
+    font-weight: 700;
+    color: rgba(255,255,255,.5);
+  }
+
+  span {
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba(255,255,255,.9);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.dk-text-red { color: #ef4444 !important; }
+
+// ── Alert cards ─────────────────────────────────────────────────────
+.dk-alert {
   display: flex;
   align-items: flex-start;
   gap: 10px;
-  background: rgba($blue, .04);
-  border: 1px solid rgba($blue, .12);
-  border-radius: 12px;
   padding: 14px 16px;
+  border-radius: 12px;
 
-  ion-icon { font-size: 20px; color: $blue; flex-shrink: 0; margin-top: 1px; }
-
+  ion-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
   p {
     margin: 0;
-    font-size: 13px;
-    color: $slate-700;
+    font-size: 12.5px;
     line-height: 1.5;
+  }
+
+  &--warn {
+    background: rgba(#f59e0b, .1);
+    border: 1px solid rgba(#f59e0b, .2);
+    ion-icon { color: #f59e0b; }
+    p { color: #fbbf24; }
+  }
+
+  &--info {
+    background: rgba($blue, .06);
+    border: 1px solid rgba($blue, .12);
+    ion-icon { color: rgba($blue, .7); }
+    p { color: $slate-400; }
   }
 }

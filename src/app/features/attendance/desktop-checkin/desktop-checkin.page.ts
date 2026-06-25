@@ -35,9 +35,12 @@ export class DesktopCheckinPage implements OnInit, OnDestroy {
 
   capturedImage: string | null = null;
   isSubmitting = false;
+  currentTime = '';
+  currentDate = '';
+  private clockTimer: any;
 
   constructor(
-    private router: Router,
+    public router: Router,
     private toastController: ToastController,
     private attendanceService: AttendanceService,
     private attendanceState: AttendanceStateService,
@@ -55,11 +58,20 @@ export class DesktopCheckinPage implements OnInit, OnDestroy {
       return;
     }
     this.isCheckingOut = this.attendanceState.state === 'checked_in';
+    this.updateClock();
+    this.clockTimer = setInterval(() => this.updateClock(), 1000);
     this.initAll();
   }
 
   ngOnDestroy() {
     this.stopCamera();
+    if (this.clockTimer) clearInterval(this.clockTimer);
+  }
+
+  private updateClock() {
+    const now = new Date();
+    this.currentTime = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    this.currentDate = now.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
   }
 
   async initAll() {

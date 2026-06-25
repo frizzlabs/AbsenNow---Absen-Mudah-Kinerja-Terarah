@@ -1,144 +1,149 @@
 <ion-content class="dk-checkin-content" [fullscreen]="true">
-  <app-page-header [title]="actionLabel"></app-page-header>
+  <div class="dk-checkin-shell">
 
-  <div class="dk-checkin-page">
-
-    <!-- ── Loading State ───────────────────────────── -->
-    <div class="dk-checkin-center" *ngIf="step === 'loading'">
-      <ion-spinner name="crescent" color="primary"></ion-spinner>
-      <p>Menyiapkan kamera & lokasi...</p>
+    <!-- ── Loading ─────────────────────────────────── -->
+    <div class="dk-state-card" *ngIf="step === 'loading'">
+      <div class="dk-state-anim">
+        <ion-spinner name="crescent" color="primary" style="width:40px;height:40px;"></ion-spinner>
+      </div>
+      <h2>Menyiapkan...</h2>
+      <p>Menghubungkan kamera & mendeteksi lokasi</p>
     </div>
 
-    <!-- ── Error State ─────────────────────────────── -->
-    <div class="dk-checkin-center" *ngIf="step === 'error'">
-      <div class="dk-checkin-error-icon">
-        <ion-icon name="alert-circle-outline"></ion-icon>
+    <!-- ── Error ───────────────────────────────────── -->
+    <div class="dk-state-card" *ngIf="step === 'error'">
+      <div class="dk-state-icon dk-state-icon--error">
+        <ion-icon name="alert-circle"></ion-icon>
       </div>
-      <h3>Tidak Dapat Melanjutkan</h3>
+      <h2>Tidak Dapat Melanjutkan</h2>
       <p>{{ errorMessage }}</p>
-      <ion-button shape="round" color="primary" (click)="initAll()">
+      <ion-button shape="round" color="primary" (click)="initAll()" style="margin-top:20px;">
         <ion-icon name="refresh-outline" slot="start"></ion-icon>
         Coba Lagi
       </ion-button>
     </div>
 
-    <!-- ── Done State ──────────────────────────────── -->
-    <div class="dk-checkin-center" *ngIf="step === 'done'">
-      <div class="dk-checkin-success-icon">
+    <!-- ── Success ─────────────────────────────────── -->
+    <div class="dk-state-card" *ngIf="step === 'done'">
+      <div class="dk-state-icon dk-state-icon--success">
         <ion-icon name="checkmark-circle"></ion-icon>
       </div>
-      <h3>{{ isCheckingOut ? 'Check Out Berhasil!' : 'Check In Berhasil!' }}</h3>
+      <h2>{{ isCheckingOut ? 'Check Out Berhasil!' : 'Check In Berhasil!' }}</h2>
       <p>Mengarahkan ke beranda...</p>
     </div>
 
-    <!-- ── Main: Ready / Capturing / Submitting ──── -->
-    <div class="dk-checkin-main" *ngIf="step === 'ready' || step === 'capturing' || step === 'submitting'">
+    <!-- ── Main ────────────────────────────────────── -->
+    <div class="dk-main" *ngIf="step === 'ready' || step === 'capturing' || step === 'submitting'">
 
-      <!-- Left: Camera -->
-      <div class="dk-checkin-camera-col">
-        <div class="dk-camera-card">
-          <div class="dk-camera-viewport">
+      <!-- Header bar -->
+      <div class="dk-header-bar">
+        <button class="dk-back-btn" (click)="router.navigate(['/desktop-home'])">
+          <ion-icon name="arrow-back-outline"></ion-icon>
+        </button>
+        <div class="dk-header-center">
+          <h1 class="dk-header-title">{{ isCheckingOut ? 'Check Out' : 'Check In' }}</h1>
+          <p class="dk-header-date">{{ currentDate }}</p>
+        </div>
+        <div class="dk-header-clock">{{ currentTime }}</div>
+      </div>
+
+      <!-- Content grid -->
+      <div class="dk-content-grid">
+
+        <!-- Camera card -->
+        <div class="dk-cam-card">
+          <div class="dk-cam-wrapper">
             <video #videoEl autoplay playsinline muted
               [class.dk-hidden]="step === 'capturing' || step === 'submitting'"></video>
             <img *ngIf="capturedImage && (step === 'capturing' || step === 'submitting')"
-              [src]="capturedImage" class="dk-captured-preview" />
+              [src]="capturedImage" class="dk-cam-preview" />
             <canvas #canvasEl class="dk-hidden"></canvas>
-            <div class="dk-camera-overlay">
-              <div class="dk-face-guide"></div>
+
+            <!-- Face guide overlay -->
+            <div class="dk-cam-overlay">
+              <div class="dk-face-ring"></div>
+              <span class="dk-cam-hint" *ngIf="step === 'ready'">Posisikan wajah di dalam lingkaran</span>
+              <span class="dk-cam-hint dk-cam-hint--captured" *ngIf="step === 'capturing'">Foto diambil</span>
             </div>
+
+            <!-- Gradient bottom -->
+            <div class="dk-cam-gradient"></div>
           </div>
 
-          <!-- Camera Actions -->
-          <div class="dk-camera-actions">
-            <ion-button *ngIf="step === 'ready'" shape="round" color="primary" expand="block" (click)="capture()">
-              <ion-icon name="camera-outline" slot="start"></ion-icon>
-              Ambil Foto
-            </ion-button>
-            <div class="dk-camera-actions-split" *ngIf="step === 'capturing'">
-              <ion-button shape="round" color="light" (click)="retake()">
-                <ion-icon name="refresh-outline" slot="start"></ion-icon>
-                Ulangi
-              </ion-button>
-              <ion-button shape="round" color="primary" (click)="submit()" [disabled]="officeStatus === 'outside'">
-                <ion-icon name="checkmark-outline" slot="start"></ion-icon>
-                {{ actionLabel }}
-              </ion-button>
+          <!-- Actions -->
+          <div class="dk-cam-actions">
+            <button class="dk-btn dk-btn--primary dk-btn--lg" *ngIf="step === 'ready'" (click)="capture()">
+              <ion-icon name="camera"></ion-icon>
+              <span>Ambil Foto</span>
+            </button>
+            <div class="dk-btn-row" *ngIf="step === 'capturing'">
+              <button class="dk-btn dk-btn--ghost" (click)="retake()">
+                <ion-icon name="refresh-outline"></ion-icon>
+                <span>Ulangi</span>
+              </button>
+              <button class="dk-btn dk-btn--primary" (click)="submit()" [disabled]="officeStatus === 'outside'">
+                <ion-icon name="checkmark-circle"></ion-icon>
+                <span>{{ actionLabel }}</span>
+              </button>
             </div>
-            <div class="dk-camera-actions" *ngIf="step === 'submitting'">
-              <ion-button shape="round" color="primary" expand="block" disabled>
-                <ion-spinner name="crescent" slot="start" style="width:18px;height:18px;margin-right:8px;"></ion-spinner>
-                Memproses...
-              </ion-button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Right: Info Panel -->
-      <div class="dk-checkin-info-col">
-
-        <!-- Status Card -->
-        <div class="dk-info-card">
-          <h3 class="dk-info-card-title">
-            <ion-icon name="information-circle-outline"></ion-icon>
-            Status {{ actionLabel }}
-          </h3>
-
-          <!-- Location -->
-          <div class="dk-info-row">
-            <div class="dk-info-icon" [class.dk-info-icon--ok]="locationStatus === 'ok'"
-              [class.dk-info-icon--error]="locationStatus === 'error'">
-              <ion-icon name="location-outline"></ion-icon>
-            </div>
-            <div class="dk-info-text">
-              <span class="dk-info-label">Lokasi</span>
-              <span class="dk-info-value">{{ locationLabel }}</span>
-            </div>
-            <ion-icon name="checkmark-circle" class="dk-check-ok" *ngIf="locationStatus === 'ok'"></ion-icon>
-            <ion-icon name="close-circle" class="dk-check-err" *ngIf="locationStatus === 'error'"></ion-icon>
-          </div>
-
-          <!-- Office -->
-          <div class="dk-info-row" *ngIf="office">
-            <div class="dk-info-icon" [class.dk-info-icon--ok]="officeStatus === 'inside'"
-              [class.dk-info-icon--error]="officeStatus === 'outside'">
-              <ion-icon name="business-outline"></ion-icon>
-            </div>
-            <div class="dk-info-text">
-              <span class="dk-info-label">{{ office.name || 'Kantor' }}</span>
-              <span class="dk-info-value" *ngIf="officeStatus === 'inside'">Dalam radius ({{ distanceMeters }}m)</span>
-              <span class="dk-info-value dk-text-danger" *ngIf="officeStatus === 'outside'">Di luar radius ({{ distanceMeters }}m)</span>
-              <span class="dk-info-value" *ngIf="officeStatus === 'pending'">Memeriksa...</span>
-            </div>
-            <ion-icon name="checkmark-circle" class="dk-check-ok" *ngIf="officeStatus === 'inside'"></ion-icon>
-            <ion-icon name="close-circle" class="dk-check-err" *ngIf="officeStatus === 'outside'"></ion-icon>
-          </div>
-
-          <!-- Camera -->
-          <div class="dk-info-row">
-            <div class="dk-info-icon" [class.dk-info-icon--ok]="cameraReady">
-              <ion-icon name="videocam-outline"></ion-icon>
-            </div>
-            <div class="dk-info-text">
-              <span class="dk-info-label">Kamera</span>
-              <span class="dk-info-value">{{ cameraReady ? 'Aktif' : 'Menunggu izin...' }}</span>
-            </div>
-            <ion-icon name="checkmark-circle" class="dk-check-ok" *ngIf="cameraReady"></ion-icon>
+            <button class="dk-btn dk-btn--primary dk-btn--lg dk-btn--loading" *ngIf="step === 'submitting'" disabled>
+              <ion-spinner name="crescent" style="width:18px;height:18px;"></ion-spinner>
+              <span>Memproses...</span>
+            </button>
           </div>
         </div>
 
-        <!-- Warning if outside radius -->
-        <div class="dk-warning-card" *ngIf="officeStatus === 'outside'">
-          <ion-icon name="warning-outline"></ion-icon>
-          <p>Anda berada di luar radius kantor. {{ actionLabel }} tidak dapat dilakukan dari lokasi ini.</p>
-        </div>
+        <!-- Sidebar -->
+        <div class="dk-sidebar">
 
-        <!-- Hint -->
-        <div class="dk-hint-card">
-          <ion-icon name="bulb-outline"></ion-icon>
-          <p>Pastikan wajah terlihat jelas di kamera dan Anda berada dalam radius kantor untuk melakukan {{ actionLabel | lowercase }}.</p>
-        </div>
+          <!-- Status chips -->
+          <div class="dk-status-card">
+            <div class="dk-status-header">
+              <ion-icon name="shield-checkmark-outline"></ion-icon>
+              <span>Verifikasi</span>
+            </div>
 
+            <div class="dk-chip" [class.dk-chip--ok]="locationStatus === 'ok'" [class.dk-chip--err]="locationStatus === 'error'">
+              <div class="dk-chip-dot"></div>
+              <div class="dk-chip-text">
+                <strong>Lokasi</strong>
+                <span>{{ locationLabel }}</span>
+              </div>
+            </div>
+
+            <div class="dk-chip" *ngIf="office"
+              [class.dk-chip--ok]="officeStatus === 'inside'" [class.dk-chip--err]="officeStatus === 'outside'">
+              <div class="dk-chip-dot"></div>
+              <div class="dk-chip-text">
+                <strong>{{ office.name || 'Kantor' }}</strong>
+                <span *ngIf="officeStatus === 'inside'">Dalam radius ({{ distanceMeters }}m)</span>
+                <span *ngIf="officeStatus === 'outside'" class="dk-text-red">Di luar radius ({{ distanceMeters }}m)</span>
+                <span *ngIf="officeStatus === 'pending'">Memeriksa...</span>
+              </div>
+            </div>
+
+            <div class="dk-chip" [class.dk-chip--ok]="cameraReady">
+              <div class="dk-chip-dot"></div>
+              <div class="dk-chip-text">
+                <strong>Kamera</strong>
+                <span>{{ cameraReady ? 'Aktif' : 'Menunggu...' }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Warning -->
+          <div class="dk-alert dk-alert--warn" *ngIf="officeStatus === 'outside'">
+            <ion-icon name="warning"></ion-icon>
+            <p>Anda berada di luar radius kantor. {{ actionLabel }} tidak dapat dilakukan.</p>
+          </div>
+
+          <!-- Tip -->
+          <div class="dk-alert dk-alert--info">
+            <ion-icon name="bulb-outline"></ion-icon>
+            <p>Pastikan wajah terlihat jelas dan pencahayaan cukup untuk verifikasi wajah.</p>
+          </div>
+
+        </div>
       </div>
     </div>
 
