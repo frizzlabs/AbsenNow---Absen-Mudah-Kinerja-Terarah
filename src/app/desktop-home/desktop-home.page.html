@@ -72,7 +72,7 @@
 
           <!-- ROW 2: Main content + sidebar -->
           <!-- Admin Panel -->
-          <section class="dk-bento-item dk-bento-wide dk-admin-section" *ngIf="isAdminOnly">
+          <section class="dk-bento-item dk-bento-wide dk-admin-section" *ngIf="isAdminOnly || canApproveAttendance || canManageUsers || canManageOffice">
             <div class="dk-section-head">
               <div class="dk-section-icon"><ion-icon name="shield-checkmark-outline"></ion-icon></div>
               <div>
@@ -81,11 +81,11 @@
               </div>
             </div>
             <div class="dk-admin-grid">
-              <a class="dk-admin-item" routerLink="/admin/roles">
+              <a class="dk-admin-item" *ngIf="canManageUsers" routerLink="/admin/roles">
                 <div class="dk-admin-icon" style="--c:#f59e0b; --bg:rgba(245,158,11,.08)"><ion-icon name="shield-outline"></ion-icon></div>
                 <div><span>Role & Hak Akses</span><p>Atur privilege</p></div>
               </a>
-              <a class="dk-admin-item" routerLink="/admin/users">
+              <a class="dk-admin-item" *ngIf="canManageUsers" routerLink="/admin/users">
                 <div class="dk-admin-icon" style="--c:#8b5cf6; --bg:rgba(139,92,246,.08)"><ion-icon name="people-outline"></ion-icon></div>
                 <div><span>Pengguna</span><p>Assign role</p></div>
               </a>
@@ -93,15 +93,15 @@
                 <div class="dk-admin-icon" style="--c:#10b981; --bg:rgba(16,185,129,.08)"><ion-icon name="location-outline"></ion-icon></div>
                 <div><span>Lokasi Kantor</span><p>Geofence</p></div>
               </a>
-              <a class="dk-admin-item" routerLink="/admin/corrections">
+              <a class="dk-admin-item" *ngIf="canApproveAttendance" routerLink="/admin/corrections">
                 <div class="dk-admin-icon" style="--c:#ef4444; --bg:rgba(239,68,68,.08)"><ion-icon name="document-text-outline"></ion-icon></div>
                 <div><span>Review Koreksi</span><p>Setujui / tolak</p></div>
               </a>
-              <a class="dk-admin-item" routerLink="/dinas-luar/review">
+              <a class="dk-admin-item" *ngIf="canApproveAttendance" routerLink="/dinas-luar/review">
                 <div class="dk-admin-icon" style="--c:#0ea5e9; --bg:rgba(14,165,233,.08)"><ion-icon name="briefcase-outline"></ion-icon></div>
                 <div><span>Review Dinas</span><p>Dinas luar</p></div>
               </a>
-              <a class="dk-admin-item" routerLink="/attendance/team-dashboard">
+              <a class="dk-admin-item" *ngIf="canApproveAttendance" routerLink="/attendance/team-dashboard">
                 <div class="dk-admin-icon" style="--c:#6366f1; --bg:rgba(99,102,241,.08)"><ion-icon name="stats-chart-outline"></ion-icon></div>
                 <div><span>Dashboard Tim</span><p>Statistik</p></div>
               </a>
