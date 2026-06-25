@@ -52,18 +52,24 @@ export class BottomNavComponent implements OnInit, OnDestroy {
     return name === 'org_admin' || name === 'superadmin' || name === 'platform_superadmin';
   }
 
+  private badgesLoaded = false;
+
   ngOnInit() {
     this.updateActiveTab(this.router.url);
     this.routerSub = this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: any) => {
       this.updateActiveTab(event.urlAfterRedirects);
+      if (!this.badgesLoaded && this.isAdmin) {
+        this.loadBadges();
+      }
     });
     this.loadBadges();
   }
 
   private loadBadges() {
     if (!this.isAdmin) return;
+    this.badgesLoaded = true;
     this.correctionService.getPendingReview().subscribe({
       next: (data) => this.pendingCorrections = data?.length || 0,
       error: () => {},

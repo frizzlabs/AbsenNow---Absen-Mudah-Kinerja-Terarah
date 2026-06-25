@@ -194,15 +194,16 @@ export class DesktopHomePage implements OnInit, OnDestroy {
         this.todayAttendanceLabel = 'Belum Absen';
         this.attendanceCompleted = false;
       }
-      this.clockInTime = att.check_in ? att.check_in.slice(0, 5) : '';
-      this.clockOutTime = att.check_out ? att.check_out.slice(0, 5) : '';
-      if (att.check_in && att.check_out) {
+      const validTime = (t: any) => typeof t === 'string' && t.includes(':');
+      this.clockInTime = validTime(att.check_in) ? att.check_in.slice(0, 5) : '';
+      this.clockOutTime = validTime(att.check_out) ? att.check_out.slice(0, 5) : '';
+      if (validTime(att.check_in) && validTime(att.check_out)) {
         const [hIn, mIn] = att.check_in.split(':').map(Number);
         const [hOut, mOut] = att.check_out.split(':').map(Number);
         let diffMin = (hOut * 60 + mOut) - (hIn * 60 + mIn);
         if (diffMin < 0) diffMin += 24 * 60;
         this.workDuration = `${Math.floor(diffMin / 60)}j ${diffMin % 60}m`;
-      } else if (att.check_in) {
+      } else if (validTime(att.check_in)) {
         const [hIn, mIn] = att.check_in.split(':').map(Number);
         const now = new Date();
         let diffMin = (now.getHours() * 60 + now.getMinutes()) - (hIn * 60 + mIn);

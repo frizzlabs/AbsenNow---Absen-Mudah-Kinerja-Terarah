@@ -44,6 +44,11 @@ export class DesktopCheckinPage implements OnInit, OnDestroy {
   ) {}
 
   async ngOnInit() {
+    const isMobile = !window.matchMedia('(min-width: 1024px)').matches;
+    if (isMobile) {
+      this.router.navigateByUrl('/home', { replaceUrl: true });
+      return;
+    }
     await this.attendanceState.syncStatus();
     if (this.attendanceState.hasCompletedToday) {
       this.router.navigateByUrl('/desktop-home', { replaceUrl: true });
