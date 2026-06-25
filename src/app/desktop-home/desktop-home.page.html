@@ -217,28 +217,38 @@
               </nav>
             </div>
 
-            <!-- Admin Quick Access (admin only) -->
-            <div class="dk-card dk-sidebar-card" *ngIf="isAdminOnly">
+            <!-- Admin Quick Access (admin/manager/superadmin only) -->
+            <div class="dk-card dk-sidebar-card" *ngIf="canManageUsers || canManageOffice || canApproveAttendance">
               <h3 class="dk-sidebar-title">Admin</h3>
               <nav class="dk-sidebar-nav">
-                <a class="dk-nav-item" routerLink="/attendance/team-dashboard">
+                <a class="dk-nav-item" *ngIf="canApproveAttendance" routerLink="/attendance/team-dashboard">
                   <div class="dk-nav-icon" style="--c:#6366f1; --bg:rgba(99,102,241,.08)"><ion-icon name="stats-chart-outline"></ion-icon></div>
                   <span>Dashboard Absensi</span>
                   <ion-icon name="chevron-forward-outline" class="dk-nav-arrow"></ion-icon>
                 </a>
-                <a class="dk-nav-item" routerLink="/attendance/team-list">
+                <a class="dk-nav-item" *ngIf="canApproveAttendance" routerLink="/attendance/team-list">
                   <div class="dk-nav-icon" style="--c:#0ea5e9; --bg:rgba(14,165,233,.08)"><ion-icon name="people-outline"></ion-icon></div>
                   <span>List Absensi</span>
                   <ion-icon name="chevron-forward-outline" class="dk-nav-arrow"></ion-icon>
                 </a>
-                <a class="dk-nav-item" routerLink="/admin/corrections">
+                <a class="dk-nav-item" *ngIf="canApproveAttendance" routerLink="/admin/corrections">
                   <div class="dk-nav-icon" style="--c:#ef4444; --bg:rgba(239,68,68,.08)"><ion-icon name="document-text-outline"></ion-icon></div>
                   <span>Review Koreksi</span>
                   <ion-icon name="chevron-forward-outline" class="dk-nav-arrow"></ion-icon>
                 </a>
-                <a class="dk-nav-item" routerLink="/admin/users">
+                <a class="dk-nav-item" *ngIf="canApproveAttendance" routerLink="/dinas-luar/review">
+                  <div class="dk-nav-icon" style="--c:#0ea5e9; --bg:rgba(14,165,233,.08)"><ion-icon name="briefcase-outline"></ion-icon></div>
+                  <span>Review Dinas</span>
+                  <ion-icon name="chevron-forward-outline" class="dk-nav-arrow"></ion-icon>
+                </a>
+                <a class="dk-nav-item" *ngIf="canManageUsers" routerLink="/admin/users">
                   <div class="dk-nav-icon" style="--c:#8b5cf6; --bg:rgba(139,92,246,.08)"><ion-icon name="people-outline"></ion-icon></div>
                   <span>Pengguna</span>
+                  <ion-icon name="chevron-forward-outline" class="dk-nav-arrow"></ion-icon>
+                </a>
+                <a class="dk-nav-item" *ngIf="canManageOffice" routerLink="/attendance/set-office">
+                  <div class="dk-nav-icon" style="--c:#10b981; --bg:rgba(16,185,129,.08)"><ion-icon name="location-outline"></ion-icon></div>
+                  <span>Lokasi Kantor</span>
                   <ion-icon name="chevron-forward-outline" class="dk-nav-arrow"></ion-icon>
                 </a>
               </nav>

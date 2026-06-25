@@ -1,83 +1,90 @@
-/* ── Desktop Dashboard — Karajo Enterprise ────────────────────────── */
+/* ── Desktop Dashboard — Karajo Enterprise v2 ─────────────────────── */
 
 $font: 'Manrope', 'Inter', -apple-system, sans-serif;
 $blue: #1B59F8;
+$indigo: #4F46E5;
 $slate-50: #f8fafc;
 $slate-100: #f1f5f9;
 $slate-200: #e2e8f0;
 $slate-300: #cbd5e1;
 $slate-400: #94a3b8;
 $slate-500: #64748b;
+$slate-600: #475569;
 $slate-700: #334155;
 $slate-800: #1e293b;
 $slate-900: #0f172a;
 
 // ── Layout ──────────────────────────────────────────────────────────
 .dk-content {
-  --background: #{$slate-50};
+  --background: #f0f2f5;
   font-family: $font;
 }
 
 .dk-page {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 32px 40px 80px;
+  padding: 0 40px 80px;
 }
 
-// ── Top Bar ─────────────────────────────────────────────────────────
+// ── Hero Header ─────────────────────────────────────────────────────
 .dk-topbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 28px;
+  padding: 28px 40px 24px;
+  max-width: 1280px;
+  margin: 0 auto;
 }
 
 .dk-topbar-left {
   .dk-topbar-greeting {
     margin: 0;
-    font-size: 24px;
+    font-size: 26px;
     font-weight: 800;
     color: $slate-900;
-    letter-spacing: -0.5px;
+    letter-spacing: -0.6px;
+    line-height: 1.2;
   }
   .dk-topbar-name { color: $blue; }
   .dk-topbar-date {
-    margin: 4px 0 0;
+    margin: 6px 0 0;
     font-size: 13px;
-    font-weight: 500;
+    font-weight: 600;
     color: $slate-400;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: .6px;
   }
 }
 
 .dk-topbar-right {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
 }
 
 .dk-topbar-clock {
   display: flex;
   align-items: center;
   gap: 6px;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
   color: $slate-700;
   background: white;
   border: 1px solid $slate-200;
-  border-radius: 10px;
-  padding: 8px 14px;
+  border-radius: 12px;
+  padding: 8px 16px;
+  box-shadow: 0 1px 2px rgba(0,0,0,.04);
 
-  ion-icon { font-size: 16px; color: $slate-400; }
+  ion-icon { font-size: 15px; color: $slate-400; }
 }
 
 .dk-topbar-role {
   font-size: 11px;
   font-weight: 700;
-  padding: 5px 12px;
+  padding: 6px 14px;
   border-radius: 100px;
   white-space: nowrap;
+  letter-spacing: .2px;
 }
 
 .dk-avatar {
@@ -87,16 +94,17 @@ $slate-900: #0f172a;
   &:hover { transform: scale(1.06); }
 
   img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
+    width: 42px;
+    height: 42px;
+    border-radius: 14px;
     object-fit: cover;
-    border: 2px solid $slate-200;
+    border: 2px solid white;
+    box-shadow: 0 2px 8px rgba(0,0,0,.08);
   }
   .dk-avatar-dot {
     position: absolute;
-    bottom: 1px;
-    right: 1px;
+    bottom: 0;
+    right: 0;
     width: 10px;
     height: 10px;
     background: #10b981;
@@ -110,56 +118,56 @@ $slate-900: #0f172a;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 16px;
-  margin-bottom: 28px;
+  margin-bottom: 24px;
 }
 
 .dk-stat-card {
   background: white;
-  border: 1px solid $slate-200;
-  border-radius: 16px;
-  padding: 20px;
+  border: 1px solid rgba(0,0,0,.06);
+  border-radius: 18px;
+  padding: 22px 20px;
   display: flex;
   align-items: center;
   gap: 16px;
-  transition: border-color .2s, box-shadow .2s;
+  transition: all .25s cubic-bezier(.4,0,.2,1);
+  box-shadow: 0 1px 3px rgba(0,0,0,.04);
 
   &:hover {
-    border-color: $slate-300;
-    box-shadow: 0 4px 12px rgba(0,0,0,.04);
+    box-shadow: 0 8px 24px -4px rgba(0,0,0,.08);
+    transform: translateY(-2px);
   }
 }
 
 .dk-stat-card.dk-stat-primary {
-  background: linear-gradient(135deg, $blue 0%, #4F46E5 100%);
+  background: linear-gradient(135deg, $blue 0%, $indigo 100%);
   border-color: transparent;
+  box-shadow: 0 4px 16px -2px rgba($blue, .3);
 
-  .dk-stat-icon { background: rgba(255,255,255,.18); color: white; }
-  .dk-stat-label { color: rgba(255,255,255,.8); }
+  .dk-stat-icon { background: rgba(255,255,255,.2); color: white; }
+  .dk-stat-label { color: rgba(255,255,255,.75); }
   .dk-stat-value { color: white; }
-  .dk-stat-arrow { color: rgba(255,255,255,.6); }
+  .dk-stat-arrow { color: rgba(255,255,255,.5); }
+
+  &:hover {
+    box-shadow: 0 12px 28px -4px rgba($blue, .4);
+  }
 }
 
 .dk-stat-clickable {
   text-decoration: none;
   cursor: pointer;
-  position: relative;
-
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba($blue, .25);
-    .dk-stat-arrow { color: white; transform: translateX(2px); }
-  }
+  &:hover .dk-stat-arrow { color: white; transform: translateX(3px); }
 }
 
 .dk-stat-arrow {
   font-size: 18px;
   flex-shrink: 0;
-  transition: all .15s;
+  transition: all .2s;
 }
 
 .dk-stat-icon {
-  width: 48px;
-  height: 48px;
+  width: 50px;
+  height: 50px;
   border-radius: 14px;
   display: flex;
   align-items: center;
@@ -167,7 +175,7 @@ $slate-900: #0f172a;
   flex-shrink: 0;
   background: rgba($blue, .08);
   color: $blue;
-  ion-icon { font-size: 22px; }
+  ion-icon { font-size: 24px; }
 
   &--orange  { background: rgba(#f97316, .08); color: #f97316; }
   &--emerald { background: rgba(#10b981, .08); color: #10b981; }
@@ -177,27 +185,28 @@ $slate-900: #0f172a;
 .dk-stat-info {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 3px;
 }
 
 .dk-stat-label {
   font-size: 12px;
   font-weight: 600;
   color: $slate-400;
+  letter-spacing: .2px;
 }
 
 .dk-stat-value {
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 800;
   color: $slate-900;
-  letter-spacing: -0.3px;
+  letter-spacing: -0.5px;
 }
 
 // ── Grid ────────────────────────────────────────────────────────────
 .dk-grid {
   display: grid;
   grid-template-columns: 1fr 320px;
-  gap: 24px;
+  gap: 20px;
   align-items: start;
 }
 
@@ -211,17 +220,18 @@ $slate-900: #0f172a;
 .dk-col-side {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 16px;
   position: sticky;
-  top: 24px;
+  top: 20px;
 }
 
 // ── Card Base ───────────────────────────────────────────────────────
 .dk-card {
   background: white;
-  border: 1px solid $slate-200;
-  border-radius: 16px;
+  border: 1px solid rgba(0,0,0,.06);
+  border-radius: 18px;
   overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,.03);
 }
 
 .dk-card-header {
@@ -231,9 +241,7 @@ $slate-900: #0f172a;
   padding: 20px 24px;
   border-bottom: 1px solid $slate-100;
 
-  &--flat {
-    justify-content: space-between;
-  }
+  &--flat { justify-content: space-between; }
 }
 
 .dk-card-header-icon {
@@ -244,10 +252,8 @@ $slate-900: #0f172a;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-
   ion-icon { font-size: 20px; color: white; }
-
-  &--blue { background: linear-gradient(135deg, $blue, #4F46E5); }
+  &--blue { background: linear-gradient(135deg, $blue, $indigo); }
 }
 
 .dk-card-title {
@@ -270,33 +276,33 @@ $slate-900: #0f172a;
   color: $blue;
   text-decoration: none;
   transition: color .15s;
-  &:hover { color: #4F46E5; }
+  &:hover { color: $indigo; }
 }
 
 // ── Admin Panel Grid ────────────────────────────────────────────────
 .dk-admin-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  padding: 20px 24px 24px;
+  gap: 10px;
+  padding: 18px 20px 20px;
 }
 
 .dk-admin-item {
   display: flex;
   flex-direction: column;
   padding: 16px;
-  border-radius: 12px;
+  border-radius: 14px;
   background: $slate-50;
-  border: 1px solid $slate-100;
+  border: 1px solid transparent;
   cursor: pointer;
   text-decoration: none;
-  transition: all .2s;
+  transition: all .25s cubic-bezier(.4,0,.2,1);
 
   &:hover {
     background: white;
     border-color: $slate-200;
     transform: translateY(-2px);
-    box-shadow: 0 8px 16px -6px rgba(0,0,0,.06);
+    box-shadow: 0 8px 20px -6px rgba(0,0,0,.08);
   }
 
   span {
@@ -305,7 +311,6 @@ $slate-900: #0f172a;
     color: $slate-900;
     margin-bottom: 2px;
   }
-
   p {
     margin: 0;
     font-size: 11px;
@@ -315,13 +320,13 @@ $slate-900: #0f172a;
 }
 
 .dk-admin-icon {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
+  width: 38px;
+  height: 38px;
+  border-radius: 11px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
   background: var(--bg);
   color: var(--c);
   ion-icon { font-size: 18px; }
@@ -342,7 +347,6 @@ $slate-900: #0f172a;
   text-decoration: none;
   border-bottom: 1px solid $slate-100;
   transition: background .15s;
-
   &:last-child { border-bottom: none; }
   &:hover { background: $slate-50; }
 }
@@ -350,7 +354,7 @@ $slate-900: #0f172a;
 .dk-update-icon {
   width: 40px;
   height: 40px;
-  border-radius: 10px;
+  border-radius: 11px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -361,7 +365,6 @@ $slate-900: #0f172a;
 .dk-update-body {
   flex: 1;
   min-width: 0;
-
   h4 {
     margin: 0;
     font-size: 13.5px;
@@ -371,7 +374,6 @@ $slate-900: #0f172a;
     overflow: hidden;
     text-overflow: ellipsis;
   }
-
   p {
     margin: 2px 0 0;
     font-size: 12px;
@@ -394,30 +396,30 @@ $slate-900: #0f172a;
 .dk-news-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
-  padding: 20px 24px 24px;
+  gap: 14px;
+  padding: 18px 20px 20px;
 }
 
 .dk-news-card {
-  border-radius: 12px;
+  border-radius: 14px;
   border: 1px solid $slate-100;
   overflow: hidden;
   cursor: pointer;
   text-decoration: none;
-  transition: all .2s;
+  background: white;
+  transition: all .25s cubic-bezier(.4,0,.2,1);
 
   &:hover {
     border-color: $slate-300;
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px -8px rgba(0,0,0,.08);
-
-    .dk-news-media img { transform: scale(1.03); }
+    box-shadow: 0 10px 24px -8px rgba(0,0,0,.1);
+    .dk-news-media img { transform: scale(1.04); }
   }
 }
 
 .dk-news-media {
   position: relative;
-  height: 160px;
+  height: 150px;
   background: $slate-100;
   overflow: hidden;
 
@@ -425,7 +427,7 @@ $slate-900: #0f172a;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform .4s;
+    transition: transform .5s cubic-bezier(.4,0,.2,1);
   }
 
   .dk-news-play {
@@ -434,9 +436,9 @@ $slate-900: #0f172a;
     left: 50%;
     transform: translate(-50%, -50%);
     color: white;
-    font-size: 40px;
+    font-size: 42px;
     opacity: .9;
-    text-shadow: 0 2px 8px rgba(0,0,0,.3);
+    filter: drop-shadow(0 2px 6px rgba(0,0,0,.3));
   }
 
   .dk-news-badge {
@@ -446,16 +448,14 @@ $slate-900: #0f172a;
     font-size: 10px;
     font-weight: 700;
     color: white;
-    background: rgba(0,0,0,.5);
-    backdrop-filter: blur(4px);
-    padding: 3px 8px;
-    border-radius: 6px;
+    background: rgba(0,0,0,.55);
+    backdrop-filter: blur(6px);
+    padding: 3px 10px;
+    border-radius: 8px;
   }
 }
 
-.dk-news-body {
-  padding: 14px;
-}
+.dk-news-body { padding: 14px; }
 
 .dk-news-source {
   display: flex;
@@ -470,7 +470,6 @@ $slate-900: #0f172a;
     object-fit: cover;
     border: 1px solid $slate-200;
   }
-
   span {
     font-size: 12px;
     font-weight: 700;
@@ -481,8 +480,8 @@ $slate-900: #0f172a;
 .dk-news-caption {
   margin: 0 0 10px;
   font-size: 12.5px;
-  color: $slate-700;
-  line-height: 1.45;
+  color: $slate-600;
+  line-height: 1.5;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -503,9 +502,7 @@ $slate-900: #0f172a;
     font-size: 11px;
     font-weight: 600;
     color: $slate-400;
-
     ion-icon { font-size: 13px; }
-
     &:first-child { color: #ef4444; }
     &:last-child { color: $blue; }
   }
@@ -513,16 +510,16 @@ $slate-900: #0f172a;
 
 // ── Sidebar ─────────────────────────────────────────────────────────
 .dk-sidebar-card {
-  padding: 20px;
+  padding: 18px;
 }
 
 .dk-sidebar-title {
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 800;
   color: $slate-400;
-  letter-spacing: .8px;
+  letter-spacing: 1px;
   text-transform: uppercase;
-  margin: 0 0 14px;
+  margin: 0 0 12px;
 }
 
 .dk-sidebar-nav {
@@ -535,11 +532,11 @@ $slate-900: #0f172a;
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 10px 10px;
-  border-radius: 10px;
+  padding: 9px 10px;
+  border-radius: 11px;
   cursor: pointer;
   text-decoration: none;
-  transition: background .15s;
+  transition: all .15s;
 
   &:hover {
     background: $slate-50;
@@ -551,14 +548,14 @@ $slate-900: #0f172a;
     flex: 1;
     font-size: 13.5px;
     font-weight: 600;
-    color: $slate-700;
+    color: $slate-600;
     transition: color .15s;
   }
 }
 
 .dk-nav-icon {
-  width: 36px;
-  height: 36px;
+  width: 34px;
+  height: 34px;
   border-radius: 10px;
   display: flex;
   align-items: center;
@@ -566,11 +563,11 @@ $slate-900: #0f172a;
   flex-shrink: 0;
   background: var(--bg);
   color: var(--c);
-  ion-icon { font-size: 17px; }
+  ion-icon { font-size: 16px; }
 }
 
 .dk-nav-arrow {
-  font-size: 14px;
+  font-size: 13px;
   color: $slate-300;
   flex-shrink: 0;
   transition: all .15s;
@@ -582,9 +579,8 @@ $slate-900: #0f172a;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 32px 24px;
+  padding: 36px 24px;
   gap: 8px;
-
   ion-icon { font-size: 28px; color: $slate-300; }
   p { margin: 0; font-size: 13px; color: $slate-400; }
 }
@@ -602,7 +598,6 @@ $slate-900: #0f172a;
   padding: 16px 24px;
   border-bottom: 1px solid $slate-100;
   transition: background .15s;
-
   &:last-child { border-bottom: none; }
   &:hover { background: $slate-50; }
 }
@@ -618,31 +613,15 @@ $slate-900: #0f172a;
   justify-content: center;
   flex-shrink: 0;
   overflow: hidden;
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-  }
+  img { width: 100%; height: 100%; object-fit: contain; }
   ion-icon { font-size: 20px; }
 }
 
 .dk-org-info {
   flex: 1;
   min-width: 0;
-
-  h4 {
-    margin: 0;
-    font-size: 14px;
-    font-weight: 700;
-    color: $slate-900;
-  }
-
-  p {
-    margin: 2px 0 0;
-    font-size: 12px;
-    color: $slate-500;
-  }
+  h4 { margin: 0; font-size: 14px; font-weight: 700; color: $slate-900; }
+  p { margin: 2px 0 0; font-size: 12px; color: $slate-500; }
 }
 
 .dk-org-name-row {
@@ -658,11 +637,7 @@ $slate-900: #0f172a;
   border-radius: 6px;
   text-transform: uppercase;
   letter-spacing: .3px;
-
-  &--muted {
-    background: $slate-100;
-    color: $slate-500;
-  }
+  &--muted { background: $slate-100; color: $slate-500; }
 }
 
 .dk-text-green { color: #10b981; font-weight: 700; }
@@ -704,7 +679,6 @@ $slate-900: #0f172a;
       border-color: $blue;
       box-shadow: 0 0 0 3px rgba($blue, .08);
     }
-
     &::placeholder { color: $slate-400; }
   }
 }
@@ -723,7 +697,6 @@ $slate-900: #0f172a;
   align-items: center;
   justify-content: space-between;
   padding: 8px 0;
-
   span {
     font-size: 13.5px;
     font-weight: 700;
