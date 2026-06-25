@@ -8,13 +8,14 @@ import { Camera, CameraResultType, CameraSource, CameraDirection } from '@capaci
 import { DinasLuarService } from '../../../../core/services/dinas-luar.service';
 import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
+import { BottomNavComponent } from '../../../../shared/components/bottom-nav/bottom-nav.component';
 
 @Component({
   selector: 'app-absen-form',
   templateUrl: './absen-form.page.html',
   styleUrls: ['./absen-form.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, PageHeaderComponent, ButtonComponent]
+  imports: [IonicModule, CommonModule, FormsModule, PageHeaderComponent, ButtonComponent, BottomNavComponent]
 })
 export class AbsenFormPage implements OnInit, OnDestroy {
   @ViewChild('videoEl') videoElRef!: ElementRef<HTMLVideoElement>;

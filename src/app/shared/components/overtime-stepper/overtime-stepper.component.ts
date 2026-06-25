@@ -9,23 +9,18 @@ interface WizardStep {
 }
 
 @Component({
-  selector: 'app-leave-stepper',
-  templateUrl: './leave-stepper.component.html',
-  styleUrls: ['./leave-stepper.component.scss'],
+  selector: 'app-overtime-stepper',
+  templateUrl: './overtime-stepper.component.html',
+  styleUrls: ['./overtime-stepper.component.scss'],
   standalone: true,
   imports: [CommonModule, IonicModule]
 })
-export class LeaveStepperComponent {
+export class OvertimeStepperComponent {
   @Input() currentStep: number = 1;
-  @Input() totalSteps: number = 5;
-  @Input() rightText: string = 'Request Leave';
 
   steps: WizardStep[] = [
-    { label: 'Jenis', route: '/leave/create/type' },
-    { label: 'Tanggal', route: '/leave/create/dates' },
-    { label: 'Delegasi', route: '/leave/create/delegate' },
-    { label: 'Dokumen', route: '/leave/create/upload' },
-    { label: 'Ringkasan', route: '/leave/create/summary' },
+    { label: 'Detail', route: '/overtime/request/step1' },
+    { label: 'Ringkasan', route: '/overtime/request/step2' },
   ];
 
   constructor(private router: Router) {}

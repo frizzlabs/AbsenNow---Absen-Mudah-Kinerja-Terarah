@@ -387,25 +387,30 @@
   .bg-light { --background: #f0f2f5; }
 
   .page-container {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 24px 24px 40px;
+    max-width: none;
+    margin: 0;
+    padding: 24px 32px 40px;
     display: grid;
-    grid-template-columns: 1fr 380px;
-    gap: 16px;
+    grid-template-columns: 1fr 400px;
+    gap: 24px;
     align-items: start;
   }
 
   .section-card {
     border: 1px solid rgba(0,0,0,.06);
     border-radius: 18px;
-    padding: 20px;
+    padding: 24px;
     box-shadow: 0 1px 3px rgba(0,0,0,.03);
   }
 
   .map-box {
-    height: 360px;
+    height: 450px;
     border-radius: 14px;
+  }
+
+  .side-panel {
+    position: sticky;
+    top: 24px;
   }
 
   .bottom-actions {

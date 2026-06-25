@@ -1,13 +1,5 @@
-<div class="bottom-nav">
-  <!-- Brand (desktop sidebar only) -->
-  <div class="nav-brand">
-    <div class="nav-brand-logo">
-      <img *ngIf="org?.logo_url" [src]="org.logo_url" alt="logo" />
-      <span *ngIf="!org?.logo_url">{{ (org?.name || 'AbsenNow').charAt(0) }}</span>
-    </div>
-    <span class="nav-brand-name">{{ org?.name || 'AbsenNow' }}</span>
-  </div>
-
+<!-- ── Mobile bottom nav ─────────────────────────────────────────── -->
+<div class="bottom-nav mobile-only">
   <div class="nav-item" [class.active]="activeTab === 'home'" [routerLink]="homeRoute">
     <ion-icon name="home-outline"></ion-icon>
     <span>{{ 'bottomNav.home' | translate }}</span>
@@ -26,7 +18,6 @@
     <div class="fab">
       <span class="fab-k">K</span>
     </div>
-    <span class="fab-label">{{ 'bottomNav.karaja' | translate }}</span>
   </div>
   <div class="nav-item" *ngIf="!isAdmin" [class.active]="activeTab === 'finance'" routerLink="/expense/overview">
     <ion-icon name="wallet-outline"></ion-icon>
@@ -41,10 +32,142 @@
     <span>{{ 'bottomNav.notification' | translate }}</span>
     <span class="nav-badge" *ngIf="pendingUpdates > 0">{{ pendingUpdates > 9 ? '9+' : pendingUpdates }}</span>
   </div>
-
-  <!-- Profile (desktop sidebar only, pinned to bottom) -->
-  <div class="nav-profile" [routerLink]="isDesktop ? null : '/profile'" (click)="onProfileClick()">
-    <ion-icon name="person-circle-outline"></ion-icon>
-    <span>{{ 'bottomNav.profile' | translate }}</span>
-  </div>
 </div>
+
+<!-- ── Desktop sidebar ──────────────────────────────────────────── -->
+<aside class="desktop-sidebar desktop-only">
+  <!-- Brand -->
+  <div class="sidebar-brand">
+    <div class="brand-logo">
+      <img *ngIf="org?.logo_url" [src]="org.logo_url" alt="logo" />
+      <span *ngIf="!org?.logo_url">{{ (org?.name || 'A').charAt(0) }}</span>
+    </div>
+    <div class="brand-text">
+      <span class="brand-name">{{ org?.name || 'AbsenNow' }}</span>
+      <span class="brand-sub">Sistem Absensi</span>
+    </div>
+  </div>
+
+  <div class="sidebar-divider"></div>
+
+  <!-- Scrollable nav area -->
+  <div class="sidebar-scroll">
+
+    <!-- Main Nav -->
+    <nav class="sidebar-nav">
+      <span class="nav-group-label">Utama</span>
+
+      <a class="sidebar-item" [class.active]="activeTab === 'home'" [routerLink]="homeRoute">
+        <ion-icon name="home-outline"></ion-icon>
+        <span>{{ 'bottomNav.home' | translate }}</span>
+      </a>
+
+      <a class="sidebar-item" [class.active]="activeTab === 'notification'" routerLink="/notification">
+        <ion-icon name="notifications-outline"></ion-icon>
+        <span>{{ 'bottomNav.notification' | translate }}</span>
+        <span class="sidebar-badge" *ngIf="pendingUpdates > 0">{{ pendingUpdates > 9 ? '9+' : pendingUpdates }}</span>
+      </a>
+
+      <a class="sidebar-item karaja" routerLink="/ai-chat">
+        <div class="karaja-icon"><span>K</span></div>
+        <span>{{ 'bottomNav.karaja' | translate }}</span>
+      </a>
+    </nav>
+
+    <!-- Pintasan -->
+    <nav class="sidebar-nav">
+      <span class="nav-group-label">Pintasan</span>
+
+      <a class="sidebar-item" routerLink="/attendance/history">
+        <ion-icon name="calendar-outline" style="color:#3b82f6"></ion-icon>
+        <span>Absensi</span>
+      </a>
+      <a class="sidebar-item" routerLink="/leave">
+        <ion-icon name="umbrella-outline" style="color:#f97316"></ion-icon>
+        <span>Cuti</span>
+      </a>
+      <a class="sidebar-item" routerLink="/overtime">
+        <ion-icon name="time-outline" style="color:#a855f7"></ion-icon>
+        <span>Lembur</span>
+      </a>
+      <a class="sidebar-item" routerLink="/timesheet">
+        <ion-icon name="timer-outline" style="color:#3b82f6"></ion-icon>
+        <span>Shift</span>
+      </a>
+    </nav>
+
+    <!-- Keuangan -->
+    <nav class="sidebar-nav">
+      <span class="nav-group-label">Keuangan</span>
+
+      <a class="sidebar-item" routerLink="/payslip">
+        <ion-icon name="receipt-outline" style="color:#22c55e"></ion-icon>
+        <span>Slip Gaji</span>
+      </a>
+      <a class="sidebar-item" routerLink="/expense/overview">
+        <ion-icon name="wallet-outline" style="color:#06b6d4"></ion-icon>
+        <span>Reimburse</span>
+      </a>
+    </nav>
+
+    <!-- Permintaan & Umum -->
+    <nav class="sidebar-nav">
+      <span class="nav-group-label">Permintaan</span>
+
+      <a class="sidebar-item" *ngIf="canApproveAttendance" routerLink="/attendance/team-list">
+        <ion-icon name="people-outline" style="color:#ec4899"></ion-icon>
+        <span>Tim</span>
+      </a>
+      <a class="sidebar-item" *ngIf="!isAdminOnly" routerLink="/attendance/correction/history">
+        <ion-icon name="time-outline" style="color:#eab308"></ion-icon>
+        <span>Riwayat Koreksi</span>
+      </a>
+      <a class="sidebar-item" *ngIf="!isAdminOnly" routerLink="/attendance/correction/reason">
+        <ion-icon name="alert-circle-outline" style="color:#ef4444"></ion-icon>
+        <span>Lupa Absen</span>
+      </a>
+      <a class="sidebar-item" routerLink="/dinas-luar/history">
+        <ion-icon name="briefcase-outline" style="color:#10b981"></ion-icon>
+        <span>Dinas Luar</span>
+      </a>
+    </nav>
+
+    <!-- Admin -->
+    <nav class="sidebar-nav" *ngIf="canManageUsers || canManageOffice || canApproveAttendance">
+      <span class="nav-group-label">Admin</span>
+
+      <a class="sidebar-item" *ngIf="canApproveAttendance" routerLink="/admin/corrections">
+        <ion-icon name="document-text-outline" style="color:#ef4444"></ion-icon>
+        <span>Review Koreksi</span>
+        <span class="sidebar-badge" *ngIf="pendingCorrections > 0">{{ pendingCorrections }}</span>
+      </a>
+      <a class="sidebar-item" *ngIf="canApproveAttendance" routerLink="/dinas-luar/review">
+        <ion-icon name="briefcase-outline" style="color:#10b981"></ion-icon>
+        <span>Review Dinas</span>
+        <span class="sidebar-badge" *ngIf="pendingDinas > 0">{{ pendingDinas }}</span>
+      </a>
+      <a class="sidebar-item" *ngIf="canApproveAttendance" routerLink="/attendance/team-dashboard">
+        <ion-icon name="stats-chart-outline" style="color:#6366f1"></ion-icon>
+        <span>Dashboard Absensi</span>
+      </a>
+      <a class="sidebar-item" *ngIf="canApproveAttendance" routerLink="/attendance/team-list">
+        <ion-icon name="people-outline" style="color:#0ea5e9"></ion-icon>
+        <span>List Absensi</span>
+      </a>
+      <a class="sidebar-item" *ngIf="canManageOffice" routerLink="/attendance/set-office">
+        <ion-icon name="location-outline" style="color:#10b981"></ion-icon>
+        <span>Lokasi Kantor</span>
+      </a>
+    </nav>
+
+  </div>
+
+  <!-- Profile (pinned bottom) -->
+  <div class="sidebar-footer">
+    <div class="sidebar-divider"></div>
+    <a class="sidebar-item profile" (click)="onProfileClick()">
+      <ion-icon name="person-circle-outline"></ion-icon>
+      <span>{{ 'bottomNav.profile' | translate }}</span>
+    </a>
+  </div>
+</aside>

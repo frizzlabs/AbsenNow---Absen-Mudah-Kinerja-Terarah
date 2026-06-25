@@ -5,6 +5,7 @@ import { RouterModule, Router } from '@angular/router';
 import { LeaveHistoryCardComponent } from '../../../../shared/components/leave-history-card/leave-history-card.component';
 import { LeaveService } from '../../../../core/services/leave.service';
 import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
+import { BottomNavComponent } from '../../../../shared/components/bottom-nav/bottom-nav.component';
 
 interface HistoryGroup {
   monthYear: string;
@@ -16,7 +17,7 @@ interface HistoryGroup {
   templateUrl: './history.page.html',
   styleUrls: ['./history.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, RouterModule, LeaveHistoryCardComponent, PageHeaderComponent]
+  imports: [CommonModule, IonicModule, RouterModule, LeaveHistoryCardComponent, PageHeaderComponent, BottomNavComponent]
 })
 export class HistoryPage implements OnInit {
   isLoading = true;

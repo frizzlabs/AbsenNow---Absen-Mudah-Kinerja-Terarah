@@ -2,39 +2,54 @@ ion-content {
   --background: #f4f5f8;
 }
 
-.content-wrapper {
+.page-wrapper {
   padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
-.section-title {
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--ion-color-tertiary);
-  margin-bottom: 16px;
+// ── Panel (shared card wrapper) ─────────────────────────────────────
+.panel {
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.04);
 }
 
-.section-header {
+.panel-head {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 32px 0 16px 0;
-
-  .section-title {
-    margin: 0;
-  }
-
-  .view-history {
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--ion-color-primary);
-    cursor: pointer;
-  }
+  margin-bottom: 16px;
 }
 
+.panel-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+}
+
+.link-btn {
+  background: none;
+  border: none;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ion-color-primary);
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: background .15s;
+
+  &:hover { background: #eff4ff; }
+}
+
+// ── Balance grid ────────────────────────────────────────────────────
 .balance-grid {
   display: flex;
   gap: 12px;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
 
   .grid-col {
     flex: 1;
@@ -42,90 +57,118 @@ ion-content {
   }
 }
 
-.full-card {
+// ── Stats strip ─────────────────────────────────────────────────────
+.stats-strip {
   display: flex;
   align-items: center;
-  background: white;
-  border-radius: 12px;
-  padding: 16px;
-  margin-bottom: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
-
-  .icon-box {
-    width: 32px;
-    height: 32px;
-    border-radius: 8px;
-    background: rgba(var(--ion-color-primary-rgb), 0.1);
-    color: var(--ion-color-primary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 12px;
-
-    ion-icon {
-      font-size: 16px;
-    }
-  }
-
-  .content {
-    display: flex;
-    flex-direction: column;
-
-    .label {
-      font-size: 12px;
-      color: var(--ion-color-medium);
-      margin-bottom: 4px;
-    }
-
-    .value {
-      font-size: 16px;
-      font-weight: 600;
-      color: var(--ion-color-tertiary);
-    }
-  }
-}
-
-.stat-row {
-  display: flex;
   gap: 12px;
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 14px 16px;
+}
 
-  .stat-card {
-    flex: 1;
-    background: white;
-    border-radius: 12px;
-    padding: 16px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+.strip-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+}
 
-    .stat-header {
-      display: flex;
-      align-items: center;
-      margin-bottom: 8px;
+.strip-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 
-      ion-icon {
-        font-size: 16px;
-        margin-right: 6px;
+  ion-icon { font-size: 17px; }
 
-        &.text-success { color: var(--ion-color-success); }
-        &.text-warning { color: var(--ion-color-warning); }
-      }
-
-      span {
-        font-size: 11px;
-        font-weight: 600;
-        color: var(--ion-color-medium);
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-      }
-    }
-
-    .stat-value {
-      font-size: 18px;
-      font-weight: 600;
-      color: var(--ion-color-tertiary);
-    }
+  &.allocated {
+    background: rgba(59, 130, 246, .1);
+    color: #3b82f6;
+  }
+  &.used {
+    background: rgba(34, 197, 94, .1);
+    color: #22c55e;
+  }
+  &.pending {
+    background: rgba(245, 158, 11, .1);
+    color: #f59e0b;
   }
 }
 
+.strip-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.strip-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.strip-value {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.strip-divider {
+  width: 1px;
+  height: 32px;
+  background: #e2e8f0;
+  flex-shrink: 0;
+}
+
+// ── Requests ────────────────────────────────────────────────────────
+.empty-requests {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 0;
+  color: #94a3b8;
+
+  ion-icon { font-size: 40px; margin-bottom: 12px; }
+  p { margin: 0; font-size: 14px; }
+}
+
+.requests-list {
+  display: flex;
+  flex-direction: column;
+}
+
+// ── CTA button (desktop) ───────────────────────────────────────────
+.cta-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 14px 24px;
+  background: var(--ion-color-primary);
+  color: #fff;
+  border: none;
+  border-radius: 14px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all .15s;
+  box-shadow: 0 4px 14px rgba(27, 89, 248, .25);
+
+  ion-icon { font-size: 20px; }
+
+  &:hover {
+    background: #1548d4;
+    box-shadow: 0 6px 20px rgba(27, 89, 248, .35);
+  }
+}
+
+// ── Mobile footer ───────────────────────────────────────────────────
 .footer-pad {
   padding: 16px 24px 32px;
   background: #f4f5f8;
@@ -140,39 +183,54 @@ ion-content {
   }
 }
 
+// ── Visibility ──────────────────────────────────────────────────────
+.desktop-only { display: none; }
+
 // ── Desktop ─────────────────────────────────────────────────────────
 @media (min-width: 1024px) {
-  .content-wrapper {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 28px 0;
+  ion-content { --background: #f0f2f5; }
+
+  .desktop-only { display: flex; }
+  .mobile-only { display: none !important; }
+
+  .page-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    padding: 28px 32px;
+    align-items: start;
+  }
+
+  .col-left {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    position: sticky;
+    top: 24px;
+  }
+
+  .col-right {
+    min-height: 0;
+  }
+
+  .panel {
+    border: 1px solid rgba(0,0,0,.05);
+    border-radius: 18px;
+    padding: 24px;
   }
 
   .balance-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 14px;
   }
 
-  .stat-row {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+  .stats-strip {
+    padding: 16px 20px;
+    border-radius: 14px;
   }
 
-  .full-card, .stat-row .stat-card {
-    border: 1px solid #e2e8f0;
-    border-radius: 16px;
-    transition: border-color .2s, box-shadow .2s;
-    &:hover {
-      border-color: #cbd5e1;
-      box-shadow: 0 4px 12px rgba(0,0,0,.04);
-    }
-  }
-
-  .footer-pad {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 16px 0 32px;
-
-    .request-btn { max-width: 320px; }
+  .requests-list {
+    gap: 4px;
   }
 }

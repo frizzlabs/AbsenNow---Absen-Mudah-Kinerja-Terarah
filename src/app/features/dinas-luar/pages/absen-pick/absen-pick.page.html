@@ -1,3 +1,4 @@
+<app-bottom-nav></app-bottom-nav>
 <ion-content [fullscreen]="true" class="bg-light">
   <app-page-header title="Pilih Dinas Aktif"></app-page-header>
 
@@ -22,23 +23,25 @@
       <span class="empty-sub">Pengajuan dinas harus sudah disetujui dan dalam rentang waktu aktif.</span>
     </div>
 
-    <div *ngFor="let item of items" class="dinas-card" (click)="pick(item)">
-      <div class="card-top">
-        <div class="location-name">{{ item.location_name }}</div>
-        <ion-badge color="success">Aktif</ion-badge>
-      </div>
-      <div class="time-range">
-        <ion-icon name="time-outline"></ion-icon>
-        <span>{{ fmtDt(item.start_datetime) }} — {{ fmtDt(item.end_datetime) }}</span>
-      </div>
-      <div class="radius-row">
-        <ion-icon name="radio-button-on-outline"></ion-icon>
-        <span>Radius: {{ item.radius }}m</span>
-      </div>
-      <div class="details-preview">{{ item.work_details | slice:0:80 }}{{ item.work_details?.length > 80 ? '...' : '' }}</div>
-      <div class="arrow-row">
-        <span>Pilih untuk absen</span>
-        <ion-icon name="chevron-forward-outline"></ion-icon>
+    <div class="card-grid">
+      <div *ngFor="let item of items" class="dinas-card" (click)="pick(item)">
+        <div class="card-top">
+          <div class="location-name">{{ item.location_name }}</div>
+          <ion-badge color="success">Aktif</ion-badge>
+        </div>
+        <div class="time-range">
+          <ion-icon name="time-outline"></ion-icon>
+          <span>{{ fmtDt(item.start_datetime) }} — {{ fmtDt(item.end_datetime) }}</span>
+        </div>
+        <div class="radius-row">
+          <ion-icon name="radio-button-on-outline"></ion-icon>
+          <span>Radius: {{ item.radius }}m</span>
+        </div>
+        <div class="details-preview">{{ item.work_details | slice:0:80 }}{{ item.work_details?.length > 80 ? '...' : '' }}</div>
+        <div class="arrow-row">
+          <span>Pilih untuk absen</span>
+          <ion-icon name="chevron-forward-outline"></ion-icon>
+        </div>
       </div>
     </div>
   </div>

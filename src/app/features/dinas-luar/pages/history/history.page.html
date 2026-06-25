@@ -1,3 +1,4 @@
+<app-bottom-nav></app-bottom-nav>
 <ion-content [fullscreen]="true" class="bg-light">
   <app-page-header title="Riwayat Dinas Luar"></app-page-header>
 
@@ -33,31 +34,33 @@
         <span>Tap "Ajukan Dinas Baru" untuk membuat pengajuan.</span>
       </div>
 
-      <div *ngFor="let item of mine" class="dinas-card" (click)="openDetail(item)" style="cursor: pointer;">
-        <div class="card-content">
-          <div class="card-top">
-            <span class="location-name">{{ item.location_name }}</span>
-            <ion-badge [color]="statusColor(item.status)">{{ statusLabel(item.status) }}</ion-badge>
-          </div>
-          <div class="time-range">
-            <ion-icon name="time-outline"></ion-icon>
-            <span>{{ fmtDt(item.start_datetime) }}</span>
-          </div>
-          <div class="time-range">
-            <ion-icon name="flag-outline"></ion-icon>
-            <span>{{ fmtDt(item.end_datetime) }}</span>
-          </div>
-          <div class="work-preview">{{ item.work_details | slice:0:80 }}{{ item.work_details?.length > 80 ? '...' : '' }}</div>
-          <div class="review-note" *ngIf="item.review_note">
-            <ion-icon name="chatbubble-outline"></ion-icon>
-            <span>{{ item.review_note }}</span>
-          </div>
-          <div class="pending-hint" *ngIf="item.status === 'pending'">
-            <ion-icon name="time-outline"></ion-icon>
-            <span>Menunggu persetujuan atasan</span>
-          </div>
-          <div class="tap-hint">
-            <ion-icon name="chevron-forward-outline"></ion-icon>
+      <div class="card-grid">
+        <div *ngFor="let item of mine" class="dinas-card" (click)="openDetail(item)" style="cursor: pointer;">
+          <div class="card-content">
+            <div class="card-top">
+              <span class="location-name">{{ item.location_name }}</span>
+              <ion-badge [color]="statusColor(item.status)">{{ statusLabel(item.status) }}</ion-badge>
+            </div>
+            <div class="time-range">
+              <ion-icon name="time-outline"></ion-icon>
+              <span>{{ fmtDt(item.start_datetime) }}</span>
+            </div>
+            <div class="time-range">
+              <ion-icon name="flag-outline"></ion-icon>
+              <span>{{ fmtDt(item.end_datetime) }}</span>
+            </div>
+            <div class="work-preview">{{ item.work_details | slice:0:80 }}{{ item.work_details?.length > 80 ? '...' : '' }}</div>
+            <div class="review-note" *ngIf="item.review_note">
+              <ion-icon name="chatbubble-outline"></ion-icon>
+              <span>{{ item.review_note }}</span>
+            </div>
+            <div class="pending-hint" *ngIf="item.status === 'pending'">
+              <ion-icon name="time-outline"></ion-icon>
+              <span>Menunggu persetujuan atasan</span>
+            </div>
+            <div class="tap-hint">
+              <ion-icon name="chevron-forward-outline"></ion-icon>
+            </div>
           </div>
         </div>
       </div>
@@ -70,29 +73,31 @@
         <p>Belum ada dinas yang direview.</p>
       </div>
 
-      <div *ngFor="let item of reviewed" class="dinas-card" (click)="openDetail(item)" style="cursor: pointer;">
-        <div class="card-content">
-          <div class="card-top">
-            <span class="location-name">{{ item.location_name }}</span>
-            <ion-badge [color]="statusColor(item.status)">{{ statusLabel(item.status) }}</ion-badge>
-          </div>
-          <div class="emp-name" *ngIf="item.user">
-            <ion-icon name="person-outline"></ion-icon>
-            <span>{{ item.user.name }}</span>
-          </div>
-          <div class="time-range">
-            <ion-icon name="time-outline"></ion-icon>
-            <span>{{ fmtDt(item.start_datetime) }} — {{ fmtDt(item.end_datetime) }}</span>
-          </div>
-          <div class="review-note" *ngIf="item.review_note">
-            <ion-icon name="chatbubble-outline"></ion-icon>
-            <span>{{ item.review_note }}</span>
-          </div>
-          <div class="reviewed-at" *ngIf="item.reviewed_at">
-            Direview: {{ fmtDt(item.reviewed_at) }}
-          </div>
-          <div class="tap-hint">
-            <ion-icon name="chevron-forward-outline"></ion-icon>
+      <div class="card-grid">
+        <div *ngFor="let item of reviewed" class="dinas-card" (click)="openDetail(item)" style="cursor: pointer;">
+          <div class="card-content">
+            <div class="card-top">
+              <span class="location-name">{{ item.location_name }}</span>
+              <ion-badge [color]="statusColor(item.status)">{{ statusLabel(item.status) }}</ion-badge>
+            </div>
+            <div class="emp-name" *ngIf="item.user">
+              <ion-icon name="person-outline"></ion-icon>
+              <span>{{ item.user.name }}</span>
+            </div>
+            <div class="time-range">
+              <ion-icon name="time-outline"></ion-icon>
+              <span>{{ fmtDt(item.start_datetime) }} — {{ fmtDt(item.end_datetime) }}</span>
+            </div>
+            <div class="review-note" *ngIf="item.review_note">
+              <ion-icon name="chatbubble-outline"></ion-icon>
+              <span>{{ item.review_note }}</span>
+            </div>
+            <div class="reviewed-at" *ngIf="item.reviewed_at">
+              Direview: {{ fmtDt(item.reviewed_at) }}
+            </div>
+            <div class="tap-hint">
+              <ion-icon name="chevron-forward-outline"></ion-icon>
+            </div>
           </div>
         </div>
       </div>

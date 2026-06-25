@@ -4,13 +4,14 @@ import { IonicModule } from '@ionic/angular';
 import { Router, RouterModule } from '@angular/router';
 import { PermissionService } from '../../../../core/services/permission.service';
 import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
+import { BottomNavComponent } from '../../../../shared/components/bottom-nav/bottom-nav.component';
 
 @Component({
   selector: 'app-permission-home',
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, RouterModule, PageHeaderComponent]
+  imports: [CommonModule, IonicModule, RouterModule, PageHeaderComponent, BottomNavComponent]
 })
 export class HomePage implements OnInit {
   selectedSegment = 'all';

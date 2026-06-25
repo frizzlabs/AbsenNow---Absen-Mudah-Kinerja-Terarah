@@ -1,4 +1,5 @@
-<ion-content class="ion-padding">
+<app-bottom-nav></app-bottom-nav>
+<ion-content>
   <div class="success-container">
     <div class="success-icon-wrapper">
       <div class="success-icon-bg"></div>
@@ -7,18 +8,18 @@
       </div>
     </div>
 
-    <h1 class="success-title">Overtime Request Submitted</h1>
+    <h1 class="success-title">Pengajuan Lembur Dikirim</h1>
     <p class="success-message">
-      Your application for overtime has been sent to your supervisor.
+      Pengajuan lembur Anda telah dikirim ke supervisor untuk ditinjau.
     </p>
 
     <div class="details-card" *ngIf="submitted">
       <div class="detail-row">
-        <div class="icon-box primary-light">
-          <ion-icon name="calendar-outline" color="primary"></ion-icon>
+        <div class="icon-box">
+          <ion-icon name="calendar-outline"></ion-icon>
         </div>
         <div class="detail-content">
-          <div class="label">Date</div>
+          <div class="label">Tanggal</div>
           <div class="value">{{ formatDate(submitted.overtime_date) }}</div>
         </div>
       </div>
@@ -26,23 +27,23 @@
       <div class="divider"></div>
 
       <div class="detail-row">
-        <div class="icon-box primary-light">
-          <ion-icon name="time-outline" color="primary"></ion-icon>
+        <div class="icon-box">
+          <ion-icon name="time-outline"></ion-icon>
         </div>
         <div class="detail-content">
-          <div class="label">Time Window</div>
-          <div class="value">{{ formatTime(submitted.start_time) }} - {{ formatTime(submitted.end_time) }}</div>
+          <div class="label">Waktu</div>
+          <div class="value">{{ formatTime(submitted.start_time) }} — {{ formatTime(submitted.end_time) }} WIB</div>
         </div>
       </div>
 
       <div class="divider"></div>
 
       <div class="detail-row">
-        <div class="icon-box primary-light">
-          <ion-icon name="pie-chart-outline" color="primary"></ion-icon>
+        <div class="icon-box">
+          <ion-icon name="timer-outline"></ion-icon>
         </div>
         <div class="detail-content">
-          <div class="label">Total Duration</div>
+          <div class="label">Total Durasi</div>
           <div class="value">{{ formatDuration(submitted.duration_hours) }}</div>
         </div>
       </div>
@@ -53,10 +54,10 @@
 <ion-footer class="ion-no-border">
   <div class="footer-wrapper">
     <ion-button expand="block" color="primary" class="primary-btn" (click)="backToOvertime()">
-      Back to overtime
+      Kembali ke Lembur
     </ion-button>
     <ion-button expand="block" fill="outline" color="primary" class="outline-btn" (click)="goToApproval()">
-      Go to approval
+      Lihat Riwayat
     </ion-button>
   </div>
 </ion-footer>

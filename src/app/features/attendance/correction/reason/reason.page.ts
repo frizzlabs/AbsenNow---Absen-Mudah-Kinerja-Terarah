@@ -6,13 +6,14 @@ import { Router } from '@angular/router';
 import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
 import { CorrectionService, CORRECTION_TYPES } from '../../../../core/services/correction.service';
+import { BottomNavComponent } from '../../../../shared/components/bottom-nav/bottom-nav.component';
 
 @Component({
   selector: 'app-reason',
   templateUrl: './reason.page.html',
   styleUrls: ['./reason.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, PageHeaderComponent, ButtonComponent]
+  imports: [IonicModule, CommonModule, FormsModule, PageHeaderComponent, ButtonComponent, BottomNavComponent]
 })
 export class ReasonPage {
   types = CORRECTION_TYPES;

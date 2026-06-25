@@ -1,76 +1,109 @@
+<app-bottom-nav></app-bottom-nav>
 <ion-content color="light">
   <app-page-header [title]="'Leave' | translate"></app-page-header>
-  <div class="content-wrapper">
-    <div class="section-title">{{ 'leave.leaveBalance' | translate }}</div>
-    
-    <div *ngIf="isLoading" style="display:flex;justify-content:center;padding:32px 0">
+
+  <div class="page-wrapper">
+
+    <div *ngIf="isLoading" style="display:flex;justify-content:center;padding:48px 0">
       <ion-spinner name="crescent" color="primary"></ion-spinner>
     </div>
 
     <ng-container *ngIf="!isLoading">
-      <div class="balance-grid">
-        <div class="grid-col" *ngFor="let bal of balances">
-          <app-leave-balance-card
-            [title]="bal.leave_type"
-            subtitle="Kuota tahunan"
-            [daysLeft]="bal.allocated - bal.used"
-            [usedDays]="bal.used"
-            [totalDays]="bal.allocated"
-            colorClass="primary">
-          </app-leave-balance-card>
-        </div>
-      </div>
 
-      <div class="full-card">
-        <div class="icon-box">
-          <ion-icon name="calendar-outline"></ion-icon>
-        </div>
-        <div class="content">
-          <div class="label">{{ 'leave.totalAllocated' | translate }}</div>
-          <div class="value">{{ getAllocatedDays() }} {{ 'leave.days' | translate }}</div>
-        </div>
-      </div>
-
-      <div class="stat-row">
-        <div class="stat-card">
-          <div class="stat-header">
-            <ion-icon name="checkmark-circle-outline" class="text-success"></ion-icon>
-            <span>{{ 'leave.usedDays' | translate }}</span>
+      <!-- LEFT COLUMN (desktop) / TOP (mobile) -->
+      <div class="col-left">
+        <div class="panel">
+          <div class="panel-head">
+            <h3 class="panel-title">{{ 'leave.leaveBalance' | translate }}</h3>
           </div>
-          <div class="stat-value">{{ getUsedDays() }} {{ 'leave.days' | translate }}</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-header">
-            <ion-icon name="time-outline" class="text-warning"></ion-icon>
-            <span>{{ 'leave.pending' | translate }}</span>
+
+          <!-- Balance cards -->
+          <div class="balance-grid">
+            <div class="grid-col" *ngFor="let bal of balances">
+              <app-leave-balance-card
+                [title]="bal.leave_type"
+                subtitle="Kuota tahunan"
+                [daysLeft]="bal.allocated - bal.used"
+                [usedDays]="bal.used"
+                [totalDays]="bal.allocated"
+                colorClass="primary">
+              </app-leave-balance-card>
+            </div>
           </div>
-          <div class="stat-value">{{ getPendingRequestsCount() }} {{ 'leave.days' | translate }}</div>
+
+          <!-- Stats row -->
+          <div class="stats-strip">
+            <div class="strip-item">
+              <div class="strip-icon allocated">
+                <ion-icon name="calendar-outline"></ion-icon>
+              </div>
+              <div class="strip-text">
+                <span class="strip-label">{{ 'leave.totalAllocated' | translate }}</span>
+                <span class="strip-value">{{ getAllocatedDays() }} {{ 'leave.days' | translate }}</span>
+              </div>
+            </div>
+            <div class="strip-divider"></div>
+            <div class="strip-item">
+              <div class="strip-icon used">
+                <ion-icon name="checkmark-circle-outline"></ion-icon>
+              </div>
+              <div class="strip-text">
+                <span class="strip-label">{{ 'leave.usedDays' | translate }}</span>
+                <span class="strip-value">{{ getUsedDays() }} {{ 'leave.days' | translate }}</span>
+              </div>
+            </div>
+            <div class="strip-divider"></div>
+            <div class="strip-item">
+              <div class="strip-icon pending">
+                <ion-icon name="time-outline"></ion-icon>
+              </div>
+              <div class="strip-text">
+                <span class="strip-label">{{ 'leave.pending' | translate }}</span>
+                <span class="strip-value">{{ getPendingRequestsCount() }} {{ 'leave.days' | translate }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CTA Button (desktop: inside left col) -->
+        <button class="cta-btn desktop-only" (click)="requestLeave()">
+          <ion-icon name="add-outline"></ion-icon>
+          <span>{{ 'leave.requestLeave' | translate }}</span>
+        </button>
+      </div>
+
+      <!-- RIGHT COLUMN (desktop) / BOTTOM (mobile) -->
+      <div class="col-right">
+        <div class="panel">
+          <div class="panel-head">
+            <h3 class="panel-title">{{ 'leave.currentRequests' | translate }}</h3>
+            <button class="link-btn" (click)="viewHistory()">{{ 'leave.viewHistory' | translate }}</button>
+          </div>
+
+          <div *ngIf="requests.length === 0" class="empty-requests">
+            <ion-icon name="document-outline"></ion-icon>
+            <p>Belum ada pengajuan cuti</p>
+          </div>
+
+          <div class="requests-list">
+            <app-leave-request-card
+              *ngFor="let req of requests.slice(0, 5)"
+              [month]="formatMonth(req.start_date)"
+              [day]="formatDay(req.start_date)"
+              [title]="req.leave_type"
+              [subtitle]="formatSubtitle(req)"
+              [status]="req.status">
+            </app-leave-request-card>
+          </div>
         </div>
       </div>
 
-      <div class="section-header">
-        <div class="section-title">{{ 'leave.currentRequests' | translate }}</div>
-        <div class="view-history" (click)="viewHistory()">{{ 'leave.viewHistory' | translate }}</div>
-      </div>
-
-      <div *ngIf="requests.length === 0" style="text-align:center;color:#98A2B3;padding:24px 0;font-size:14px">
-        Belum ada pengajuan cuti
-      </div>
-
-      <app-leave-request-card
-        *ngFor="let req of requests.slice(0, 5)"
-        [month]="formatMonth(req.start_date)"
-        [day]="formatDay(req.start_date)"
-        [title]="req.leave_type"
-        [subtitle]="formatSubtitle(req)"
-        [status]="req.status">
-      </app-leave-request-card>
     </ng-container>
-
   </div>
 </ion-content>
 
-<ion-footer class="ion-no-border">
+<!-- Mobile footer CTA -->
+<ion-footer class="ion-no-border mobile-only">
   <div class="footer-pad">
     <ion-button expand="block" shape="round" color="primary" class="request-btn" (click)="requestLeave()">
       <ion-icon name="add-outline" slot="start"></ion-icon>

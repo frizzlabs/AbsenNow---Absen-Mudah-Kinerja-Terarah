@@ -8,13 +8,14 @@ import { LeaveRadioCardComponent } from '../../../../shared/components/leave-rad
 import { FormsModule } from '@angular/forms';
 import { LeaveService } from '../../../../core/services/leave.service';
 import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
+import { BottomNavComponent } from '../../../../shared/components/bottom-nav/bottom-nav.component';
 
 @Component({
   selector: 'app-create-delegate',
   templateUrl: './create-delegate.page.html',
   styleUrls: ['./create-delegate.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, RouterModule, FormsModule, TranslatePipe, LeaveStepperComponent, LeaveRadioCardComponent, PageHeaderComponent]
+  imports: [CommonModule, IonicModule, RouterModule, FormsModule, TranslatePipe, LeaveStepperComponent, LeaveRadioCardComponent, PageHeaderComponent, BottomNavComponent]
 })
 export class CreateDelegatePage implements OnInit {
   skipDelegate: boolean = false;
@@ -29,7 +30,9 @@ export class CreateDelegatePage implements OnInit {
     private leaveService: LeaveService
   ) { }
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  ionViewWillEnter() {
     this.loadDelegates();
   }
 

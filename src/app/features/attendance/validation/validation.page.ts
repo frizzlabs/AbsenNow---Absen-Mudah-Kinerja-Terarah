@@ -9,13 +9,14 @@ import { AttendanceService } from '../../../core/services/attendance.service';
 import { RoleService } from '../../../core/services/role.service';
 import * as L from 'leaflet';
 import { HttpClient } from '@angular/common/http';
+import { BottomNavComponent } from '../../../shared/components/bottom-nav/bottom-nav.component';
 
 @Component({
   selector: 'app-validation',
   templateUrl: './validation.page.html',
   styleUrls: ['./validation.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, ButtonComponent, RouterModule]
+  imports: [IonicModule, CommonModule, FormsModule, ButtonComponent, RouterModule, BottomNavComponent]
 })
 export class ValidationPage implements OnInit {
   @ViewChild('bottomSheet', { static: false }) bottomSheet!: ElementRef;

@@ -5,13 +5,14 @@ import { IonicModule, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { PermissionService } from '../../../../core/services/permission.service';
 import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
+import { BottomNavComponent } from '../../../../shared/components/bottom-nav/bottom-nav.component';
 
 @Component({
   selector: 'app-permission-request',
   templateUrl: './request.page.html',
   styleUrls: ['./request.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, FormsModule, PageHeaderComponent]
+  imports: [CommonModule, IonicModule, FormsModule, PageHeaderComponent, BottomNavComponent]
 })
 export class RequestPage implements OnInit {
   title: string = '';

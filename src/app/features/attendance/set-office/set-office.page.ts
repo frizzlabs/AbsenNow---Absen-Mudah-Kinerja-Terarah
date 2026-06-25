@@ -10,13 +10,14 @@ import { Subscription } from 'rxjs';
 import { AttendanceService } from '../../../core/services/attendance.service';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
 import { ButtonComponent } from '../../../shared/components/button/button.component';
+import { BottomNavComponent } from '../../../shared/components/bottom-nav/bottom-nav.component';
 
 @Component({
   selector: 'app-set-office',
   templateUrl: './set-office.page.html',
   styleUrls: ['./set-office.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, PageHeaderComponent, ButtonComponent]
+  imports: [IonicModule, CommonModule, FormsModule, PageHeaderComponent, ButtonComponent, BottomNavComponent]
 })
 export class SetOfficePage implements OnInit {
   offices: any[] = [];

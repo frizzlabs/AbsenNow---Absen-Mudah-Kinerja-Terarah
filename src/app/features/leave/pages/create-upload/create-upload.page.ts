@@ -6,13 +6,14 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { LeaveStepperComponent } from '../../../../shared/components/leave-stepper/leave-stepper.component';
 import { LeaveService } from '../../../../core/services/leave.service';
 import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
+import { BottomNavComponent } from '../../../../shared/components/bottom-nav/bottom-nav.component';
 
 @Component({
   selector: 'app-create-upload',
   templateUrl: './create-upload.page.html',
   styleUrls: ['./create-upload.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, RouterModule, TranslatePipe, LeaveStepperComponent, PageHeaderComponent]
+  imports: [CommonModule, IonicModule, RouterModule, TranslatePipe, LeaveStepperComponent, PageHeaderComponent, BottomNavComponent]
 })
 export class CreateUploadPage implements OnInit {
   fileName: string | null = null;

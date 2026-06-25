@@ -17,9 +17,11 @@ ion-content {
 
 // ── Desktop ─────────────────────────────────────────────────────────
 @media (min-width: 1024px) {
-  .content-wrapper, .page-container {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 24px 0;
+  ion-content { --background: #f0f2f5; }
+
+  .content-wrapper {
+    max-width: none;
+    margin: 0;
+    padding: 24px 32px 40px;
   }
 }

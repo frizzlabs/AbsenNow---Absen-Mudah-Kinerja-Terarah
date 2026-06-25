@@ -5,13 +5,14 @@ import { IonicModule, ToastController, LoadingController } from '@ionic/angular'
 import { Router, ActivatedRoute } from '@angular/router';
 import { ActivityService } from '../../../../core/services/activity.service';
 import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
+import { BottomNavComponent } from '../../../../shared/components/bottom-nav/bottom-nav.component';
 
 @Component({
   selector: 'app-activity-edit',
   templateUrl: './edit.page.html',
   styleUrls: ['./edit.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, FormsModule, PageHeaderComponent]
+  imports: [CommonModule, IonicModule, FormsModule, PageHeaderComponent, BottomNavComponent]
 })
 export class EditPage implements OnInit {
   activityId: number | null = null;

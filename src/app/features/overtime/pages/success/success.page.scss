@@ -139,13 +139,23 @@ ion-content {
 
 // ── Desktop ─────────────────────────────────────────────────────────
 @media (min-width: 1024px) {
-  .content-wrapper, .page-container, .wrap {
-    max-width: 720px;
+  .success-container {
+    max-width: 480px;
     margin: 0 auto;
-    padding: 24px 0;
+    padding-top: 80px;
   }
-  .footer-pad, .footer-wrapper, .footer-wrap {
-    max-width: 720px;
+
+  .details-card {
+    border-radius: 18px;
+  }
+
+  .footer-wrapper {
+    max-width: 480px;
     margin: 0 auto;
+    padding: 16px 24px 32px;
+
+    .primary-btn, .outline-btn {
+      --border-radius: 12px;
+    }
   }
 }

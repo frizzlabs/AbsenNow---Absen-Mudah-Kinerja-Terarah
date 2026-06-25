@@ -8,6 +8,7 @@ import { ExpenseCardComponent } from '../../../../shared/components/expense-card
 import { ExpenseService } from '../../../../core/services/expense.service';
 import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
+import { BottomNavComponent } from '../../../../shared/components/bottom-nav/bottom-nav.component';
 
 interface ExpenseGroup {
   month: string;
@@ -19,7 +20,7 @@ interface ExpenseGroup {
   templateUrl: './history.page.html',
   styleUrls: ['./history.page.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, IonicModule, RouterModule, TranslatePipe, ExpenseCardComponent, CurrencyPipe, PageHeaderComponent, ButtonComponent]
+  imports: [CommonModule, FormsModule, IonicModule, RouterModule, TranslatePipe, ExpenseCardComponent, CurrencyPipe, PageHeaderComponent, ButtonComponent, BottomNavComponent]
 })
 export class HistoryPage implements OnInit {
   groups: ExpenseGroup[] = [];

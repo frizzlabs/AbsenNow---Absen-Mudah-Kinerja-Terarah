@@ -5,13 +5,14 @@ import { Router } from '@angular/router';
 import { DinasLuarService } from '../../../../core/services/dinas-luar.service';
 import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
+import { BottomNavComponent } from '../../../../shared/components/bottom-nav/bottom-nav.component';
 
 @Component({
   selector: 'app-confirm',
   templateUrl: './confirm.page.html',
   styleUrls: ['./confirm.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, PageHeaderComponent, ButtonComponent]
+  imports: [IonicModule, CommonModule, PageHeaderComponent, ButtonComponent, BottomNavComponent]
 })
 export class ConfirmPage {
   isSubmitting = false;

@@ -158,28 +158,51 @@
 
 // ── Desktop ─────────────────────────────────────────────────────────
 @media (min-width: 1024px) {
+  .bg-light { --background: #f0f2f5; }
+
   .tab-bar {
     max-width: 100%;
     margin: 0;
-    padding: 12px 28px 0;
+    padding: 12px 32px 0;
   }
 
   .page-container {
-    max-width: 100%;
+    max-width: none;
     margin: 0;
-    padding: 24px 28px 32px;
+    padding: 24px 32px 40px;
   }
 
   .quick-actions {
-    max-width: 400px;
+    max-width: none;
+    display: flex;
+    gap: 12px;
+
+    .quick-btn {
+      flex: 0 0 auto;
+      padding: 12px 24px;
+    }
+  }
+
+  // card grid for dinas items
+  :host {
+    ng-container {
+      display: contents;
+    }
+  }
+
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 16px;
   }
 
   .dinas-card {
-    border: 1px solid #e2e8f0;
+    border: 1px solid rgba(0,0,0,.06);
+    border-radius: 18px;
     transition: border-color .2s, box-shadow .2s;
     &:hover {
       border-color: #cbd5e1;
-      box-shadow: 0 4px 12px rgba(0,0,0,.04);
+      box-shadow: 0 4px 16px rgba(0,0,0,.06);
     }
   }
 }

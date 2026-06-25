@@ -5,13 +5,15 @@ import { IonicModule, ToastController, LoadingController } from '@ionic/angular'
 import { Router } from '@angular/router';
 import { OvertimeService } from '../../../../core/services/overtime.service';
 import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
+import { BottomNavComponent } from '../../../../shared/components/bottom-nav/bottom-nav.component';
+import { OvertimeStepperComponent } from '../../../../shared/components/overtime-stepper/overtime-stepper.component';
 
 @Component({
   selector: 'app-overtime-request-step2',
   templateUrl: './request-step2.page.html',
   styleUrls: ['./request-step2.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, FormsModule, PageHeaderComponent]
+  imports: [CommonModule, IonicModule, FormsModule, PageHeaderComponent, BottomNavComponent, OvertimeStepperComponent]
 })
 export class RequestStep2Page implements OnInit {
   draft: any = null;

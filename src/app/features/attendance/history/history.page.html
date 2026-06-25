@@ -1,88 +1,203 @@
+<app-bottom-nav></app-bottom-nav>
 <ion-content [fullscreen]="true">
   <app-page-header [title]="'Attendance History' | translate"></app-page-header>
-  <div class="page-container">
 
-    <div class="calendar-picker">
-      <div class="month-selector">
-        <app-card [padding]="false" class="nav-btn" (click)="prevWeek()">
-          <ion-icon name="chevron-back-outline"></ion-icon>
-        </app-card>
-        <div class="month-text">
-          <h3 class="text-h4">{{ monthYearLabel }}</h3>
-          <span class="text-body-small-regular text-medium">{{ weekLabel }}</span>
+  <div class="page-wrapper">
+
+    <!-- CALENDAR STRIP -->
+    <div class="calendar-strip">
+      <div class="calendar-picker">
+        <div class="month-selector">
+          <app-card [padding]="false" class="nav-btn" (click)="prevWeek()">
+            <ion-icon name="chevron-back-outline"></ion-icon>
+          </app-card>
+          <div class="month-text">
+            <h3 class="text-h4">{{ monthYearLabel }}</h3>
+            <span class="text-body-small-regular text-medium">{{ weekLabel }}</span>
+          </div>
+          <app-card [padding]="false" class="nav-btn" (click)="nextWeek()">
+            <ion-icon name="chevron-forward-outline"></ion-icon>
+          </app-card>
         </div>
-        <app-card [padding]="false" class="nav-btn" (click)="nextWeek()">
-          <ion-icon name="chevron-forward-outline"></ion-icon>
-        </app-card>
+
+        <div class="days-row">
+          <div
+            class="day"
+            *ngFor="let day of weekDays"
+            [class.active]="isSameDay(day.date, selectedDate)"
+            [class.disabled]="day.isDisabled"
+            (click)="selectDay(day)">
+            <span class="day-name">{{ day.dayName }}</span>
+            <span class="day-num">{{ day.dayNum }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MOBILE: Selected day detail -->
+    <div class="history-section mobile-only">
+      <h4 class="section-title text-body-small-semibold">{{ formatSelectedDate(selectedDate) }}</h4>
+
+      <div *ngIf="isLoading" class="loading-state">
+        <ion-spinner name="crescent" color="primary"></ion-spinner>
       </div>
 
-      <div class="days-row">
+      <div *ngIf="!isLoading && getFilteredLogs().length === 0" class="empty-state">
+        <ion-icon name="calendar-outline"></ion-icon>
+        <p>Tidak ada data absensi untuk tanggal ini</p>
+      </div>
+
+      <div class="history-list" *ngIf="!isLoading && getFilteredLogs().length > 0">
+        <app-card class="history-card" *ngFor="let log of getFilteredLogs()">
+          <div class="card-header">
+            <div class="shift-info">
+              <div class="icon-box bg-blue-light text-blue">
+                <ion-icon name="calendar-outline"></ion-icon>
+              </div>
+              <div class="shift-text">
+                <h4 class="text-body-medium-semibold">{{ formatLogDate(log.date) }}</h4>
+                <span class="text-body-small-regular text-medium">{{ 'attendance.regularShift' | translate }}</span>
+              </div>
+            </div>
+            <app-status-badge [color]="getStatusColor(log.status)" [text]="getStatusLabel(log.status)"></app-status-badge>
+          </div>
+
+          <div class="time-logs">
+            <div class="log">
+              <span class="text-body-small-regular text-medium">{{ 'home.checkIn' | translate }}</span>
+              <div class="time-val">
+                <ion-icon name="log-in-outline"></ion-icon>
+                <span class="text-h4">{{ formatTime24(log.check_in) }}</span>
+              </div>
+              <img *ngIf="log.image_in" [src]="getImageUrl(log.image_in)" class="face-photo" (click)="openLightbox(getImageUrl(log.image_in))" />
+            </div>
+            <div class="log">
+              <span class="text-body-small-regular text-medium">{{ 'home.checkOut' | translate }}</span>
+              <div class="time-val">
+                <ion-icon name="log-out-outline"></ion-icon>
+                <span class="text-h4">{{ formatTime24(log.check_out) }}</span>
+              </div>
+              <img *ngIf="log.image_out" [src]="getImageUrl(log.image_out)" class="face-photo" (click)="openLightbox(getImageUrl(log.image_out))" />
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="duration-footer">
+            <span class="text-body-small-regular text-medium">{{ 'attendance.totalDuration' | translate }}</span>
+            <span class="text-body-medium-semibold text-dark">{{ calculateDuration(log.check_in, log.check_out) }}</span>
+          </div>
+        </app-card>
+      </div>
+    </div>
+
+    <!-- DESKTOP: Weekly overview grid -->
+    <div class="weekly-section desktop-only">
+      <h4 class="section-title text-body-small-semibold">Ringkasan Minggu Ini</h4>
+
+      <div *ngIf="isLoading" class="loading-state">
+        <ion-spinner name="crescent" color="primary"></ion-spinner>
+      </div>
+
+      <div class="weekly-grid" *ngIf="!isLoading">
         <div
-          class="day"
+          class="week-card"
           *ngFor="let day of weekDays"
           [class.active]="isSameDay(day.date, selectedDate)"
           [class.disabled]="day.isDisabled"
+          [class.has-data]="getLogForDay(day)"
           (click)="selectDay(day)">
-          <span class="day-name">{{ day.dayName }}</span>
-          <span class="day-num">{{ day.dayNum }}</span>
+
+          <!-- Day header -->
+          <div class="week-card-head">
+            <div class="week-card-day">
+              <span class="wc-dayname">{{ day.dayName }}</span>
+              <span class="wc-daynum">{{ day.dayNum }}</span>
+            </div>
+            <app-status-badge
+              *ngIf="getLogForDay(day) as log"
+              [color]="getStatusColor(log.status)"
+              [text]="getStatusLabel(log.status)">
+            </app-status-badge>
+            <span class="wc-no-data" *ngIf="!getLogForDay(day) && !day.isDisabled">—</span>
+          </div>
+
+          <!-- Time info -->
+          <ng-container *ngIf="getLogForDay(day) as log">
+            <div class="week-card-times">
+              <div class="wc-time">
+                <ion-icon name="log-in-outline"></ion-icon>
+                <span>{{ formatTime24(log.check_in) }}</span>
+              </div>
+              <div class="wc-time">
+                <ion-icon name="log-out-outline"></ion-icon>
+                <span>{{ formatTime24(log.check_out) }}</span>
+              </div>
+            </div>
+            <div class="week-card-duration">
+              <ion-icon name="timer-outline"></ion-icon>
+              <span>{{ calculateDuration(log.check_in, log.check_out) }}</span>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+
+      <!-- Selected day detail (expanded) -->
+      <div class="detail-panel" *ngIf="!isLoading && getFilteredLogs().length > 0">
+        <h4 class="section-title text-body-small-semibold">{{ formatSelectedDate(selectedDate) }}</h4>
+
+        <div class="detail-grid">
+          <app-card class="history-card" *ngFor="let log of getFilteredLogs()">
+            <div class="card-header">
+              <div class="shift-info">
+                <div class="icon-box bg-blue-light text-blue">
+                  <ion-icon name="calendar-outline"></ion-icon>
+                </div>
+                <div class="shift-text">
+                  <h4 class="text-body-medium-semibold">{{ formatLogDate(log.date) }}</h4>
+                  <span class="text-body-small-regular text-medium">{{ 'attendance.regularShift' | translate }}</span>
+                </div>
+              </div>
+              <app-status-badge [color]="getStatusColor(log.status)" [text]="getStatusLabel(log.status)"></app-status-badge>
+            </div>
+
+            <div class="time-logs">
+              <div class="log">
+                <span class="text-body-small-regular text-medium">{{ 'home.checkIn' | translate }}</span>
+                <div class="time-val">
+                  <ion-icon name="log-in-outline"></ion-icon>
+                  <span class="text-h4">{{ formatTime24(log.check_in) }}</span>
+                </div>
+                <img *ngIf="log.image_in" [src]="getImageUrl(log.image_in)" class="face-photo" (click)="openLightbox(getImageUrl(log.image_in))" />
+              </div>
+              <div class="log">
+                <span class="text-body-small-regular text-medium">{{ 'home.checkOut' | translate }}</span>
+                <div class="time-val">
+                  <ion-icon name="log-out-outline"></ion-icon>
+                  <span class="text-h4">{{ formatTime24(log.check_out) }}</span>
+                </div>
+                <img *ngIf="log.image_out" [src]="getImageUrl(log.image_out)" class="face-photo" (click)="openLightbox(getImageUrl(log.image_out))" />
+              </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="duration-footer">
+              <span class="text-body-small-regular text-medium">{{ 'attendance.totalDuration' | translate }}</span>
+              <span class="text-body-medium-semibold text-dark">{{ calculateDuration(log.check_in, log.check_out) }}</span>
+            </div>
+          </app-card>
         </div>
       </div>
     </div>
+
   </div>
 
-  <div class="list-section">
-    <h4 class="section-title text-body-small-semibold">{{ formatSelectedDate(selectedDate) }}</h4>
-
-    <div *ngIf="isLoading" class="loading-state">
-      <ion-spinner name="crescent" color="primary"></ion-spinner>
-    </div>
-
-    <div *ngIf="!isLoading && getFilteredLogs().length === 0" class="empty-state">
-      <ion-icon name="calendar-outline"></ion-icon>
-      <p>Tidak ada data absensi untuk tanggal ini</p>
-    </div>
-
-    <div class="history-list" *ngIf="!isLoading && getFilteredLogs().length > 0">
-      <app-card class="history-card" *ngFor="let log of getFilteredLogs()">
-        <div class="card-header">
-          <div class="shift-info">
-            <div class="icon-box bg-blue-light text-blue">
-              <ion-icon name="calendar-outline"></ion-icon>
-            </div>
-            <div class="shift-text">
-              <h4 class="text-body-medium-semibold">{{ formatLogDate(log.date) }}</h4>
-              <span class="text-body-small-regular text-medium">{{ 'attendance.regularShift' | translate }}</span>
-            </div>
-          </div>
-          <app-status-badge [color]="getStatusColor(log.status)" [text]="getStatusLabel(log.status)"></app-status-badge>
-        </div>
-
-        <div class="time-logs">
-          <div class="log">
-            <span class="text-body-small-regular text-medium">{{ 'home.checkIn' | translate }}</span>
-            <div class="time-val">
-              <ion-icon name="log-in-outline"></ion-icon>
-              <span class="text-h4">{{ formatTime24(log.check_in) }}</span>
-            </div>
-            <img *ngIf="log.image_in" [src]="getImageUrl(log.image_in)" class="face-photo" />
-          </div>
-          <div class="log">
-            <span class="text-body-small-regular text-medium">{{ 'home.checkOut' | translate }}</span>
-            <div class="time-val">
-              <ion-icon name="log-out-outline"></ion-icon>
-              <span class="text-h4">{{ formatTime24(log.check_out) }}</span>
-            </div>
-            <img *ngIf="log.image_out" [src]="getImageUrl(log.image_out)" class="face-photo" />
-          </div>
-        </div>
-
-        <div class="divider"></div>
-
-        <div class="duration-footer">
-          <span class="text-body-small-regular text-medium">{{ 'attendance.totalDuration' | translate }}</span>
-          <span class="text-body-medium-semibold text-dark">{{ calculateDuration(log.check_in, log.check_out) }}</span>
-        </div>
-      </app-card>
-    </div>
+  <!-- Lightbox -->
+  <div class="lightbox-overlay" *ngIf="lightboxUrl" (click)="closeLightbox()">
+    <button class="lightbox-close">
+      <ion-icon name="close-outline"></ion-icon>
+    </button>
+    <img [src]="lightboxUrl" class="lightbox-img" (click)="$event.stopPropagation()" />
   </div>
 </ion-content>

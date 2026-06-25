@@ -5,13 +5,14 @@ import { IonicModule, NavController } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
 import { ButtonComponent } from '../../../shared/components/button/button.component';
 import { AttendanceStateService } from '../../../core/services/attendance-state.service';
+import { BottomNavComponent } from '../../../shared/components/bottom-nav/bottom-nav.component';
 
 @Component({
   selector: 'app-success',
   templateUrl: './success.page.html',
   styleUrls: ['./success.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, RouterModule, ButtonComponent]
+  imports: [IonicModule, CommonModule, FormsModule, RouterModule, ButtonComponent, BottomNavComponent]
 })
 export class SuccessPage implements OnInit {
   isCheckingOut = false;

@@ -5,13 +5,14 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ActivityService } from '../../../../core/services/activity.service';
 import { TranslatePipe } from '@ngx-translate/core';
 import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
+import { BottomNavComponent } from '../../../../shared/components/bottom-nav/bottom-nav.component';
 
 @Component({
   selector: 'app-activity-detail',
   templateUrl: './detail.page.html',
   styleUrls: ['./detail.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, TranslatePipe, PageHeaderComponent]
+  imports: [CommonModule, IonicModule, TranslatePipe, PageHeaderComponent, BottomNavComponent]
 })
 export class DetailPage implements OnInit {
   activity: any = null;

@@ -7,13 +7,14 @@ import { VerificationStatusComponent } from '../../../shared/components/verifica
 import { SectionCardComponent } from '../../../shared/components/section-card/section-card.component';
 import { ButtonComponent } from '../../../shared/components/button/button.component';
 import { RouterModule } from '@angular/router';
+import { BottomNavComponent } from '../../../shared/components/bottom-nav/bottom-nav.component';
 
 @Component({
   selector: 'app-identity-confirmed',
   templateUrl: './identity-confirmed.page.html',
   styleUrls: ['./identity-confirmed.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, RouterModule, PageHeaderComponent, VerificationStatusComponent, SectionCardComponent, ButtonComponent]
+  imports: [IonicModule, CommonModule, FormsModule, RouterModule, PageHeaderComponent, VerificationStatusComponent, SectionCardComponent, ButtonComponent, BottomNavComponent]
 })
 export class IdentityConfirmedPage implements OnInit {
 

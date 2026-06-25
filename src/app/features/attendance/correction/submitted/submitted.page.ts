@@ -4,13 +4,14 @@ import { IonicModule } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
 import { CorrectionService } from '../../../../core/services/correction.service';
+import { BottomNavComponent } from '../../../../shared/components/bottom-nav/bottom-nav.component';
 
 @Component({
   selector: 'app-submitted',
   templateUrl: './submitted.page.html',
   styleUrls: ['./submitted.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, ButtonComponent]
+  imports: [IonicModule, CommonModule, ButtonComponent, BottomNavComponent]
 })
 export class SubmittedPage {
   constructor(public correctionService: CorrectionService, private router: Router) {}

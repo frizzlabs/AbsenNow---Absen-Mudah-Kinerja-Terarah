@@ -6,13 +6,14 @@ import { PageHeaderComponent } from '../../../shared/components/page-header/page
 import { SectionCardComponent } from '../../../shared/components/section-card/section-card.component';
 import { ButtonComponent } from '../../../shared/components/button/button.component';
 import { IdentityService } from '../../../core/services/identity.service';
+import { BottomNavComponent } from '../../../shared/components/bottom-nav/bottom-nav.component';
 
 @Component({
   selector: 'app-identity-required',
   templateUrl: './identity-required.page.html',
   styleUrls: ['./identity-required.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, RouterModule, PageHeaderComponent, SectionCardComponent, ButtonComponent]
+  imports: [IonicModule, CommonModule, RouterModule, PageHeaderComponent, SectionCardComponent, ButtonComponent, BottomNavComponent]
 })
 export class IdentityRequiredPage {
   isLoading = true;

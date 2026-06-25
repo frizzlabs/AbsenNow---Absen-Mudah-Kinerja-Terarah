@@ -3,13 +3,14 @@ import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule, Router } from '@angular/router';
 import { LeaveService, LeaveDraft } from '../../../../core/services/leave.service';
+import { BottomNavComponent } from '../../../../shared/components/bottom-nav/bottom-nav.component';
 
 @Component({
   selector: 'app-create-success',
   templateUrl: './create-success.page.html',
   styleUrls: ['./create-success.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, RouterModule]
+  imports: [CommonModule, IonicModule, RouterModule, BottomNavComponent]
 })
 export class CreateSuccessPage implements OnInit {
   draft: LeaveDraft | null = null;

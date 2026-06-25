@@ -6,13 +6,14 @@ import { Router } from '@angular/router';
 import { CorrectionService } from '../../../../core/services/correction.service';
 import { RoleService } from '../../../../core/services/role.service';
 import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
+import { BottomNavComponent } from '../../../../shared/components/bottom-nav/bottom-nav.component';
 
 @Component({
   selector: 'app-admin-corrections',
   templateUrl: './corrections.page.html',
   styleUrls: ['./corrections.page.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, IonicModule, PageHeaderComponent]
+  imports: [CommonModule, FormsModule, IonicModule, PageHeaderComponent, BottomNavComponent]
 })
 export class AdminCorrectionsPage {
   pendingItems: any[] = [];

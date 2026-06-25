@@ -5,13 +5,14 @@ import { IonicModule, ToastController, LoadingController } from '@ionic/angular'
 import { Router, ActivatedRoute } from '@angular/router';
 import { RoleService, PermissionModule } from '../../../../core/services/role.service';
 import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
+import { BottomNavComponent } from '../../../../shared/components/bottom-nav/bottom-nav.component';
 
 @Component({
   selector: 'app-admin-role-detail',
   templateUrl: './role-detail.page.html',
   styleUrls: ['./role-detail.page.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, IonicModule, PageHeaderComponent]
+  imports: [CommonModule, FormsModule, IonicModule, PageHeaderComponent, BottomNavComponent]
 })
 export class RoleDetailPage {
   roleId!: number;

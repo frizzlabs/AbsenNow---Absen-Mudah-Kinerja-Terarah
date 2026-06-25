@@ -8,13 +8,14 @@ import { SectionCardComponent } from '../../../shared/components/section-card/se
 import { ButtonComponent } from '../../../shared/components/button/button.component';
 import { RouterModule } from '@angular/router';
 import { ProfileService } from '../../../core/services/profile.service';
+import { BottomNavComponent } from '../../../shared/components/bottom-nav/bottom-nav.component';
 
 @Component({
   selector: 'app-personal-info',
   templateUrl: './personal-info.page.html',
   styleUrls: ['./personal-info.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, RouterModule, TranslatePipe, PageHeaderComponent, SectionCardComponent, ButtonComponent]
+  imports: [IonicModule, CommonModule, FormsModule, RouterModule, TranslatePipe, PageHeaderComponent, SectionCardComponent, ButtonComponent, BottomNavComponent]
 })
 export class PersonalInfoPage {
   user: any = null;

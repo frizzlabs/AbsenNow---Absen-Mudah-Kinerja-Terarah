@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { Router, ActivatedRoute } from '@angular/router';
+import { BottomNavComponent } from '../../../../shared/components/bottom-nav/bottom-nav.component';
 
 import { PayslipBasicSalarySheetComponent } from '../../components/basic-salary-sheet/basic-salary-sheet.component';
 import { PayslipAllowancesSheetComponent } from '../../components/allowances-sheet/allowances-sheet.component';
@@ -15,7 +16,7 @@ import { PageHeaderComponent } from '../../../../shared/components/page-header/p
   templateUrl: './detail.page.html',
   styleUrls: ['./detail.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, PayslipBasicSalarySheetComponent, PayslipAllowancesSheetComponent, PayslipTaxInsuranceSheetComponent, PayslipOtherDeductionsSheetComponent, PageHeaderComponent]
+  imports: [CommonModule, IonicModule, PayslipBasicSalarySheetComponent, PayslipAllowancesSheetComponent, PayslipTaxInsuranceSheetComponent, PayslipOtherDeductionsSheetComponent, PageHeaderComponent, BottomNavComponent]
 })
 export class DetailPage implements OnInit {
   payslip: any = null;

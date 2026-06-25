@@ -5,13 +5,14 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { TimesheetService } from '../../../../core/services/timesheet.service';
 import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
+import { BottomNavComponent } from '../../../../shared/components/bottom-nav/bottom-nav.component';
 
 @Component({
   selector: 'app-timesheet-revision',
   templateUrl: './revision.page.html',
   styleUrls: ['./revision.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, TranslatePipe, PageHeaderComponent]
+  imports: [CommonModule, IonicModule, TranslatePipe, PageHeaderComponent, BottomNavComponent]
 })
 export class RevisionPage implements OnInit {
   timesheet: any = null;

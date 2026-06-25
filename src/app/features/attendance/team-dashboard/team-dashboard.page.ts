@@ -7,13 +7,14 @@ import { Location } from '@angular/common';
 import { AttendanceService } from '../../../core/services/attendance.service';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
 import { AttendanceDetailModalComponent } from './attendance-detail-modal.component';
+import { BottomNavComponent } from '../../../shared/components/bottom-nav/bottom-nav.component';
 
 @Component({
   selector: 'app-team-dashboard',
   templateUrl: './team-dashboard.page.html',
   styleUrls: ['./team-dashboard.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, PageHeaderComponent]
+  imports: [IonicModule, CommonModule, FormsModule, PageHeaderComponent, BottomNavComponent]
 })
 export class TeamDashboardPage implements OnInit {
   selectedDate = new Date().toISOString().split('T')[0];

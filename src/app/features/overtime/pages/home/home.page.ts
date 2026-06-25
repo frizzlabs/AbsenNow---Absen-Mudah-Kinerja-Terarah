@@ -1,17 +1,18 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { OvertimeService, OvertimeSummary } from '../../../../core/services/overtime.service';
 import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
+import { BottomNavComponent } from '../../../../shared/components/bottom-nav/bottom-nav.component';
 
 @Component({
   selector: 'app-overtime-home',
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, TranslatePipe, PageHeaderComponent]
+  imports: [CommonModule, IonicModule, TranslatePipe, PageHeaderComponent, BottomNavComponent]
 })
 export class HomePage {
   selectedSegment = 'all';
@@ -23,10 +24,15 @@ export class HomePage {
 
   constructor(
     private router: Router,
+    private route: ActivatedRoute,
     private overtimeService: OvertimeService
   ) {}
 
   ionViewWillEnter() {
+    const tab = this.route.snapshot.queryParamMap.get('tab');
+    if (tab && ['all', 'pending', 'approved', 'rejected'].includes(tab)) {
+      this.selectedSegment = tab;
+    }
     this.loadOvertimes();
     this.loadSummary();
   }

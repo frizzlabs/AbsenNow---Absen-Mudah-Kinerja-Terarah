@@ -1,71 +1,71 @@
+<app-bottom-nav></app-bottom-nav>
 <ion-content>
   <app-page-header title="Ajukan Lembur"></app-page-header>
 
-  <div class="progress-container">
-    <div class="progress-labels">
-      <span class="step-label">Langkah 1 dari 3</span>
-      <span class="title-label">Ajukan Lembur</span>
-    </div>
-    <div class="progress-bar-bg">
-      <div class="progress-bar-fill" style="width: 33%"></div>
-    </div>
-  </div>
+  <app-overtime-stepper [currentStep]="1"></app-overtime-stepper>
 
   <div class="content-wrapper">
-    <!-- Mock Calendar -->
-    <div class="calendar-card">
-      <div class="calendar-header">
-        <ion-icon name="chevron-back-outline"></ion-icon>
-        <div class="month">Februari 2026</div>
-        <ion-icon name="chevron-forward-outline"></ion-icon>
-      </div>
-      <div class="weekdays">
-        <span>MIN</span><span>SEN</span><span>SEL</span><span>RAB</span><span>KAM</span><span>JUM</span><span>SAB</span>
-      </div>
-      <div class="days-grid">
-        <div class="day empty">27</div><div class="day empty">28</div><div class="day empty">29</div><div class="day empty">30</div><div class="day">1</div><div class="day">2</div><div class="day">3</div>
-        <div class="day">4</div><div class="day">5</div><div class="day">6</div><div class="day">7</div><div class="day">8</div><div class="day">9</div><div class="day">10</div>
-        <div class="day">11</div><div class="day selected">12</div><div class="day selected-light">13</div><div class="day selected">14</div><div class="day">15</div><div class="day">16</div><div class="day">17</div>
-        <div class="day">18</div><div class="day">19</div><div class="day">20</div><div class="day">21</div><div class="day">22</div><div class="day">23</div><div class="day">24</div>
-        <div class="day">25</div><div class="day">26</div><div class="day">27</div><div class="day">28</div><div class="day">29</div><div class="day">30</div><div class="day">31</div>
-      </div>
+
+    <div class="input-group">
+      <label>Judul / Deskripsi Pekerjaan</label>
+      <input class="field-input" type="text" placeholder="cth. Finalisasi laporan Q3" [(ngModel)]="title" />
+    </div>
+
+    <div class="input-group mt-24">
+      <label>Tanggal Lembur</label>
+      <input class="field-input" type="date" [(ngModel)]="overtimeDate" />
     </div>
 
     <div class="time-row">
       <div class="input-group">
         <label>Waktu Mulai</label>
-        <div class="input-box">
-          <span>09:00 WIB</span>
-          <ion-icon name="time-outline"></ion-icon>
-        </div>
+        <input class="field-input" type="time" [(ngModel)]="startTime" />
       </div>
       <div class="input-group">
         <label>Waktu Selesai</label>
-        <div class="input-box">
-          <span>10:30 WIB</span>
-          <ion-icon name="time-outline"></ion-icon>
-        </div>
+        <input class="field-input" type="time" [(ngModel)]="endTime" />
       </div>
+    </div>
+
+    <div class="duration-info" *ngIf="startTime && endTime && endTime > startTime">
+      <ion-icon name="timer-outline"></ion-icon>
+      <span>Durasi: <strong>{{ calcDuration() }}</strong></span>
     </div>
 
     <div class="input-group mt-24">
       <label>Alasan</label>
       <div class="textarea-box">
-        <textarea placeholder="Tambahkan rincian atau catatan tentang sesi kerja ini..."></textarea>
-        <div class="char-count">0/200</div>
+        <textarea placeholder="Tambahkan rincian atau catatan tentang sesi kerja ini..." [(ngModel)]="reason" maxlength="200"></textarea>
+        <div class="char-count">{{ reason.length }}/200</div>
       </div>
     </div>
 
     <div class="input-group mt-24">
       <label>Lampiran (Opsional)</label>
-      <div class="upload-box">
+      <input type="file" #fileInput style="display: none;" accept="image/*,application/pdf" (change)="onFileSelected($event)" />
+
+      <div class="upload-box" *ngIf="!fileName" (click)="triggerFileInput(fileInput)">
         <div class="upload-icon-circle">
           <ion-icon name="cloud-upload-outline" color="primary"></ion-icon>
         </div>
         <div class="upload-text">Klik untuk mengunggah</div>
         <div class="upload-hint">PDF, JPG atau PNG (MAKS. 5MB)</div>
       </div>
+
+      <div class="uploaded-file" *ngIf="fileName">
+        <div class="file-icon">
+          <ion-icon name="document-text-outline"></ion-icon>
+        </div>
+        <div class="file-info">
+          <div class="file-name">{{ fileName }}</div>
+          <div class="file-size" *ngIf="fileSizeText">{{ fileSizeText }}</div>
+        </div>
+        <button class="file-remove" (click)="removeFile()">
+          <ion-icon name="trash-outline"></ion-icon>
+        </button>
+      </div>
     </div>
+
   </div>
 </ion-content>
 

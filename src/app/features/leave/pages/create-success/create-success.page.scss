@@ -124,8 +124,22 @@ ion-content {
 // ── Desktop ─────────────────────────────────────────────────────────
 @media (min-width: 1024px) {
   .content-wrapper {
-    max-width: 720px;
+    max-width: 680px;
     margin: 0 auto;
-    padding: 24px 0;
+    padding: 48px 24px 24px;
+  }
+
+  .details-card {
+    max-width: none;
+  }
+
+  .footer-pad {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 16px 24px 32px;
+
+    .primary-btn, .secondary-btn {
+      max-width: none;
+    }
   }
 }

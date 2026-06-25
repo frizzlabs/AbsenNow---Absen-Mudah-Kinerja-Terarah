@@ -7,13 +7,14 @@ import { LeaveBalanceCardComponent } from '../../../../shared/components/leave-b
 import { LeaveRequestCardComponent } from '../../../../shared/components/leave-request-card/leave-request-card.component';
 import { LeaveService } from '../../../../core/services/leave.service';
 import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
+import { BottomNavComponent } from '../../../../shared/components/bottom-nav/bottom-nav.component';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, RouterModule, TranslatePipe, LeaveBalanceCardComponent, LeaveRequestCardComponent, PageHeaderComponent]
+  imports: [CommonModule, IonicModule, RouterModule, TranslatePipe, LeaveBalanceCardComponent, LeaveRequestCardComponent, PageHeaderComponent, BottomNavComponent]
 })
 export class HomePage implements OnInit {
   balances: any[] = [];

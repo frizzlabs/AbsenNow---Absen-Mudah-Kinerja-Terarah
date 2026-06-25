@@ -8,13 +8,14 @@ import { LeaveStepperComponent } from '../../../../shared/components/leave-stepp
 import { LeaveFileCardComponent } from '../../../../shared/components/leave-file-card/leave-file-card.component';
 import { LeaveService, LeaveDraft } from '../../../../core/services/leave.service';
 import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
+import { BottomNavComponent } from '../../../../shared/components/bottom-nav/bottom-nav.component';
 
 @Component({
   selector: 'app-create-summary',
   templateUrl: './create-summary.page.html',
   styleUrls: ['./create-summary.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, RouterModule, FormsModule, TranslatePipe, LeaveStepperComponent, LeaveFileCardComponent, PageHeaderComponent]
+  imports: [CommonModule, IonicModule, RouterModule, FormsModule, TranslatePipe, LeaveStepperComponent, LeaveFileCardComponent, PageHeaderComponent, BottomNavComponent]
 })
 export class CreateSummaryPage implements OnInit {
   isConfirmed: boolean = false;

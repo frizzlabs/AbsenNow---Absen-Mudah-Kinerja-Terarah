@@ -8,13 +8,14 @@ import * as L from 'leaflet';
 import { DinasLuarService } from '../../../../core/services/dinas-luar.service';
 import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
+import { BottomNavComponent } from '../../../../shared/components/bottom-nav/bottom-nav.component';
 
 @Component({
   selector: 'app-ajukan',
   templateUrl: './ajukan.page.html',
   styleUrls: ['./ajukan.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, PageHeaderComponent, ButtonComponent]
+  imports: [IonicModule, CommonModule, FormsModule, PageHeaderComponent, ButtonComponent, BottomNavComponent]
 })
 export class AjukanPage implements OnInit, OnDestroy {
   private map: L.Map | null = null;

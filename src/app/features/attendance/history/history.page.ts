@@ -8,17 +8,27 @@ import { StatusBadgeComponent } from '../../../shared/components/status-badge/st
 import { AttendanceService } from '../../../core/services/attendance.service';
 import { environment } from '../../../../environments/environment';
 import { PageHeaderComponent } from '../../../shared/components/page-header/page-header.component';
+import { BottomNavComponent } from '../../../shared/components/bottom-nav/bottom-nav.component';
 
 @Component({
   selector: 'app-history',
   templateUrl: './history.page.html',
   styleUrls: ['./history.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, TranslatePipe, CardComponent, StatusBadgeComponent, PageHeaderComponent]
+  imports: [IonicModule, CommonModule, FormsModule, TranslatePipe, CardComponent, StatusBadgeComponent, PageHeaderComponent, BottomNavComponent]
 })
 export class HistoryPage implements OnInit {
   historyLogs: any[] = [];
   isLoading = true;
+  lightboxUrl: string | null = null;
+
+  openLightbox(url: string | null) {
+    if (url) this.lightboxUrl = url;
+  }
+
+  closeLightbox() {
+    this.lightboxUrl = null;
+  }
 
   pivotDate = new Date();
   selectedDate = new Date();
@@ -142,6 +152,11 @@ export class HistoryPage implements OnInit {
         this.isLoading = false;
       }
     });
+  }
+
+  getLogForDay(day: any): any | null {
+    const dateStr = this.formatDateString(day.date);
+    return this.historyLogs.find(log => log.date === dateStr) || null;
   }
 
   goBack() {

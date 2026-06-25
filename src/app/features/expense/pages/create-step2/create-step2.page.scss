@@ -28,6 +28,17 @@ ion-content {
   background: #f8f9fa;
   margin-bottom: 24px;
   cursor: pointer;
+  transition: border-color .2s, background .2s, box-shadow .2s;
+
+  &:hover {
+    border-color: var(--ion-color-primary);
+    background: #f8faff;
+    box-shadow: 0 4px 16px rgba(27, 89, 248, .08);
+  }
+
+  &:active {
+    background: #eff4ff;
+  }
 
   .upload-icon {
     width: 40px;

@@ -6,6 +6,7 @@ import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { LeaveStepperComponent } from '../../../../shared/components/leave-stepper/leave-stepper.component';
 import { LeaveService } from '../../../../core/services/leave.service';
 import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
+import { BottomNavComponent } from '../../../../shared/components/bottom-nav/bottom-nav.component';
 
 interface CalendarDay {
   date: number;
@@ -23,7 +24,7 @@ interface CalendarDay {
   templateUrl: './create-dates.page.html',
   styleUrls: ['./create-dates.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, RouterModule, TranslatePipe, LeaveStepperComponent, PageHeaderComponent]
+  imports: [CommonModule, IonicModule, RouterModule, TranslatePipe, LeaveStepperComponent, PageHeaderComponent, BottomNavComponent]
 })
 export class CreateDatesPage implements OnInit {
   daysOfWeek = ['MIN', 'SEN', 'SEL', 'RAB', 'KAM', 'JUM', 'SAB'];

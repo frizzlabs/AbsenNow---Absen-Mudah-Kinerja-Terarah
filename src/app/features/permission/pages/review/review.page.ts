@@ -5,13 +5,14 @@ import { Router } from '@angular/router';
 import { PermissionService } from '../../../../core/services/permission.service';
 import { FormsModule } from '@angular/forms';
 import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
+import { BottomNavComponent } from '../../../../shared/components/bottom-nav/bottom-nav.component';
 
 @Component({
   selector: 'app-permission-review',
   templateUrl: './review.page.html',
   styleUrls: ['./review.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, FormsModule, PageHeaderComponent]
+  imports: [CommonModule, IonicModule, FormsModule, PageHeaderComponent, BottomNavComponent]
 })
 export class ReviewPage implements OnInit {
   draft: any = null;

@@ -57,6 +57,28 @@ export class BottomNavComponent implements OnInit, OnDestroy {
     return name === 'org_admin' || name === 'superadmin' || name === 'platform_superadmin';
   }
 
+  get isAdminOnly(): boolean {
+    const name = this.roleService.role?.name;
+    return name === 'superadmin' || name === 'org_admin';
+  }
+
+  get canManageOffice(): boolean {
+    const name = this.roleService.role?.name;
+    return name === 'superadmin' || name === 'org_admin' || this.roleService.can('office.manage');
+  }
+
+  get canApproveAttendance(): boolean {
+    const name = this.roleService.role?.name;
+    return name === 'superadmin' || name === 'org_admin' || this.roleService.can('attendance.approve');
+  }
+
+  get canManageUsers(): boolean {
+    const name = this.roleService.role?.name;
+    return name === 'superadmin' || name === 'org_admin' || this.roleService.can('users.manage');
+  }
+
+  sidebarMenuOpen = true;
+
   private badgesLoaded = false;
 
   ngOnInit() {

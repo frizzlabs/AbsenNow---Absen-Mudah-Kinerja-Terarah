@@ -1,20 +1,16 @@
+<app-bottom-nav></app-bottom-nav>
 <ion-content>
   <app-page-header title="Ajukan Lembur"></app-page-header>
 
-  <div class="progress-container">
-    <div class="progress-labels">
-      <span class="step-label">Langkah 2 dari 3</span>
-      <span class="title-label">Ajukan Lembur</span>
-    </div>
-    <div class="progress-bar-bg">
-      <div class="progress-bar-fill" style="width: 66%"></div>
-    </div>
-  </div>
+  <app-overtime-stepper [currentStep]="2"></app-overtime-stepper>
 
-  <div class="content-wrapper">
+  <div class="content-wrapper" *ngIf="draft">
     <p class="summary-text">
-      Silakan periksa kembali jadwal lembur yang telah Anda pilih untuk <strong>Jumat, 20 Okt 2026</strong>.
+      Silakan periksa kembali jadwal lembur yang telah Anda pilih untuk <strong>{{ formatDate(draft.overtime_date) }}</strong>.
     </p>
+
+    <div class="section-title">JUDUL</div>
+    <p class="reason-text">{{ draft.title }}</p>
 
     <!-- Time Card -->
     <div class="info-card light-blue">
@@ -23,7 +19,7 @@
       </div>
       <div class="card-content">
         <div class="label">WAKTU</div>
-        <div class="value">09:00 - 10:30 WIB</div>
+        <div class="value">{{ formatTime(draft.start_time) }} - {{ formatTime(draft.end_time) }} WIB</div>
       </div>
     </div>
 
@@ -36,37 +32,38 @@
         <div class="label">TOTAL DURASI</div>
         <div class="sub-label">Dihitung secara otomatis</div>
       </div>
-      <div class="duration-value">3 jam 15 mnt</div>
+      <div class="duration-value">{{ durationLabel }}</div>
     </div>
 
     <div class="section-title">ALASAN</div>
-    <p class="reason-text">
-      Menyelesaikan laporan keuangan Kuartal 3 sesuai permintaan manajemen karena tenggat waktu rapat dewan yang akan datang. Tim membutuhkan angka final besok pagi.
-    </p>
+    <p class="reason-text" *ngIf="draft.reason">{{ draft.reason }}</p>
+    <p class="reason-text empty" *ngIf="!draft.reason">Tidak ada alasan ditambahkan.</p>
 
     <div class="section-title">LAMPIRAN</div>
-    <div class="attachment-card">
+    <div class="attachment-card" *ngIf="draft.attachment_name">
       <div class="icon-circle danger-light">
         <ion-icon name="document-text-outline" color="danger"></ion-icon>
       </div>
       <div class="attachment-content">
-        <div class="filename">Manager_Approval.pdf</div>
-        <div class="filesize">1.2 MB • PDF</div>
+        <div class="filename">{{ draft.attachment_name }}</div>
+        <div class="filesize">{{ draft.attachment_size }} &bull; {{ draft.attachment_type }}</div>
       </div>
-      <ion-icon name="eye-outline" class="view-icon"></ion-icon>
     </div>
+    <p class="reason-text empty" *ngIf="!draft.attachment_name">Tidak ada lampiran.</p>
   </div>
 </ion-content>
 
 <ion-footer class="ion-no-border">
   <div class="footer-wrapper">
-    <div class="checkbox-container">
-      <ion-checkbox></ion-checkbox>
+    <div class="checkbox-container" (click)="isChecked = !isChecked">
+      <div class="checkbox-box" [class.checked]="isChecked">
+        <ion-icon name="checkmark-outline" *ngIf="isChecked"></ion-icon>
+      </div>
       <div class="checkbox-label">Saya konfirmasi bahwa entri ini akurat dan sesuai dengan kebijakan perusahaan.</div>
     </div>
-    <ion-button expand="block" shape="round" color="primary" (click)="submitRequest()">
+    <ion-button expand="block" shape="round" color="primary" [disabled]="!isChecked || isSubmitting" (click)="submitRequest()">
       <ion-icon name="send-outline" slot="start"></ion-icon>
-      Kirim pengajuan
+      {{ isSubmitting ? 'Mengirim...' : 'Kirim Pengajuan' }}
     </ion-button>
   </div>
 </ion-footer>

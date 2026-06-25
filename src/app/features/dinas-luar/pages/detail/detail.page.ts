@@ -7,13 +7,14 @@ import { DinasLuarService } from '../../../../core/services/dinas-luar.service';
 import { RoleService } from '../../../../core/services/role.service';
 import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
+import { BottomNavComponent } from '../../../../shared/components/bottom-nav/bottom-nav.component';
 
 @Component({
   selector: 'app-dinas-detail',
   templateUrl: './detail.page.html',
   styleUrls: ['./detail.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, PageHeaderComponent, ButtonComponent]
+  imports: [IonicModule, CommonModule, PageHeaderComponent, ButtonComponent, BottomNavComponent]
 })
 export class DinasDetailPage implements OnInit {
   item: any = null;

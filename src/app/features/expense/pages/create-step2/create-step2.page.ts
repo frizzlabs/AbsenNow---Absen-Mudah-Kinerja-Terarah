@@ -7,13 +7,14 @@ import { ExpenseStepperComponent } from '../../../../shared/components/expense-s
 import { ExpenseReceiptPreviewComponent } from '../../../../shared/components/expense-receipt-preview/expense-receipt-preview.component';
 import { ExpenseService } from '../../../../core/services/expense.service';
 import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
+import { BottomNavComponent } from '../../../../shared/components/bottom-nav/bottom-nav.component';
 
 @Component({
   selector: 'app-create-step2',
   templateUrl: './create-step2.page.html',
   styleUrls: ['./create-step2.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, RouterModule, TranslatePipe, ExpenseStepperComponent, ExpenseReceiptPreviewComponent, PageHeaderComponent]
+  imports: [CommonModule, IonicModule, RouterModule, TranslatePipe, ExpenseStepperComponent, ExpenseReceiptPreviewComponent, PageHeaderComponent, BottomNavComponent]
 })
 export class CreateStep2Page implements OnInit {
   fileName: string | null = null;

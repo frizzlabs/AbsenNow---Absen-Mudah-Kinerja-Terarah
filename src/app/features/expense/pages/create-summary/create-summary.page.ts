@@ -7,13 +7,14 @@ import { ExpenseStepperComponent } from '../../../../shared/components/expense-s
 import { ExpenseReceiptPreviewComponent } from '../../../../shared/components/expense-receipt-preview/expense-receipt-preview.component';
 import { ExpenseService, ExpenseDraft } from '../../../../core/services/expense.service';
 import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
+import { BottomNavComponent } from '../../../../shared/components/bottom-nav/bottom-nav.component';
 
 @Component({
   selector: 'app-create-summary',
   templateUrl: './create-summary.page.html',
   styleUrls: ['./create-summary.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, RouterModule, TranslatePipe, ExpenseStepperComponent, ExpenseReceiptPreviewComponent, CurrencyPipe, PageHeaderComponent]
+  imports: [CommonModule, IonicModule, RouterModule, TranslatePipe, ExpenseStepperComponent, ExpenseReceiptPreviewComponent, CurrencyPipe, PageHeaderComponent, BottomNavComponent]
 })
 export class CreateSummaryPage implements OnInit {
   draft: ExpenseDraft | null = null;

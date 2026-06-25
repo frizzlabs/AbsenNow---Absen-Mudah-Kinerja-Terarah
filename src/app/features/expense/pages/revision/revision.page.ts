@@ -5,13 +5,14 @@ import { IonicModule } from '@ionic/angular';
 import { RouterModule, Router } from '@angular/router';
 import { ExpenseReceiptPreviewComponent } from '../../../../shared/components/expense-receipt-preview/expense-receipt-preview.component';
 import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
+import { BottomNavComponent } from '../../../../shared/components/bottom-nav/bottom-nav.component';
 
 @Component({
   selector: 'app-revision',
   templateUrl: './revision.page.html',
   styleUrls: ['./revision.page.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, IonicModule, RouterModule, ExpenseReceiptPreviewComponent, PageHeaderComponent]
+  imports: [CommonModule, FormsModule, IonicModule, RouterModule, ExpenseReceiptPreviewComponent, PageHeaderComponent, BottomNavComponent]
 })
 export class RevisionPage implements OnInit {
   merchantName: string = 'The Corner Bistro';

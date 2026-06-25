@@ -5,13 +5,14 @@ import { Router } from '@angular/router';
 import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
 import { CorrectionService } from '../../../../core/services/correction.service';
+import { BottomNavComponent } from '../../../../shared/components/bottom-nav/bottom-nav.component';
 
 @Component({
   selector: 'app-summary',
   templateUrl: './summary.page.html',
   styleUrls: ['./summary.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, PageHeaderComponent, ButtonComponent]
+  imports: [IonicModule, CommonModule, PageHeaderComponent, ButtonComponent, BottomNavComponent]
 })
 export class SummaryPage {
   isSubmitting = false;

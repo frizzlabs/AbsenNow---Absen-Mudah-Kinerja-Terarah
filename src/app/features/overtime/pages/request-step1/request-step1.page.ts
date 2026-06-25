@@ -5,13 +5,15 @@ import { IonicModule, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { OvertimeService } from '../../../../core/services/overtime.service';
 import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
+import { BottomNavComponent } from '../../../../shared/components/bottom-nav/bottom-nav.component';
+import { OvertimeStepperComponent } from '../../../../shared/components/overtime-stepper/overtime-stepper.component';
 
 @Component({
   selector: 'app-overtime-request-step1',
   templateUrl: './request-step1.page.html',
   styleUrls: ['./request-step1.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, FormsModule, PageHeaderComponent]
+  imports: [CommonModule, IonicModule, FormsModule, PageHeaderComponent, BottomNavComponent, OvertimeStepperComponent]
 })
 export class RequestStep1Page implements OnInit {
   title: string = '';
@@ -69,6 +71,17 @@ export class RequestStep1Page implements OnInit {
     this.fileSizeText = null;
     this.base64File = null;
     this.fileType = null;
+  }
+
+  calcDuration(): string {
+    if (!this.startTime || !this.endTime) return '';
+    const [h1, m1] = this.startTime.split(':').map(Number);
+    const [h2, m2] = this.endTime.split(':').map(Number);
+    let diff = (h2 * 60 + m2) - (h1 * 60 + m1);
+    if (diff <= 0) return '';
+    const h = Math.floor(diff / 60);
+    const m = diff % 60;
+    return `${h} jam ${m.toString().padStart(2, '0')} menit`;
   }
 
   goBack() {

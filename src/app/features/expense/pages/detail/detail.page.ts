@@ -9,13 +9,14 @@ import { TimelineStep } from '../../../../shared/components/expense-timeline/exp
 import { ExpenseService } from '../../../../core/services/expense.service';
 import { environment } from '../../../../../environments/environment';
 import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
+import { BottomNavComponent } from '../../../../shared/components/bottom-nav/bottom-nav.component';
 
 @Component({
   selector: 'app-detail',
   templateUrl: './detail.page.html',
   styleUrls: ['./detail.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, RouterModule, TranslatePipe, ExpenseReceiptPreviewComponent, ExpenseTimelineComponent, CurrencyPipe, PageHeaderComponent]
+  imports: [CommonModule, IonicModule, RouterModule, TranslatePipe, ExpenseReceiptPreviewComponent, ExpenseTimelineComponent, CurrencyPipe, PageHeaderComponent, BottomNavComponent]
 })
 export class DetailPage implements OnInit {
   expense: any = null;

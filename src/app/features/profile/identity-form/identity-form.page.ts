@@ -7,13 +7,14 @@ import { PageHeaderComponent } from '../../../shared/components/page-header/page
 import { SectionCardComponent } from '../../../shared/components/section-card/section-card.component';
 import { ButtonComponent } from '../../../shared/components/button/button.component';
 import { IdentityService } from '../../../core/services/identity.service';
+import { BottomNavComponent } from '../../../shared/components/bottom-nav/bottom-nav.component';
 
 @Component({
   selector: 'app-identity-form',
   templateUrl: './identity-form.page.html',
   styleUrls: ['./identity-form.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, PageHeaderComponent, SectionCardComponent, ButtonComponent]
+  imports: [IonicModule, CommonModule, FormsModule, PageHeaderComponent, SectionCardComponent, ButtonComponent, BottomNavComponent]
 })
 export class IdentityFormPage {
   idType = 'ktp';

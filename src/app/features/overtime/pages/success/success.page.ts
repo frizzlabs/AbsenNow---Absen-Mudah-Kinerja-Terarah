@@ -3,13 +3,14 @@ import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { OvertimeService } from '../../../../core/services/overtime.service';
+import { BottomNavComponent } from '../../../../shared/components/bottom-nav/bottom-nav.component';
 
 @Component({
   selector: 'app-overtime-success',
   templateUrl: './success.page.html',
   styleUrls: ['./success.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule]
+  imports: [CommonModule, IonicModule, BottomNavComponent]
 })
 export class SuccessPage implements OnInit {
   submitted: any = null;
@@ -60,10 +61,10 @@ export class SuccessPage implements OnInit {
   }
 
   backToOvertime() {
-    this.router.navigate(['/overtime']);
+    this.router.navigate(['/overtime'], { queryParams: { tab: 'pending' } });
   }
 
   goToApproval() {
-    this.router.navigate(['/overtime']);
+    this.router.navigate(['/overtime'], { queryParams: { tab: 'pending' } });
   }
 }

@@ -5,13 +5,14 @@ import { Router } from '@angular/router';
 import { CorrectionService } from '../../../../core/services/correction.service';
 import { RoleService } from '../../../../core/services/role.service';
 import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
+import { BottomNavComponent } from '../../../../shared/components/bottom-nav/bottom-nav.component';
 
 @Component({
   selector: 'app-correction-history',
   templateUrl: './history.page.html',
   styleUrls: ['./history.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, PageHeaderComponent]
+  imports: [CommonModule, IonicModule, PageHeaderComponent, BottomNavComponent]
 })
 export class CorrectionHistoryPage {
   activeTab: 'pending' | 'reviewed' | 'mine' = 'pending';

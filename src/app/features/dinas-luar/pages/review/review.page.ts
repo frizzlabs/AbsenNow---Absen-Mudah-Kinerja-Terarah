@@ -4,13 +4,14 @@ import { IonicModule, AlertController, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { DinasLuarService } from '../../../../core/services/dinas-luar.service';
 import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
+import { BottomNavComponent } from '../../../../shared/components/bottom-nav/bottom-nav.component';
 
 @Component({
   selector: 'app-dinas-review',
   templateUrl: './review.page.html',
   styleUrls: ['./review.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, PageHeaderComponent]
+  imports: [IonicModule, CommonModule, PageHeaderComponent, BottomNavComponent]
 })
 export class DinasReviewPage implements OnInit {
   activeTab: 'pending' | 'reviewed' | 'absen' = 'pending';

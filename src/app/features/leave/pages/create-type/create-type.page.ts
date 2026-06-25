@@ -7,13 +7,14 @@ import { LeaveStepperComponent } from '../../../../shared/components/leave-stepp
 import { LeaveRadioCardComponent } from '../../../../shared/components/leave-radio-card/leave-radio-card.component';
 import { LeaveService } from '../../../../core/services/leave.service';
 import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
+import { BottomNavComponent } from '../../../../shared/components/bottom-nav/bottom-nav.component';
 
 @Component({
   selector: 'app-create-type',
   templateUrl: './create-type.page.html',
   styleUrls: ['./create-type.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, RouterModule, TranslatePipe, LeaveStepperComponent, LeaveRadioCardComponent, PageHeaderComponent]
+  imports: [CommonModule, IonicModule, RouterModule, TranslatePipe, LeaveStepperComponent, LeaveRadioCardComponent, PageHeaderComponent, BottomNavComponent]
 })
 export class CreateTypePage implements OnInit {
   selectedType: string = 'annual';

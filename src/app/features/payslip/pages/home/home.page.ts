@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { BottomNavComponent } from '../../../../shared/components/bottom-nav/bottom-nav.component';
 
 import { PayslipFilterSheetComponent } from '../../components/filter-sheet/filter-sheet.component';
 import { PayslipService } from '../../../../core/services/payslip.service';
@@ -12,7 +13,7 @@ import { PageHeaderComponent } from '../../../../shared/components/page-header/p
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, PayslipFilterSheetComponent, PageHeaderComponent]
+  imports: [CommonModule, IonicModule, PayslipFilterSheetComponent, PageHeaderComponent, BottomNavComponent]
 })
 export class HomePage {
   payslips: any[] = [];

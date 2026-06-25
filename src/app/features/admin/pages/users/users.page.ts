@@ -8,13 +8,14 @@ import { PageHeaderComponent } from '../../../../shared/components/page-header/p
 import { InputComponent } from '../../../../shared/components/input/input.component';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
 import { UploadBoxComponent } from '../../../../shared/components/upload-box/upload-box.component';
+import { BottomNavComponent } from '../../../../shared/components/bottom-nav/bottom-nav.component';
 
 @Component({
   selector: 'app-admin-users',
   templateUrl: './users.page.html',
   styleUrls: ['./users.page.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, IonicModule, PageHeaderComponent, InputComponent, ButtonComponent, UploadBoxComponent]
+  imports: [CommonModule, FormsModule, IonicModule, PageHeaderComponent, InputComponent, ButtonComponent, UploadBoxComponent, BottomNavComponent]
 })
 export class AdminUsersPage {
   users: any[] = [];

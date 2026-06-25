@@ -4,13 +4,14 @@ import { IonicModule } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { CorrectionService } from '../../../../core/services/correction.service';
 import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
+import { BottomNavComponent } from '../../../../shared/components/bottom-nav/bottom-nav.component';
 
 @Component({
   selector: 'app-correction-detail',
   templateUrl: './detail.page.html',
   styleUrls: ['./detail.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, PageHeaderComponent]
+  imports: [CommonModule, IonicModule, PageHeaderComponent, BottomNavComponent]
 })
 export class CorrectionDetailPage {
   correction: any = null;

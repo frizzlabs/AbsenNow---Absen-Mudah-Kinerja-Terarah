@@ -275,3 +275,9 @@ ion-content {
     ion-button { max-width: 320px; }
   }
 }
+
+ion-footer {
+  @media (max-width: 1023px) {
+    bottom: calc(80px + env(safe-area-inset-bottom)) !important;
+  }
+}

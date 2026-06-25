@@ -96,13 +96,29 @@
 
 // ── Desktop ─────────────────────────────────────────────────────────
 @media (min-width: 1024px) {
-  .content-wrapper, .page-container, .wrap {
-    max-width: 720px;
-    margin: 0 auto;
-    padding: 24px 0;
+  .bg-light { --background: #f0f2f5; }
+
+  .page-container {
+    max-width: none;
+    margin: 0;
+    padding: 24px 32px 40px;
   }
-  .footer-pad, .footer-wrapper, .footer-wrap {
-    max-width: 720px;
-    margin: 0 auto;
+
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 16px;
+  }
+
+  .dinas-card {
+    border: 1px solid rgba(0,0,0,.06);
+    border-radius: 18px;
+    padding: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.03);
+    transition: border-color .2s, box-shadow .2s;
+    &:hover {
+      border-color: #cbd5e1;
+      box-shadow: 0 4px 16px rgba(0,0,0,.06);
+    }
   }
 }

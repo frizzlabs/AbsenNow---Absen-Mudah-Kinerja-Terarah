@@ -8,13 +8,14 @@ import { SectionCardComponent } from '../../../shared/components/section-card/se
 import { ButtonComponent } from '../../../shared/components/button/button.component';
 import { InputComponent } from '../../../shared/components/input/input.component';
 import { ProfileService } from '../../../core/services/profile.service';
+import { BottomNavComponent } from '../../../shared/components/bottom-nav/bottom-nav.component';
 
 @Component({
   selector: 'app-edit-personal-info',
   templateUrl: './edit-personal-info.page.html',
   styleUrls: ['./edit-personal-info.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, PageHeaderComponent, SectionCardComponent, ButtonComponent, InputComponent]
+  imports: [IonicModule, CommonModule, FormsModule, PageHeaderComponent, SectionCardComponent, ButtonComponent, InputComponent, BottomNavComponent]
 })
 export class EditPersonalInfoPage {
   user: any = null;

@@ -5,13 +5,14 @@ import { IonicModule } from '@ionic/angular';
 import { RouterModule, Router } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
+import { BottomNavComponent } from '../../../../shared/components/bottom-nav/bottom-nav.component';
 
 @Component({
   selector: 'app-filter',
   templateUrl: './filter.page.html',
   styleUrls: ['./filter.page.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, IonicModule, RouterModule, TranslatePipe, PageHeaderComponent]
+  imports: [CommonModule, FormsModule, IonicModule, RouterModule, TranslatePipe, PageHeaderComponent, BottomNavComponent]
 })
 export class FilterPage implements OnInit {
   selectedStatus: string = 'Approved';

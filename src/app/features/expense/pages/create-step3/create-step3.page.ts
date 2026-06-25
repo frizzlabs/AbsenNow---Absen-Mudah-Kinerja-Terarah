@@ -7,13 +7,14 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { ExpenseStepperComponent } from '../../../../shared/components/expense-stepper/expense-stepper.component';
 import { ExpenseService } from '../../../../core/services/expense.service';
 import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
+import { BottomNavComponent } from '../../../../shared/components/bottom-nav/bottom-nav.component';
 
 @Component({
   selector: 'app-create-step3',
   templateUrl: './create-step3.page.html',
   styleUrls: ['./create-step3.page.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, IonicModule, RouterModule, TranslatePipe, ExpenseStepperComponent, PageHeaderComponent]
+  imports: [CommonModule, FormsModule, IonicModule, RouterModule, TranslatePipe, ExpenseStepperComponent, PageHeaderComponent, BottomNavComponent]
 })
 export class CreateStep3Page implements OnInit {
   merchantName: string = '';

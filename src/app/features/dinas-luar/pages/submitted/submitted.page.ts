@@ -4,13 +4,14 @@ import { IonicModule } from '@ionic/angular';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DinasLuarService } from '../../../../core/services/dinas-luar.service';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
+import { BottomNavComponent } from '../../../../shared/components/bottom-nav/bottom-nav.component';
 
 @Component({
   selector: 'app-dinas-submitted',
   templateUrl: './submitted.page.html',
   styleUrls: ['./submitted.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, ButtonComponent]
+  imports: [IonicModule, CommonModule, ButtonComponent, BottomNavComponent]
 })
 export class DinasSubmittedPage implements OnInit {
   type: 'ajukan' | 'absen' = 'ajukan';

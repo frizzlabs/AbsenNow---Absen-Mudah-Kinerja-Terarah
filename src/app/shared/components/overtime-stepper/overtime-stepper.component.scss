@@ -50,7 +50,6 @@
     display: block;
     background: #fff;
     border-bottom: 1px solid #e8ecf1;
-    padding: 0;
   }
 
   .wizard-tabs {
@@ -105,24 +104,16 @@
       transition: background .2s ease;
     }
 
-    // ── Completed state ──
     &.completed {
       .tab-number {
         border-color: var(--ion-color-primary);
         background: var(--ion-color-primary);
         color: #fff;
       }
-
-      .tab-label {
-        color: var(--ion-color-primary);
-      }
-
-      .tab-connector {
-        background: var(--ion-color-primary);
-      }
+      .tab-label { color: var(--ion-color-primary); }
+      .tab-connector { background: var(--ion-color-primary); }
     }
 
-    // ── Active state ──
     &.active {
       .tab-number {
         border-color: var(--ion-color-primary);
@@ -130,24 +121,14 @@
         background: #eff4ff;
         box-shadow: 0 0 0 3px rgba(27, 89, 248, .12);
       }
-
-      .tab-label {
-        color: #1e293b;
-        font-weight: 600;
-      }
+      .tab-label { color: #1e293b; font-weight: 600; }
     }
 
-    // ── Clickable (completed steps) ──
     &.clickable {
       cursor: pointer;
-
       &:hover {
-        .tab-number {
-          box-shadow: 0 0 0 3px rgba(27, 89, 248, .15);
-        }
-        .tab-label {
-          color: #1e40af;
-        }
+        .tab-number { box-shadow: 0 0 0 3px rgba(27, 89, 248, .15); }
+        .tab-label { color: #1e40af; }
       }
     }
   }
