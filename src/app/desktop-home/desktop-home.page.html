@@ -22,7 +22,7 @@
               <span class="dk-clock-time">{{ currentTime }}</span>
               <span class="dk-clock-label">Waktu Saat Ini</span>
             </div>
-            <div class="dk-hero-avatar" routerLink="/profile">
+            <div class="dk-hero-avatar" (click)="openProfileDrawer()">
               <img [src]="userAvatar || 'assets/images/avatar.png'" alt="avatar" />
             </div>
           </div>
@@ -286,6 +286,73 @@
         </div>
       </div>
 
+      <!-- Profile Drawer -->
+      <div class="dk-drawer-overlay" *ngIf="showProfileDrawer" (click)="closeProfileDrawer()"></div>
+      <div class="dk-drawer" [class.dk-drawer--open]="showProfileDrawer">
+        <div class="dk-drawer-header">
+          <h2>Profil</h2>
+          <button class="dk-drawer-close" (click)="closeProfileDrawer()">
+            <ion-icon name="close-outline"></ion-icon>
+          </button>
+        </div>
+
+        <!-- Avatar + Info -->
+        <div class="dk-drawer-profile">
+          <div class="dk-drawer-avatar">
+            <img *ngIf="profileUser?.avatar_url" [src]="profileUser.avatar_url" alt="" />
+            <span *ngIf="!profileUser?.avatar_url" class="dk-drawer-initials">{{ profileInitials }}</span>
+          </div>
+          <h3>{{ profileUser?.name || userName }}</h3>
+          <p class="dk-drawer-role">{{ profileRoleLine || userRoleLabel }}</p>
+          <div class="dk-drawer-chips">
+            <span *ngIf="profileUser?.employee_id"><ion-icon name="id-card-outline"></ion-icon> {{ profileUser.employee_id }}</span>
+            <span *ngIf="profileUser?.email"><ion-icon name="mail-outline"></ion-icon> {{ profileUser.email }}</span>
+          </div>
+        </div>
+
+        <!-- Quick Info -->
+        <div class="dk-drawer-info">
+          <div class="dk-drawer-info-item">
+            <ion-icon name="briefcase-outline" style="color:#3b82f6;"></ion-icon>
+            <div><small>Jabatan</small><strong>{{ profileUser?.job_title || '—' }}</strong></div>
+          </div>
+          <div class="dk-drawer-info-item">
+            <ion-icon name="business-outline" style="color:#8b5cf6;"></ion-icon>
+            <div><small>Departemen</small><strong>{{ profileUser?.department || '—' }}</strong></div>
+          </div>
+        </div>
+
+        <!-- Menu -->
+        <nav class="dk-drawer-menu">
+          <a class="dk-drawer-menu-item" routerLink="/profile/personal-info" (click)="closeProfileDrawer()">
+            <ion-icon name="person-outline" style="color:#3b82f6;"></ion-icon>
+            <span>Informasi Pribadi</span>
+            <ion-icon name="chevron-forward-outline" class="dk-drawer-arrow"></ion-icon>
+          </a>
+          <a class="dk-drawer-menu-item" routerLink="/profile/identity" (click)="closeProfileDrawer()">
+            <ion-icon name="shield-checkmark-outline" style="color:#10b981;"></ion-icon>
+            <span>Verifikasi Identitas</span>
+            <ion-icon name="chevron-forward-outline" class="dk-drawer-arrow"></ion-icon>
+          </a>
+          <a class="dk-drawer-menu-item" routerLink="/profile/job-history" (click)="closeProfileDrawer()">
+            <ion-icon name="briefcase-outline" style="color:#f97316;"></ion-icon>
+            <span>Informasi Pekerjaan</span>
+            <ion-icon name="chevron-forward-outline" class="dk-drawer-arrow"></ion-icon>
+          </a>
+          <a class="dk-drawer-menu-item" routerLink="/profile/language" (click)="closeProfileDrawer()">
+            <ion-icon name="globe-outline" style="color:#6366f1;"></ion-icon>
+            <span>Pengaturan Bahasa</span>
+            <ion-icon name="chevron-forward-outline" class="dk-drawer-arrow"></ion-icon>
+          </a>
+        </nav>
+
+        <!-- Logout -->
+        <button class="dk-drawer-logout" (click)="logout()">
+          <ion-icon name="log-out-outline"></ion-icon>
+          <span>Keluar</span>
+        </button>
+      </div>
+
     </ion-content>
   </ng-container>
 
@@ -305,7 +372,7 @@
               <span class="dk-clock-time">{{ currentTime }}</span>
               <span class="dk-clock-label">Waktu Saat Ini</span>
             </div>
-            <div class="dk-hero-avatar" routerLink="/profile">
+            <div class="dk-hero-avatar" (click)="openProfileDrawer()">
               <img [src]="userAvatar || 'assets/images/avatar.png'" alt="avatar" />
             </div>
           </div>

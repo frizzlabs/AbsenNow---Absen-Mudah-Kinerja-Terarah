@@ -13,6 +13,7 @@ import { DashboardService, RecentUpdate, InstagramPost } from '../core/services/
 import { RoleService } from '../core/services/role.service';
 import { OrganizationService } from '../core/services/organization.service';
 import { AttendanceStateService } from '../core/services/attendance-state.service';
+import { ProfileService } from '../core/services/profile.service';
 import { CardComponent } from '../shared/components/card/card.component';
 import { BottomNavComponent } from '../shared/components/bottom-nav/bottom-nav.component';
 
@@ -87,8 +88,41 @@ export class DesktopHomePage implements OnInit, OnDestroy {
     private roleService: RoleService,
     private orgService: OrganizationService,
     public attendanceState: AttendanceStateService,
+    private profileService: ProfileService,
     private cdr: ChangeDetectorRef
   ) {}
+
+  showProfileDrawer = false;
+  profileUser: any = null;
+
+  get profileInitials(): string {
+    if (!this.profileUser?.name) return '?';
+    return this.profileUser.name.split(' ').map((w: string) => w[0]).slice(0, 2).join('').toUpperCase();
+  }
+
+  get profileRoleLine(): string {
+    if (!this.profileUser) return '';
+    return [this.profileUser.job_title, this.profileUser.department].filter(Boolean).join(' · ');
+  }
+
+  openProfileDrawer() {
+    this.showProfileDrawer = true;
+    if (!this.profileUser) {
+      this.profileService.getProfile().subscribe({
+        next: (u) => { this.profileUser = u; this.cdr.detectChanges(); },
+        error: () => {},
+      });
+    }
+  }
+
+  closeProfileDrawer() {
+    this.showProfileDrawer = false;
+  }
+
+  logout() {
+    this.authService.logout();
+    this.router.navigateByUrl('/auth/login', { replaceUrl: true });
+  }
 
   get userRoleLabel(): string {
     const role = this.roleService.role;
@@ -145,10 +179,13 @@ export class DesktopHomePage implements OnInit, OnDestroy {
     return this.roleService.role?.name === 'superadmin' || this.roleService.role?.name === 'org_admin';
   }
 
+  private profileListener = () => this.openProfileDrawer();
+
   ngOnInit() {
     this.redirectIfMobile();
     this.updateClock();
     this.startClock();
+    window.addEventListener('open-profile-drawer', this.profileListener);
   }
 
   private redirectIfMobile() {
@@ -316,6 +353,7 @@ export class DesktopHomePage implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.stopClock();
+    window.removeEventListener('open-profile-drawer', this.profileListener);
   }
 
   startClock() {

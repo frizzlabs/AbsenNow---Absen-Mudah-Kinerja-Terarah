@@ -45,6 +45,11 @@ export class BottomNavComponent implements OnInit, OnDestroy {
     return this.pendingCorrections + this.pendingDinas;
   }
 
+  onProfileClick() {
+    if (!this.isDesktop) return;
+    window.dispatchEvent(new CustomEvent('open-profile-drawer'));
+  }
+
   get org(): any { return this.roleService.organization; }
 
   get isAdmin(): boolean {
