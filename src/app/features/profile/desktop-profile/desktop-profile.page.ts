@@ -1,23 +1,21 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { IonicModule, AlertController, Platform } from '@ionic/angular';
-import { ProfileMenuItemComponent } from '../../shared/components/profile-menu-item/profile-menu-item.component';
-import { BottomNavComponent } from '../../shared/components/bottom-nav/bottom-nav.component';
+import { IonicModule, AlertController } from '@ionic/angular';
 import { RouterModule, Router } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
-import { ProfileService } from '../../core/services/profile.service';
-import { RoleService } from '../../core/services/role.service';
-import { AuthService } from '../../core/services/auth.service';
+import { ProfileService } from '../../../core/services/profile.service';
+import { RoleService } from '../../../core/services/role.service';
+import { AuthService } from '../../../core/services/auth.service';
+import { BottomNavComponent } from '../../../shared/components/bottom-nav/bottom-nav.component';
 
 @Component({
-  selector: 'app-profile',
-  templateUrl: './profile.page.html',
-  styleUrls: ['./profile.page.scss'],
+  selector: 'app-desktop-profile',
+  templateUrl: './desktop-profile.page.html',
+  styleUrls: ['./desktop-profile.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, RouterModule, ProfileMenuItemComponent, BottomNavComponent, TranslatePipe]
+  imports: [CommonModule, IonicModule, RouterModule, TranslatePipe, BottomNavComponent],
 })
-export class ProfilePage {
+export class DesktopProfilePage {
   user: any = null;
   canManageUsers = false;
 
@@ -26,36 +24,33 @@ export class ProfilePage {
     private roleService: RoleService,
     private authService: AuthService,
     private alertController: AlertController,
-    private platform: Platform,
-    private router: Router
+    private router: Router,
   ) {}
-
-  ngOnInit() {
-    if (this.platform.is('desktop') && window.innerWidth >= 1024) {
-      this.router.navigateByUrl('/profile/desktop', { replaceUrl: true });
-    }
-  }
 
   ionViewWillEnter() {
     const cached = localStorage.getItem('user');
     if (cached) {
-      try { this.user = JSON.parse(cached); } catch (e) {}
+      try { this.user = JSON.parse(cached); } catch {}
     }
     this.canManageUsers = this.roleService.can('users.manage');
     this.profileService.getProfile().subscribe({
       next: (u) => (this.user = u),
-      error: () => {}
+      error: () => {},
     });
     this.roleService.loadMyPermissions().subscribe({
       next: () => (this.canManageUsers = this.roleService.can('users.manage')),
-      error: () => {}
+      error: () => {},
     });
   }
 
   get roleLine(): string {
     if (!this.user) return '';
-    const parts = [this.user.job_title, this.user.department].filter(Boolean);
-    return parts.join(' • ');
+    return [this.user.job_title, this.user.department].filter(Boolean).join(' · ');
+  }
+
+  get initials(): string {
+    if (!this.user?.name) return '?';
+    return this.user.name.split(' ').map((w: string) => w[0]).slice(0, 2).join('').toUpperCase();
   }
 
   async confirmLogout() {
@@ -63,16 +58,16 @@ export class ProfilePage {
       header: 'Keluar',
       message: 'Yakin ingin keluar dari AbsenNow?',
       buttons: [
-        { text: 'Batal', role: 'cancel', cssClass: 'alert-btn-cancel' },
+        { text: 'Batal', role: 'cancel' },
         {
           text: 'Keluar',
           cssClass: 'alert-btn-danger',
           handler: () => {
             this.authService.logout();
             this.router.navigateByUrl('/auth/login', { replaceUrl: true });
-          }
-        }
-      ]
+          },
+        },
+      ],
     });
     await alert.present();
   }

@@ -1,0 +1,135 @@
+<ion-content class="dp-content" [fullscreen]="true">
+  <app-bottom-nav></app-bottom-nav>
+
+  <!-- Hero Banner -->
+  <div class="dp-hero">
+    <div class="dp-hero-bg"></div>
+    <div class="dp-hero-inner">
+      <div class="dp-avatar">
+        <img *ngIf="user?.avatar_url" [src]="user.avatar_url" alt="avatar" />
+        <span *ngIf="!user?.avatar_url" class="dp-avatar-initials">{{ initials }}</span>
+      </div>
+      <div class="dp-hero-info">
+        <h1>{{ user?.name || '—' }}</h1>
+        <p class="dp-hero-role">{{ roleLine || '—' }}</p>
+        <div class="dp-hero-chips">
+          <span class="dp-chip" *ngIf="user?.employee_id">
+            <ion-icon name="id-card-outline"></ion-icon> {{ user.employee_id }}
+          </span>
+          <span class="dp-chip" *ngIf="user?.email">
+            <ion-icon name="mail-outline"></ion-icon> {{ user.email }}
+          </span>
+          <span class="dp-chip" *ngIf="user?.phone">
+            <ion-icon name="call-outline"></ion-icon> {{ user.phone }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="dp-body">
+
+    <!-- Quick Info Cards -->
+    <div class="dp-info-row">
+      <div class="dp-info-card">
+        <div class="dp-info-icon" style="--c:#3b82f6; --bg:rgba(59,130,246,.08)">
+          <ion-icon name="briefcase-outline"></ion-icon>
+        </div>
+        <div class="dp-info-text">
+          <span class="dp-info-label">Jabatan</span>
+          <span class="dp-info-value">{{ user?.job_title || '—' }}</span>
+        </div>
+      </div>
+      <div class="dp-info-card">
+        <div class="dp-info-icon" style="--c:#8b5cf6; --bg:rgba(139,92,246,.08)">
+          <ion-icon name="business-outline"></ion-icon>
+        </div>
+        <div class="dp-info-text">
+          <span class="dp-info-label">Departemen</span>
+          <span class="dp-info-value">{{ user?.department || '—' }}</span>
+        </div>
+      </div>
+      <div class="dp-info-card">
+        <div class="dp-info-icon" style="--c:#10b981; --bg:rgba(16,185,129,.08)">
+          <ion-icon name="calendar-outline"></ion-icon>
+        </div>
+        <div class="dp-info-text">
+          <span class="dp-info-label">Bergabung</span>
+          <span class="dp-info-value">{{ user?.join_date || '—' }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Menu Grid -->
+    <h3 class="dp-section-title">Pengaturan</h3>
+    <div class="dp-menu-grid">
+      <a class="dp-menu-card" routerLink="/profile/personal-info">
+        <div class="dp-menu-icon" style="--c:#3b82f6; --bg:rgba(59,130,246,.08)">
+          <ion-icon name="person-outline"></ion-icon>
+        </div>
+        <div class="dp-menu-text">
+          <h4>Informasi Pribadi</h4>
+          <p>Detail kontak, alamat, dan darurat</p>
+        </div>
+        <ion-icon name="chevron-forward-outline" class="dp-menu-arrow"></ion-icon>
+      </a>
+
+      <a class="dp-menu-card" routerLink="/profile/identity">
+        <div class="dp-menu-icon" style="--c:#10b981; --bg:rgba(16,185,129,.08)">
+          <ion-icon name="shield-checkmark-outline"></ion-icon>
+        </div>
+        <div class="dp-menu-text">
+          <h4>Verifikasi Identitas</h4>
+          <p>Paspor, KTP, informasi pajak</p>
+        </div>
+        <ion-icon name="chevron-forward-outline" class="dp-menu-arrow"></ion-icon>
+      </a>
+
+      <a class="dp-menu-card" routerLink="/profile/job-history">
+        <div class="dp-menu-icon" style="--c:#f97316; --bg:rgba(249,115,22,.08)">
+          <ion-icon name="briefcase-outline"></ion-icon>
+        </div>
+        <div class="dp-menu-text">
+          <h4>Informasi Pekerjaan</h4>
+          <p>Posisi, departemen, detail pekerjaan</p>
+        </div>
+        <ion-icon name="chevron-forward-outline" class="dp-menu-arrow"></ion-icon>
+      </a>
+
+      <a class="dp-menu-card" routerLink="/profile/language">
+        <div class="dp-menu-icon" style="--c:#6366f1; --bg:rgba(99,102,241,.08)">
+          <ion-icon name="globe-outline"></ion-icon>
+        </div>
+        <div class="dp-menu-text">
+          <h4>Pengaturan Bahasa</h4>
+          <p>Ubah bahasa aplikasi</p>
+        </div>
+        <ion-icon name="chevron-forward-outline" class="dp-menu-arrow"></ion-icon>
+      </a>
+
+      <a class="dp-menu-card" *ngIf="canManageUsers" routerLink="/admin/roles">
+        <div class="dp-menu-icon" style="--c:#f59e0b; --bg:rgba(245,158,11,.08)">
+          <ion-icon name="shield-outline"></ion-icon>
+        </div>
+        <div class="dp-menu-text">
+          <h4>Role & Privilege</h4>
+          <p>Atur role, hak akses, & pengguna</p>
+        </div>
+        <ion-icon name="chevron-forward-outline" class="dp-menu-arrow"></ion-icon>
+      </a>
+
+      <div class="dp-menu-card dp-menu-logout" (click)="confirmLogout()">
+        <div class="dp-menu-icon" style="--c:#ef4444; --bg:rgba(239,68,68,.08)">
+          <ion-icon name="log-out-outline"></ion-icon>
+        </div>
+        <div class="dp-menu-text">
+          <h4 style="color:#ef4444;">Keluar</h4>
+          <p>Logout dari akun</p>
+        </div>
+        <ion-icon name="chevron-forward-outline" class="dp-menu-arrow" style="color:#ef4444;"></ion-icon>
+      </div>
+    </div>
+
+  </div>
+</ion-content>

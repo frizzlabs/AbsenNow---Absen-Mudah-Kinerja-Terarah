@@ -43,7 +43,7 @@
   </div>
 
   <!-- Profile (desktop sidebar only, pinned to bottom) -->
-  <div class="nav-profile" routerLink="/profile">
+  <div class="nav-profile" [routerLink]="isDesktop ? '/profile/desktop' : '/profile'">
     <ion-icon name="person-circle-outline"></ion-icon>
     <span>{{ 'bottomNav.profile' | translate }}</span>
   </div>
