@@ -15,7 +15,12 @@ export class AuthService {
   login(credentials: { email: string; password: string }): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/login`, credentials).pipe(
       tap(response => {
-        if (response && response.email) {
+        if (response && response.access_token) {
+          this.roleService.clearCache();
+          localStorage.setItem('auth_token', response.access_token);
+          localStorage.setItem('user', JSON.stringify(response.user));
+          localStorage.removeItem('temp_email');
+        } else if (response && response.email) {
           localStorage.setItem('temp_email', response.email);
         }
       })

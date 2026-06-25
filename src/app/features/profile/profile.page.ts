@@ -26,7 +26,6 @@ export class ProfilePage {
     private roleService: RoleService,
     private authService: AuthService,
     private alertController: AlertController,
-    private platform: Platform,
     private router: Router
   ) {}
 

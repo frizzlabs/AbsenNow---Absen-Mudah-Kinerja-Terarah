@@ -1,25 +1,50 @@
 .tab-bar {
   display: flex;
-  padding: 12px 16px 0;
+  padding: 0 16px;
   background: #fff;
   border-bottom: 1px solid #e2e8f0;
 }
 
 .tab-btn {
   flex: 1;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 6px;
-  padding: 10px 8px;
+  padding: 14px 8px;
   border: none;
-  border-bottom: 2px solid transparent;
   background: transparent;
   font-size: 13px;
-  font-weight: 500;
-  color: #94a3b8;
+  font-weight: 600;
+  color: #64748b;
   cursor: pointer;
-  &.active { color: #1B59F8; border-bottom-color: #1B59F8; }
+  position: relative;
+  outline: none;
+  transition: all 0.2s ease;
+
+  &:hover {
+    color: #0f172a;
+  }
+
+  &.active {
+    color: #1B59F8;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: #1B59F8;
+      border-radius: 3px 3px 0 0;
+    }
+  }
+
+  &:focus, &:focus-visible, &:active {
+    outline: none !important;
+    box-shadow: none !important;
+  }
 }
 
 .badge {
@@ -27,10 +52,13 @@
   color: #fff;
   font-size: 10px;
   font-weight: 700;
-  border-radius: 10px;
+  border-radius: 100px;
   padding: 1px 6px;
   min-width: 16px;
-  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 16px;
 }
 
 .center-spinner {
@@ -267,13 +295,13 @@
   }
 
   .tab-btn {
-    flex: none;
-    padding: 12px 24px;
+    flex: 1;
+    padding: 16px 24px;
     font-size: 14px;
     font-weight: 600;
     transition: color .15s;
 
-    &:hover:not(.active) { color: #64748b; }
+    &:hover:not(.active) { color: #0f172a; }
   }
 
   .empty-state {

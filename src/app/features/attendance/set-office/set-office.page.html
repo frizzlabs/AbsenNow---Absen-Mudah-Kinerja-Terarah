@@ -129,34 +129,36 @@
       </div>
     </div>
 
-    <!-- WORK SCHEDULE SECTION -->
-    <div class="section-card">
-      <div class="section-title">
-        <ion-icon name="time-outline"></ion-icon>
-        <span>Jadwal Kerja</span>
+    <!-- SIDE PANEL -->
+    <div class="side-panel">
+      <!-- WORK SCHEDULE SECTION -->
+      <div class="section-card">
+        <div class="section-title">
+          <ion-icon name="time-outline"></ion-icon>
+          <span>Jadwal Kerja</span>
+        </div>
+
+        <div class="schedule-row">
+          <div class="field-group">
+            <label class="field-label">Jam Masuk</label>
+            <input class="field-input" type="time" [(ngModel)]="workStart" />
+          </div>
+          <div class="field-group">
+            <label class="field-label">Jam Keluar</label>
+            <input class="field-input" type="time" [(ngModel)]="workEnd" />
+          </div>
+        </div>
+        <p class="schedule-hint" *ngIf="workStart && workEnd && workStart >= workEnd">
+          <ion-icon name="warning-outline"></ion-icon>
+          Jam masuk harus lebih awal dari jam keluar.
+        </p>
       </div>
 
-      <div class="schedule-row">
-        <div class="field-group">
-          <label class="field-label">Jam Masuk</label>
-          <input class="field-input" type="time" [(ngModel)]="workStart" />
-        </div>
-        <div class="field-group">
-          <label class="field-label">Jam Keluar</label>
-          <input class="field-input" type="time" [(ngModel)]="workEnd" />
-        </div>
+      <div class="bottom-actions">
+        <app-button variant="primary" icon="save-outline" iconPosition="left" [disabled]="isSaving" (onClick)="save()">
+          {{ isSaving ? 'Menyimpan...' : 'SIMPAN PENGATURAN KANTOR' }}
+        </app-button>
       </div>
-      <p class="schedule-hint" *ngIf="workStart && workEnd && workStart >= workEnd">
-        <ion-icon name="warning-outline"></ion-icon>
-        Jam masuk harus lebih awal dari jam keluar.
-      </p>
     </div>
-
-    <div class="bottom-actions">
-      <app-button variant="primary" icon="save-outline" iconPosition="left" [disabled]="isSaving" (onClick)="save()">
-        {{ isSaving ? 'Menyimpan...' : 'SIMPAN PENGATURAN KANTOR' }}
-      </app-button>
-    </div>
-
   </div>
 </ion-content>

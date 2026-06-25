@@ -61,6 +61,19 @@ class AuthController extends Controller
             ]);
         }
 
+        // Bypassing OTP for demo/seeded accounts
+        $isDemoUser = str_ends_with($user->email, '@demo.absennow.id') || $user->email === 'vendor@absennow.id';
+
+        if ($isDemoUser) {
+            $token = $user->createToken('auth_token')->plainTextToken;
+            return response()->json([
+                'message' => 'Login successful (Demo Mode)',
+                'access_token' => $token,
+                'token_type' => 'Bearer',
+                'user' => $user->load('organization'),
+            ]);
+        }
+
         // Generate 6-digit OTP
         $otp = (string) mt_rand(100000, 999999);
         $user->otp = $otp;

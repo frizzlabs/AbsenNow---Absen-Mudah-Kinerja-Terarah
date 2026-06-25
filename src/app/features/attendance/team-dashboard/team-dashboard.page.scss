@@ -239,10 +239,14 @@ ion-content {
 
 // ── Desktop ─────────────────────────────────────────────────────────
 @media (min-width: 1024px) {
+  .custom-segment-container {
+    padding: 0 28px;
+  }
+
   .content-wrapper {
-    max-width: 960px;
-    margin: 0 auto;
-    padding: 24px 0;
+    max-width: 100%;
+    padding: 24px 28px;
+    margin: 0;
   }
 
   .stat-card-primary { max-width: 420px; border-radius: 20px; }
@@ -265,9 +269,9 @@ ion-content {
   }
 
   .footer-wrapper {
-    max-width: 960px;
-    margin: 0 auto;
-    padding: 16px 0 32px;
+    max-width: 100%;
+    padding: 16px 28px 32px;
+    margin: 0;
     ion-button { max-width: 320px; }
   }
 }

@@ -8,6 +8,12 @@
   gap: 16px;
 }
 
+.side-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
 .section-card {
   background: #fff;
   border-radius: 16px;
@@ -204,6 +210,11 @@
 .bottom-actions {
   margin-top: 4px;
 
+  app-button {
+    width: 100%;
+    display: block;
+  }
+
   ion-button {
     --border-radius: 12px;
     height: 50px;
@@ -390,10 +401,6 @@
     border-radius: 18px;
     padding: 20px;
     box-shadow: 0 1px 3px rgba(0,0,0,.03);
-
-    &:first-child {
-      grid-row: 1 / 3;
-    }
   }
 
   .map-box {
@@ -402,12 +409,11 @@
   }
 
   .bottom-actions {
-    grid-column: 1 / -1;
-    display: flex;
-    justify-content: flex-end;
+    margin-top: 0;
 
     app-button, ion-button {
-      max-width: 320px;
+      width: 100%;
+      display: block;
     }
   }
 

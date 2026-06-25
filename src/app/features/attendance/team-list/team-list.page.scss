@@ -167,9 +167,9 @@ ion-content {
 // ── Desktop ─────────────────────────────────────────────────────────
 @media (min-width: 1024px) {
   .content-wrapper {
-    max-width: 960px;
-    margin: 0 auto;
-    padding: 24px 0;
+    max-width: 100%;
+    margin: 0;
+    padding: 24px 28px;
   }
 
   .list-item {

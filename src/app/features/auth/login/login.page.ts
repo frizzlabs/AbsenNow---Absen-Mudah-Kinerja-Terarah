@@ -6,6 +6,7 @@ import { Router, RouterModule } from '@angular/router';
 import { InputComponent } from '../../../shared/components/input/input.component';
 import { ButtonComponent } from '../../../shared/components/button/button.component';
 import { AuthService } from '../../../core/services/auth.service';
+import { RoleService } from '../../../core/services/role.service';
 import { TenantService, TenantBranding } from '../../../core/services/tenant.service';
 
 @Component({
@@ -24,6 +25,7 @@ export class LoginPage implements OnInit {
   constructor(
     private router: Router,
     private authService: AuthService,
+    private roleService: RoleService,
     private toastController: ToastController,
     private tenant: TenantService
   ) { }
@@ -49,7 +51,13 @@ export class LoginPage implements OnInit {
     this.authService.login({ email: this.email, password: this.password }).subscribe({
       next: (res) => {
         this.isLoading = false;
-        if (res?.has_pin) {
+        if (res?.access_token) {
+          const destination = res.user?.device_pin ? '/home' : '/auth/device-pin/create';
+          this.roleService.loadMyPermissions().subscribe({
+            next: () => this.router.navigateByUrl(destination),
+            error: () => this.router.navigateByUrl(destination),
+          });
+        } else if (res?.has_pin) {
           this.router.navigateByUrl('/auth/device-pin/verify');
         } else {
           this.router.navigateByUrl('/auth/login-verification');
