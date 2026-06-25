@@ -137,14 +137,14 @@ ion-content.bg-light {
   .profile-header {
     max-width: 780px;
     margin: 0 auto;
-    padding: 20px 0 12px;
+    padding: 20px 24px 12px;
     .back-btn { cursor: pointer; }
   }
 
   .page-container {
     max-width: 780px;
     margin: 0 auto;
-    padding: 0 0 80px;
+    padding: 0 24px 80px;
     display: grid;
     grid-template-columns: 240px 1fr;
     gap: 14px;
