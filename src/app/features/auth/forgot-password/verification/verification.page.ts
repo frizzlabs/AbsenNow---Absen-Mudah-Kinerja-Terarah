@@ -22,7 +22,9 @@ export class VerificationPage implements OnInit, OnDestroy {
   resetEmail = '';
   isLoading = false;
   countdown = 0;
+  resendCountdown = 60;
   private countdownInterval: any;
+  private resendInterval: any;
 
   constructor(
     private router: Router,
@@ -33,9 +35,15 @@ export class VerificationPage implements OnInit, OnDestroy {
   ngOnInit() {
     this.resetEmail = localStorage.getItem('reset_email') || '';
     if (!this.resetEmail) this.router.navigateByUrl('/auth/forgot-password/email', { replaceUrl: true });
+    this.startResendCountdown();
   }
 
-  ngOnDestroy() { this.stopCountdown(); }
+  ngOnDestroy() { 
+    this.stopCountdown(); 
+    if (this.resendInterval) {
+      clearInterval(this.resendInterval);
+    }
+  }
 
   get isBlocked(): boolean { return this.countdown > 0; }
 
@@ -80,6 +88,45 @@ export class VerificationPage implements OnInit, OnDestroy {
         if (status === 429) { this.startCountdown(60); this.otpValue = ''; }
         const toast = await this.toastController.create({
           message, duration: 3000, position: 'top', color: status === 429 ? 'warning' : 'danger'
+        });
+        await toast.present();
+      }
+    });
+  }
+
+  startResendCountdown() {
+    this.resendCountdown = 60;
+    if (this.resendInterval) clearInterval(this.resendInterval);
+    this.resendInterval = setInterval(() => {
+      this.resendCountdown--;
+      if (this.resendCountdown <= 0) {
+        clearInterval(this.resendInterval);
+      }
+    }, 1000);
+  }
+
+  async resendCode() {
+    if (this.resendCountdown > 0) return;
+    this.isLoading = true;
+    this.authService.forgotPassword(this.resetEmail).subscribe({
+      next: async (res) => {
+        this.isLoading = false;
+        this.startResendCountdown();
+        const toast = await this.toastController.create({
+          message: 'Kode reset password telah dikirim ulang.',
+          duration: 3000,
+          position: 'top',
+          color: 'success'
+        });
+        await toast.present();
+      },
+      error: async (err) => {
+        this.isLoading = false;
+        const toast = await this.toastController.create({
+          message: err.error?.message || 'Gagal mengirim ulang kode.',
+          duration: 3000,
+          position: 'top',
+          color: 'danger'
         });
         await toast.present();
       }

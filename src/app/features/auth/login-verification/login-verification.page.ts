@@ -8,7 +8,7 @@ import { OtpInputComponent } from '../../../shared/components/otp-input/otp-inpu
 import { ButtonComponent } from '../../../shared/components/button/button.component';
 import { NumpadComponent } from '../../../shared/components/numpad/numpad.component';
 
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 import { RoleService } from '../../../core/services/role.service';
 import { ToastController } from '@ionic/angular';
@@ -25,10 +25,14 @@ export class LoginVerificationPage implements OnInit, OnDestroy {
   tempEmail: string = '';
   isLoading: boolean = false;
   countdown: number = 0;
+  resendCountdown: number = 60;
+  mode: string = 'login';
   private countdownInterval: any;
+  private resendInterval: any;
 
   constructor(
     private router: Router,
+    private route: ActivatedRoute,
     private authService: AuthService,
     private roleService: RoleService,
     private toastController: ToastController
@@ -36,10 +40,17 @@ export class LoginVerificationPage implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.tempEmail = localStorage.getItem('temp_email') || 'your email';
+    this.route.queryParams.subscribe(params => {
+      this.mode = params['mode'] || 'login';
+    });
+    this.startResendCountdown();
   }
 
   ngOnDestroy() {
     this.stopCountdown();
+    if (this.resendInterval) {
+      clearInterval(this.resendInterval);
+    }
   }
 
   get isBlocked(): boolean { return this.countdown > 0; }
@@ -80,9 +91,21 @@ export class LoginVerificationPage implements OnInit, OnDestroy {
     if (this.isBlocked || this.otpValue.length < 6) return;
 
     this.isLoading = true;
-    this.authService.verifyOtp(this.otpValue).subscribe({
+    const request = this.mode === 'forgot-pin'
+      ? this.authService.verifyForgotPinOtp(this.otpValue)
+      : this.authService.verifyOtp(this.otpValue);
+
+    request.subscribe({
       next: (res) => {
         this.isLoading = false;
+        localStorage.setItem('isLoggedIn', 'true');
+        if (this.mode === 'forgot-pin') {
+          localStorage.removeItem('hasPin');
+        } else if (res?.user?.device_pin) {
+          localStorage.setItem('hasPin', 'true');
+          localStorage.setItem('pin_email', res.user.email);
+        }
+
         const destination = res?.user?.device_pin ? '/home' : '/auth/device-pin/create';
         // Preload role sebelum navigasi agar home page tidak flash
         this.roleService.loadMyPermissions().subscribe({
@@ -104,6 +127,50 @@ export class LoginVerificationPage implements OnInit, OnDestroy {
           duration: 3000,
           position: 'top',
           color: status === 429 ? 'warning' : 'danger'
+        });
+        await toast.present();
+      }
+    });
+  }
+
+  startResendCountdown() {
+    this.resendCountdown = 60;
+    if (this.resendInterval) clearInterval(this.resendInterval);
+    this.resendInterval = setInterval(() => {
+      this.resendCountdown--;
+      if (this.resendCountdown <= 0) {
+        clearInterval(this.resendInterval);
+      }
+    }, 1000);
+  }
+
+  async resendOtp() {
+    if (this.resendCountdown > 0) return;
+    this.isLoading = true;
+
+    const request = this.mode === 'forgot-pin'
+      ? this.authService.forgotPin(this.tempEmail)
+      : this.authService.resendOtp(this.tempEmail);
+
+    request.subscribe({
+      next: async (res) => {
+        this.isLoading = false;
+        this.startResendCountdown();
+        const toast = await this.toastController.create({
+          message: 'Kode OTP telah dikirim ulang.',
+          duration: 3000,
+          position: 'top',
+          color: 'success'
+        });
+        await toast.present();
+      },
+      error: async (err) => {
+        this.isLoading = false;
+        const toast = await this.toastController.create({
+          message: err.error?.message || 'Gagal mengirim ulang OTP.',
+          duration: 3000,
+          position: 'top',
+          color: 'danger'
         });
         await toast.present();
       }

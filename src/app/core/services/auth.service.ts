@@ -41,6 +41,10 @@ export class AuthService {
     );
   }
 
+  resendOtp(email: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/resend-otp`, { email });
+  }
+
   register(userData: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/register`, userData).pipe(
       tap(response => {
@@ -93,6 +97,24 @@ export class AuthService {
       tap(() => {
         localStorage.removeItem('reset_email');
         localStorage.removeItem('reset_token');
+      })
+    );
+  }
+
+  forgotPin(email: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/forgot-pin`, { email });
+  }
+
+  verifyForgotPinOtp(otp: string): Observable<any> {
+    const email = localStorage.getItem('temp_email');
+    return this.http.post<any>(`${this.apiUrl}/forgot-pin/verify-otp`, { email, otp }).pipe(
+      tap(response => {
+        if (response && response.access_token) {
+          this.roleService.clearCache();
+          localStorage.setItem('auth_token', response.access_token);
+          localStorage.setItem('user', JSON.stringify(response.user));
+          localStorage.removeItem('temp_email');
+        }
       })
     );
   }

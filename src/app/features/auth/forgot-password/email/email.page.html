@@ -16,9 +16,9 @@
     <app-button variant="primary" class="w-full" icon="arrow-forward-outline" iconPosition="right" [disabled]="isLoading" (onClick)="sendCode()">
       {{ isLoading ? 'Mengirim...' : 'Kirim Kode Reset' }}
     </app-button>
-  </div>
-  
-  <div class="bottom-link">
-    <p class="text-body-medium-regular text-medium">Remember your password? <a routerLink="/auth/login" class="text-blue font-semibold" style="cursor: pointer;">Log In</a></p>
+
+    <div class="bottom-link">
+      <p class="text-body-medium-regular text-medium">Remember your password? <a routerLink="/auth/login" class="text-blue font-semibold" style="cursor: pointer;">Log In</a></p>
+    </div>
   </div>
 </ion-content>

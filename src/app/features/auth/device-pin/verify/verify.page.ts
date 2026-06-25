@@ -51,22 +51,49 @@ export class VerifyPage implements OnInit {
   async forgotPin() {
     const alert = await this.alertController.create({
       header: 'Lupa PIN?',
-      message: 'Anda akan keluar dan diarahkan ke halaman login untuk masuk ulang dan membuat PIN baru.',
+      message: 'Kami akan mengirimkan kode OTP ke email Anda untuk mengatur ulang PIN.',
       buttons: [
         { text: 'Batal', role: 'cancel' },
         {
-          text: 'Lanjutkan',
+          text: 'Kirim OTP',
           handler: () => {
-            localStorage.removeItem('hasPin');
-            localStorage.removeItem('pin_email');
-            localStorage.removeItem('isLoggedIn');
-            localStorage.removeItem('auth_token');
-            this.router.navigateByUrl('/auth/login', { replaceUrl: true });
+            this.sendForgotPinOtp();
           }
         }
       ]
     });
     await alert.present();
+  }
+
+  async sendForgotPinOtp() {
+    const loading = await this.loadingController.create({
+      message: 'Mengirim OTP...',
+    });
+    await loading.present();
+
+    this.authService.forgotPin(this.email).subscribe({
+      next: async (res) => {
+        await loading.dismiss();
+        localStorage.setItem('temp_email', this.email);
+        localStorage.removeItem('hasPin');
+        localStorage.removeItem('isLoggedIn');
+        localStorage.removeItem('auth_token');
+
+        this.router.navigate(['/auth/login-verification'], {
+          queryParams: { mode: 'forgot-pin' }
+        });
+      },
+      error: async (err) => {
+        await loading.dismiss();
+        const toast = await this.toastController.create({
+          message: err.error?.message || 'Gagal mengirim OTP. Silakan coba lagi.',
+          duration: 3000,
+          position: 'top',
+          color: 'danger'
+        });
+        await toast.present();
+      }
+    });
   }
 
   async onKeyPress(key: string) {

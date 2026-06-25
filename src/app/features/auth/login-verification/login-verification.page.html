@@ -21,8 +21,16 @@
         </p>
       </ng-container>
       <ng-template #normalHint>
-        <p class="text-body-small-regular text-medium">Didn't receive the code?</p>
-        <p class="text-body-small-semibold text-dark">Periksa folder spam / masuk kembali untuk kirim ulang.</p>
+        <p class="text-body-small-regular text-medium">
+          Didn't receive the code?
+          <span *ngIf="resendCountdown > 0; else resendLink">
+            Kirim ulang dalam <strong>{{ resendCountdown }}s</strong>
+          </span>
+          <ng-template #resendLink>
+            <a (click)="resendOtp()" class="text-blue font-semibold" style="cursor: pointer; text-decoration: none;">Kirim Ulang</a>
+          </ng-template>
+        </p>
+        <p class="text-body-small-semibold text-dark">Periksa folder spam.</p>
       </ng-template>
     </div>
 
