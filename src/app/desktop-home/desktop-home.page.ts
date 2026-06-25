@@ -86,7 +86,7 @@ export class DesktopHomePage implements OnInit, OnDestroy {
     private dashboardService: DashboardService,
     private roleService: RoleService,
     private orgService: OrganizationService,
-    private attendanceState: AttendanceStateService,
+    public attendanceState: AttendanceStateService,
     private cdr: ChangeDetectorRef
   ) {}
 

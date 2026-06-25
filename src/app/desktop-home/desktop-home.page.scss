@@ -1,4 +1,4 @@
-/* ── Desktop Dashboard — Karajo Enterprise v2 ─────────────────────── */
+/* ── Desktop Dashboard — Bento Grid v3 ────────────────────────────── */
 
 $font: 'Manrope', 'Inter', -apple-system, sans-serif;
 $blue: #1B59F8;
@@ -14,7 +14,6 @@ $slate-700: #334155;
 $slate-800: #1e293b;
 $slate-900: #0f172a;
 
-// ── Layout ──────────────────────────────────────────────────────────
 .dk-content {
   --background: #f0f2f5;
   font-family: $font;
@@ -23,343 +22,346 @@ $slate-900: #0f172a;
 .dk-page {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 0 40px 80px;
+  padding: 0 36px 80px;
 }
 
-// ── Hero Header ─────────────────────────────────────────────────────
-.dk-topbar {
+// ── Hero ────────────────────────────────────────────────────────────
+.dk-hero {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
-  padding: 28px 40px 24px;
+  padding: 32px 36px 28px;
   max-width: 1280px;
   margin: 0 auto;
 }
 
-.dk-topbar-left {
-  .dk-topbar-greeting {
-    margin: 0;
-    font-size: 26px;
-    font-weight: 800;
-    color: $slate-900;
-    letter-spacing: -0.6px;
-    line-height: 1.2;
-  }
-  .dk-topbar-name { color: $blue; }
-  .dk-topbar-date {
-    margin: 6px 0 0;
-    font-size: 13px;
-    font-weight: 600;
+.dk-hero-left {
+  .dk-hero-date {
+    margin: 0 0 8px;
+    font-size: 12px;
+    font-weight: 700;
     color: $slate-400;
     text-transform: uppercase;
-    letter-spacing: .6px;
+    letter-spacing: 1.2px;
+  }
+  .dk-hero-greeting {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 800;
+    color: $slate-900;
+    line-height: 1.15;
+    letter-spacing: -0.8px;
+    span { color: $blue; }
+  }
+  .dk-hero-role {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 5px 14px;
+    border-radius: 100px;
+    letter-spacing: .2px;
   }
 }
 
-.dk-topbar-right {
+.dk-hero-right {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
 }
 
-.dk-topbar-clock {
+.dk-hero-clock {
   display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 13px;
-  font-weight: 700;
-  color: $slate-700;
-  background: white;
-  border: 1px solid $slate-200;
-  border-radius: 12px;
-  padding: 8px 16px;
-  box-shadow: 0 1px 2px rgba(0,0,0,.04);
+  flex-direction: column;
+  align-items: flex-end;
 
-  ion-icon { font-size: 15px; color: $slate-400; }
+  .dk-clock-time {
+    font-size: 32px;
+    font-weight: 800;
+    color: $slate-900;
+    letter-spacing: -1.5px;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+  }
+  .dk-clock-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: $slate-400;
+    margin-top: 4px;
+  }
 }
 
-.dk-topbar-role {
-  font-size: 11px;
-  font-weight: 700;
-  padding: 6px 14px;
-  border-radius: 100px;
-  white-space: nowrap;
-  letter-spacing: .2px;
-}
-
-.dk-avatar {
-  position: relative;
+.dk-hero-avatar {
   cursor: pointer;
   transition: transform .15s;
-  &:hover { transform: scale(1.06); }
+  &:hover { transform: scale(1.08); }
 
   img {
-    width: 42px;
-    height: 42px;
-    border-radius: 14px;
+    width: 48px;
+    height: 48px;
+    border-radius: 16px;
     object-fit: cover;
-    border: 2px solid white;
-    box-shadow: 0 2px 8px rgba(0,0,0,.08);
+    border: 2.5px solid white;
+    box-shadow: 0 4px 12px rgba(0,0,0,.1);
   }
-  .dk-avatar-dot {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    width: 10px;
-    height: 10px;
-    background: #10b981;
-    border: 2px solid white;
-    border-radius: 50%;
+}
+
+// ── Bento Grid ──────────────────────────────────────────────────────
+.dk-bento {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+.dk-bento-item {
+  background: white;
+  border-radius: 20px;
+  border: 1px solid rgba(0,0,0,.05);
+  box-shadow: 0 1px 3px rgba(0,0,0,.03);
+  overflow: hidden;
+}
+
+.dk-bento-wide {
+  grid-column: 1 / 4;
+}
+
+.dk-bento-side {
+  grid-column: 4 / 5;
+  grid-row: span 2;
+}
+
+// ── Attendance Card ─────────────────────────────────────────────────
+.dk-bento-attendance {
+  grid-column: 1 / 2;
+  background: linear-gradient(145deg, $blue 0%, $indigo 100%);
+  border: none;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: white;
+  position: relative;
+  min-height: 140px;
+  transition: all .3s cubic-bezier(.4,0,.2,1);
+
+  &.dk-clickable {
+    cursor: pointer;
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 32px -8px rgba($blue, .4);
+    }
+  }
+}
+
+.dk-att-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.dk-att-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: rgba(255,255,255,.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  ion-icon { font-size: 20px; }
+}
+
+.dk-att-badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 100px;
+  background: rgba(255,255,255,.2);
+  backdrop-filter: blur(4px);
+
+  &--done { background: rgba(16, 185, 129, .3); }
+}
+
+.dk-att-sub {
+  margin: 0;
+  font-size: 12px;
+  opacity: .7;
+}
+
+.dk-att-bottom {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255,255,255,.15);
+
+  span { font-size: 12px; font-weight: 600; opacity: .85; }
+  ion-icon { font-size: 16px; opacity: .7; }
+
+  &--done {
+    justify-content: flex-start;
+    gap: 6px;
+    opacity: .7;
+    ion-icon { font-size: 16px; opacity: 1; }
+    span { font-size: 12px; }
   }
 }
 
 // ── Stat Cards ──────────────────────────────────────────────────────
-.dk-stats-row {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-  margin-bottom: 24px;
-}
-
-.dk-stat-card {
-  background: white;
-  border: 1px solid rgba(0,0,0,.06);
-  border-radius: 18px;
-  padding: 22px 20px;
+.dk-bento-stat {
+  padding: 22px;
   display: flex;
-  align-items: center;
-  gap: 16px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  min-height: 140px;
   transition: all .25s cubic-bezier(.4,0,.2,1);
-  box-shadow: 0 1px 3px rgba(0,0,0,.04);
 
   &:hover {
-    box-shadow: 0 8px 24px -4px rgba(0,0,0,.08);
     transform: translateY(-2px);
+    box-shadow: 0 8px 20px -4px rgba(0,0,0,.08);
   }
 }
 
-.dk-stat-card.dk-stat-primary {
-  background: linear-gradient(135deg, $blue 0%, $indigo 100%);
-  border-color: transparent;
-  box-shadow: 0 4px 16px -2px rgba($blue, .3);
-
-  .dk-stat-icon { background: rgba(255,255,255,.2); color: white; }
-  .dk-stat-label { color: rgba(255,255,255,.75); }
-  .dk-stat-value { color: white; }
-  .dk-stat-arrow { color: rgba(255,255,255,.5); }
-
-  &:hover {
-    box-shadow: 0 12px 28px -4px rgba($blue, .4);
-  }
-}
-
-.dk-stat-clickable {
-  text-decoration: none;
-  cursor: pointer;
-  &:hover .dk-stat-arrow { color: white; transform: translateX(3px); }
-}
-
-.dk-stat-arrow {
-  font-size: 18px;
-  flex-shrink: 0;
-  transition: all .2s;
-}
-
-.dk-stat-icon {
-  width: 50px;
-  height: 50px;
-  border-radius: 14px;
+.dk-bstat-icon {
+  font-size: 24px;
+  width: 44px;
+  height: 44px;
+  border-radius: 13px;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
-  background: rgba($blue, .08);
-  color: $blue;
-  ion-icon { font-size: 24px; }
 
-  &--orange  { background: rgba(#f97316, .08); color: #f97316; }
+  &--blue    { background: rgba($blue, .08); color: $blue; }
   &--emerald { background: rgba(#10b981, .08); color: #10b981; }
   &--violet  { background: rgba(#8b5cf6, .08); color: #8b5cf6; }
 }
 
-.dk-stat-info {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
+.dk-bstat-val {
+  font-size: 26px;
+  font-weight: 800;
+  color: $slate-900;
+  letter-spacing: -0.8px;
+  line-height: 1;
+  margin-top: auto;
 }
 
-.dk-stat-label {
+.dk-bstat-label {
   font-size: 12px;
   font-weight: 600;
   color: $slate-400;
-  letter-spacing: .2px;
 }
 
-.dk-stat-value {
-  font-size: 22px;
-  font-weight: 800;
-  color: $slate-900;
-  letter-spacing: -0.5px;
-}
-
-// ── Grid ────────────────────────────────────────────────────────────
-.dk-grid {
-  display: grid;
-  grid-template-columns: 1fr 320px;
-  gap: 20px;
-  align-items: start;
-}
-
-.dk-col-main {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  min-width: 0;
-}
-
-.dk-col-side {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  position: sticky;
-  top: 20px;
-}
-
-// ── Card Base ───────────────────────────────────────────────────────
-.dk-card {
-  background: white;
-  border: 1px solid rgba(0,0,0,.06);
-  border-radius: 18px;
-  overflow: hidden;
-  box-shadow: 0 1px 3px rgba(0,0,0,.03);
-}
-
-.dk-card-header {
+// ── Section Heads ───────────────────────────────────────────────────
+.dk-section-head {
   display: flex;
   align-items: center;
   gap: 14px;
-  padding: 20px 24px;
+  padding: 18px 22px;
   border-bottom: 1px solid $slate-100;
 
   &--flat { justify-content: space-between; }
+
+  h2 {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 800;
+    color: $slate-900;
+    letter-spacing: -0.2px;
+  }
+  p {
+    margin: 2px 0 0;
+    font-size: 11px;
+    color: $slate-500;
+  }
 }
 
-.dk-card-header-icon {
-  width: 42px;
-  height: 42px;
-  border-radius: 12px;
+.dk-section-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 11px;
+  background: linear-gradient(135deg, $blue, $indigo);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  ion-icon { font-size: 20px; color: white; }
-  &--blue { background: linear-gradient(135deg, $blue, $indigo); }
-}
-
-.dk-card-title {
-  margin: 0;
-  font-size: 16px;
-  font-weight: 800;
-  color: $slate-900;
-  letter-spacing: -0.2px;
-}
-
-.dk-card-subtitle {
-  margin: 2px 0 0;
-  font-size: 12px;
-  color: $slate-500;
+  ion-icon { font-size: 18px; color: white; }
 }
 
 .dk-link {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
   color: $blue;
   text-decoration: none;
-  transition: color .15s;
   &:hover { color: $indigo; }
 }
 
-// ── Admin Panel Grid ────────────────────────────────────────────────
+// ── Admin Grid ──────────────────────────────────────────────────────
+.dk-admin-section { border: 1px solid rgba($blue, .08); }
+
 .dk-admin-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  padding: 18px 20px 20px;
+  gap: 8px;
+  padding: 16px 18px 18px;
 }
 
 .dk-admin-item {
   display: flex;
-  flex-direction: column;
-  padding: 16px;
-  border-radius: 14px;
-  background: $slate-50;
-  border: 1px solid transparent;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
   cursor: pointer;
   text-decoration: none;
-  transition: all .25s cubic-bezier(.4,0,.2,1);
+  transition: all .2s;
 
   &:hover {
-    background: white;
-    border-color: $slate-200;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px -6px rgba(0,0,0,.08);
+    background: $slate-50;
+    transform: translateX(2px);
   }
 
-  span {
-    font-size: 13px;
-    font-weight: 700;
-    color: $slate-900;
-    margin-bottom: 2px;
-  }
-  p {
-    margin: 0;
-    font-size: 11px;
-    color: $slate-500;
-    line-height: 1.4;
+  div:last-child {
+    span { font-size: 13px; font-weight: 700; color: $slate-900; display: block; }
+    p { margin: 1px 0 0; font-size: 10.5px; color: $slate-400; }
   }
 }
 
 .dk-admin-icon {
-  width: 38px;
-  height: 38px;
-  border-radius: 11px;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 12px;
+  flex-shrink: 0;
   background: var(--bg);
   color: var(--c);
-  ion-icon { font-size: 18px; }
+  ion-icon { font-size: 17px; }
 }
 
 // ── Updates ─────────────────────────────────────────────────────────
-.dk-updates {
-  display: flex;
-  flex-direction: column;
-}
+.dk-updates { display: flex; flex-direction: column; }
 
 .dk-update-row {
   display: flex;
   align-items: center;
   gap: 14px;
-  padding: 14px 24px;
+  padding: 13px 22px;
   cursor: pointer;
   text-decoration: none;
   border-bottom: 1px solid $slate-100;
-  transition: background .15s;
+  transition: background .12s;
   &:last-child { border-bottom: none; }
   &:hover { background: $slate-50; }
 }
 
-.dk-update-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: 11px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.dk-update-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
   flex-shrink: 0;
-  ion-icon { font-size: 20px; }
 }
 
 .dk-update-body {
@@ -367,7 +369,7 @@ $slate-900: #0f172a;
   min-width: 0;
   h4 {
     margin: 0;
-    font-size: 13.5px;
+    font-size: 13px;
     font-weight: 700;
     color: $slate-900;
     white-space: nowrap;
@@ -375,8 +377,8 @@ $slate-900: #0f172a;
     text-overflow: ellipsis;
   }
   p {
-    margin: 2px 0 0;
-    font-size: 12px;
+    margin: 1px 0 0;
+    font-size: 11.5px;
     color: $slate-500;
     white-space: nowrap;
     overflow: hidden;
@@ -385,155 +387,36 @@ $slate-900: #0f172a;
 }
 
 .dk-update-time {
-  font-size: 11px;
+  font-size: 10.5px;
   font-weight: 500;
   color: $slate-400;
   flex-shrink: 0;
-  white-space: nowrap;
 }
 
-// ── News Grid ───────────────────────────────────────────────────────
-.dk-news-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 14px;
-  padding: 18px 20px 20px;
-}
+// ── Quick Menu ──────────────────────────────────────────────────────
+.dk-quick-menu { padding: 18px; }
 
-.dk-news-card {
-  border-radius: 14px;
-  border: 1px solid $slate-100;
-  overflow: hidden;
-  cursor: pointer;
-  text-decoration: none;
-  background: white;
-  transition: all .25s cubic-bezier(.4,0,.2,1);
-
-  &:hover {
-    border-color: $slate-300;
-    transform: translateY(-2px);
-    box-shadow: 0 10px 24px -8px rgba(0,0,0,.1);
-    .dk-news-media img { transform: scale(1.04); }
-  }
-}
-
-.dk-news-media {
-  position: relative;
-  height: 150px;
-  background: $slate-100;
-  overflow: hidden;
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform .5s cubic-bezier(.4,0,.2,1);
-  }
-
-  .dk-news-play {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: white;
-    font-size: 42px;
-    opacity: .9;
-    filter: drop-shadow(0 2px 6px rgba(0,0,0,.3));
-  }
-
-  .dk-news-badge {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 10px;
-    font-weight: 700;
-    color: white;
-    background: rgba(0,0,0,.55);
-    backdrop-filter: blur(6px);
-    padding: 3px 10px;
-    border-radius: 8px;
-  }
-}
-
-.dk-news-body { padding: 14px; }
-
-.dk-news-source {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 8px;
-
-  img {
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 1px solid $slate-200;
-  }
-  span {
-    font-size: 12px;
-    font-weight: 700;
-    color: $slate-800;
-  }
-}
-
-.dk-news-caption {
-  margin: 0 0 10px;
-  font-size: 12.5px;
-  color: $slate-600;
-  line-height: 1.5;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-align: left;
-}
-
-.dk-news-stats {
-  display: flex;
-  gap: 14px;
-  padding-top: 10px;
-  border-top: 1px solid $slate-100;
-
-  span {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 11px;
-    font-weight: 600;
-    color: $slate-400;
-    ion-icon { font-size: 13px; }
-    &:first-child { color: #ef4444; }
-    &:last-child { color: $blue; }
-  }
-}
-
-// ── Sidebar ─────────────────────────────────────────────────────────
-.dk-sidebar-card {
-  padding: 18px;
-}
-
-.dk-sidebar-title {
+.dk-menu-title {
   font-size: 10px;
   font-weight: 800;
   color: $slate-400;
   letter-spacing: 1px;
   text-transform: uppercase;
-  margin: 0 0 12px;
+  margin: 0 0 14px;
 }
 
-.dk-sidebar-nav {
+.dk-menu-nav {
   display: flex;
   flex-direction: column;
   gap: 2px;
 }
 
-.dk-nav-item {
+.dk-menu-item {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 9px 10px;
-  border-radius: 11px;
+  gap: 11px;
+  padding: 10px;
+  border-radius: 12px;
   cursor: pointer;
   text-decoration: none;
   transition: all .15s;
@@ -541,11 +424,9 @@ $slate-900: #0f172a;
   &:hover {
     background: $slate-50;
     span { color: $blue; }
-    .dk-nav-arrow { color: $blue; transform: translateX(2px); }
   }
 
   span {
-    flex: 1;
     font-size: 13.5px;
     font-weight: 600;
     color: $slate-600;
@@ -553,7 +434,7 @@ $slate-900: #0f172a;
   }
 }
 
-.dk-nav-icon {
+.dk-menu-icon {
   width: 34px;
   height: 34px;
   border-radius: 10px;
@@ -566,11 +447,109 @@ $slate-900: #0f172a;
   ion-icon { font-size: 16px; }
 }
 
-.dk-nav-arrow {
-  font-size: 13px;
-  color: $slate-300;
-  flex-shrink: 0;
-  transition: all .15s;
+// ── News Grid ───────────────────────────────────────────────────────
+.dk-news-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  padding: 16px 18px 18px;
+}
+
+.dk-news-card {
+  border-radius: 14px;
+  border: 1px solid $slate-100;
+  overflow: hidden;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all .25s cubic-bezier(.4,0,.2,1);
+
+  &:hover {
+    border-color: $slate-300;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px -8px rgba(0,0,0,.1);
+    .dk-news-img img { transform: scale(1.05); }
+  }
+}
+
+.dk-news-img {
+  position: relative;
+  height: 140px;
+  background: $slate-100;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform .5s cubic-bezier(.4,0,.2,1);
+  }
+
+  .dk-news-type {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    font-size: 10px;
+    font-weight: 700;
+    color: white;
+    background: rgba(0,0,0,.55);
+    backdrop-filter: blur(6px);
+    padding: 3px 10px;
+    border-radius: 8px;
+  }
+
+  .dk-news-play {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 40px;
+    opacity: .9;
+    filter: drop-shadow(0 2px 6px rgba(0,0,0,.3));
+  }
+}
+
+.dk-news-info {
+  padding: 12px 14px;
+
+  .dk-news-author {
+    font-size: 11px;
+    font-weight: 700;
+    color: $slate-800;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  p {
+    margin: 0 0 10px;
+    font-size: 12px;
+    color: $slate-600;
+    line-height: 1.45;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-align: left;
+  }
+}
+
+.dk-news-meta {
+  display: flex;
+  gap: 12px;
+  padding-top: 8px;
+  border-top: 1px solid $slate-100;
+
+  span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    color: $slate-400;
+    ion-icon { font-size: 12px; }
+    &:first-child { color: #ef4444; }
+    &:last-child { color: $blue; }
+  }
 }
 
 // ── Empty State ─────────────────────────────────────────────────────
@@ -579,32 +558,28 @@ $slate-900: #0f172a;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 36px 24px;
-  gap: 8px;
-  ion-icon { font-size: 28px; color: $slate-300; }
-  p { margin: 0; font-size: 13px; color: $slate-400; }
+  padding: 32px 20px;
+  gap: 6px;
+  p { margin: 0; font-size: 12px; color: $slate-400; }
 }
 
 // ── Platform Admin: Org List ────────────────────────────────────────
-.dk-org-list {
-  display: flex;
-  flex-direction: column;
-}
+.dk-org-list { display: flex; flex-direction: column; }
 
 .dk-org-row {
   display: flex;
   align-items: center;
   gap: 14px;
-  padding: 16px 24px;
+  padding: 14px 22px;
   border-bottom: 1px solid $slate-100;
-  transition: background .15s;
+  transition: background .12s;
   &:last-child { border-bottom: none; }
   &:hover { background: $slate-50; }
 }
 
 .dk-org-logo {
-  width: 44px;
-  height: 44px;
+  width: 42px;
+  height: 42px;
   border-radius: 12px;
   background: rgba($blue, .06);
   color: $blue;
@@ -614,29 +589,20 @@ $slate-900: #0f172a;
   flex-shrink: 0;
   overflow: hidden;
   img { width: 100%; height: 100%; object-fit: contain; }
-  ion-icon { font-size: 20px; }
+  ion-icon { font-size: 18px; }
 }
 
 .dk-org-info {
-  flex: 1;
-  min-width: 0;
+  flex: 1; min-width: 0;
   h4 { margin: 0; font-size: 14px; font-weight: 700; color: $slate-900; }
   p { margin: 2px 0 0; font-size: 12px; color: $slate-500; }
 }
 
-.dk-org-name-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
+.dk-org-name-row { display: flex; align-items: center; gap: 8px; }
 
 .dk-badge {
-  font-size: 10px;
-  font-weight: 700;
-  padding: 2px 8px;
-  border-radius: 6px;
-  text-transform: uppercase;
-  letter-spacing: .3px;
+  font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 6px;
+  text-transform: uppercase; letter-spacing: .3px;
   &--muted { background: $slate-100; color: $slate-500; }
 }
 
@@ -644,62 +610,28 @@ $slate-900: #0f172a;
 .dk-text-red   { color: #ef4444; font-weight: 700; }
 
 // ── Modal Form ──────────────────────────────────────────────────────
-.dk-modal-form {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  padding-top: 8px;
-}
+.dk-modal-form { display: flex; flex-direction: column; gap: 16px; padding-top: 8px; }
 
 .dk-field {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-
-  label {
-    font-size: 12.5px;
-    font-weight: 700;
-    color: $slate-700;
-  }
-
+  display: flex; flex-direction: column; gap: 6px;
+  label { font-size: 12.5px; font-weight: 700; color: $slate-700; }
   input {
-    width: 100%;
-    padding: 12px 14px;
-    border: 1px solid $slate-300;
-    border-radius: 12px;
-    background: white;
-    font-size: 13.5px;
-    font-family: $font;
-    color: $slate-900;
-    outline: none;
-    box-sizing: border-box;
+    width: 100%; padding: 12px 14px; border: 1px solid $slate-300;
+    border-radius: 12px; background: white; font-size: 13.5px; font-family: $font;
+    color: $slate-900; outline: none; box-sizing: border-box;
     transition: border-color .15s, box-shadow .15s;
-
-    &:focus {
-      border-color: $blue;
-      box-shadow: 0 0 0 3px rgba($blue, .08);
-    }
+    &:focus { border-color: $blue; box-shadow: 0 0 0 3px rgba($blue, .08); }
     &::placeholder { color: $slate-400; }
   }
 }
 
 .dk-divider {
-  margin: 8px 0 0;
-  padding-top: 16px;
+  margin: 8px 0 0; padding-top: 16px;
   border-top: 1px solid $slate-200;
-  font-size: 14px;
-  font-weight: 800;
-  color: $slate-900;
+  font-size: 14px; font-weight: 800; color: $slate-900;
 }
 
 .dk-toggle-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 8px 0;
-  span {
-    font-size: 13.5px;
-    font-weight: 700;
-    color: $slate-900;
-  }
+  display: flex; align-items: center; justify-content: space-between; padding: 8px 0;
+  span { font-size: 13.5px; font-weight: 700; color: $slate-900; }
 }

@@ -7,256 +7,190 @@
 
       <div class="dk-page">
 
-        <!-- ── Top Bar ─────────────────────────────────── -->
-        <header class="dk-topbar">
-          <div class="dk-topbar-left">
-            <h1 class="dk-topbar-greeting">{{ greeting }} <span class="dk-topbar-name">{{ userName }}</span></h1>
-            <p class="dk-topbar-date">{{ currentDate }}</p>
-          </div>
-          <div class="dk-topbar-right">
-            <div class="dk-topbar-clock">
-              <ion-icon name="time-outline"></ion-icon>
-              <span>{{ currentTime }}</span>
-            </div>
-            <div class="dk-topbar-role" *ngIf="userRoleLabel"
+        <!-- ── Hero Section ────────────────────────────── -->
+        <div class="dk-hero">
+          <div class="dk-hero-left">
+            <p class="dk-hero-date">{{ currentDate }}</p>
+            <h1 class="dk-hero-greeting">{{ greeting }}<br/><span>{{ userName }}</span></h1>
+            <div class="dk-hero-role" *ngIf="userRoleLabel"
               [style.background]="userRoleBg" [style.color]="userRoleColor">
               {{ userRoleLabel }}
             </div>
-            <div class="dk-avatar" routerLink="/profile">
+          </div>
+          <div class="dk-hero-right">
+            <div class="dk-hero-clock">
+              <span class="dk-clock-time">{{ currentTime }}</span>
+              <span class="dk-clock-label">Waktu Saat Ini</span>
+            </div>
+            <div class="dk-hero-avatar" routerLink="/profile">
               <img [src]="userAvatar || 'assets/images/avatar.png'" alt="avatar" />
-              <span class="dk-avatar-dot"></span>
             </div>
           </div>
-        </header>
-
-        <!-- ── Stat Cards Row ──────────────────────────── -->
-        <section class="dk-stats-row">
-          <a class="dk-stat-card dk-stat-primary"
-            [class.dk-stat-clickable]="!attendanceCompleted"
-            [routerLink]="attendanceCompleted ? null : '/attendance/desktop-checkin'">
-            <div class="dk-stat-icon"><ion-icon name="calendar-outline"></ion-icon></div>
-            <div class="dk-stat-info">
-              <span class="dk-stat-label">Absensi Hari Ini</span>
-              <span class="dk-stat-value">{{ todayAttendanceLabel }}</span>
-            </div>
-            <ion-icon *ngIf="!attendanceCompleted" name="chevron-forward-outline" class="dk-stat-arrow"></ion-icon>
-            <ion-icon *ngIf="attendanceCompleted" name="checkmark-circle" class="dk-stat-arrow" style="color:rgba(255,255,255,.7);"></ion-icon>
-          </a>
-          <div class="dk-stat-card">
-            <div class="dk-stat-icon dk-stat-icon--orange"><ion-icon name="time-outline"></ion-icon></div>
-            <div class="dk-stat-info">
-              <span class="dk-stat-label">Jam Masuk</span>
-              <span class="dk-stat-value">{{ clockInTime || '--:--' }}</span>
-            </div>
-          </div>
-          <div class="dk-stat-card">
-            <div class="dk-stat-icon dk-stat-icon--emerald"><ion-icon name="log-out-outline"></ion-icon></div>
-            <div class="dk-stat-info">
-              <span class="dk-stat-label">Jam Pulang</span>
-              <span class="dk-stat-value">{{ clockOutTime || '--:--' }}</span>
-            </div>
-          </div>
-          <div class="dk-stat-card">
-            <div class="dk-stat-icon dk-stat-icon--violet"><ion-icon name="hourglass-outline"></ion-icon></div>
-            <div class="dk-stat-info">
-              <span class="dk-stat-label">Durasi Kerja</span>
-              <span class="dk-stat-value">{{ workDuration || '--:--' }}</span>
-            </div>
-          </div>
-        </section>
-
-        <!-- ── Main Grid ───────────────────────────────── -->
-        <div class="dk-grid">
-
-          <!-- LEFT COLUMN -->
-          <div class="dk-col-main">
-
-            <!-- Admin Panel (admin/superadmin only) -->
-            <section class="dk-card dk-admin-card" *ngIf="isAdminOnly">
-              <div class="dk-card-header">
-                <div class="dk-card-header-icon dk-card-header-icon--blue">
-                  <ion-icon name="shield-checkmark-outline"></ion-icon>
-                </div>
-                <div>
-                  <h2 class="dk-card-title">Panel Admin</h2>
-                  <p class="dk-card-subtitle">Kelola sistem & konfigurasi kantor</p>
-                </div>
-              </div>
-              <div class="dk-admin-grid">
-                <a class="dk-admin-item" routerLink="/admin/roles">
-                  <div class="dk-admin-icon" style="--c:#f59e0b; --bg:rgba(245,158,11,.1)"><ion-icon name="shield-outline"></ion-icon></div>
-                  <span>Role & Hak Akses</span>
-                  <p>Atur privilege per role</p>
-                </a>
-                <a class="dk-admin-item" routerLink="/admin/users">
-                  <div class="dk-admin-icon" style="--c:#8b5cf6; --bg:rgba(139,92,246,.1)"><ion-icon name="people-outline"></ion-icon></div>
-                  <span>Pengguna</span>
-                  <p>Assign role ke karyawan</p>
-                </a>
-                <a class="dk-admin-item" *ngIf="canManageOffice" routerLink="/attendance/set-office">
-                  <div class="dk-admin-icon" style="--c:#10b981; --bg:rgba(16,185,129,.1)"><ion-icon name="location-outline"></ion-icon></div>
-                  <span>Lokasi Kantor</span>
-                  <p>Atur titik & radius geofence</p>
-                </a>
-                <a class="dk-admin-item" routerLink="/admin/corrections">
-                  <div class="dk-admin-icon" style="--c:#ef4444; --bg:rgba(239,68,68,.1)"><ion-icon name="document-text-outline"></ion-icon></div>
-                  <span>Review Koreksi</span>
-                  <p>Setujui / tolak lupa absen</p>
-                </a>
-                <a class="dk-admin-item" routerLink="/dinas-luar/review">
-                  <div class="dk-admin-icon" style="--c:#0ea5e9; --bg:rgba(14,165,233,.1)"><ion-icon name="briefcase-outline"></ion-icon></div>
-                  <span>Review Dinas</span>
-                  <p>Setujui / tolak dinas luar</p>
-                </a>
-                <a class="dk-admin-item" routerLink="/attendance/team-dashboard">
-                  <div class="dk-admin-icon" style="--c:#6366f1; --bg:rgba(99,102,241,.1)"><ion-icon name="stats-chart-outline"></ion-icon></div>
-                  <span>Dashboard Tim</span>
-                  <p>Statistik kehadiran tim</p>
-                </a>
-              </div>
-            </section>
-
-            <!-- Recent Updates -->
-            <section class="dk-card">
-              <div class="dk-card-header dk-card-header--flat">
-                <h2 class="dk-card-title">{{ 'home.recentUpdates' | translate }}</h2>
-                <a class="dk-link" routerLink="/notification">{{ 'home.viewAll' | translate }}</a>
-              </div>
-              <div class="dk-updates">
-                <a class="dk-update-row" *ngFor="let u of displayUpdates" (click)="openUpdate(u.link)">
-                  <div class="dk-update-icon" [style.color]="u.colorHex" [style.background]="u.bg">
-                    <ion-icon [name]="u.icon"></ion-icon>
-                  </div>
-                  <div class="dk-update-body">
-                    <h4>{{ u.title }}</h4>
-                    <p>{{ u.message }}</p>
-                  </div>
-                  <span class="dk-update-time">{{ u.timeLabel }}</span>
-                </a>
-                <div class="dk-empty" *ngIf="!isLoadingUpdates && recentUpdates.length === 0">
-                  <ion-icon name="notifications-off-outline"></ion-icon>
-                  <p>Belum ada pembaruan terbaru</p>
-                </div>
-                <div class="dk-empty" *ngIf="isLoadingUpdates">
-                  <ion-spinner name="crescent" color="primary"></ion-spinner>
-                </div>
-              </div>
-            </section>
-
-            <!-- Berita & Kegiatan Pemda -->
-            <section class="dk-card" *ngIf="newsFeed.length > 0 || isLoadingNews">
-              <div class="dk-card-header dk-card-header--flat">
-                <h2 class="dk-card-title">Berita & Kegiatan Pemda</h2>
-              </div>
-              <div class="dk-empty" *ngIf="isLoadingNews">
-                <ion-spinner name="crescent" color="primary"></ion-spinner>
-              </div>
-              <div class="dk-news-grid" *ngIf="!isLoadingNews">
-                <a class="dk-news-card" *ngFor="let post of newsFeed" (click)="openNewsUrl(post.post_url)">
-                  <div class="dk-news-media">
-                    <img [src]="post.thumbnail_url" alt="media" />
-                    <div class="dk-news-play" *ngIf="post.type === 'reels'">
-                      <ion-icon name="play-circle"></ion-icon>
-                    </div>
-                    <span class="dk-news-badge">{{ post.type === 'reels' ? 'Reels' : 'Post' }}</span>
-                  </div>
-                  <div class="dk-news-body">
-                    <div class="dk-news-source">
-                      <img [src]="post.profile_pic || 'assets/images/avatar.png'" alt="" />
-                      <span>{{ post.profile_name }}</span>
-                    </div>
-                    <p class="dk-news-caption">{{ post.caption }}</p>
-                    <div class="dk-news-stats">
-                      <span><ion-icon name="heart"></ion-icon> {{ post.likes_count | number:'1.0-0' }}</span>
-                      <span><ion-icon name="chatbubble"></ion-icon> {{ post.comments_count | number:'1.0-0' }}</span>
-                    </div>
-                  </div>
-                </a>
-              </div>
-            </section>
-
-          </div>
-
-          <!-- RIGHT SIDEBAR -->
-          <aside class="dk-col-side">
-
-            <!-- Quick Menu -->
-            <div class="dk-card dk-sidebar-card">
-              <h3 class="dk-sidebar-title">Menu Cepat</h3>
-              <nav class="dk-sidebar-nav">
-                <a class="dk-nav-item" routerLink="/attendance/history">
-                  <div class="dk-nav-icon" style="--c:#1B59F8; --bg:#E0EAFF"><ion-icon name="calendar-outline"></ion-icon></div>
-                  <span>Absensi</span>
-                  <ion-icon name="chevron-forward-outline" class="dk-nav-arrow"></ion-icon>
-                </a>
-                <a class="dk-nav-item" routerLink="/leave">
-                  <div class="dk-nav-icon" style="--c:#f97316; --bg:#FEF4E6"><ion-icon name="umbrella-outline"></ion-icon></div>
-                  <span>Cuti</span>
-                  <ion-icon name="chevron-forward-outline" class="dk-nav-arrow"></ion-icon>
-                </a>
-                <a class="dk-nav-item" routerLink="/overtime">
-                  <div class="dk-nav-icon" style="--c:#a855f7; --bg:#f5f0ff"><ion-icon name="time-outline"></ion-icon></div>
-                  <span>Lembur</span>
-                  <ion-icon name="chevron-forward-outline" class="dk-nav-arrow"></ion-icon>
-                </a>
-                <a class="dk-nav-item" routerLink="/payslip">
-                  <div class="dk-nav-icon" style="--c:#10b981; --bg:#E7F8F0"><ion-icon name="receipt-outline"></ion-icon></div>
-                  <span>Slip Gaji</span>
-                  <ion-icon name="chevron-forward-outline" class="dk-nav-arrow"></ion-icon>
-                </a>
-                <a class="dk-nav-item" routerLink="/dinas-luar/history">
-                  <div class="dk-nav-icon" style="--c:#0ea5e9; --bg:#e8f4fd"><ion-icon name="briefcase-outline"></ion-icon></div>
-                  <span>Dinas Luar</span>
-                  <ion-icon name="chevron-forward-outline" class="dk-nav-arrow"></ion-icon>
-                </a>
-                <a class="dk-nav-item" routerLink="/profile">
-                  <div class="dk-nav-icon" style="--c:#64748b; --bg:#f1f5f9"><ion-icon name="person-outline"></ion-icon></div>
-                  <span>Profil Saya</span>
-                  <ion-icon name="chevron-forward-outline" class="dk-nav-arrow"></ion-icon>
-                </a>
-              </nav>
-            </div>
-
-            <!-- Admin Quick Access (admin/manager/superadmin only) -->
-            <div class="dk-card dk-sidebar-card" *ngIf="canManageUsers || canManageOffice || canApproveAttendance">
-              <h3 class="dk-sidebar-title">Admin</h3>
-              <nav class="dk-sidebar-nav">
-                <a class="dk-nav-item" *ngIf="canApproveAttendance" routerLink="/attendance/team-dashboard">
-                  <div class="dk-nav-icon" style="--c:#6366f1; --bg:rgba(99,102,241,.08)"><ion-icon name="stats-chart-outline"></ion-icon></div>
-                  <span>Dashboard Absensi</span>
-                  <ion-icon name="chevron-forward-outline" class="dk-nav-arrow"></ion-icon>
-                </a>
-                <a class="dk-nav-item" *ngIf="canApproveAttendance" routerLink="/attendance/team-list">
-                  <div class="dk-nav-icon" style="--c:#0ea5e9; --bg:rgba(14,165,233,.08)"><ion-icon name="people-outline"></ion-icon></div>
-                  <span>List Absensi</span>
-                  <ion-icon name="chevron-forward-outline" class="dk-nav-arrow"></ion-icon>
-                </a>
-                <a class="dk-nav-item" *ngIf="canApproveAttendance" routerLink="/admin/corrections">
-                  <div class="dk-nav-icon" style="--c:#ef4444; --bg:rgba(239,68,68,.08)"><ion-icon name="document-text-outline"></ion-icon></div>
-                  <span>Review Koreksi</span>
-                  <ion-icon name="chevron-forward-outline" class="dk-nav-arrow"></ion-icon>
-                </a>
-                <a class="dk-nav-item" *ngIf="canApproveAttendance" routerLink="/dinas-luar/review">
-                  <div class="dk-nav-icon" style="--c:#0ea5e9; --bg:rgba(14,165,233,.08)"><ion-icon name="briefcase-outline"></ion-icon></div>
-                  <span>Review Dinas</span>
-                  <ion-icon name="chevron-forward-outline" class="dk-nav-arrow"></ion-icon>
-                </a>
-                <a class="dk-nav-item" *ngIf="canManageUsers" routerLink="/admin/users">
-                  <div class="dk-nav-icon" style="--c:#8b5cf6; --bg:rgba(139,92,246,.08)"><ion-icon name="people-outline"></ion-icon></div>
-                  <span>Pengguna</span>
-                  <ion-icon name="chevron-forward-outline" class="dk-nav-arrow"></ion-icon>
-                </a>
-                <a class="dk-nav-item" *ngIf="canManageOffice" routerLink="/attendance/set-office">
-                  <div class="dk-nav-icon" style="--c:#10b981; --bg:rgba(16,185,129,.08)"><ion-icon name="location-outline"></ion-icon></div>
-                  <span>Lokasi Kantor</span>
-                  <ion-icon name="chevron-forward-outline" class="dk-nav-arrow"></ion-icon>
-                </a>
-              </nav>
-            </div>
-
-          </aside>
         </div>
 
+        <!-- ── Bento Grid ──────────────────────────────── -->
+        <div class="dk-bento">
+
+          <!-- ROW 1: Attendance card + 3 stat cards -->
+          <a class="dk-bento-item dk-bento-attendance"
+            [class.dk-clickable]="!attendanceCompleted"
+            [routerLink]="attendanceCompleted ? null : '/attendance/desktop-checkin'">
+            <div class="dk-att-top">
+              <div class="dk-att-icon"><ion-icon name="finger-print-outline"></ion-icon></div>
+              <span class="dk-att-badge" [class.dk-att-badge--done]="attendanceCompleted">
+                {{ todayAttendanceLabel }}
+              </span>
+            </div>
+            <p class="dk-att-sub">Absensi Hari Ini</p>
+            <div class="dk-att-bottom" *ngIf="!attendanceCompleted">
+              <span>Klik untuk {{ attendanceState.state === 'checked_in' ? 'check out' : 'check in' }}</span>
+              <ion-icon name="arrow-forward-outline"></ion-icon>
+            </div>
+            <div class="dk-att-bottom dk-att-bottom--done" *ngIf="attendanceCompleted">
+              <ion-icon name="checkmark-circle"></ion-icon>
+              <span>Selesai untuk hari ini</span>
+            </div>
+          </a>
+
+          <div class="dk-bento-item dk-bento-stat">
+            <ion-icon name="log-in-outline" class="dk-bstat-icon dk-bstat-icon--blue"></ion-icon>
+            <span class="dk-bstat-val">{{ clockInTime || '--:--' }}</span>
+            <span class="dk-bstat-label">Jam Masuk</span>
+          </div>
+
+          <div class="dk-bento-item dk-bento-stat">
+            <ion-icon name="log-out-outline" class="dk-bstat-icon dk-bstat-icon--emerald"></ion-icon>
+            <span class="dk-bstat-val">{{ clockOutTime || '--:--' }}</span>
+            <span class="dk-bstat-label">Jam Pulang</span>
+          </div>
+
+          <div class="dk-bento-item dk-bento-stat">
+            <ion-icon name="hourglass-outline" class="dk-bstat-icon dk-bstat-icon--violet"></ion-icon>
+            <span class="dk-bstat-val">{{ workDuration || '--:--' }}</span>
+            <span class="dk-bstat-label">Durasi Kerja</span>
+          </div>
+
+          <!-- ROW 2: Main content + sidebar -->
+          <!-- Admin Panel -->
+          <section class="dk-bento-item dk-bento-wide dk-admin-section" *ngIf="isAdminOnly">
+            <div class="dk-section-head">
+              <div class="dk-section-icon"><ion-icon name="shield-checkmark-outline"></ion-icon></div>
+              <div>
+                <h2>Panel Admin</h2>
+                <p>Kelola sistem & konfigurasi</p>
+              </div>
+            </div>
+            <div class="dk-admin-grid">
+              <a class="dk-admin-item" routerLink="/admin/roles">
+                <div class="dk-admin-icon" style="--c:#f59e0b; --bg:rgba(245,158,11,.08)"><ion-icon name="shield-outline"></ion-icon></div>
+                <div><span>Role & Hak Akses</span><p>Atur privilege</p></div>
+              </a>
+              <a class="dk-admin-item" routerLink="/admin/users">
+                <div class="dk-admin-icon" style="--c:#8b5cf6; --bg:rgba(139,92,246,.08)"><ion-icon name="people-outline"></ion-icon></div>
+                <div><span>Pengguna</span><p>Assign role</p></div>
+              </a>
+              <a class="dk-admin-item" *ngIf="canManageOffice" routerLink="/attendance/set-office">
+                <div class="dk-admin-icon" style="--c:#10b981; --bg:rgba(16,185,129,.08)"><ion-icon name="location-outline"></ion-icon></div>
+                <div><span>Lokasi Kantor</span><p>Geofence</p></div>
+              </a>
+              <a class="dk-admin-item" routerLink="/admin/corrections">
+                <div class="dk-admin-icon" style="--c:#ef4444; --bg:rgba(239,68,68,.08)"><ion-icon name="document-text-outline"></ion-icon></div>
+                <div><span>Review Koreksi</span><p>Setujui / tolak</p></div>
+              </a>
+              <a class="dk-admin-item" routerLink="/dinas-luar/review">
+                <div class="dk-admin-icon" style="--c:#0ea5e9; --bg:rgba(14,165,233,.08)"><ion-icon name="briefcase-outline"></ion-icon></div>
+                <div><span>Review Dinas</span><p>Dinas luar</p></div>
+              </a>
+              <a class="dk-admin-item" routerLink="/attendance/team-dashboard">
+                <div class="dk-admin-icon" style="--c:#6366f1; --bg:rgba(99,102,241,.08)"><ion-icon name="stats-chart-outline"></ion-icon></div>
+                <div><span>Dashboard Tim</span><p>Statistik</p></div>
+              </a>
+            </div>
+          </section>
+
+          <!-- Updates -->
+          <section class="dk-bento-item dk-bento-wide">
+            <div class="dk-section-head dk-section-head--flat">
+              <h2>{{ 'home.recentUpdates' | translate }}</h2>
+              <a class="dk-link" routerLink="/notification">{{ 'home.viewAll' | translate }}</a>
+            </div>
+            <div class="dk-updates">
+              <a class="dk-update-row" *ngFor="let u of displayUpdates" (click)="openUpdate(u.link)">
+                <div class="dk-update-dot" [style.background]="u.colorHex"></div>
+                <div class="dk-update-body">
+                  <h4>{{ u.title }}</h4>
+                  <p>{{ u.message }}</p>
+                </div>
+                <span class="dk-update-time">{{ u.timeLabel }}</span>
+              </a>
+              <div class="dk-empty" *ngIf="!isLoadingUpdates && recentUpdates.length === 0">
+                <p>Belum ada pembaruan</p>
+              </div>
+              <div class="dk-empty" *ngIf="isLoadingUpdates">
+                <ion-spinner name="crescent" color="primary"></ion-spinner>
+              </div>
+            </div>
+          </section>
+
+          <!-- Quick Menu (sidebar) -->
+          <div class="dk-bento-item dk-bento-side dk-quick-menu">
+            <h3 class="dk-menu-title">Menu Cepat</h3>
+            <nav class="dk-menu-nav">
+              <a class="dk-menu-item" routerLink="/attendance/history">
+                <div class="dk-menu-icon" style="--c:#1B59F8; --bg:#EEF2FF"><ion-icon name="calendar-outline"></ion-icon></div>
+                <span>Absensi</span>
+              </a>
+              <a class="dk-menu-item" routerLink="/leave">
+                <div class="dk-menu-icon" style="--c:#f97316; --bg:#FFF7ED"><ion-icon name="umbrella-outline"></ion-icon></div>
+                <span>Cuti</span>
+              </a>
+              <a class="dk-menu-item" routerLink="/overtime">
+                <div class="dk-menu-icon" style="--c:#a855f7; --bg:#FAF5FF"><ion-icon name="time-outline"></ion-icon></div>
+                <span>Lembur</span>
+              </a>
+              <a class="dk-menu-item" routerLink="/payslip">
+                <div class="dk-menu-icon" style="--c:#10b981; --bg:#ECFDF5"><ion-icon name="receipt-outline"></ion-icon></div>
+                <span>Slip Gaji</span>
+              </a>
+              <a class="dk-menu-item" routerLink="/dinas-luar/history">
+                <div class="dk-menu-icon" style="--c:#0ea5e9; --bg:#F0F9FF"><ion-icon name="briefcase-outline"></ion-icon></div>
+                <span>Dinas Luar</span>
+              </a>
+              <a class="dk-menu-item" routerLink="/profile">
+                <div class="dk-menu-icon" style="--c:#64748b; --bg:#F8FAFC"><ion-icon name="person-outline"></ion-icon></div>
+                <span>Profil Saya</span>
+              </a>
+            </nav>
+          </div>
+
+          <!-- News -->
+          <section class="dk-bento-item dk-bento-wide" *ngIf="newsFeed.length > 0 || isLoadingNews">
+            <div class="dk-section-head dk-section-head--flat">
+              <h2>Berita & Kegiatan Pemda</h2>
+            </div>
+            <div class="dk-empty" *ngIf="isLoadingNews">
+              <ion-spinner name="crescent" color="primary"></ion-spinner>
+            </div>
+            <div class="dk-news-grid" *ngIf="!isLoadingNews">
+              <a class="dk-news-card" *ngFor="let post of newsFeed" (click)="openNewsUrl(post.post_url)">
+                <div class="dk-news-img">
+                  <img [src]="post.thumbnail_url" alt="" />
+                  <span class="dk-news-type">{{ post.type === 'reels' ? 'Reels' : 'Post' }}</span>
+                  <div class="dk-news-play" *ngIf="post.type === 'reels'"><ion-icon name="play-circle"></ion-icon></div>
+                </div>
+                <div class="dk-news-info">
+                  <span class="dk-news-author">{{ post.profile_name }}</span>
+                  <p>{{ post.caption }}</p>
+                  <div class="dk-news-meta">
+                    <span><ion-icon name="heart"></ion-icon> {{ post.likes_count | number:'1.0-0' }}</span>
+                    <span><ion-icon name="chatbubble"></ion-icon> {{ post.comments_count | number:'1.0-0' }}</span>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </section>
+
+        </div>
       </div>
     </ion-content>
   </ng-container>
@@ -267,33 +201,29 @@
       <app-bottom-nav></app-bottom-nav>
 
       <div class="dk-page">
-        <header class="dk-topbar">
-          <div class="dk-topbar-left">
-            <h1 class="dk-topbar-greeting">{{ greeting }} <span class="dk-topbar-name">{{ userName }}</span></h1>
-            <p class="dk-topbar-date">{{ currentDate }}</p>
+        <div class="dk-hero">
+          <div class="dk-hero-left">
+            <p class="dk-hero-date">{{ currentDate }}</p>
+            <h1 class="dk-hero-greeting">{{ greeting }}<br/><span>{{ userName }}</span></h1>
           </div>
-          <div class="dk-topbar-right">
-            <div class="dk-topbar-clock">
-              <ion-icon name="time-outline"></ion-icon>
-              <span>{{ currentTime }}</span>
+          <div class="dk-hero-right">
+            <div class="dk-hero-clock">
+              <span class="dk-clock-time">{{ currentTime }}</span>
+              <span class="dk-clock-label">Waktu Saat Ini</span>
             </div>
-            <div class="dk-avatar" routerLink="/profile">
+            <div class="dk-hero-avatar" routerLink="/profile">
               <img [src]="userAvatar || 'assets/images/avatar.png'" alt="avatar" />
-              <span class="dk-avatar-dot"></span>
             </div>
           </div>
-        </header>
+        </div>
 
-        <!-- Platform Admin: Org Management -->
-        <section class="dk-card">
-          <div class="dk-card-header dk-card-header--flat">
+        <section class="dk-bento-item dk-bento-wide" style="margin-bottom:20px;">
+          <div class="dk-section-head dk-section-head--flat">
             <div style="display:flex;align-items:center;gap:12px;">
-              <div class="dk-card-header-icon dk-card-header-icon--blue">
-                <ion-icon name="business-outline"></ion-icon>
-              </div>
+              <div class="dk-section-icon"><ion-icon name="business-outline"></ion-icon></div>
               <div>
-                <h2 class="dk-card-title">Daftar Instansi / Pemda</h2>
-                <p class="dk-card-subtitle">{{ organizations.length }} instansi terdaftar</p>
+                <h2>Daftar Instansi / Pemda</h2>
+                <p style="margin:2px 0 0;font-size:12px;color:#94a3b8;">{{ organizations.length }} instansi terdaftar</p>
               </div>
             </div>
             <ion-button size="small" shape="round" color="primary" (click)="showAddOrgModal = true">
@@ -302,9 +232,7 @@
             </ion-button>
           </div>
 
-          <div class="dk-empty" *ngIf="isLoadingOrgs">
-            <ion-spinner name="crescent" color="primary"></ion-spinner>
-          </div>
+          <div class="dk-empty" *ngIf="isLoadingOrgs"><ion-spinner name="crescent" color="primary"></ion-spinner></div>
 
           <div class="dk-org-list" *ngIf="!isLoadingOrgs">
             <div class="dk-org-row" *ngFor="let org of organizations">
@@ -327,9 +255,7 @@
                 <ion-icon slot="icon-only" name="create-outline"></ion-icon>
               </ion-button>
             </div>
-
             <div class="dk-empty" *ngIf="organizations.length === 0">
-              <ion-icon name="business-outline" style="font-size:32px;color:#cbd5e1;"></ion-icon>
               <p>Belum ada instansi terdaftar</p>
             </div>
           </div>
@@ -337,88 +263,35 @@
       </div>
     </ion-content>
 
-    <!-- Modal: Tambah Instansi -->
+    <!-- Modals stay same -->
     <ion-modal [isOpen]="showAddOrgModal" (didDismiss)="showAddOrgModal = false">
       <ng-template>
-        <ion-header>
-          <ion-toolbar>
-            <ion-title>Tambah Instansi Baru</ion-title>
-            <ion-buttons slot="end">
-              <ion-button (click)="showAddOrgModal = false">Tutup</ion-button>
-            </ion-buttons>
-          </ion-toolbar>
-        </ion-header>
+        <ion-header><ion-toolbar><ion-title>Tambah Instansi Baru</ion-title><ion-buttons slot="end"><ion-button (click)="showAddOrgModal = false">Tutup</ion-button></ion-buttons></ion-toolbar></ion-header>
         <ion-content class="ion-padding" style="--background:#f8fafc;">
           <div class="dk-modal-form">
-            <div class="dk-field">
-              <label>Nama Instansi / Pemda</label>
-              <input type="text" [(ngModel)]="newOrgName" placeholder="cth. Pemda Bandung" />
-            </div>
-            <div class="dk-field">
-              <label>Subdomain / Kode Instansi</label>
-              <input type="text" [(ngModel)]="newOrgCode" placeholder="cth. bandung" />
-            </div>
-            <div class="dk-field">
-              <label>Logo URL (opsional)</label>
-              <input type="text" [(ngModel)]="newOrgLogo" placeholder="https://.../logo.png" />
-            </div>
-            <div class="dk-field">
-              <label>Username Instagram (opsional)</label>
-              <input type="text" [(ngModel)]="newOrgInstagramUsername" placeholder="cth. pemkot_bandung" />
-            </div>
-            <div class="dk-divider">Akun Admin Instansi Pertama</div>
-            <div class="dk-field">
-              <label>Nama Lengkap Admin</label>
-              <input type="text" [(ngModel)]="newOrgAdminName" placeholder="cth. Budi Setiawan" />
-            </div>
-            <div class="dk-field">
-              <label>Email Admin</label>
-              <input type="email" [(ngModel)]="newOrgAdminEmail" placeholder="admin@bandung.absennow.id" />
-            </div>
-            <div class="dk-field">
-              <label>Password Admin</label>
-              <input type="password" [(ngModel)]="newOrgAdminPassword" placeholder="Min. 8 karakter" />
-            </div>
-            <ion-button expand="block" shape="round" color="primary" style="margin-top:16px;--border-radius:12px;height:48px;" (click)="createOrg()">
-              Daftarkan Instansi
-            </ion-button>
+            <div class="dk-field"><label>Nama Instansi</label><input type="text" [(ngModel)]="newOrgName" placeholder="cth. Pemda Bandung" /></div>
+            <div class="dk-field"><label>Kode Instansi</label><input type="text" [(ngModel)]="newOrgCode" placeholder="cth. bandung" /></div>
+            <div class="dk-field"><label>Logo URL (opsional)</label><input type="text" [(ngModel)]="newOrgLogo" placeholder="https://.../logo.png" /></div>
+            <div class="dk-field"><label>Instagram (opsional)</label><input type="text" [(ngModel)]="newOrgInstagramUsername" placeholder="cth. pemkot_bandung" /></div>
+            <div class="dk-divider">Akun Admin Pertama</div>
+            <div class="dk-field"><label>Nama Admin</label><input type="text" [(ngModel)]="newOrgAdminName" placeholder="cth. Budi Setiawan" /></div>
+            <div class="dk-field"><label>Email Admin</label><input type="email" [(ngModel)]="newOrgAdminEmail" placeholder="admin@bandung.absennow.id" /></div>
+            <div class="dk-field"><label>Password</label><input type="password" [(ngModel)]="newOrgAdminPassword" placeholder="Min. 8 karakter" /></div>
+            <ion-button expand="block" shape="round" color="primary" style="margin-top:16px;--border-radius:12px;height:48px;" (click)="createOrg()">Daftarkan Instansi</ion-button>
           </div>
         </ion-content>
       </ng-template>
     </ion-modal>
-
-    <!-- Modal: Edit Instansi -->
     <ion-modal [isOpen]="showEditOrgModal" (didDismiss)="showEditOrgModal = false">
       <ng-template>
-        <ion-header>
-          <ion-toolbar>
-            <ion-title>Edit Instansi</ion-title>
-            <ion-buttons slot="end">
-              <ion-button (click)="showEditOrgModal = false">Tutup</ion-button>
-            </ion-buttons>
-          </ion-toolbar>
-        </ion-header>
+        <ion-header><ion-toolbar><ion-title>Edit Instansi</ion-title><ion-buttons slot="end"><ion-button (click)="showEditOrgModal = false">Tutup</ion-button></ion-buttons></ion-toolbar></ion-header>
         <ion-content class="ion-padding" style="--background:#f8fafc;">
           <div class="dk-modal-form" *ngIf="editingOrg">
-            <div class="dk-field">
-              <label>Nama Instansi</label>
-              <input type="text" [(ngModel)]="editOrgName" />
-            </div>
-            <div class="dk-field">
-              <label>Logo URL</label>
-              <input type="text" [(ngModel)]="editOrgLogo" />
-            </div>
-            <div class="dk-field">
-              <label>Username Instagram (opsional)</label>
-              <input type="text" [(ngModel)]="editOrgInstagramUsername" placeholder="cth. pemkot_bandung" />
-            </div>
-            <div class="dk-toggle-row">
-              <span>Status Aktif Instansi</span>
-              <ion-toggle [(ngModel)]="editOrgIsActive"></ion-toggle>
-            </div>
-            <ion-button expand="block" shape="round" color="primary" style="margin-top:16px;--border-radius:12px;height:48px;" (click)="updateOrg()">
-              Simpan Perubahan
-            </ion-button>
+            <div class="dk-field"><label>Nama Instansi</label><input type="text" [(ngModel)]="editOrgName" /></div>
+            <div class="dk-field"><label>Logo URL</label><input type="text" [(ngModel)]="editOrgLogo" /></div>
+            <div class="dk-field"><label>Instagram (opsional)</label><input type="text" [(ngModel)]="editOrgInstagramUsername" placeholder="pemkot_bandung" /></div>
+            <div class="dk-toggle-row"><span>Status Aktif</span><ion-toggle [(ngModel)]="editOrgIsActive"></ion-toggle></div>
+            <ion-button expand="block" shape="round" color="primary" style="margin-top:16px;--border-radius:12px;height:48px;" (click)="updateOrg()">Simpan</ion-button>
           </div>
         </ion-content>
       </ng-template>
