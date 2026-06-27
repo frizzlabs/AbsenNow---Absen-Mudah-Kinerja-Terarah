@@ -1,6 +1,8 @@
-import { Component, ElementRef, EventEmitter, Input, Output, ViewChild, NgZone, OnDestroy } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
+import { Router, NavigationEnd } from '@angular/router';
+import { filter, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-swipe-button',
@@ -9,7 +11,7 @@ import { IonicModule } from '@ionic/angular';
   standalone: true,
   imports: [CommonModule, IonicModule]
 })
-export class SwipeButtonComponent implements OnDestroy {
+export class SwipeButtonComponent implements OnInit, OnDestroy {
   @Input() text: string = 'Slide to Check In';
   @Input() icon: string = 'log-in-outline';
   @Input() variant: 'primary' | 'danger' = 'primary';
@@ -27,12 +29,36 @@ export class SwipeButtonComponent implements OnDestroy {
   private maxX = 0;
   private pendingX = 0;
   private rafId: number | null = null;
+  private routerSubscription?: Subscription;
 
   // Stable references so we can remove the listeners we add on start
   private readonly moveListener = (e: MouseEvent | TouchEvent) => this.onMove(e);
   private readonly endListener = () => this.onEnd();
 
-  constructor(private zone: NgZone) {}
+  constructor(private zone: NgZone, private router: Router) {}
+
+  ngOnInit() {
+    this.routerSubscription = this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      this.reset();
+    });
+  }
+
+  reset() {
+    this.zone.run(() => {
+      this.isCompleted = false;
+      this.isDragging = false;
+      this.currentX = 0;
+      this.pendingX = 0;
+      if (this.handleRef?.nativeElement) {
+        this.handleRef.nativeElement.style.transform = '';
+      }
+      if (this.textRef?.nativeElement) {
+        this.textRef.nativeElement.style.opacity = '';
+      }
+    });
+  }
 
   get textOpacity(): number {
     if (this.maxX === 0) return 1;
@@ -123,6 +149,9 @@ export class SwipeButtonComponent implements OnDestroy {
   ngOnDestroy() {
     this.detachListeners();
     if (this.rafId !== null) cancelAnimationFrame(this.rafId);
+    if (this.routerSubscription) {
+      this.routerSubscription.unsubscribe();
+    }
   }
 
   private getClientX(event: MouseEvent | TouchEvent): number {

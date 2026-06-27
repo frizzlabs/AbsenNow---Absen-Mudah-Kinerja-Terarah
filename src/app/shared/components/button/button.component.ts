@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 
@@ -21,5 +21,10 @@ export class ButtonComponent {
   @Input() iconPosition: 'left' | 'right' = 'left';
   @Input() fontWeight: 'semibold' | 'medium' | 'regular' = 'semibold';
   @Input() disabled: boolean = false;
+  @Input() styleClass: string = '';
   @Output() onClick = new EventEmitter<void>();
+
+  @HostBinding('class') get hostClasses() {
+    return this.styleClass;
+  }
 }
