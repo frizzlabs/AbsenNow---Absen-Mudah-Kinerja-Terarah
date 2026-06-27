@@ -1,5 +1,5 @@
 <!-- ── Mobile bottom nav ─────────────────────────────────────────── -->
-<div class="bottom-nav mobile-only">
+<div class="bottom-nav mobile-only" *ngIf="showMobileBottomNav">
   <div class="nav-item" [class.active]="activeTab === 'home'" [routerLink]="homeRoute">
     <ion-icon name="home-outline"></ion-icon>
     <span>{{ 'bottomNav.home' | translate }}</span>

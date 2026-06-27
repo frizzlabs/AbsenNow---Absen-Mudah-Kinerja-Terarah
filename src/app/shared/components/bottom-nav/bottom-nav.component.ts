@@ -41,6 +41,11 @@ export class BottomNavComponent implements OnInit, OnDestroy {
     return this.isDesktop ? '/desktop-home' : '/home';
   }
 
+  get showMobileBottomNav(): boolean {
+    const url = this.router.url;
+    return url.startsWith('/home') || url.startsWith('/desktop-home');
+  }
+
   get approvalBadge(): number {
     return this.pendingCorrections + this.pendingDinas;
   }

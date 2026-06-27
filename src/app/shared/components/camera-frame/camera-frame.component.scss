@@ -112,6 +112,15 @@
   border: 4px solid transparent;
   transition: border-color 0.3s ease;
 
+  video {
+    &::-webkit-media-controls {
+      display: none !important;
+    }
+    &::-webkit-media-controls-start-playback-button {
+      display: none !important;
+    }
+  }
+
   .scanning-line {
     position: absolute;
     top: 0;

@@ -132,6 +132,10 @@ export class CameraFrameComponent implements OnInit, AfterViewInit, OnDestroy {
     const video = this.videoElement?.nativeElement;
     if (!video) return;
     video.srcObject = this.stream;
+    
+    video.play().catch(err => {
+      console.warn("Video stream autoplay was prevented or failed:", err);
+    });
 
     try {
       if (typeof tracking === 'undefined') return;

@@ -3,7 +3,7 @@ ion-content.bg-light {
 }
 
 .page-container {
-  padding: 16px 24px 180px;
+  padding: 16px 24px 120px;
 }
 
 .photo-row {
@@ -86,10 +86,10 @@ ion-content.bg-light {
 
 .fixed-bottom {
   position: fixed;
-  bottom: calc(80px + env(safe-area-inset-bottom));
+  bottom: 0;
   left: 0;
   right: 0;
-  padding: 16px 24px 16px;
+  padding: 16px 24px calc(16px + env(safe-area-inset-bottom));
   background: #FFFFFF;
   z-index: 10;
   border-top: 1px solid #EAECF0;
